@@ -14,29 +14,30 @@ class TrailList extends StatefulWidget {
 class _TrailList extends State<TrailList>
     with AutomaticKeepAliveClientMixin<TrailList> {
   bool _sortByDistance = true;
-  Widget _screen = Center(child: CircularProgressIndicator());
+  Widget _containerChild = Center(child: CircularProgressIndicator());
+  List<TrailPlace> _places = List<TrailPlace>();
 
+  /// Build screen when location data received
+  /// 
+  /// Note that the CurrentLocation stream may return an invalid point, particularly
+  /// if the user does not have location turned on.
+  /// 
+  /// After the initial location is received, it will not receive further location
+  /// updates.
   _TrailList() {
     StreamSubscription subscription;
     subscription =
         CurrentUserLocation().streamBroadcast.stream.listen((Point p) {
-      onLocationUpdate(p);
+      buildTabScreen();
       subscription.cancel();
     });
   }
 
-  void onLocationUpdate(Point p) {
-    this._places.forEach((place) {
-      double d = TrailPlace.calculateDistance(GeoPoint(p.latitude, p.longitude),
-          GeoPoint(place.location.latitude, place.location.longitude));
-      place.distance = TrailPlace.toFriendlyDistanceString(d);
-    });
+  void buildTabScreen() {
     setState(() {
-      this._screen = buildPlacesStream();
+      this._containerChild = _buildPlacesStream();
     });
   }
-
-  List<TrailPlace> _places = List<TrailPlace>();
 
   void sortPlacesByDistance() {
     GeoPoint p = GeoPoint(
@@ -68,59 +69,69 @@ class _TrailList extends State<TrailList>
     super.build(context);
     return Container(
       padding: EdgeInsets.all(10.0),
-      child: _screen,
+      child: RefreshIndicator(
+        onRefresh: this.screenRefresh,
+        child: _containerChild,
+      ),
     );
   }
 
   Future<void> screenRefresh() {
-    return Future<void>.sync(() {
-      onLocationUpdate( Point(CurrentUserLocation().latitude, CurrentUserLocation().longitude) );
-      print("Refreshed");
-    });   
+    return Future<void>.delayed(Duration(seconds: 1), () {
+      _sortPlaces();
+      var newPlaces = List<TrailPlace>();
+      newPlaces.addAll(this._places);
+      setState(() {
+        this._containerChild = _buildPlacesStream();
+      });
+    });
   }
 
-  StreamBuilder<QuerySnapshot> buildPlacesStream() {
+  StreamBuilder<QuerySnapshot> _buildPlacesStream() {
     return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('places').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) return Text("Error: ${snapshot.error}");
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator());
-            default:
-              this._places = snapshot.data.documents.map<TrailPlace>(
-                (DocumentSnapshot document) {
-                  return TrailPlace(
-                    name: document['name'],
-                    address: document['address'],
-                    city: document['city'],
-                    state: document['state'],
-                    zip: document['zip'],
-                    logoUrl: document['logo_img'],
-                    featuredImgUrl: document['featured_img'],
-                    categories: List<String>.from(document['categories']),
-                    location: document['location'],
-                  );
-                },
-              ).toList();
-              if (_sortByDistance &&
-                  CurrentUserLocation().hasPermission != null &&
-                  CurrentUserLocation().hasPermission)
-                sortPlacesByDistance();
-              else
-                sortPlacesByName();
+      stream: Firestore.instance.collection('places').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) return Text("Error: ${snapshot.error}");
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Center(child: CircularProgressIndicator());
+          default:
+            this._places = snapshot.data.documents.map<TrailPlace>(
+              (DocumentSnapshot document) {
+                return TrailPlace(
+                  name: document['name'],
+                  address: document['address'],
+                  city: document['city'],
+                  state: document['state'],
+                  zip: document['zip'],
+                  logoUrl: document['logo_img'],
+                  featuredImgUrl: document['featured_img'],
+                  categories: List<String>.from(document['categories']),
+                  location: document['location'],
+                );
+              },
+            ).toList();
+            this._sortPlaces();
 
-              return RefreshIndicator(
-                  onRefresh: this.screenRefresh,
-                  child: ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: this._places.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      List<TrailPlace> p = this._places;
-                      return new TrailListItem(place: p[index]);
-                    },
-                  ));
-          }
-        });
+            return ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: this._places.length,
+              itemBuilder: (BuildContext context, int index) {
+                List<TrailPlace> p = this._places;
+                return new TrailListItem(place: p[index]);
+              },
+            );
+        }
+      },
+    );
+  }
+
+  void _sortPlaces() {
+    if (_sortByDistance &&
+        CurrentUserLocation().hasPermission != null &&
+        CurrentUserLocation().hasPermission)
+      sortPlacesByDistance();
+    else
+      sortPlacesByName();
   }
 }

@@ -17,8 +17,15 @@ class CurrentUserLocation {
   }
 
   CurrentUserLocation._privateConstructor() {
+    this.streamBroadcast.stream.timeout(
+      Duration(seconds: Constants.options.locationUpdatesIntervalMs * 2),
+      onTimeout: _processLocationChangeTimeout);
+
     // Get an initial update, then set up for periodic updates
     this._getLocationNow().then((Point p) {
+      this.latitude = p.latitude;
+      this.longitude = p.longitude;
+      this.hasPermission = p.latitude == null ? false : true;
       this._location.changeSettings(
             interval: Constants.options.locationUpdatesIntervalMs,
             distanceFilter: Constants.options.locationDisplacementFilterM,
@@ -35,6 +42,11 @@ class CurrentUserLocation {
     this.latitude = data.latitude;
     this.longitude = data.longitude;
     this.hasPermission = true;
+    this.streamBroadcast.add(Point(latitude, longitude));
+  }
+
+  /// Send the last-known location, even if null
+  void _processLocationChangeTimeout(EventSink sink) {
     this.streamBroadcast.add(Point(latitude, longitude));
   }
 
