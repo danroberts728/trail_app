@@ -39,20 +39,6 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - assets/images/back40.jpg
-    - assets/images/back40bham.jpg
-    - assets/images/back40-logo.png
-    - assets/images/b40bham-logo.png
-    - assets/images/btr.jpg
-    - assets/images/btr-logo.png
-    - assets/images/bigbeach.jpg
-    - assets/images/bigbeach-logo.png
-    - assets/images/bhamdistrict.jpg
-    - assets/images/bhamdistrict-logo.png
-    - assets/images/blackwarrior.jpg
-    - assets/images/blackwarrior-logo.png
-    - assets/images/cahaba.jpg
-    - assets/images/cahaba-logo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
