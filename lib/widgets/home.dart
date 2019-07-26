@@ -1,3 +1,5 @@
+import 'package:beer_trail_app/widgets/tabscreen.dart';
+
 import 'tabscreen-trail.dart';
 import 'package:flutter/material.dart';
 import '../util/const.dart';
@@ -12,22 +14,24 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
-  Text _appBarTitle = Text(Constants.strings.appName);
+  Text _appBarTitle;
+  List<IconButton> _appBarActions;
 
-  final List<Widget> _children = [
-    TrailList(),
-    PlaceholderWidget(Colors.blue),
-  ];
+  _HomeState() {
+    _appBarTitle = Text(_children[_currentIndex].appBarTitle);
+    _appBarActions = _children[_currentIndex].getAppBarActions();
+  }
 
-  final List<Text> _titles = [
-    Text(Constants.strings.navBarTrailTabTitle),
-    Text(Constants.strings.navBarProfileTabTitle),
+  final List<TabScreen> _children = [
+    TabScreen(child: TabScreenTrail(), appBarTitle: Constants.strings.navBarTrailTabTitle,),
+    TabScreen(child: TabScreenPlaceholder(Colors.blue), appBarTitle: Constants.strings.navBarProfileTabTitle,),
   ];
 
   void onTabTapped(int index) {
     setState( () {
       _currentIndex = index;
-      _appBarTitle = _titles[index];
+      _appBarTitle = Text(_children[index].appBarTitle);
+      _appBarActions = _children[index].getAppBarActions();
     });
   }
 
@@ -36,12 +40,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: _appBarTitle,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search), 
-            onPressed: () {},
-          ),
-        ],
+        actions: _appBarActions,
       ),
       body: IndexedStack(
         index: _currentIndex,

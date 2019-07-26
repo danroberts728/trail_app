@@ -1,9 +1,11 @@
+import 'package:beer_trail_app/widgets/tabscreenchild.dart';
 import 'package:flutter/material.dart';
 
-class PlaceholderWidget extends StatelessWidget {
+class TabScreenPlaceholder extends StatelessWidget
+implements TabScreenChild {
  final Color color;
 
- PlaceholderWidget(this.color);
+ TabScreenPlaceholder(this.color);
 
  @override
  Widget build(BuildContext context) {
@@ -11,4 +13,9 @@ class PlaceholderWidget extends StatelessWidget {
      color: color,
    );
  }
+
+  @override
+  List<IconButton> getAppBarActions() {
+    return List<IconButton>();
+  }
 }

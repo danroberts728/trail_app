@@ -1,30 +1,39 @@
 import 'dart:async';
 
+import 'package:beer_trail_app/util/filteroptions.dart';
+import 'package:beer_trail_app/widgets/tabscreenchild.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/trailplace.dart';
 import 'traillistitem.dart';
 import '../util/currentUserLocation.dart';
+import 'modal-trailfilter.dart';
 
-class TrailList extends StatefulWidget {
+class TabScreenTrail extends StatefulWidget implements TabScreenChild {
+  final _TabScreenTrail _state = _TabScreenTrail();
+
   @override
-  State<StatefulWidget> createState() => _TrailList();
+  State<StatefulWidget> createState() => _state;
+
+  List<IconButton> getAppBarActions() {
+    return _state.getAppBarActions();
+  }
 }
 
-class _TrailList extends State<TrailList>
-    with AutomaticKeepAliveClientMixin<TrailList> {
+class _TabScreenTrail extends State<TabScreenTrail>
+    with AutomaticKeepAliveClientMixin<TabScreenTrail> {
   bool _sortByDistance = true;
   Widget _containerChild = Center(child: CircularProgressIndicator());
   List<TrailPlace> _places = List<TrailPlace>();
 
   /// Build screen when location data received
-  /// 
+  ///
   /// Note that the CurrentLocation stream may return an invalid point, particularly
   /// if the user does not have location turned on.
-  /// 
+  ///
   /// After the initial location is received, it will not receive further location
   /// updates.
-  _TrailList() {
+  _TabScreenTrail() {
     StreamSubscription subscription;
     subscription =
         CurrentUserLocation().streamBroadcast.stream.listen((Point p) {
@@ -37,6 +46,27 @@ class _TrailList extends State<TrailList>
     setState(() {
       this._containerChild = _buildPlacesStream();
     });
+  }
+
+  void filterPressed() {
+
+    showModalBottomSheet<FilterOptions>(
+      context: context,
+      builder: (BuildContext context) {
+        return ModalTrailFilter(); 
+      },
+    ).then((FilterOptions options) {
+
+    });
+  }
+
+  List<IconButton> getAppBarActions() {
+    return <IconButton>[
+      IconButton(
+        icon: Icon(Icons.filter_list),
+        onPressed: filterPressed,
+      )
+    ];
   }
 
   void sortPlacesByDistance() {
