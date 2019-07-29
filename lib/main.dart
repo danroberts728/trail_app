@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'util/const.dart';
 import 'widgets/home.dart';
 
-void main() => runApp(TrailApp());
+void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(TrailApp());
+  });
+}
 
 class TrailApp extends StatelessWidget {
   // This widget is the root of your application.
