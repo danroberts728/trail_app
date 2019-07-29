@@ -6,4 +6,5 @@ class OptionsConst {
   final int locationUpdatesIntervalMs = 5000;
   final double locationDisplacementFilterM = 10.0;
   final double minDistanceToCheckin = 0.15;
+  final List<String> filterStrings = <String> ["Brewery", "Tasting Room", "Restaurant", "Beer Bar"];
 }

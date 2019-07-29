@@ -31,7 +31,7 @@ class TrailPlace {
     if(point == null || this.location == null) {
       return null;
     }
-    double dLat = _toRadians(point.x - point.x);
+    double dLat = _toRadians(point.x - this.location.x);
     double dLon = _toRadians(point.y - this.location.y);
     double lat1 = _toRadians(this.location.x);
     double lat2 = _toRadians(point.x);

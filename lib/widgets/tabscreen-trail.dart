@@ -25,6 +25,9 @@ class _TabScreenTrail extends State<TabScreenTrail>
     with AutomaticKeepAliveClientMixin<TabScreenTrail> {
   FilterOptions _filterOptions = FilterOptions(SortOrder.DISTANCE);
   Widget _containerChild = Center(child: CircularProgressIndicator());
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   List<TrailPlace> _places = List<TrailPlace>();
 
   /// Build screen when location data received
@@ -51,9 +54,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
     ).then((value) {
       if (value is FilterOptions) {
         this._filterOptions = value;
-        setState(() {
-          this._containerChild = _buildPlacesStream();
-        });
+        this._buildPlacesStream();
       }
     });
   }
@@ -63,11 +64,12 @@ class _TabScreenTrail extends State<TabScreenTrail>
       IconButton(
         icon: Icon(Icons.refresh),
         onPressed: () {
-          setState(() {
-            this._containerChild = Center(child: CircularProgressIndicator());
-          });          
-          this.screenRefresh();
-        } 
+          this._refreshIndicatorKey.currentState.show().then((value) {
+            CurrentUserLocation().getLocation().then((Point p) {
+              this._containerChild = this._buildPlacesStream();
+            });
+          });
+        },
       ),
       IconButton(
         icon: Icon(Icons.filter_list),
@@ -97,6 +99,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
     return Container(
       padding: EdgeInsets.all(10.0),
       child: RefreshIndicator(
+        key: this._refreshIndicatorKey,
         onRefresh: this.screenRefresh,
         child: _containerChild,
       ),
@@ -105,8 +108,6 @@ class _TabScreenTrail extends State<TabScreenTrail>
 
   Future<void> screenRefresh() {
     return CurrentUserLocation().getLocation().then((Point p) {
-      this._updateDistancesWithLastLocation();
-      this._sortPlaces();
       setState(() {
         this._containerChild = this._buildPlacesStream();
       });
@@ -133,12 +134,13 @@ class _TabScreenTrail extends State<TabScreenTrail>
                   logoUrl: document['logo_img'],
                   featuredImgUrl: document['featured_img'],
                   categories: List<String>.from(document['categories']),
-                  location: Point(document['location'].latitude, document['location'].longitude),
+                  location: Point(document['location'].latitude,
+                      document['location'].longitude),
                 );
               },
             ).toList();
             this._updateDistancesWithLastLocation();
-            this._sortPlaces();            
+            this._sortPlaces();
 
             return ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -155,7 +157,8 @@ class _TabScreenTrail extends State<TabScreenTrail>
 
   void _updateDistancesWithLastLocation() {
     Point p = CurrentUserLocation().lastLocation;
-    this._places.forEach((element)  => element.calculateDistance(p));
+    this._places.forEach((element) =>
+        element.lastClaculatedDistance = element.calculateDistance(p));
   }
 
   void _sortPlaces() {
