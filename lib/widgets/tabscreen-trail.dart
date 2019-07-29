@@ -61,9 +61,18 @@ class _TabScreenTrail extends State<TabScreenTrail>
   List<IconButton> getAppBarActions() {
     return <IconButton>[
       IconButton(
+        icon: Icon(Icons.refresh),
+        onPressed: () {
+          setState(() {
+            this._containerChild = Center(child: CircularProgressIndicator());
+          });          
+          this.screenRefresh();
+        } 
+      ),
+      IconButton(
         icon: Icon(Icons.filter_list),
         onPressed: filterPressed,
-      )
+      ),
     ];
   }
 
