@@ -1,14 +1,12 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:location/location.dart';
-import '../util/const.dart';
 
 class CurrentUserLocation {
-  var _location = new Location();
-  double latitude;
-  double longitude;
-  bool hasPermission;
-  StreamController<Point> streamBroadcast = StreamController.broadcast();
+  var _location = Location();
+  bool hasPermission = false;
+  Point lastLocation;
 
   static final CurrentUserLocation _instance =
       CurrentUserLocation._privateConstructor();
@@ -17,66 +15,31 @@ class CurrentUserLocation {
   }
 
   CurrentUserLocation._privateConstructor() {
-    this.streamBroadcast.stream.timeout(
-      Duration(seconds: Constants.options.locationUpdatesIntervalMs * 2),
-      onTimeout: _processLocationChangeTimeout);
-
-    // Get an initial update, then set up for periodic updates
-    this._getLocationNow().then((Point p) {
-      this.latitude = p.latitude;
-      this.longitude = p.longitude;
-      this.hasPermission = p.latitude == null ? false : true;
-      this._location.changeSettings(
-            interval: Constants.options.locationUpdatesIntervalMs,
-            distanceFilter: Constants.options.locationDisplacementFilterM,
-          );
-      this._location.onLocationChanged().listen(_processLocationChange);
+    getLocation().then((Point p) {
+      if(p == null) {
+        this.hasPermission = false;
+      }
+      else {
+        this.hasPermission = true;
+      }
     });
   }
 
-  void dispose() {
-    streamBroadcast.close();
+  /// Get the user's location as a Point object
+  ///
+  /// If unable to get the location, it will return null
+  Future<Point> getLocation() {
+    return this._location.hasPermission().then((bool result) {
+      if (result) {
+        this.hasPermission = true;
+        return this._location.getLocation().then((LocationData data) {
+          Point p = Point(data.latitude, data.longitude);
+          this.lastLocation = p;
+          return p;
+        });
+      } else {
+        return null;
+      }
+    });
   }
-
-  void _processLocationChange(LocationData data) {
-    this.latitude = data.latitude;
-    this.longitude = data.longitude;
-    this.hasPermission = true;
-    this.streamBroadcast.add(Point(latitude, longitude));
-  }
-
-  /// Send the last-known location, even if null
-  void _processLocationChangeTimeout(EventSink sink) {
-    this.streamBroadcast.add(Point(latitude, longitude));
-  }
-
-  Future<Point> _getLocationNow() {
-    if(this.latitude != null && this.longitude != null) {
-      return Future<Point>.value(Point(this.latitude, this.longitude));
-    }
-    else {
-      return _location.hasPermission().then((bool hasPermission) {
-        if (hasPermission) {
-          return _location.getLocation().then((LocationData data) {
-            this.latitude = data.latitude;
-            this.longitude = data.longitude;
-            this.hasPermission = true;
-            return Point(this.latitude, this.longitude);
-          });
-        } else {
-          this.latitude = null;
-          this.longitude = null;
-          this.hasPermission = false;
-          return null;
-        }
-      });
-    }
-  }
-}
-
-class Point {
-  final double latitude;
-  final double longitude;
-
-  Point(this.latitude, this.longitude);
 }

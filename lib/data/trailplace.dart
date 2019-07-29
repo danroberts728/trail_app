@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 
 class TrailPlace {
   final String name;
@@ -11,8 +11,8 @@ class TrailPlace {
   final String featuredImgUrl;
   final String logoUrl;
   final List<String> categories;
-  final GeoPoint location;
-  String distance;
+  final Point location;
+  double lastClaculatedDistance = 0.00;
 
   TrailPlace(
       {@required this.name,
@@ -26,16 +26,21 @@ class TrailPlace {
       @required this.location});
 
   static const _R = 3958.756; // in miles
-  static double calculateDistance(GeoPoint point1, GeoPoint point2) {
-    double dLat = _toRadians(point2.latitude - point1.latitude);
-    double dLon = _toRadians(point2.longitude - point1.longitude);
-    double lat1 = _toRadians(point1.latitude);
-    double lat2 = _toRadians(point2.latitude);
+  
+  double calculateDistance(Point point) {
+    if(point == null || this.location == null) {
+      return null;
+    }
+    double dLat = _toRadians(point.x - point.x);
+    double dLon = _toRadians(point.y - this.location.y);
+    double lat1 = _toRadians(this.location.x);
+    double lat2 = _toRadians(point.x);
 
     double a =
         pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
     double c = 2 * asin(sqrt(a));
-    return _R * c;
+    this.lastClaculatedDistance = _R * c;
+    return this.lastClaculatedDistance;
   }
 
   static double _toRadians(double degree) {

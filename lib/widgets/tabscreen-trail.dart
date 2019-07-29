@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:beer_trail_app/util/filteroptions.dart';
 import 'package:beer_trail_app/widgets/tabscreenchild.dart';
@@ -22,23 +23,14 @@ class TabScreenTrail extends StatefulWidget implements TabScreenChild {
 
 class _TabScreenTrail extends State<TabScreenTrail>
     with AutomaticKeepAliveClientMixin<TabScreenTrail> {
-  bool _sortByDistance = true;
+  FilterOptions _filterOptions = FilterOptions(SortOrder.DISTANCE);
   Widget _containerChild = Center(child: CircularProgressIndicator());
   List<TrailPlace> _places = List<TrailPlace>();
 
   /// Build screen when location data received
-  ///
-  /// Note that the CurrentLocation stream may return an invalid point, particularly
-  /// if the user does not have location turned on.
-  ///
-  /// After the initial location is received, it will not receive further location
-  /// updates.
   _TabScreenTrail() {
-    StreamSubscription subscription;
-    subscription =
-        CurrentUserLocation().streamBroadcast.stream.listen((Point p) {
+    CurrentUserLocation().getLocation().then((Point p) {
       buildTabScreen();
-      subscription.cancel();
     });
   }
 
@@ -49,14 +41,20 @@ class _TabScreenTrail extends State<TabScreenTrail>
   }
 
   void filterPressed() {
-
-    showModalBottomSheet<FilterOptions>(
+    var filterSheet = showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return ModalTrailFilter(); 
+        return ModalTrailFilter(
+          initialOptions: this._filterOptions,
+        );
       },
-    ).then((FilterOptions options) {
-
+    ).then((value) {
+      if (value is FilterOptions) {
+        this._filterOptions = value;
+        setState(() {
+          this._containerChild = _buildPlacesStream();
+        });
+      }
     });
   }
 
@@ -70,18 +68,8 @@ class _TabScreenTrail extends State<TabScreenTrail>
   }
 
   void sortPlacesByDistance() {
-    GeoPoint p = GeoPoint(
-        CurrentUserLocation().latitude, CurrentUserLocation().longitude);
     this._places.sort((TrailPlace a, TrailPlace b) {
-      double distA = TrailPlace.calculateDistance(
-          GeoPoint(p.latitude, p.longitude),
-          GeoPoint(a.location.latitude, a.location.longitude));
-      double distB = TrailPlace.calculateDistance(
-          GeoPoint(p.latitude, p.longitude),
-          GeoPoint(b.location.latitude, b.location.longitude));
-      a.distance = TrailPlace.toFriendlyDistanceString(distA);
-      b.distance = TrailPlace.toFriendlyDistanceString(distB);
-      return distA.compareTo(distB);
+      return a.lastClaculatedDistance.compareTo(b.lastClaculatedDistance);
     });
   }
 
@@ -107,12 +95,11 @@ class _TabScreenTrail extends State<TabScreenTrail>
   }
 
   Future<void> screenRefresh() {
-    return Future<void>.delayed(Duration(seconds: 1), () {
-      _sortPlaces();
-      var newPlaces = List<TrailPlace>();
-      newPlaces.addAll(this._places);
+    return CurrentUserLocation().getLocation().then((Point p) {
+      this._updateDistancesWithLastLocation();
+      this._sortPlaces();
       setState(() {
-        this._containerChild = _buildPlacesStream();
+        this._containerChild = this._buildPlacesStream();
       });
     });
   }
@@ -137,11 +124,12 @@ class _TabScreenTrail extends State<TabScreenTrail>
                   logoUrl: document['logo_img'],
                   featuredImgUrl: document['featured_img'],
                   categories: List<String>.from(document['categories']),
-                  location: document['location'],
+                  location: Point(document['location'].latitude, document['location'].longitude),
                 );
               },
             ).toList();
-            this._sortPlaces();
+            this._updateDistancesWithLastLocation();
+            this._sortPlaces();            
 
             return ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -156,9 +144,13 @@ class _TabScreenTrail extends State<TabScreenTrail>
     );
   }
 
+  void _updateDistancesWithLastLocation() {
+    Point p = CurrentUserLocation().lastLocation;
+    this._places.forEach((element)  => element.calculateDistance(p));
+  }
+
   void _sortPlaces() {
-    if (_sortByDistance &&
-        CurrentUserLocation().hasPermission != null &&
+    if (_filterOptions.sort == SortOrder.DISTANCE &&
         CurrentUserLocation().hasPermission)
       sortPlacesByDistance();
     else

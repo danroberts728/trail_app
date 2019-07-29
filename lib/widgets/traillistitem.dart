@@ -1,3 +1,4 @@
+import 'package:beer_trail_app/util/const.dart';
 import 'package:flutter/material.dart';
 import '../data/trailplace.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -127,11 +128,11 @@ class _TrailListItem extends State<TrailListItem> {
                         ),
                         SizedBox(width: 4.0),
                         Text(
-                            this.place.distance == null
+                            this.place.lastClaculatedDistance < Constants.options.minDistanceToCheckin
                                 ? this.place.city
                                 : this.place.city +
                                     " " +
-                                    this.place.distance +
+                                    TrailPlace.toFriendlyDistanceString(place.lastClaculatedDistance) +
                                     " mi",
                             style: TextStyle(color: Colors.black54)),
                         Spacer(),
