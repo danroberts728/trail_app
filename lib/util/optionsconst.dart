@@ -1,3 +1,5 @@
+import 'package:beer_trail_app/util/trailplacecategory.dart';
+
 class OptionsConst {
   final bool navBarShowSelectedLabels = true;
   final bool navBarShowUnselectedLabels = false;
@@ -6,5 +8,11 @@ class OptionsConst {
   final int locationUpdatesIntervalMs = 5000;
   final double locationDisplacementFilterM = 10.0;
   final double minDistanceToCheckin = 0.15;
-  final List<String> filterStrings = <String> ["Brewery", "Tasting Room", "Restaurant", "Beer Bar"];
+  final List<TrailPlaceCategory> filterStrings = <TrailPlaceCategory> [
+    TrailPlaceCategory("Brewery", "Breweries"),
+    TrailPlaceCategory("Distillery", "Distilleries"),
+    TrailPlaceCategory("Tasting Room", "Tasting Rooms"),
+    TrailPlaceCategory("Restaurant", "Restaurants"),
+    TrailPlaceCategory("Beer Bar", "Beer Bars"),
+  ];
 }

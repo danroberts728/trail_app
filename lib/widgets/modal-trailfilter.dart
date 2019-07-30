@@ -1,4 +1,5 @@
 import 'package:beer_trail_app/util/filteroptions.dart';
+import 'package:beer_trail_app/util/trailplacecategory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +9,9 @@ class ModalTrailFilter extends StatefulWidget {
   ModalTrailFilter({@required this.initialOptions});
 
   @override
-  State<StatefulWidget> createState() =>
-      _ModalTrailFilter(options: this.initialOptions);
+  State<StatefulWidget> createState() {
+    return _ModalTrailFilter(options: this.initialOptions);
+  }
 }
 
 class _ModalTrailFilter extends State<ModalTrailFilter> {
@@ -37,17 +39,17 @@ class _ModalTrailFilter extends State<ModalTrailFilter> {
         },
       ),
     ];
-    var checkboxes = List<Widget>();
+    var checkboxes = List<CheckboxListTile>();
     options.show.forEach((filter, show) {
       checkboxes.add(
         CheckboxListTile(
-            title: Text(filter),
+            title: Text(filter.plural),
             value: show,
             onChanged: (bool newValue) {
               setState(() {
-                Map<String, bool> newFilters = options.show;
+                Map<TrailPlaceCategory, bool> newFilters = this.options.show;
                 newFilters[filter] = !show;
-                options = FilterOptions(options.sort, newFilters);
+                this.options = FilterOptions(this.options.sort, newFilters);
               });
             }),
       );
@@ -61,17 +63,36 @@ class _ModalTrailFilter extends State<ModalTrailFilter> {
     list.addAll(sortWidgets);
     list.add(ListTile(
       leading: Icon(Icons.sort),
-      title: Text('Show Only'),
+      title: Text('Show Me'),
+    ));
+    list.add(CheckboxListTile(
+      title: Text("Everything"),
+      value: this.options.show.values.where((a) => a).length ==
+          options.show.length,
+      onChanged: (bool isChecked) {
+        setState(() {
+          options.show.updateAll((f, v) => v = isChecked);
+        });
+      },
     ));
     list.addAll(checkboxes);
-    list.add(
-      RaisedButton(
-        onPressed: () => Navigator.pop(context, this.options),
-        child: Text("Update"),
+
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, this.options);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: BackButton(),
+          title: Text("Filter"),
+        ),
+        body: Container(
+          child: SingleChildScrollView(
+            child: Column(children: list),
+          ),
+        ),
       ),
-    );
-    return SingleChildScrollView(
-      child: Column(children: list),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:beer_trail_app/util/const.dart';
 import 'package:beer_trail_app/util/filteroptions.dart';
+import 'package:beer_trail_app/util/trailplacecategory.dart';
 import 'package:beer_trail_app/widgets/tabscreenchild.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,7 +34,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
 
   /// Build screen when location data received
   _TabScreenTrail() {
-    Map<String, bool> initialShow = Map<String, bool>();
+    Map<TrailPlaceCategory, bool> initialShow = Map<TrailPlaceCategory, bool>();
     Constants.options.filterStrings.forEach((f) {
       initialShow[f] = true;
     });
@@ -50,18 +51,19 @@ class _TabScreenTrail extends State<TabScreenTrail>
   }
 
   void filterPressed() {
-    var filterSheet = showModalBottomSheet(
+    showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return ModalTrailFilter(
-          initialOptions: this._filterOptions,
-        );
+        return ModalTrailFilter(initialOptions: this._filterOptions);
       },
     ).then((value) {
-      if (value is FilterOptions) {
-        this._filterOptions = value;
-        this._buildPlacesStream();
-      }
+      this._filterOptions = value;
+      this._refreshIndicatorKey.currentState.show().then((value) {
+        CurrentUserLocation().getLocation().then((Point p) {
+          this._containerChild = this._buildPlacesStream();
+        });
+      });
     });
   }
 
@@ -152,12 +154,21 @@ class _TabScreenTrail extends State<TabScreenTrail>
             this._filterOptions.show.forEach((cat, show) {
               if (show) {
                 this._places.forEach((p) {
-                  if (p.categories.contains(cat)) {
+                  if (p.categories.contains(cat.name)) {
                     placesShown.add(p);
                   }
                 });
               }
             });
+
+            if (placesShown.length == 0) {
+              return Center(
+                child: Text(
+                  "Nothing matched your criteria. Try expanding the search filter.",
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
 
             return ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
