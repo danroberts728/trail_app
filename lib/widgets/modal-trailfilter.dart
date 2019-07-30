@@ -8,7 +8,8 @@ class ModalTrailFilter extends StatefulWidget {
   ModalTrailFilter({@required this.initialOptions});
 
   @override
-  State<StatefulWidget> createState() => _ModalTrailFilter(options: this.initialOptions);
+  State<StatefulWidget> createState() =>
+      _ModalTrailFilter(options: this.initialOptions);
 }
 
 class _ModalTrailFilter extends State<ModalTrailFilter> {
@@ -18,30 +19,59 @@ class _ModalTrailFilter extends State<ModalTrailFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-          children: <Widget>[
-            ListTile(
-              leading: Icon(Icons.sort),
-              title: Text('Sort'),
-            ),
-            RadioListTile<SortOrder>(
-              title: const Text("Sort by Name"),
-              value: SortOrder.ALPHABETICAL,
-              groupValue: options.sort,
-              onChanged: (SortOrder sort) { setState(() => options = FilterOptions(sort) ); },
-            ),
-            RadioListTile<SortOrder>(
-              title: const Text("Sort by Distance"),
-              value: SortOrder.DISTANCE,
-              groupValue: options.sort,
-              onChanged: (SortOrder sort) { setState(() => options = FilterOptions(sort) ); },
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.pop(context, this.options),
-              child: Text("Update"),
-
-            )
-          ],
-        );
+    var sortWidgets = <RadioListTile>[
+      RadioListTile<SortOrder>(
+        title: const Text("Name"),
+        value: SortOrder.ALPHABETICAL,
+        groupValue: options.sort,
+        onChanged: (SortOrder sort) {
+          setState(() => options = FilterOptions(sort, options.show));
+        },
+      ),
+      RadioListTile<SortOrder>(
+        title: const Text("Distance"),
+        value: SortOrder.DISTANCE,
+        groupValue: options.sort,
+        onChanged: (SortOrder sort) {
+          setState(() => options = FilterOptions(sort, options.show));
+        },
+      ),
+    ];
+    var checkboxes = List<Widget>();
+    options.show.forEach((filter, show) {
+      checkboxes.add(
+        CheckboxListTile(
+            title: Text(filter),
+            value: show,
+            onChanged: (bool newValue) {
+              setState(() {
+                Map<String, bool> newFilters = options.show;
+                newFilters[filter] = !show;
+                options = FilterOptions(options.sort, newFilters);
+              });
+            }),
+      );
+    });
+    List<Widget> list = <Widget>[
+      ListTile(
+        leading: Icon(Icons.sort),
+        title: Text('Sort By'),
+      )
+    ];
+    list.addAll(sortWidgets);
+    list.add(ListTile(
+      leading: Icon(Icons.sort),
+      title: Text('Show Only'),
+    ));
+    list.addAll(checkboxes);
+    list.add(
+      RaisedButton(
+        onPressed: () => Navigator.pop(context, this.options),
+        child: Text("Update"),
+      ),
+    );
+    return SingleChildScrollView(
+      child: Column(children: list),
+    );
   }
 }

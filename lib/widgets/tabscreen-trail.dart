@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:beer_trail_app/util/const.dart';
 import 'package:beer_trail_app/util/filteroptions.dart';
 import 'package:beer_trail_app/widgets/tabscreenchild.dart';
 import 'package:flutter/material.dart';
@@ -23,15 +24,20 @@ class TabScreenTrail extends StatefulWidget implements TabScreenChild {
 
 class _TabScreenTrail extends State<TabScreenTrail>
     with AutomaticKeepAliveClientMixin<TabScreenTrail> {
-  FilterOptions _filterOptions = FilterOptions(SortOrder.DISTANCE);
+  FilterOptions _filterOptions;
   Widget _containerChild = Center(child: CircularProgressIndicator());
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
 
   List<TrailPlace> _places = List<TrailPlace>();
 
   /// Build screen when location data received
   _TabScreenTrail() {
+    Map<String, bool> initialShow = Map<String, bool>();
+    Constants.options.filterStrings.forEach((f) {
+      initialShow[f] = true;
+    });
+    this._filterOptions = FilterOptions(SortOrder.DISTANCE, initialShow);
     CurrentUserLocation().getLocation().then((Point p) {
       buildTabScreen();
     });
@@ -142,11 +148,22 @@ class _TabScreenTrail extends State<TabScreenTrail>
             this._updateDistancesWithLastLocation();
             this._sortPlaces();
 
+            Set<TrailPlace> placesShown = Set<TrailPlace>();
+            this._filterOptions.show.forEach((cat, show) {
+              if (show) {
+                this._places.forEach((p) {
+                  if (p.categories.contains(cat)) {
+                    placesShown.add(p);
+                  }
+                });
+              }
+            });
+
             return ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: this._places.length,
+              itemCount: placesShown.length,
               itemBuilder: (BuildContext context, int index) {
-                List<TrailPlace> p = this._places;
+                List<TrailPlace> p = placesShown.toList();
                 return new TrailListItem(place: p[index]);
               },
             );
