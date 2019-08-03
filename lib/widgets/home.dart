@@ -1,4 +1,4 @@
-import 'package:beer_trail_app/widgets/tabscreen.dart';
+import 'package:alabama_beer_trail/widgets/tabscreen.dart';
 
 import 'tabscreen-trail.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
-import 'package:beer_trail_app/util/filteroptions.dart';
-import 'package:beer_trail_app/util/trailplacecategory.dart';
+import 'package:alabama_beer_trail/util/filteroptions.dart';
+import 'package:alabama_beer_trail/util/trailplacecategory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

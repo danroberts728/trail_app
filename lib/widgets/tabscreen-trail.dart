@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:beer_trail_app/util/const.dart';
-import 'package:beer_trail_app/util/filteroptions.dart';
-import 'package:beer_trail_app/util/trailplacecategory.dart';
-import 'package:beer_trail_app/widgets/tabscreenchild.dart';
+import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/util/filteroptions.dart';
+import 'package:alabama_beer_trail/util/trailplacecategory.dart';
+import 'package:alabama_beer_trail/widgets/tabscreenchild.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/trailplace.dart';

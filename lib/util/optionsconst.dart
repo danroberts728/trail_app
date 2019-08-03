@@ -1,4 +1,4 @@
-import 'package:beer_trail_app/util/trailplacecategory.dart';
+import 'package:alabama_beer_trail/util/trailplacecategory.dart';
 
 class OptionsConst {
   final bool navBarShowSelectedLabels = true;

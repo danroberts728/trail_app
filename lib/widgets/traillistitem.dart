@@ -1,5 +1,5 @@
-import 'package:beer_trail_app/blocs/applauncher.dart';
-import 'package:beer_trail_app/util/const.dart';
+import 'package:alabama_beer_trail/blocs/applauncher.dart';
+import 'package:alabama_beer_trail/util/const.dart';
 import 'package:flutter/material.dart';
 import '../data/trailplace.dart';
 import 'package:cached_network_image/cached_network_image.dart';
