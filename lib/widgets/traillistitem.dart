@@ -1,3 +1,4 @@
+import 'package:beer_trail_app/blocs/applauncher.dart';
 import 'package:beer_trail_app/util/const.dart';
 import 'package:flutter/material.dart';
 import '../data/trailplace.dart';
@@ -128,7 +129,8 @@ class _TrailListItem extends State<TrailListItem> {
                         ),
                         SizedBox(width: 4.0),
                         Text(
-                            this.place.lastClaculatedDistance < Constants.options.minDistanceToCheckin
+                            this.place.lastClaculatedDistance == null ||
+                              this.place.lastClaculatedDistance < Constants.options.minDistanceToCheckin
                                 ? this.place.city
                                 : this.place.city +
                                     " " +
@@ -145,7 +147,8 @@ class _TrailListItem extends State<TrailListItem> {
                                           "Share ${this.place.name}"),
                                   textColor: Colors.amber.shade500,
                                   onPressed: () {
-                                    print('pressed');
+                                    String address = '${this.place.name}, ${this.place.address}, ${this.place.city}, ${this.place.state} ${this.place.zip}';
+                                    AppLauncher().openDirections(address);
                                   })
                             ],
                           ),

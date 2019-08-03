@@ -17,7 +17,9 @@ class CurrentUserLocation {
   CurrentUserLocation._privateConstructor() {
     getLocation().then((Point p) {
       if(p == null) {
-        this.hasPermission = false;
+        this._location.requestPermission().then((bool gavePermission) {
+          this.hasPermission = gavePermission;          
+        });
       }
       else {
         this.hasPermission = true;
