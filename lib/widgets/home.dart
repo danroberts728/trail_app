@@ -1,9 +1,10 @@
+import 'package:alabama_beer_trail/widgets/tabscreen-profile.dart';
 import 'package:alabama_beer_trail/widgets/tabscreen.dart';
 
 import 'tabscreen-trail.dart';
 import 'package:flutter/material.dart';
 import '../util/const.dart';
-import 'placeholder.dart';
+import 'tabscreen-profile.dart';
 
 class Home extends StatefulWidget {
   @override 
@@ -24,7 +25,7 @@ class _HomeState extends State<Home> {
 
   final List<TabScreen> _children = [
     TabScreen(child: TabScreenTrail(), appBarTitle: Constants.strings.navBarTrailTabTitle,),
-    TabScreen(child: TabScreenPlaceholder(Colors.blue), appBarTitle: Constants.strings.navBarProfileTabTitle,),
+    TabScreen(child: TabScreenProfile(), appBarTitle: Constants.strings.navBarProfileTabTitle,),
   ];
 
   void onTabTapped(int index) {

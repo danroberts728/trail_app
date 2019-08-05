@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'util/appauth.dart';
 import 'util/const.dart';
 import 'widgets/home.dart';
 
@@ -10,6 +11,10 @@ void main() {
 }
 
 class TrailApp extends StatelessWidget {
+
+  TrailApp() {
+    AppAuth();
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
