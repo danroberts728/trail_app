@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/widgets/tabscreenchild.dart';
+import '../widgets/tabscreenchild.dart';
 import 'package:flutter/material.dart';
 
 class TabScreenPlaceholder extends StatelessWidget

@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/widgets/signinscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'util/appauth.dart';
@@ -24,7 +25,11 @@ class TrailApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Constants.colors.themePrimarySwatch,
       ),
-      home: Home( ),
+      initialRoute: "/",
+      routes: {
+        '/': (context) => Home(),
+        '/sign-in': (context) => SigninScreen(),
+      }
     );
   }
 }

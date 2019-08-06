@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/util/trailplacecategory.dart';
+import '../util/trailplacecategory.dart';
 
 class FilterOptions {
   final SortOrder sort;

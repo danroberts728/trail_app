@@ -1,54 +1,66 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'appuser.dart';
+
 class AppAuth {
-  static final AppAuth _instance =
-      AppAuth._privateConstructor();
+
+  /* Singleton Pattern */
+
+  static final AppAuth _instance = AppAuth._privateConstructor();
   factory AppAuth() {
     return _instance;
   }
+  AppAuth._privateConstructor() {
+    this.onAuthChange = _streamController.stream;
+    this._auth.onAuthStateChanged.listen(this._handleAuthStatusChanged);
+  }
+  void dispose() {
+    _streamController.close();
+  }
 
-  AppAuth._privateConstructor();
+  /* Public Properties */
+
+  /// The user of the application
+  /// 
+  /// Returns null if user is not signed in
+  AppUser user;
+
+  /// Returns whether user is signed in or not
+  SigninStatus get signinStatus {
+    return this.user == null 
+      ? SigninStatus.NOT_SIGNED_IN
+      : SigninStatus.SIGNED_IN;
+  }
+
+  /// Triggers when auth has changed
+  Stream<AppUser> onAuthChange;
+
+  /* Private Properties */
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  String userId;
-  SigninStatus signinStatus = SigninStatus.NOT_SIGNED_IN;
+  StreamController<AppUser> _streamController =
+      StreamController<AppUser>.broadcast();
 
-  Future<String> signInAnonymously() async {
-    final FirebaseUser user = (await _auth.signInAnonymously()).user;
-    assert(user != null);
-    assert(user.isAnonymous);
-    assert(!user.isEmailVerified);
-    assert(await user.getIdToken() != null);
-    if (Platform.isIOS) {
-      // Anonymous auth doesn't show up as a provider on iOS
-      assert(user.providerData.isEmpty);
-    } else if (Platform.isAndroid) {
-      // Anonymous auth does show up as a provider on Android
-      assert(user.providerData.length == 1);
-      assert(user.providerData[0].providerId == 'firebase');
-      assert(user.providerData[0].uid != null);
-      assert(user.providerData[0].displayName == null || user.providerData[0].displayName == '');
-      assert(user.providerData[0].photoUrl == null);
-      assert(user.providerData[0].email == null || user.providerData[0].displayName == '');
+  /* Private Methods */
+
+  void _handleAuthStatusChanged(FirebaseUser fbUser) {
+    if(fbUser == null) {
+      this.user = null;
     }
-
-    final FirebaseUser currentUser = await _auth.currentUser();
-    assert(user.uid == currentUser.uid);
-    if (user != null) {
-      this.signinStatus = SigninStatus.ANONYMOUS;
-      this.userId = user.uid;
-    } 
     else {
-      this.signinStatus = SigninStatus.NOT_SIGNED_IN;
+      this.user = AppUser.fromFirebaseUser(fbUser);
     }
-    return user.uid;
+    
+    _streamController.add(user);
   }
 
-Future<String> signInWithGoogle() async {
+  /* Public Methods */
+
+  Future<AppUser> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await this._googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
@@ -58,29 +70,22 @@ Future<String> signInWithGoogle() async {
     );
     FirebaseUser user = await this._auth.currentUser();
 
-    if(user != null && this.signinStatus == SigninStatus.ANONYMOUS) {
-      await user.linkWithCredential(credential);
-    }
-
     user = (await this._auth.signInWithCredential(credential)).user;
     assert(user.email != null);
-    assert(user.displayName != null);
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
 
     if (user != null) {
-      this.signinStatus = SigninStatus.SIGNED_IN;
-      this.userId = user.uid;
+      this.user = AppUser.fromFirebaseUser(user);
       print(user.uid);
-    } else {
-      this.signinStatus = SigninStatus.NOT_SIGNED_IN;
     }
-    return this.userId;
+    return this.user;
+  }
+
+  Future<void> logout() {
+    return this._auth.signOut();
   }
 }
 
-enum SigninStatus {
-  SIGNED_IN,
-  ANONYMOUS,
-  NOT_SIGNED_IN
-}
+/// User's sign in status
+enum SigninStatus { SIGNED_IN, NOT_SIGNED_IN }

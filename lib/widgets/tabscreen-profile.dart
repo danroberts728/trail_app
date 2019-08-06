@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../util/appauth.dart';
 import 'tabscreenchild.dart';
 
@@ -20,64 +22,27 @@ class _TabScreenProfile extends State<TabScreenProfile> {
 
   @override
   Widget build(BuildContext context) {
-    if (AppAuth().signinStatus == SigninStatus.NOT_SIGNED_IN) {
-      AppAuth().signInAnonymously().then((userId) {
-        return this._buildScreen();
-      });
-    } else {
-      return this._buildScreen();
-    }
-    return Container();
+    return Container(
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            RaisedButton(
+              child: Text("Log out"),
+              onPressed: () {
+                AppAuth().logout();
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   List<IconButton> getAppBarActions() {
     return List<IconButton>();
   }
 
-  Widget _buildScreen() {
-    switch (this.signinStatus) {
-      case SigninStatus.SIGNED_IN:
-        return _buildProfileScreen();
-      default:
-        return _buildSigninScreen();
-    }
-  }
-
-  Widget _buildSigninScreen() {
-    return Container(
-        child: Column(
-      children: <Widget>[
-        SizedBox(
-          height: 12.0,
-        ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
-            child: Text(
-              "Sign in for full features",
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              _GoogleSignInSection(),
-            ],
-          )
-        )        
-      ],
-    ));
-  }
-
-  Widget _buildProfileScreen() {
-    return Container();
-  }
+  FutureOr onValue(void value) {}
 }
 
 class _GoogleSignInSection extends StatefulWidget {

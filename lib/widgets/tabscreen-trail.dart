@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alabama_beer_trail/util/const.dart';
-import 'package:alabama_beer_trail/util/filteroptions.dart';
-import 'package:alabama_beer_trail/util/trailplacecategory.dart';
-import 'package:alabama_beer_trail/widgets/tabscreenchild.dart';
+import '../util/const.dart';
+import '../util/filteroptions.dart';
+import '../util/trailplacecategory.dart';
+import '../widgets/tabscreenchild.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/trailplace.dart';
@@ -13,7 +13,7 @@ import '../util/currentUserLocation.dart';
 import 'modal-trailfilter.dart';
 
 class TabScreenTrail extends StatefulWidget implements TabScreenChild {
-  final _TabScreenTrail _state = _TabScreenTrail();
+  final _TabScreenTrail _state = _TabScreenTrail();  
 
   @override
   State<StatefulWidget> createState() => _state;
@@ -48,6 +48,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
     setState(() {
       this._containerChild = _buildPlacesStream();
     });
+
   }
 
   void filterPressed() {
