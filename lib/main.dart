@@ -12,6 +12,7 @@ void main() {
 }
 
 class TrailApp extends StatelessWidget {
+  final navigatorKey = GlobalKey<NavigatorState>();
 
   TrailApp() {
     AppAuth();
@@ -20,14 +21,15 @@ class TrailApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: Constants.strings.appName,
       debugShowCheckedModeBanner: true,
       theme: ThemeData(
         primarySwatch: Constants.colors.themePrimarySwatch,
       ),
-      initialRoute: "/",
+      home: SigninScreen(),
       routes: {
-        '/': (context) => Home(),
+        '/home': (context) => Home(),
         '/sign-in': (context) => SigninScreen(),
       }
     );

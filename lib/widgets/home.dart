@@ -1,5 +1,3 @@
-import 'package:alabama_beer_trail/widgets/signinscreen.dart';
-
 import '../util/appuser.dart';
 
 import '../util/appauth.dart';
@@ -31,9 +29,10 @@ class _HomeState extends State<Home> {
   }
 
   void _handleAuthChange(AppUser user) {
-    setState(() {
-     this._isSignedIn = user != null; 
-    });
+      this._isSignedIn = user != null;
+      if(!this._isSignedIn) {
+        Navigator.of(context).pushReplacementNamed('/sign-in');
+      }
   }
 
   final List<TabScreen> _children = [
@@ -57,38 +56,34 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    if (this._isSignedIn) {
-      return SigninScreen();
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: _appBarTitle,
-          actions: _appBarActions,
-        ),
-        body: IndexedStack(
-          index: _currentIndex,
-          children: _children,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: onTabTapped,
-          currentIndex: _currentIndex,
-          backgroundColor: Constants.colors.navBarBackgroundColor,
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Constants.colors.navBarSelectedItemColor,
-          showUnselectedLabels: Constants.options.navBarShowUnselectedLabels,
-          showSelectedLabels: Constants.options.navBarShowSelectedLabels,
-          items: [
-            BottomNavigationBarItem(
-              icon: new Icon(Constants.icons.navBarTrailIcon),
-              title: new Text(Constants.strings.navBarTrailLabel),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Constants.icons.navBarProfileIcon),
-              title: new Text(Constants.strings.navBarProfileLabel),
-            ),
-          ],
-        ),
-      );
-    }
+    return Scaffold(
+      appBar: AppBar(
+        title: _appBarTitle,
+        actions: _appBarActions,
+      ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _children,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
+        backgroundColor: Constants.colors.navBarBackgroundColor,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Constants.colors.navBarSelectedItemColor,
+        showUnselectedLabels: Constants.options.navBarShowUnselectedLabels,
+        showSelectedLabels: Constants.options.navBarShowSelectedLabels,
+        items: [
+          BottomNavigationBarItem(
+            icon: new Icon(Constants.icons.navBarTrailIcon),
+            title: new Text(Constants.strings.navBarTrailLabel),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Constants.icons.navBarProfileIcon),
+            title: new Text(Constants.strings.navBarProfileLabel),
+          ),
+        ],
+      ),
+    );
   }
 }
