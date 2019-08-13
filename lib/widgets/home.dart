@@ -31,7 +31,11 @@ class _HomeState extends State<Home> {
   void _handleAuthChange(AppUser user) {
       this._isSignedIn = user != null;
       if(!this._isSignedIn) {
-        Navigator.of(context).pushReplacementNamed('/sign-in');
+        try {
+          Navigator.of(context).pushReplacementNamed('/sign-in');
+        } on FlutterError catch(e) {
+          print("Caught Exception in _handleAuthChange: $e");
+        }
       }
   }
 

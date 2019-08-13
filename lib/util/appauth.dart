@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import 'appuser.dart';
 
@@ -42,6 +43,7 @@ class AppAuth {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FacebookLogin _facebookLogin = FacebookLogin();
   StreamController<AppUser> _streamController =
       StreamController<AppUser>.broadcast();
 
@@ -71,6 +73,25 @@ class AppAuth {
     FirebaseUser user = await this._auth.currentUser();
 
     user = (await this._auth.signInWithCredential(credential)).user;
+    assert(user.email != null);
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    if (user != null) {
+      this.user = AppUser.fromFirebaseUser(user);
+      print(user.uid);
+    }
+    return this.user;
+  }
+
+  Future<AppUser> signInWithFacebook() async {
+    var result = await this._facebookLogin.logInWithReadPermissions(['email','public_profile']);
+    
+    final AuthCredential credential = FacebookAuthProvider.getCredential(
+      accessToken: result.accessToken.token,
+    );
+    FirebaseUser user =
+        (await _auth.signInWithCredential(credential)).user;
     assert(user.email != null);
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
