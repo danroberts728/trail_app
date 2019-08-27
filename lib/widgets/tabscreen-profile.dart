@@ -26,8 +26,43 @@ class _TabScreenProfile extends State<TabScreenProfile> {
       child: Center(
         child: Column(
           children: <Widget>[
+            Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: AssetImage("assets/images/fthglasses.jpg"),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(Colors.grey.shade700, BlendMode.darken),
+                )),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 16.0),
+                    Image.network(AppAuth().user.profilePhoto,
+                      height: 64.0,                      
+                    ),
+                    Text(
+                      AppAuth().user.displayName,
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 22.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      AppAuth().user.email,
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.lightGreenAccent,
+                      )
+                    ),
+                    SizedBox(height: 16.0),
+                  ],
+                )),
             RaisedButton(
               child: Text("Log out"),
+              color: Colors.green,
+              textTheme: ButtonTextTheme.primary,
+              padding: EdgeInsets.symmetric(horizontal: 80.0),
               onPressed: () {
                 AppAuth().logout();
               },
