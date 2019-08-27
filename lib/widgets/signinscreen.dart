@@ -1,20 +1,39 @@
+import 'package:alabama_beer_trail/util/const.dart';
+
 import '../util/appuser.dart';
 
 import '../util/appauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
-class SigninScreen extends StatelessWidget {
+class SigninScreen extends StatefulWidget {
+  State<StatefulWidget> createState() => _SigninScreen();
+}
+
+enum SubmitButtonState { Waiting, Working }
+
+class _SigninScreen extends State<SigninScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String _formError;
+  SubmitButtonState _submitButtonState = SubmitButtonState.Waiting;
+
+  String get formError {
+    String tmp = _formError;
+    _formError = null;
+    return tmp;
+  }
+
   @override
   Widget build(BuildContext context) {
     AppAuth().onAuthChange.listen((AppUser result) {
       if (result != null) {
         try {
           Navigator.of(context).pushReplacementNamed('/home');
-        } on FlutterError catch(e) {
+        } on FlutterError catch (e) {
           print("Caught Exception in _handleAuthChange: $e");
         }
-        
       }
     });
 
@@ -54,20 +73,6 @@ class SigninScreen extends StatelessWidget {
                     SizedBox(
                       height: 10.0,
                     ),
-                    FacebookSignInButton(
-                      onPressed: () {
-                        AppAuth().signInWithFacebook();
-                      },
-                      text: "Sign in with Facebook",
-                      borderRadius: 10.0,
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    TwitterSignInButton(
-                      onPressed: () {},
-                      borderRadius: 10.0,
-                    ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 16.0),
                       padding: EdgeInsets.all(8.0),
@@ -86,9 +91,11 @@ class SigninScreen extends StatelessWidget {
                     ),
                     Container(
                       child: Form(
+                        key: _formKey,
                         child: Column(
                           children: <Widget>[
                             TextFormField(
+                              controller: _emailController,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.email),
                                 hintText: "user@mydomain.com",
@@ -102,6 +109,7 @@ class SigninScreen extends StatelessWidget {
                               },
                             ),
                             TextFormField(
+                              controller: _passwordController,
                               obscureText: true,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.lock),
@@ -116,14 +124,47 @@ class SigninScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 6.0),
                             RaisedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  setState(() {
+                                    _submitButtonState =
+                                        SubmitButtonState.Working;
+                                  });
+                                  AppAuth()
+                                      .signInWithEmailAndPassword(
+                                          _emailController.text,
+                                          _passwordController.text)
+                                      .then((AppAuthReturn result) {
+                                    if (result.success == false) {
+                                      setState(() {
+                                        _formError = result.errorMessage;
+                                        _submitButtonState = SubmitButtonState.Waiting;
+                                      });
+                                    }
+                                  });
+                                }
+                              },
                               color: Colors.green,
                               textTheme: ButtonTextTheme.primary,
-                              child: Text("Submit"),
                               padding: EdgeInsets.symmetric(horizontal: 80.0),
+                              child: _submitButtonState ==
+                                      SubmitButtonState.Waiting
+                                  ? Text("Sign In")
+                                  : CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                            Colors.white),
+                                      ),
+                              
                             ),
                             Text("Forgot your password?"),
-                            SizedBox(height: 12.0),
+                            SizedBox(height: 6.0),
+                            Container(
+                              alignment: Alignment.center,
+                              child: Text(_formError == null ? '' : formError,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.redAccent)),
+                            ),
+                            SizedBox(height: 6.0),
                             Divider(
                               color: Colors.grey,
                               indent: 16.0,
@@ -131,9 +172,21 @@ class SigninScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 12.0),
                             Text(
-                              "First Time? Sign in with social media or Register with Email/Password",
+                              "First Time?",
                               style: TextStyle(fontSize: 16.0),
                               textAlign: TextAlign.center,
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/register');
+                              },
+                              child: Text(
+                                "Register with Email/Password",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              textColor: Constants.colors.second,
                             ),
                           ],
                         ),

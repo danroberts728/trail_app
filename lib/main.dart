@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/widgets/registerscreen.dart';
 import 'package:alabama_beer_trail/widgets/signinscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +32,7 @@ class TrailApp extends StatelessWidget {
       routes: {
         '/home': (context) => Home(),
         '/sign-in': (context) => SigninScreen(),
+        '/register': (context) => RegisterScreen(),
       }
     );
   }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import 'appuser.dart';
 
@@ -43,7 +42,6 @@ class AppAuth {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FacebookLogin _facebookLogin = FacebookLogin();
   StreamController<AppUser> _streamController =
       StreamController<AppUser>.broadcast();
 
@@ -61,6 +59,40 @@ class AppAuth {
   }
 
   /* Public Methods */
+
+  Future<AppAuthReturn> signInWithEmailAndPassword(String email, String password) async {
+    FirebaseUser fbUser;
+    String errorMessage;
+
+    try {
+      fbUser = (await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password
+      )).user;
+    }
+    catch (e) {
+      if (e.code == "ERROR_WRONG_PASSWORD") {
+        errorMessage = "Password is invalid.";
+      }
+      if (e.code == "ERROR_USER_NOT_FOUND") {
+        errorMessage = "User not found. You may need to register.";
+      }
+      if (e.code == "ERROR_USER_DISABLED ") {
+        errorMessage = "This user has been disabled.";
+      }
+      else {
+        errorMessage = "Unknown Error.";
+      }
+    }
+    
+    if(user != null) {
+      this.user = AppUser.fromFirebaseUser(fbUser);
+      return AppAuthReturn(success: true, errorMessage: errorMessage, user: this.user );
+    }
+    else {
+      return AppAuthReturn(success: false, errorMessage: errorMessage, user: this.user );
+    }
+  }
 
   Future<AppUser> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await this._googleSignIn.signIn();
@@ -84,29 +116,37 @@ class AppAuth {
     return this.user;
   }
 
-  Future<AppUser> signInWithFacebook() async {
-    var result = await this._facebookLogin.logInWithReadPermissions(['email','public_profile']);
-    
-    final AuthCredential credential = FacebookAuthProvider.getCredential(
-      accessToken: result.accessToken.token,
-    );
-    FirebaseUser user =
-        (await _auth.signInWithCredential(credential)).user;
-    assert(user.email != null);
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    if (user != null) {
-      this.user = AppUser.fromFirebaseUser(user);
-      print(user.uid);
-    }
-    return this.user;
-  }
-
   Future<void> logout() {
     return this._auth.signOut();
+  }
+
+  Future<AppUser> register(String email, String password) async {
+    FirebaseUser user;
+    try {
+      user = (await _auth.createUserWithEmailAndPassword(
+      email: email, 
+      password: password )).user;
+    }
+    catch (e) {
+      user = null;
+    }
+    
+    if(user != null) {
+      return AppUser.fromFirebaseUser(user);
+    }
+    else {
+      return null;
+    }
   }
 }
 
 /// User's sign in status
 enum SigninStatus { SIGNED_IN, NOT_SIGNED_IN }
+
+class AppAuthReturn {
+  final bool success;
+  final String errorMessage;
+  final AppUser user;
+
+  AppAuthReturn({this.success, this.errorMessage, this.user});
+}
