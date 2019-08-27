@@ -145,7 +145,7 @@ class _TrailListItem extends State<TrailListItem> {
                                   child: Text("Directions".toUpperCase(),
                                       semanticsLabel:
                                           "Share ${this.place.name}"),
-                                  textColor: Colors.amber.shade500,
+                                  textColor: Constants.colors.first,
                                   onPressed: () {
                                     String address = '${this.place.name}, ${this.place.address}, ${this.place.city}, ${this.place.state} ${this.place.zip}';
                                     AppLauncher().openDirections(address);

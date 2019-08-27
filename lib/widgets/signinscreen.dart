@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:alabama_beer_trail/util/const.dart';
 
 import '../util/appuser.dart';
@@ -18,6 +20,8 @@ class _SigninScreen extends State<SigninScreen> {
   final TextEditingController _passwordController = TextEditingController();
   String _formError;
   SubmitButtonState _submitButtonState = SubmitButtonState.Waiting;
+  GlobalKey _scaffoldKey = GlobalKey();
+  StreamSubscription _authChangeSubscription;
 
   String get formError {
     String tmp = _formError;
@@ -26,18 +30,30 @@ class _SigninScreen extends State<SigninScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    AppAuth().onAuthChange.listen((AppUser result) {
+  void initState() {
+    super.initState();
+    _authChangeSubscription = AppAuth().onAuthChange.listen((AppUser result) {
       if (result != null) {
         try {
-          Navigator.of(context).pushReplacementNamed('/home');
+          Navigator.of(_scaffoldKey.currentContext).popUntil((route) => route.isFirst);
+          Navigator.of(_scaffoldKey.currentContext).pushReplacementNamed('/home');
         } on FlutterError catch (e) {
           print("Caught Exception in _handleAuthChange: $e");
         }
       }
     });
+  }
 
+  @override
+  void dispose() {
+    _authChangeSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Sign In"),
       ),

@@ -1,4 +1,4 @@
-import '../util/appuser.dart';
+import 'dart:async';
 
 import '../util/appauth.dart';
 import '../widgets/tabscreen-profile.dart';
@@ -21,22 +21,34 @@ class _HomeState extends State<Home> {
   Text _appBarTitle;
   List<IconButton> _appBarActions;
   bool _isSignedIn = false;
+  GlobalKey _scaffoldKey = GlobalKey();
+  StreamSubscription _authChangeSubscription;
 
   _HomeState() {
-    AppAuth().onAuthChange.listen(this._handleAuthChange);
     _appBarTitle = Text(_children[_currentIndex].appBarTitle);
     _appBarActions = _children[_currentIndex].getAppBarActions();
   }
 
-  void _handleAuthChange(AppUser user) {
+  @override
+  void initState() {
+    super.initState();
+    _authChangeSubscription = AppAuth().onAuthChange.listen((user) {
       this._isSignedIn = user != null;
-      if(!this._isSignedIn) {
+      if (!this._isSignedIn) {
         try {
-          Navigator.of(context).pushReplacementNamed('/sign-in');
-        } on FlutterError catch(e) {
+          Navigator.of(_scaffoldKey.currentContext)
+              .pushReplacementNamed('/sign-in');
+        } on FlutterError catch (e) {
           print("Caught Exception in _handleAuthChange: $e");
         }
       }
+    });
+  }
+
+  @override
+  void dispose() {
+    _authChangeSubscription.cancel();
+    super.dispose();
   }
 
   final List<TabScreen> _children = [
@@ -61,6 +73,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: _appBarTitle,
         actions: _appBarActions,
