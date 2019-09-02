@@ -1,10 +1,10 @@
-import 'package:alabama_beer_trail/widgets/registerscreen.dart';
-import 'package:alabama_beer_trail/widgets/signinscreen.dart';
+import 'screens/registerscreen.dart';
+import 'screens/signinscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'util/appauth.dart';
 import 'util/const.dart';
-import 'widgets/home.dart';
+import 'screens/home.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {

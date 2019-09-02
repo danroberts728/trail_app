@@ -1,4 +1,4 @@
-import '../widgets/tabscreenchild.dart';
+import 'tabscreenchild.dart';
 import 'package:flutter/material.dart';
 
 class TabScreen extends StatelessWidget {

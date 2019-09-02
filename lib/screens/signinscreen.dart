@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alabama_beer_trail/util/const.dart';
+import '../util/const.dart';
 
 import '../util/appuser.dart';
 

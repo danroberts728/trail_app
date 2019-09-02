@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/util/const.dart';
+import '../util/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../util//appauth.dart';

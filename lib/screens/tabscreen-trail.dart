@@ -4,13 +4,13 @@ import 'dart:math';
 import '../util/const.dart';
 import '../util/filteroptions.dart';
 import '../util/trailplacecategory.dart';
-import '../widgets/tabscreenchild.dart';
+import 'tabscreenchild.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/trailplace.dart';
-import 'traillistitem.dart';
+import '../widgets/traillistitem.dart';
 import '../util/currentUserLocation.dart';
-import 'modal-trailfilter.dart';
+import '../widgets/modal-trailfilter.dart';
 
 class TabScreenTrail extends StatefulWidget implements TabScreenChild {
   final _TabScreenTrail _state = _TabScreenTrail();  

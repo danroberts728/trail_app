@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import '../util/appauth.dart';
-import '../widgets/tabscreen-profile.dart';
-import '../widgets/tabscreen.dart';
+import 'tabscreen-profile.dart';
+import 'tabscreen.dart';
 
 import 'tabscreen-trail.dart';
 import 'package:flutter/material.dart';
 import '../util/const.dart';
-import 'tabscreen-profile.dart';
 
 class Home extends StatefulWidget {
   @override
