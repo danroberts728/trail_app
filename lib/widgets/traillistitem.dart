@@ -1,8 +1,8 @@
-import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
-
+import 'package:alabama_beer_trail/screens/placedetail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../blocs/user_data_bloc.dart';
 import '../util/applauncher.dart';
 import '../util/const.dart';
 import '../data/trailplace.dart';
@@ -29,8 +29,10 @@ class _TrailListItem extends State<TrailListItem> {
 
     return GestureDetector(
       onTap: () {
-        //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => PlaceDetail(place2)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TrailPlaceDetail(place: place)));
       },
       child: Container(
         padding: const EdgeInsets.all(8.0),
@@ -50,6 +52,7 @@ class _TrailListItem extends State<TrailListItem> {
             child: Column(
               children: <Widget>[
                 SizedBox(
+                  width: double.infinity,
                   height: 126.0,
                 ),
                 Container(
@@ -69,8 +72,8 @@ class _TrailListItem extends State<TrailListItem> {
                         placeholder: (context, url) =>
                             RefreshProgressIndicator(),
                         errorWidget: (context, url, error) => Icon(Icons.error),
-                        width: 50.0,
-                        height: 50.0,
+                        width: 40.0,
+                        height: 40.0,
                       ),
                       SizedBox(
                         width: 12.0,
@@ -115,50 +118,92 @@ class _TrailListItem extends State<TrailListItem> {
                         size: 16.0,
                       ),
                       SizedBox(width: 4.0),
-                      Text(
-                        this.place.lastClaculatedDistance == null ||
-                                this.place.lastClaculatedDistance <
-                                    Constants.options.minDistanceToCheckin
-                            ? this.place.city
-                            : this.place.city +
-                                " " +
-                                TrailPlace.toFriendlyDistanceString(
-                                    place.lastClaculatedDistance) +
-                                " mi",
+                      Text(this.place.lastClaculatedDistance <=
+                            Constants.options.minDistanceToCheckin
+                        ? this.place.city
+                        : this.place.city +
+                            " " +
+                            TrailPlace.toFriendlyDistanceString(
+                                place.lastClaculatedDistance) +
+                            " mi",
                         style: TextStyle(color: Colors.black54),
+                      ),
+                      Spacer(),
+                      Visibility(
+                        visible: this.place.lastClaculatedDistance <=
+                            Constants.options.minDistanceToCheckin,
+                        child: FlatButton(
+                          color: Color.fromARGB(125, 255, 255, 255),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "Check In",
+                                style: TextStyle(
+                                  color: Constants.colors.second,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () {},
+                        ),
                       ),
                       Spacer(),
                       ButtonTheme.bar(
                         child: ButtonBar(
                           children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.map),
-                              color: Constants.colors.fourth,
-                              onPressed: () {
-                                String address =
-                                    '${this.place.name}, ${this.place.address}, ${this.place.city}, ${this.place.state} ${this.place.zip}';
-                                AppLauncher().openDirections(address);
-                              },
+                            // Map
+                            SizedBox(
+                              width: 26.0,
+                              child: FlatButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: () {
+                                  String address =
+                                      '${this.place.name}, ${this.place.address}, ${this.place.city}, ${this.place.state} ${this.place.zip}';
+                                  AppLauncher().openDirections(address);
+                                },
+                                child: Icon(
+                                  Icons.map,
+                                  color: Constants.colors.first,
+                                  size: 24.0,
+                                ),
+                              ),
                             ),
-                            StreamBuilder<List<String>>(
-                              stream: userDataBloc.favoriteStream,
-                              builder: (context, snapshot) {
-                                List<String> favorites = (snapshot.connectionState == ConnectionState.waiting)
-                                  ? userDataBloc.favorites
-                                  : snapshot.data;
-                                bool isFavorite = favorites.contains(this.place.id);
-
-                                return IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                     isFavorite = !isFavorite; 
-                                    });
-                                    userDataBloc.toggleFavorite(this.place.id);
-                                  },
-                                  icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-                                  color: Constants.colors.fourth,
-                                );
-                              },
+                            // Favorite
+                            SizedBox(
+                              width: 26.0,
+                              child: StreamBuilder<List<String>>(
+                                stream: userDataBloc.favoriteStream,
+                                builder: (context, snapshot) {
+                                  List<String> favorites =
+                                      (snapshot.connectionState ==
+                                              ConnectionState.waiting)
+                                          ? userDataBloc.favorites
+                                          : snapshot.data;
+                                  bool isFavorite =
+                                      favorites.contains(this.place.id);
+                                  return FlatButton(
+                                    child: Icon(
+                                      isFavorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: Constants.colors.first,
+                                      size: 24.0,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isFavorite = !isFavorite;
+                                        Scaffold.of(context).showSnackBar(SnackBar(
+                                          content: isFavorite
+                                            ? Text("${this.place.name} added to favorites")
+                                            : Text("${this.place.name} removed from favorites")
+                                        ));
+                                      });
+                                      userDataBloc
+                                          .toggleFavorite(this.place.id);
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
