@@ -1,8 +1,11 @@
+import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
+
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../util/applauncher.dart';
 import '../util/const.dart';
-import 'package:flutter/material.dart';
 import '../data/trailplace.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class TrailListItem extends StatefulWidget {
   final TrailPlace place;
@@ -22,144 +25,152 @@ class _TrailListItem extends State<TrailListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final userDataBloc = UserDataBloc();
+
     return GestureDetector(
-        onTap: () {
-          //Navigator.push(context,
-          //    MaterialPageRoute(builder: (context) => PlaceDetail(place2)));
-        },
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            elevation: 6.0,
-            child: Container(
-              padding: const EdgeInsets.all(0.0),
-              child: Column(
-                children: <Widget>[
-                  // Featured Image
-                  SizedBox(
-                    height: 150.0,
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned(
-                          top: 0.0,
-                          left: 0.0,
-                          right: 0.0,
-                          child: FittedBox(
-                            fit: BoxFit.fill,
-                            child: CachedNetworkImage(
-                              imageUrl: this.place.featuredImgUrl,
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              width: 300.0,
-                              height: 150.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Logo, Name
-                  Container(
-                      padding: const EdgeInsets.only(
-                          left: 8.0, bottom: 0.0, top: 16.0),
-                      alignment: AlignmentDirectional.bottomStart,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+      onTap: () {
+        //Navigator.push(context,
+        //    MaterialPageRoute(builder: (context) => PlaceDetail(place2)));
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          elevation: 6.0,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  this.place.featuredImgUrl,
+                ),
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.topCenter,
+              ),
+              color: Color(0xFFFFFFFF),
+            ),
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 126.0,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 58.0,
+                  decoration:
+                      BoxDecoration(color: Color.fromARGB(215, 255, 255, 255)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      CachedNetworkImage(
+                        imageUrl: this.place.logoUrl,
+                        placeholder: (context, url) =>
+                            RefreshProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        width: 50.0,
+                        height: 50.0,
+                      ),
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          SizedBox(
-                            height: 40.0,
-                            width: 40.0,
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned(
-                                  top: 0.0,
-                                  left: 0.0,
-                                  right: 0.0,
-                                  child: FittedBox(
-                                    child: CachedNetworkImage(
-                                      imageUrl: this.place.logoUrl,
-                                      placeholder: (context, url) =>
-                                          RefreshProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                      width: 50.0,
-                                      height: 50.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          Text(
+                            this.place.name,
+                            style: TextStyle(
+                              color: Color(0xff93654e),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
                             ),
                           ),
-                          // Spacer
-                          SizedBox(
-                            width: 12.0,
-                          ),
-                          // Name and Categories
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                this.place.name,
-                                style: TextStyle(
-                                    color: Color(0xff93654e),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0),
-                              ),
-                              Text(this.place.categories.join(", "),
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontStyle: FontStyle.italic))
-                            ],
+                          Text(
+                            this.place.categories.join(", "),
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ],
-                      )),
-                  // Address and distance
-                  Container(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    alignment: AlignmentDirectional.bottomStart,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(
-                          Icons.location_on,
-                          color: Colors.black54,
-                          size: 16.0,
-                        ),
-                        SizedBox(width: 4.0),
-                        Text(
-                            this.place.lastClaculatedDistance == null ||
-                              this.place.lastClaculatedDistance < Constants.options.minDistanceToCheckin
-                                ? this.place.city
-                                : this.place.city +
-                                    " " +
-                                    TrailPlace.toFriendlyDistanceString(place.lastClaculatedDistance) +
-                                    " mi",
-                            style: TextStyle(color: Colors.black54)),
-                        Spacer(),
-                        ButtonTheme.bar(
-                          child: ButtonBar(
-                            children: <Widget>[
-                              FlatButton(
-                                  child: Text("Directions".toUpperCase(),
-                                      semanticsLabel:
-                                          "Share ${this.place.name}"),
-                                  textColor: Constants.colors.first,
-                                  onPressed: () {
-                                    String address = '${this.place.name}, ${this.place.address}, ${this.place.city}, ${this.place.state} ${this.place.zip}';
-                                    AppLauncher().openDirections(address);
-                                  })
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 0.0,
+                  ),
+                  alignment: AlignmentDirectional.bottomStart,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.location_on,
+                        color: Colors.black54,
+                        size: 16.0,
+                      ),
+                      SizedBox(width: 4.0),
+                      Text(
+                        this.place.lastClaculatedDistance == null ||
+                                this.place.lastClaculatedDistance <
+                                    Constants.options.minDistanceToCheckin
+                            ? this.place.city
+                            : this.place.city +
+                                " " +
+                                TrailPlace.toFriendlyDistanceString(
+                                    place.lastClaculatedDistance) +
+                                " mi",
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                      Spacer(),
+                      ButtonTheme.bar(
+                        child: ButtonBar(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.map),
+                              color: Constants.colors.fourth,
+                              onPressed: () {
+                                String address =
+                                    '${this.place.name}, ${this.place.address}, ${this.place.city}, ${this.place.state} ${this.place.zip}';
+                                AppLauncher().openDirections(address);
+                              },
+                            ),
+                            StreamBuilder<List<String>>(
+                              stream: userDataBloc.favoriteStream,
+                              builder: (context, snapshot) {
+                                List<String> favorites = (snapshot.connectionState == ConnectionState.waiting)
+                                  ? userDataBloc.favorites
+                                  : snapshot.data;
+                                bool isFavorite = favorites.contains(this.place.id);
+
+                                return IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                     isFavorite = !isFavorite; 
+                                    });
+                                    userDataBloc.toggleFavorite(this.place.id);
+                                  },
+                                  icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+                                  color: Constants.colors.fourth,
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

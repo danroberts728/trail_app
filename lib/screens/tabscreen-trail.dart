@@ -135,6 +135,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
             this._places = snapshot.data.documents.map<TrailPlace>(
               (DocumentSnapshot document) {
                 return TrailPlace(
+                  id: document.documentID,
                   name: document['name'],
                   address: document['address'],
                   city: document['city'],

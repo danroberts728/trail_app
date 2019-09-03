@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class TrailPlace {
+  final String id;
   final String name;
   final String address;
   final String city;
@@ -15,7 +16,9 @@ class TrailPlace {
   double lastClaculatedDistance = 0.00;
 
   TrailPlace(
-      {@required this.name,
+      {
+      @required this.id,
+      @required this.name,
       @required this.address,
       @required this.city,
       @required this.state,
