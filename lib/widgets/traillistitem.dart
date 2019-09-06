@@ -219,9 +219,8 @@ class _TrailListItem extends State<TrailListItem> {
                         child: RaisedButton(
                           elevation: 8.0,
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          color: isCheckedIn
-                            ? Constants.colors.fourth
-                            : Constants.colors.second.withAlpha(200),
+                          color: Constants.colors.second.withAlpha(200),
+                          disabledColor: Constants.colors.fourth,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
@@ -244,9 +243,11 @@ class _TrailListItem extends State<TrailListItem> {
                               ),
                             ],
                           ),
-                          onPressed: () {
-                            userDataBloc.checkIn(this.place.id);
-                          },
+                          onPressed: isCheckedIn
+                              ? null
+                              : () {
+                                  userDataBloc.checkIn(this.place.id);
+                                },
                         ),
                       );
                     }),
