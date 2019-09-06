@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/screens/edit_profile.dart';
+import 'package:alabama_beer_trail/widgets/profile-photo.dart';
+
 import '../util/appauth.dart';
 import 'tabscreenchild.dart';
 
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter/material.dart';
 
 class TabScreenProfile extends StatefulWidget implements TabScreenChild {
@@ -29,16 +31,18 @@ class _TabScreenProfile extends State<TabScreenProfile> {
             Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage("assets/images/fthglasses.jpg"),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(Colors.grey.shade700, BlendMode.darken),
-                )),
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/fthglasses.jpg"),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                        Colors.grey.shade700, BlendMode.darken),
+                  ),
+                ),
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 16.0),
-                    Image.network(AppAuth().user.profilePhoto,
-                      height: 64.0,                      
+                    ProfilePhoto(
+                      image: NetworkImage(AppAuth().user.profilePhoto),
                     ),
                     Text(
                       AppAuth().user.displayName,
@@ -48,13 +52,11 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                         color: Colors.white,
                       ),
                     ),
-                    Text(
-                      AppAuth().user.email,
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.lightGreenAccent,
-                      )
-                    ),
+                    Text(AppAuth().user.email,
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.lightGreenAccent,
+                        )),
                     SizedBox(height: 16.0),
                   ],
                 )),
@@ -74,46 +76,19 @@ class _TabScreenProfile extends State<TabScreenProfile> {
   }
 
   List<IconButton> getAppBarActions() {
-    return List<IconButton>();
+    return <IconButton>[
+      IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      EditProfileScreen(userId: AppAuth().user.uid)));
+        },
+      ),
+    ];
   }
 
   FutureOr onValue(void value) {}
-}
-
-class _GoogleSignInSection extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _GoogleSignInSectionState();
-}
-
-class _GoogleSignInSectionState extends State<_GoogleSignInSection> {
-  bool _success;
-  String _userID;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          alignment: Alignment.center,
-          child: GoogleSignInButton(
-              darkMode: true,
-              onPressed: () async {
-                AppAuth().signInWithGoogle();
-              }),
-        ),
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            _success == null
-                ? ''
-                : (_success
-                    ? 'Successfully signed in, uid: ' + _userID
-                    : 'Sign in failed'),
-            style: TextStyle(color: Colors.red),
-          ),
-        ),
-      ],
-    );
-  }
 }
