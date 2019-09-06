@@ -43,8 +43,9 @@ class _TrailListItem extends State<TrailListItem> {
               Container(
                 // Trail place logo, name, categories
                 height: 54.0,
-                decoration:
-                    BoxDecoration(color: Colors.white,),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
                 child: Row(
                   children: <Widget>[
                     SizedBox(
@@ -147,8 +148,8 @@ class _TrailListItem extends State<TrailListItem> {
                                       AppLauncher().openDirections(address);
                                     },
                                     child: Icon(
-                                      Icons.map,
-                                      color: Colors.white70,
+                                      Icons.drive_eta,
+                                      color: Colors.white60,
                                       size: 24.0,
                                     ),
                                   ),
@@ -204,31 +205,51 @@ class _TrailListItem extends State<TrailListItem> {
                 // Check in button
                 visible: this.place.lastClaculatedDistance <=
                     Constants.options.minDistanceToCheckin,
-                child: SizedBox(
-                  height: 50.0,
-                  width: double.infinity,
-                  child: RaisedButton(
-                    elevation: 8.0,
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    color: Constants.colors.second.withAlpha(200),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(Icons.check_box_outline_blank,
-                            color: Colors.white),
-                        SizedBox(width: 12.0,),
-                        Text(
-                          "Tap to Check In!",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                child: StreamBuilder(
+                    stream: userDataBloc.checkInStream,
+                    builder: (context, snapshot) {
+                      List<String> checkInsToday =
+                          (snapshot.connectionState == ConnectionState.waiting)
+                              ? userDataBloc.newCheckIns
+                              : snapshot.data;
+                      bool isCheckedIn = checkInsToday.contains(this.place.id);
+                      return SizedBox(
+                        height: 50.0,
+                        width: double.infinity,
+                        child: RaisedButton(
+                          elevation: 8.0,
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          color: isCheckedIn
+                            ? Constants.colors.fourth
+                            : Constants.colors.second.withAlpha(200),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                  isCheckedIn
+                                      ? Icons.check_box
+                                      : Icons.check_box_outline_blank,
+                                  color: Colors.white),
+                              SizedBox(
+                                width: 12.0,
+                              ),
+                              Text(
+                                isCheckedIn
+                                    ? "You have checked in today!"
+                                    : "Tap to Check In!",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
+                          onPressed: () {
+                            userDataBloc.checkIn(this.place.id);
+                          },
                         ),
-                      ],
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
+                      );
+                    }),
               ),
             ],
           ),
