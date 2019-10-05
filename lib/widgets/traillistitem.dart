@@ -35,7 +35,7 @@ class _TrailListItem extends State<TrailListItem> {
                 builder: (context) => TrailPlaceDetail(place: place)));
       },
       child: Container(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
         child: Card(
           elevation: 12.0,
           child: Column(

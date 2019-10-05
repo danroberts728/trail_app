@@ -77,7 +77,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                         alignment: Alignment.center,
                         children: <Widget>[
                           ProfilePhoto(
-                            image: NetworkImage(AppAuth().user.profilePhoto),
+                            image: NetworkImage(AppAuth().user.defaultProfilePhotoUrl),
                           ),
                           FloatingActionButton(
                             elevation: 16.0,
