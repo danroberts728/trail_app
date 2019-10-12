@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProfilePhoto extends StatelessWidget {
-  final NetworkImage image;
+  final ImageProvider image;
 
   ProfilePhoto({@required this.image, Key key}) : super(key: key);
 
@@ -12,7 +12,7 @@ class ProfilePhoto extends StatelessWidget {
       height: 100.0,
       decoration: new BoxDecoration(
         shape: BoxShape.circle,
-        border: Border(),
+        border: Border.all(color: Colors.white, width: 3.0),
         image: DecorationImage(
           fit: BoxFit.fitHeight,
           image: this.image,

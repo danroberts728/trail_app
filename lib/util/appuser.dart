@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class AppUser {
   String uid;
@@ -51,6 +52,10 @@ class AppUser {
       return 'https://firebasestorage.googleapis.com/v0/b/alabama-beer-trail-dab63.appspot.com/o/userData%2Fanonymous_user.png?alt=media&token=0581afe8-98df-4c12-b64a-567747253df8';
     }
     return retval;
+  }
+
+  String get createdDate {
+    return DateFormat("MMM d, y").format(this._fbUser.metadata.creationTime);
   }
 
   Future<int> getTotalCheckins() {

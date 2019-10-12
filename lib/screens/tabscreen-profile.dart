@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/blocs/places_count_bloc.dart';
+import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
+import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/screens/tabscreen-profile-edit.dart';
+import 'package:alabama_beer_trail/util/check_in.dart';
+import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/widgets/profile-photo.dart';
-import '../widgets/profile_stat.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:alabama_beer_trail/widgets/profile_stat.dart';
 
 import '../util/appauth.dart';
 import 'tabscreenchild.dart';
@@ -24,133 +28,175 @@ class TabScreenProfile extends StatefulWidget implements TabScreenChild {
 class _TabScreenProfile extends State<TabScreenProfile> {
   SigninStatus signinStatus = SigninStatus.NOT_SIGNED_IN;
 
-  String _bannerImageUrl = AppAuth().user.defaultBannerImageUrl;
-  String _profilePhotoUrl = AppAuth().user.defaultProfilePhotoUrl;
-  String _displayName = AppAuth().user.defaultDisplayName;
-  String _displayEmail = AppAuth().user.email;
-  int _totalCheckins = 0;
-  int _totalUniqueCheckins = 0;
-  int _totalFavorites = 0;
-  int _totalNotVisisted = 0;
+  UserDataBloc _userDataBloc = UserDataBloc();
+  UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
+  PlacesCountBloc _placesCountBloc = PlacesCountBloc();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          children: <Widget>[
+    String userEmail = AppAuth().user.email;
 
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage( this._bannerImageUrl ),
-                  fit: BoxFit.cover,
-                  colorFilter:
-                      ColorFilter.mode(Colors.grey.shade700, BlendMode.darken),
+    return StreamBuilder(
+      stream: this._userDataBloc.userDataStream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else {
+          return Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            width: double.infinity,
+                            height: 140.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: snapshot.data['bannerImageUrl'] != null
+                                    ? NetworkImage(
+                                        snapshot.data['bannerImageUrl'])
+                                    : AssetImage(
+                                        'assets/images/fthglasses.jpg'),
+                                fit: BoxFit.cover,
+                                colorFilter: ColorFilter.mode(
+                                    Colors.grey.shade700, BlendMode.darken),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 70.0,
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        bottom: 0.0,
+                        left: 16.0,
+                        child: ProfilePhoto(
+                          image: snapshot.data['profilePhotoUrl'] != null
+                              ? NetworkImage(snapshot.data['profilePhotoUrl'])
+                              : AssetImage(
+                                  'assets/images/defaultprofilephoto.png'),
+                        ),
+                      ),
+                      Positioned(
+                        top: 142.0,
+                        right: 16.0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              snapshot.data['displayName'] ??
+                                  AppAuth().user.defaultDisplayName,
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              userEmail,
+                              style: TextStyle(
+                                color: Constants.colors.second,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.date_range,
+                                  color: Colors.grey,
+                                ),
+                                Text(
+                                  " Since ${AppAuth().user.createdDate}",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 16.0),
-                  ProfilePhoto(
-                    image: NetworkImage( this._profilePhotoUrl ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                    ],
                   ),
-                  Text(
-                    this._displayName,
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 22.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    this._displayEmail,
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.lightGreenAccent,
-                    )),
-                  SizedBox(height: 16.0),
-                ],
-              ),
+                ),
+                StreamBuilder(
+                  stream: this._userCheckinsBloc.checkInStream,
+                  builder: (context, checkInsSnapshot) {
+                    return StreamBuilder(
+                      stream: this._placesCountBloc.placesCountStream,
+                      builder: (context, placesCountSnapshot) {
+                        int visitedCount;
+                        int notVisitedCount;
+                        if (checkInsSnapshot.connectionState ==
+                            ConnectionState.active) {
+                          List<CheckIn> sData =
+                              checkInsSnapshot.data as List<CheckIn>;
+                          List<String> uniquePlacesVisited = List<String>();
+                          sData.forEach((f) {
+                            if (!uniquePlacesVisited.contains(f.placeId)) {
+                              uniquePlacesVisited.add(f.placeId);
+                            }
+                          });
+                          visitedCount = uniquePlacesVisited.length;
+                          notVisitedCount = placesCountSnapshot.data - visitedCount;
+                        }
+
+                        return Container(
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  ProfileStat(
+                                    value: visitedCount,
+                                    postText: "Visited",
+                                    onPressed: () => null,
+                                  ),
+                                  ProfileStat(
+                                    value: notVisitedCount,
+                                    postText: "Not Visited",
+                                    onPressed: () => null,
+                                  ),
+                                  ProfileStat(
+                                    value: snapshot.data['favorites'].length,
+                                    postText: "Favorites",
+                                    onPressed: () => null,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
-            ProfileStat(
-              description: "Favorite Places",
-              value: this._totalFavorites,
-            ),
-            ProfileStat(
-              description: "Unique Places Visited",
-              value: this._totalUniqueCheckins,
-            ),
-            ProfileStat(
-              description: "Have Not Visisted",
-              value: this._totalNotVisisted,
-            ),
-            ProfileStat(
-              description: "Total Check-ins",
-              value: this._totalCheckins,
-            ),            
-            RaisedButton(
-              child: Text("Log out"),
-              color: Colors.green,
-              textTheme: ButtonTextTheme.primary,
-              padding: EdgeInsets.symmetric(horizontal: 80.0),
-              onPressed: () {
-                AppAuth().logout();
-              },
-            )
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    Firestore.instance.document('user_data/${AppAuth().user.uid}').snapshots().listen((DocumentSnapshot ds) {
-      var userData = ds.data;
-      if(userData.containsKey('bannerImageUrl')) {
-        setState(() {
-          this._bannerImageUrl = ds.data['bannerImageUrl'];
-        });        
-      }
-      if(userData.containsKey('profilePictureUrl')) {
-        setState(() {
-          this._profilePhotoUrl = ds.data['profilePhotoUrl'];
-        });        
-      }
-      if(userData.containsKey('displayName')) {
-        setState(() {
-          this._displayName = ds.data['displayName'];
-        });        
-      }
-    });
-
-    AppAuth().user.getTotalUniqueCheckins().then((int result) {
-      setState(() {
-        this._totalUniqueCheckins = result;
-      });      
-    });
-
-    AppAuth().user.getTotalCheckins().then((int result) {
-      setState(() {
-        this._totalCheckins = result;
-      });      
-    });
-
-    AppAuth().user.getTotalNotVisited().then((int result) {
-      setState(() {
-       this._totalNotVisisted = result; 
-      });
-    });
-
-    Firestore.instance.document('user_data/${AppAuth().user.uid}/').snapshots().listen((DocumentSnapshot ds) {
-      setState(() {
-        this._totalFavorites = ds.data['favorites'].length;
-      });      
-    });
   }
 
   List<IconButton> getAppBarActions() {
@@ -165,6 +211,30 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                       EditProfileScreen(userId: AppAuth().user.uid)));
         },
       ),
+      IconButton(
+        icon: Icon(Icons.power_settings_new),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: new Text("Log out - ${AppAuth().user.email}"),
+                  content: new Text(
+                      "Are you sure you want to log out from your account?"),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Confirm"),
+                      onPressed: () => AppAuth().logout(),
+                    ),
+                    new FlatButton(
+                      child: new Text("Cancel"),
+                      onPressed: () => Navigator.of(context).pop(),
+                    )
+                  ],
+                );
+              });
+        },
+      )
     ];
   }
 

@@ -1,4 +1,6 @@
+import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/screens/placedetail_screen.dart';
+import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -26,6 +28,7 @@ class _TrailListItem extends State<TrailListItem> {
   @override
   Widget build(BuildContext context) {
     final userDataBloc = UserDataBloc();
+    final userCheckinsBloc = UserCheckinsBloc();
 
     return GestureDetector(
       onTap: () {
@@ -157,15 +160,16 @@ class _TrailListItem extends State<TrailListItem> {
                                 // Favorite
                                 SizedBox(
                                   width: 26.0,
-                                  child: StreamBuilder<List<String>>(
-                                    stream: userDataBloc.favoriteStream,
+                                  child: StreamBuilder<Map<String,dynamic>>(
+                                    stream: userDataBloc.userDataStream,
                                     builder: (context, snapshot) {
-                                      List<String> favorites =
+                                      List<String> favorites = 
                                           (snapshot.connectionState ==
                                                   ConnectionState.waiting)
-                                              ? userDataBloc.favorites
-                                              : snapshot.data;
+                                              ? List<String>.from(userDataBloc.userData['favorites'])
+                                              : List<String>.from(snapshot.data['favorites']);
                                       bool isFavorite =
+                                        favorites != null &&
                                           favorites.contains(this.place.id);
                                       return FlatButton(
                                         child: Icon(
@@ -206,13 +210,17 @@ class _TrailListItem extends State<TrailListItem> {
                 visible: this.place.lastClaculatedDistance <=
                     Constants.options.minDistanceToCheckin,
                 child: StreamBuilder(
-                    stream: userDataBloc.checkInStream,
+                    stream: userCheckinsBloc.checkInStream,
                     builder: (context, snapshot) {
-                      List<String> checkInsToday =
+                      List<CheckIn> checkInsToday =
                           (snapshot.connectionState == ConnectionState.waiting)
-                              ? userDataBloc.newCheckIns
+                              ? userCheckinsBloc.checkIns
                               : snapshot.data;
-                      bool isCheckedIn = checkInsToday.contains(this.place.id);
+                      var now = DateTime.now();
+                      var today = DateTime(now.year, now.month, now.day);
+
+                      bool isCheckedIn = checkInsToday.any((e) => 
+                          e.placeId == this.place.id && DateTime(e.timestamp.year, e.timestamp.month, e.timestamp.day) == today);
                       return SizedBox(
                         height: 50.0,
                         width: double.infinity,
@@ -246,7 +254,7 @@ class _TrailListItem extends State<TrailListItem> {
                           onPressed: isCheckedIn
                               ? null
                               : () {
-                                  userDataBloc.checkIn(this.place.id);
+                                  userCheckinsBloc.checkIn(this.place.id);
                                 },
                         ),
                       );
