@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/places_count_bloc.dart';
+import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/screens/tabscreen-profile-edit.dart';
@@ -30,7 +30,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
 
   UserDataBloc _userDataBloc = UserDataBloc();
   UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
-  PlacesCountBloc _placesCountBloc = PlacesCountBloc();
+  TrailPlacesBloc _placesBloc = TrailPlacesBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,8 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                     ? NetworkImage(
                                         snapshot.data['bannerImageUrl'])
                                     : AssetImage(
-                                        'assets/images/fthglasses.jpg'),
+                                        Constants.options.defaultBannerImageAssetLocation
+                                    ),                                        
                                 fit: BoxFit.cover,
                                 colorFilter: ColorFilter.mode(
                                     Colors.grey.shade700, BlendMode.darken),
@@ -79,7 +80,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                           image: snapshot.data['profilePhotoUrl'] != null
                               ? NetworkImage(snapshot.data['profilePhotoUrl'])
                               : AssetImage(
-                                  'assets/images/defaultprofilephoto.png'),
+                                  Constants.options.defaultProfilePhotoAssetLocation),
                         ),
                       ),
                       Positioned(
@@ -89,8 +90,9 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Text(
-                              snapshot.data['displayName'] ??
-                                  AppAuth().user.defaultDisplayName,
+                              snapshot.data['displayName'] != null
+                                ? snapshot.data['displayName']
+                                : Constants.options.defaultDisplayName,
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                 color: Colors.black,
@@ -140,8 +142,8 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                   stream: this._userCheckinsBloc.checkInStream,
                   builder: (context, checkInsSnapshot) {
                     return StreamBuilder(
-                      stream: this._placesCountBloc.placesCountStream,
-                      builder: (context, placesCountSnapshot) {
+                      stream: this._placesBloc.trailPlaceStream,
+                      builder: (context, placesSnapshot) {
                         int visitedCount;
                         int notVisitedCount;
                         if (checkInsSnapshot.connectionState ==
@@ -155,7 +157,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                             }
                           });
                           visitedCount = uniquePlacesVisited.length;
-                          notVisitedCount = placesCountSnapshot.data - visitedCount;
+                          notVisitedCount = placesSnapshot.data.length - visitedCount;
                         }
 
                         return Container(

@@ -1,0 +1,45 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:alabama_beer_trail/data/trailplace.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'bloc.dart';
+
+class TrailPlacesBloc extends Bloc {
+  TrailPlacesBloc() {
+    Firestore.instance.collection('places/').snapshots().listen(_onDataUpdate);
+  }
+
+  List<TrailPlace> trailPlaces = List<TrailPlace>();
+  final _trailPlacesController = StreamController<List<TrailPlace>>();
+  Stream<List<TrailPlace>> get trailPlaceStream => _trailPlacesController.stream;
+
+
+  void _onDataUpdate(QuerySnapshot querySnapshot) {
+    var newDocs = querySnapshot.documents;
+
+    List<TrailPlace> newTrailPlaces = List<TrailPlace>();
+    newDocs.forEach((d) => newTrailPlaces.add(TrailPlace(
+      id: d.documentID,
+      name: d['name'],
+      address: d['address'],
+      city: d['city'],
+      state: d['state'],
+      zip: d['zip'],
+      logoUrl: d['logo_img'],
+      featuredImgUrl: d['featured_img'],
+      categories: List<String>.from(d['categories']),
+      location: Point(d['location'].latitude,
+          d['location'].longitude),
+    )));
+    this.trailPlaces = newTrailPlaces;
+    this._trailPlacesController.sink.add(this.trailPlaces);
+  }
+
+  @override
+  void dispose() {
+    _trailPlacesController.close();
+  }
+
+}

@@ -30,7 +30,7 @@ class UserCheckinsBloc implements Bloc {
     
     // Get today's checkins
     List<CheckIn> todaysCheckins = 
-      this.checkIns.where((e) => DateTime(e.timestamp.year, e.timestamp.month, e.timestamp.day) == today );
+      this.checkIns.where((e) => DateTime(e.timestamp.year, e.timestamp.month, e.timestamp.day) == today ).toList();
 
     // Only update if user has not checked in today already
     if(todaysCheckins.where((e) => e.placeId == placeId).length == 0) {

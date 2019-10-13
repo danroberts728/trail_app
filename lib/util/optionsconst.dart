@@ -15,4 +15,7 @@ class OptionsConst {
     TrailPlaceCategory("Restaurant", "Restaurants"),
     TrailPlaceCategory("Beer Bar", "Beer Bars"),
   ];
+  final String defaultBannerImageAssetLocation = 'assets/images/fthglasses.jpg';
+  final String defaultDisplayName = "";
+  final String defaultProfilePhotoAssetLocation = 'assets/images/defaultprofilephoto.png';
 }

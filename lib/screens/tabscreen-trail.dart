@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
+
 import '../util/const.dart';
 import '../util/filteroptions.dart';
 import '../util/trailplacecategory.dart';
 import 'tabscreenchild.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/trailplace.dart';
 import '../widgets/traillistitem.dart';
 import '../util/currentUserLocation.dart';
@@ -31,6 +32,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
       GlobalKey<RefreshIndicatorState>();
 
   List<TrailPlace> _places = List<TrailPlace>();
+  TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
 
   /// Build screen when location data received
   _TabScreenTrail() {
@@ -123,32 +125,16 @@ class _TabScreenTrail extends State<TabScreenTrail>
     });
   }
 
-  StreamBuilder<QuerySnapshot> _buildPlacesStream() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('places').snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+  StreamBuilder<List<TrailPlace>> _buildPlacesStream() {
+    return StreamBuilder<List<TrailPlace>>(
+      stream: this._trailPlacesBloc.trailPlaceStream,
+      builder: (context, snapshot) {
         if (snapshot.hasError) return Text("Error: ${snapshot.error}");
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return Center(child: CircularProgressIndicator());
           default:
-            this._places = snapshot.data.documents.map<TrailPlace>(
-              (DocumentSnapshot document) {
-                return TrailPlace(
-                  id: document.documentID,
-                  name: document['name'],
-                  address: document['address'],
-                  city: document['city'],
-                  state: document['state'],
-                  zip: document['zip'],
-                  logoUrl: document['logo_img'],
-                  featuredImgUrl: document['featured_img'],
-                  categories: List<String>.from(document['categories']),
-                  location: Point(document['location'].latitude,
-                      document['location'].longitude),
-                );
-              },
-            ).toList();
+            this._places = snapshot.data;
             this._updateDistancesWithLastLocation();
             this._sortPlaces();
 
