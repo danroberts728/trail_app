@@ -14,7 +14,7 @@ class ProfilePhoto extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white, width: 3.0),
         image: DecorationImage(
-          fit: BoxFit.fitHeight,
+          fit: BoxFit.cover,
           image: this.image,
         ),
       ),

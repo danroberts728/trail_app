@@ -63,8 +63,6 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                         Constants.options.defaultBannerImageAssetLocation
                                     ),                                        
                                 fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                    Colors.grey.shade700, BlendMode.darken),
                               ),
                             ),
                           ),

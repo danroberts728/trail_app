@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
+import 'package:path/path.dart';
 import '../util/appauth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'bloc.dart';
 
@@ -29,6 +33,40 @@ class UserDataBloc implements Bloc {
     }
     Firestore.instance.collection('user_data').document(AppAuth().user.uid).updateData(
       {'favorites': favorites});
+  }
+
+  Future<void> updateBannerImage(File file) async {
+    String ext = extension(file.path);
+    String storageFileName = Random().nextInt(100000).toString() + '.$ext';
+    StorageReference storageRef = FirebaseStorage.instance.ref().child('userData/' + storageFileName);
+    StorageUploadTask uploadTask = storageRef.putFile(
+      file,
+      StorageMetadata(
+        contentType: 'type/' + ext,
+      ),
+    );
+    StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    String url = (await downloadUrl.ref.getDownloadURL());
+    Firestore.instance.document('user_data/${AppAuth().user.uid}').updateData(
+      {'bannerImageUrl': url}
+    );
+  }
+
+  Future<void> updateProfileImage(File file) async {
+    String ext = extension(file.path);
+    String storageFileName = Random().nextInt(100000).toString() + '.$ext';
+    StorageReference storageRef = FirebaseStorage.instance.ref().child('userData/' + storageFileName);
+    StorageUploadTask uploadTask = storageRef.putFile(
+      file,
+      StorageMetadata(
+        contentType: 'type/' + ext,
+      ),
+    );
+    StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    String url = (await downloadUrl.ref.getDownloadURL());
+    Firestore.instance.document('user_data/${AppAuth().user.uid}').updateData(
+      {'profilePhotoUrl': url}
+    );
   }
 
   @override
