@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import '../util/appauth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -66,6 +67,30 @@ class UserDataBloc implements Bloc {
     String url = (await downloadUrl.ref.getDownloadURL());
     Firestore.instance.document('user_data/${AppAuth().user.uid}').updateData(
       {'profilePhotoUrl': url}
+    );
+  }
+
+  Future<void> updateDisplayName(String value) async {
+    Firestore.instance.document('user_data/${AppAuth().user.uid}').updateData(
+      {'displayName': value}
+    );
+  }
+
+  Future<void> updateLocation(String value) async {
+    Firestore.instance.document('user_data/${AppAuth().user.uid}').updateData(
+      {'location': value}
+    );
+  }
+
+  Future<void> updateDob(String value) async {
+    Firestore.instance.document('user_data/${AppAuth().user.uid}').updateData(
+      {'birthdate': DateFormat("MMM d y").parse(value)}
+    );
+  }
+
+  Future<void> updateAboutYou(String value) async {
+    Firestore.instance.document('user_data/${AppAuth().user.uid}').updateData(
+      {'aboutYou': value}
     );
   }
 
