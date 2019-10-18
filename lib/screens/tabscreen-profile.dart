@@ -193,8 +193,10 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                           color: Colors.black54,
                           size: 16.0,
                         ),
-                        Text(DateFormat(" MMM d")
-                            .format(snapshot.data['birthdate'].toDate()),
+                        Text( snapshot.data['birthdate'] != null
+                          ? DateFormat(" MMM d")
+                            .format(snapshot.data['birthdate'].toDate())
+                          : '',
                           style: TextStyle(
                             color: Colors.black54, fontSize: 16.0
                           ),

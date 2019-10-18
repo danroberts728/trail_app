@@ -330,8 +330,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   text: this._selectedBirthDate != null
                                       ? this._selectedBirthDate
                                       : snapshot.data['birthdate'] != null
-                                          ? DateFormat("MMM d y").format(
-                                              snapshot.data['birthdate'])
+                                          ? DateFormat("MMM d y").format(snapshot.data['birthdate'].toDate())
                                           : '',
                                 ),
                                 onTap: () => showDatePicker(
