@@ -145,6 +145,49 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                     ],
                   ),
                 ),
+                Container(
+                  margin:
+                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                  child: Text(
+                    snapshot.data['aboutYou'] != null
+                        ? snapshot.data['aboutYou']
+                        : '',
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+                snapshot.data['location'] != null
+                    ? Container(
+                        margin: EdgeInsets.only(bottom: 16.0),
+                        child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.black54,
+                            size: 16.0,
+                          ),
+                          Text(
+                            snapshot.data['location'] != null
+                                ? snapshot.data['location']
+                                : '',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ],
+                      ))
+                    : SizedBox(height: 0.0,),
+                Divider(
+                  color: Constants.colors.second,
+                  indent: 16.0,
+                  endIndent: 16.0,
+                ),
                 StreamBuilder(
                   stream: this._userCheckinsBloc.checkInStream,
                   builder: (context, checkInsSnapshot) {
@@ -167,7 +210,6 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                           notVisitedCount =
                               placesSnapshot.data.length - visitedCount;
                         }
-
                         return Container(
                           child: Column(
                             children: <Widget>[
