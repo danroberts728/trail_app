@@ -9,6 +9,7 @@ import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/widgets/profile-photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_stat.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 
 import '../util/appauth.dart';
 import 'tabscreenchild.dart';
@@ -160,29 +161,46 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                     ),
                   ),
                 ),
-                snapshot.data['location'] != null
-                    ? Container(
-                        margin: EdgeInsets.only(bottom: 16.0),
-                        child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.location_on,
+                Container(
+                    margin: EdgeInsets.only(bottom: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.black54,
+                          size: 16.0,
+                        ),
+                        Text(
+                          snapshot.data['location'] != null
+                              ? snapshot.data['location']
+                              : '',
+                          style: TextStyle(
                             color: Colors.black54,
-                            size: 16.0,
+                            fontSize: 16.0,
                           ),
-                          Text(
-                            snapshot.data['location'] != null
-                                ? snapshot.data['location']
-                                : '',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 16.0,
-                            ),
+                        ),
+                        snapshot.data['location'] != null &&
+                                snapshot.data['birthdate'] != null
+                            ? Text(
+                                ' | ',
+                                style: TextStyle(
+                                    color: Colors.black54, fontSize: 16.0),
+                              )
+                            : SizedBox(height: 0.0),
+                        Icon(
+                          Icons.cake,
+                          color: Colors.black54,
+                          size: 16.0,
+                        ),
+                        Text(DateFormat(" MMM d")
+                            .format(snapshot.data['birthdate'].toDate()),
+                          style: TextStyle(
+                            color: Colors.black54, fontSize: 16.0
                           ),
-                        ],
-                      ))
-                    : SizedBox(height: 0.0,),
+                        ),
+                      ],
+                    )),
                 Divider(
                   color: Constants.colors.second,
                   indent: 16.0,
