@@ -7,6 +7,7 @@ import 'package:alabama_beer_trail/screens/tabscreen-profile-edit.dart';
 import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/widgets/profile-photo.dart';
+import 'package:alabama_beer_trail/widgets/profile_banner.dart';
 import 'package:alabama_beer_trail/widgets/profile_stat.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
@@ -53,27 +54,11 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          snapshot.data['bannerImageUrl'] != null
-                              ? CachedNetworkImage(
-                                  imageUrl: snapshot.data['bannerImageUrl'],
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    width: double.infinity,
-                                    height: 140.0,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                )
-                              : AssetImage(Constants
-                                  .options.defaultBannerImageAssetLocation),
+                          ProfileBanner(snapshot.data['bannerImageUrl'],
+                            backupImage: AssetImage(Constants.options.defaultBannerImageAssetLocation),
+                            canEdit: false,
+                            placeholder: CircularProgressIndicator(),                            
+                          ),
                           SizedBox(
                             height: 70.0,
                           ),
@@ -178,27 +163,6 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                           style: TextStyle(
                             color: Colors.black54,
                             fontSize: 16.0,
-                          ),
-                        ),
-                        snapshot.data['location'] != null &&
-                                snapshot.data['birthdate'] != null
-                            ? Text(
-                                ' | ',
-                                style: TextStyle(
-                                    color: Colors.black54, fontSize: 16.0),
-                              )
-                            : SizedBox(height: 0.0),
-                        Icon(
-                          Icons.cake,
-                          color: Colors.black54,
-                          size: 16.0,
-                        ),
-                        Text( snapshot.data['birthdate'] != null
-                          ? DateFormat(" MMM d")
-                            .format(snapshot.data['birthdate'].toDate())
-                          : '',
-                          style: TextStyle(
-                            color: Colors.black54, fontSize: 16.0
                           ),
                         ),
                       ],
