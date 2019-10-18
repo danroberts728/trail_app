@@ -8,6 +8,7 @@ import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/widgets/profile-photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_stat.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../util/appauth.dart';
 import 'tabscreenchild.dart';
@@ -51,21 +52,27 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          Container(
-                            width: double.infinity,
-                            height: 140.0,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: snapshot.data['bannerImageUrl'] != null
-                                    ? NetworkImage(
-                                        snapshot.data['bannerImageUrl'])
-                                    : AssetImage(
-                                        Constants.options.defaultBannerImageAssetLocation
-                                    ),                                        
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
+                          snapshot.data['bannerImageUrl'] != null
+                              ? CachedNetworkImage(
+                                  imageUrl: snapshot.data['bannerImageUrl'],
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    width: double.infinity,
+                                    height: 140.0,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                )
+                              : AssetImage(Constants
+                                  .options.defaultBannerImageAssetLocation),
                           SizedBox(
                             height: 70.0,
                           ),
@@ -76,9 +83,11 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                         left: 16.0,
                         child: ProfilePhoto(
                           image: snapshot.data['profilePhotoUrl'] != null
-                              ? NetworkImage(snapshot.data['profilePhotoUrl'])
-                              : AssetImage(
-                                  Constants.options.defaultProfilePhotoAssetLocation),
+                              ? CachedNetworkImageProvider(
+                                  snapshot.data['profilePhotoUrl'],
+                                )
+                              : AssetImage(Constants
+                                  .options.defaultProfilePhotoAssetLocation),
                         ),
                       ),
                       Positioned(
@@ -89,8 +98,8 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                           children: <Widget>[
                             Text(
                               snapshot.data['displayName'] != null
-                                ? snapshot.data['displayName']
-                                : Constants.options.defaultDisplayName,
+                                  ? snapshot.data['displayName']
+                                  : Constants.options.defaultDisplayName,
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                 color: Colors.black,
@@ -155,7 +164,8 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                             }
                           });
                           visitedCount = uniquePlacesVisited.length;
-                          notVisitedCount = placesSnapshot.data.length - visitedCount;
+                          notVisitedCount =
+                              placesSnapshot.data.length - visitedCount;
                         }
 
                         return Container(

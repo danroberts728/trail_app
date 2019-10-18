@@ -1,6 +1,7 @@
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/widgets/profile-photo.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
@@ -53,21 +54,27 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                         children: <Widget>[
                           Column(
                             children: <Widget>[
-                              Container(
-                                width: double.infinity,
-                                height: 140.0,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: snapshot.data['bannerImageUrl'] !=
-                                            null
-                                        ? NetworkImage(
-                                            snapshot.data['bannerImageUrl'])
-                                        : AssetImage(Constants.options
-                                            .defaultBannerImageAssetLocation),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
+                              snapshot.data['bannerImageUrl'] != null
+                                  ? CachedNetworkImage(
+                                      imageUrl: snapshot.data['bannerImageUrl'],
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        width: double.infinity,
+                                        height: 140.0,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    )
+                                  : AssetImage(Constants
+                                      .options.defaultBannerImageAssetLocation),
                               SizedBox(
                                 height: 50.0,
                               )
@@ -114,7 +121,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                                         source:
                                                             ImageSource.camera,
                                                         imageQuality: 75,
-                                                            maxHeight: 400,
+                                                        maxHeight: 400,
                                                       ).then((file) {
                                                         Navigator.pop(context);
                                                         this
@@ -133,7 +140,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                                         source:
                                                             ImageSource.gallery,
                                                         imageQuality: 75,
-                                                            maxHeight: 400,
+                                                        maxHeight: 400,
                                                       ).then((file) {
                                                         Navigator.pop(context);
                                                         this
@@ -173,7 +180,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                 ProfilePhoto(
                                   image: snapshot.data['profilePhotoUrl'] !=
                                           null
-                                      ? NetworkImage(
+                                      ? CachedNetworkImageProvider(
                                           snapshot.data['profilePhotoUrl'])
                                       : AssetImage(
                                           'assets/images/defaultprofilephoto.png'),
@@ -220,7 +227,8 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                                             imageQuality: 75,
                                                             maxHeight: 400,
                                                           ).then((file) {
-                                                            Navigator.pop(context);
+                                                            Navigator.pop(
+                                                                context);
                                                             this
                                                                 ._userDataBloc
                                                                 .updateProfileImage(
@@ -240,7 +248,8 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                                             imageQuality: 75,
                                                             maxHeight: 400,
                                                           ).then((file) {
-                                                            Navigator.pop(context);
+                                                            Navigator.pop(
+                                                                context);
                                                             this
                                                                 ._userDataBloc
                                                                 .updateProfileImage(
