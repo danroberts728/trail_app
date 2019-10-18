@@ -1,6 +1,6 @@
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/util/const.dart';
-import 'package:alabama_beer_trail/widgets/profile-photo.dart';
+import 'package:alabama_beer_trail/widgets/profile_photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_banner.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                       snapshot.data['bannerImageUrl'],
                                       backupImage: AssetImage(Constants.options
                                           .defaultBannerImageAssetLocation),
-                                      canEdit: false,
+                                      canEdit: true,
                                       placeholder: CircularProgressIndicator(),
                                     ),
                                     SizedBox(
@@ -86,9 +86,13 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                       ),
                                       FloatingActionButton(
                                         heroTag: 'btn2',
+                                        mini: true,
                                         elevation: 16.0,
-                                        backgroundColor: Colors.transparent,
-                                        child: Icon(Icons.add_a_photo),
+                                        backgroundColor: Constants.colors.second
+                                            .withAlpha(125),
+                                        child: Icon(
+                                          Icons.add_a_photo,
+                                        ),
                                         onPressed: () {
                                           PermissionHandler()
                                               .checkPermissionStatus(

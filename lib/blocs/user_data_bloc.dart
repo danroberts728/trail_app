@@ -36,7 +36,7 @@ class UserDataBloc implements Bloc {
       {'favorites': favorites});
   }
 
-  Future<void> updateBannerImage(File file) async {
+  Future<String> updateBannerImage(File file) async {
     String ext = extension(file.path);
     String storageFileName = Random().nextInt(100000).toString() + '.$ext';
     StorageReference storageRef = FirebaseStorage.instance.ref().child('userData/' + storageFileName);
@@ -51,6 +51,7 @@ class UserDataBloc implements Bloc {
     Firestore.instance.document('user_data/${AppAuth().user.uid}').updateData(
       {'bannerImageUrl': url}
     );
+    return Future.value(url);
   }
 
   Future<void> updateProfileImage(File file) async {

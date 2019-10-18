@@ -6,11 +6,10 @@ import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/screens/tabscreen-profile-edit.dart';
 import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:alabama_beer_trail/util/const.dart';
-import 'package:alabama_beer_trail/widgets/profile-photo.dart';
+import 'package:alabama_beer_trail/widgets/profile_photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_banner.dart';
 import 'package:alabama_beer_trail/widgets/profile_stat.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl/intl.dart';
 
 import '../util/appauth.dart';
 import 'tabscreenchild.dart';
@@ -54,10 +53,12 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          ProfileBanner(snapshot.data['bannerImageUrl'],
-                            backupImage: AssetImage(Constants.options.defaultBannerImageAssetLocation),
+                          ProfileBanner(
+                            snapshot.data['bannerImageUrl'],
+                            backupImage: AssetImage(Constants
+                                .options.defaultBannerImageAssetLocation),
                             canEdit: false,
-                            placeholder: CircularProgressIndicator(),                            
+                            placeholder: CircularProgressIndicator(),
                           ),
                           SizedBox(
                             height: 70.0,

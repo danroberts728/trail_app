@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,6 +29,8 @@ class _ProfileBanner extends State<ProfileBanner> {
   Widget placeholder;
 
   var _userDataBloc = UserDataBloc();
+  final int _imageQuality = 75;
+  final double _maxHeight = 400.0;
 
   _ProfileBanner(
       this.imageUrl, this.backupImage, this.canEdit, this.placeholder);
@@ -58,9 +62,72 @@ class _ProfileBanner extends State<ProfileBanner> {
     );
   }
 
+  void saveImage(File file) {
+    Navigator.pop(context);
+    this._userDataBloc.updateBannerImage(file).then((url) {
+      setState(() {
+        this.imageUrl = url;
+      });
+    });
+  }
+
+  Future<dynamic> showBottomModalSelector() {
+    return showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 8.0,
+        builder: (context) {
+          return Container(
+              width: double.infinity,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 16.0),
+                  Text("Where would you like to take the photo from?"),
+                  SizedBox(height: 16.0),
+                  MaterialButton(
+                    minWidth: double.infinity,
+                    child: Text("Camera"),
+                    onPressed: () {
+                      ImagePicker.pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: this._imageQuality,
+                        maxHeight: this._maxHeight,
+                      ).then((file) {
+                        this.saveImage(file);
+                      });
+                    },
+                  ),
+                  MaterialButton(
+                    minWidth: double.infinity,
+                    child: Text("Photo Gallery"),
+                    onPressed: () {
+                      ImagePicker.pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality: this._imageQuality,
+                        maxHeight: this._maxHeight,
+                      ).then((file) {
+                        this.saveImage(file);
+                      });
+                    },
+                  ),
+                  MaterialButton(
+                    minWidth: double.infinity,
+                    child: Text("Cancel"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ));
+        });
+  }
+
   Widget editButton() {
     return Positioned(
-      bottom: 66.0,
+      bottom: 16.0,
       right: 16.0,
       child: FloatingActionButton(
         heroTag: 'changeBannerBtn',
@@ -72,60 +139,7 @@ class _ProfileBanner extends State<ProfileBanner> {
               .checkPermissionStatus(PermissionGroup.camera)
               .then((status) {
             if (status == PermissionStatus.granted) {
-              showModalBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.white,
-                  elevation: 8.0,
-                  builder: (context) {
-                    return Container(
-                        width: double.infinity,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(height: 16.0),
-                            Text(
-                                "Where would you like to take the photo from?"),
-                            SizedBox(height: 16.0),
-                            MaterialButton(
-                              minWidth: double.infinity,
-                              child: Text("Camera"),
-                              onPressed: () {
-                                ImagePicker.pickImage(
-                                  source: ImageSource.camera,
-                                  imageQuality: 75,
-                                  maxHeight: 400,
-                                ).then((file) {
-                                  Navigator.pop(context);
-                                  this._userDataBloc.updateBannerImage(file);
-                                });
-                              },
-                            ),
-                            MaterialButton(
-                              minWidth: double.infinity,
-                              child: Text("Photo Gallery"),
-                              onPressed: () {
-                                ImagePicker.pickImage(
-                                  source: ImageSource.gallery,
-                                  imageQuality: 75,
-                                  maxHeight: 400,
-                                ).then((file) {
-                                  Navigator.pop(context);
-                                  this._userDataBloc.updateBannerImage(file);
-                                });
-                              },
-                            ),
-                            MaterialButton(
-                              minWidth: double.infinity,
-                              child: Text("Cancel"),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ));
-                  });
+              this.showBottomModalSelector();
             } else {
               PermissionHandler()
                   .requestPermissions([PermissionGroup.camera]).then((status) {
