@@ -1,13 +1,10 @@
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/util/const.dart';
-import 'package:alabama_beer_trail/widgets/profile_photo.dart';
+import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_banner.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String userId;
@@ -74,129 +71,13 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: <Widget>[
-                                      ProfilePhoto(
-                                        image: snapshot
-                                                    .data['profilePhotoUrl'] !=
-                                                null
-                                            ? CachedNetworkImageProvider(
-                                                snapshot
-                                                    .data['profilePhotoUrl'])
-                                            : AssetImage(
+                                      ProfileUserPhoto( snapshot.data['profilePhotoUrl'],
+                                        backupImage: AssetImage(
                                                 'assets/images/defaultprofilephoto.png'),
+                                        canEdit: true,
+                                        placeholder: CircularProgressIndicator(),
                                       ),
-                                      FloatingActionButton(
-                                        heroTag: 'btn2',
-                                        mini: true,
-                                        elevation: 16.0,
-                                        backgroundColor: Constants.colors.second
-                                            .withAlpha(125),
-                                        child: Icon(
-                                          Icons.add_a_photo,
-                                        ),
-                                        onPressed: () {
-                                          PermissionHandler()
-                                              .checkPermissionStatus(
-                                                  PermissionGroup.camera)
-                                              .then((status) {
-                                            if (status ==
-                                                PermissionStatus.granted) {
-                                              showModalBottomSheet(
-                                                  context: context,
-                                                  backgroundColor: Colors.white,
-                                                  elevation: 8.0,
-                                                  builder: (context) {
-                                                    return Container(
-                                                        width: double.infinity,
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: <Widget>[
-                                                            SizedBox(
-                                                                height: 16.0),
-                                                            Text(
-                                                                "Where would you like to take the photo from?"),
-                                                            SizedBox(
-                                                                height: 16.0),
-                                                            MaterialButton(
-                                                              minWidth: double
-                                                                  .infinity,
-                                                              child: Text(
-                                                                  "Camera"),
-                                                              onPressed: () {
-                                                                ImagePicker
-                                                                    .pickImage(
-                                                                  source:
-                                                                      ImageSource
-                                                                          .camera,
-                                                                  imageQuality:
-                                                                      75,
-                                                                  maxHeight:
-                                                                      400,
-                                                                ).then((file) {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  this
-                                                                      ._userDataBloc
-                                                                      .updateProfileImage(
-                                                                          file);
-                                                                });
-                                                              },
-                                                            ),
-                                                            MaterialButton(
-                                                              minWidth: double
-                                                                  .infinity,
-                                                              child: Text(
-                                                                  "Photo Gallery"),
-                                                              onPressed: () {
-                                                                ImagePicker
-                                                                    .pickImage(
-                                                                  source:
-                                                                      ImageSource
-                                                                          .gallery,
-                                                                  imageQuality:
-                                                                      75,
-                                                                  maxHeight:
-                                                                      400,
-                                                                ).then((file) {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  this
-                                                                      ._userDataBloc
-                                                                      .updateProfileImage(
-                                                                          file);
-                                                                });
-                                                              },
-                                                            ),
-                                                            MaterialButton(
-                                                              minWidth: double
-                                                                  .infinity,
-                                                              child: Text(
-                                                                  "Cancel"),
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            )
-                                                          ],
-                                                        ));
-                                                  });
-                                            } else {
-                                              PermissionHandler()
-                                                  .requestPermissions([
-                                                PermissionGroup.camera
-                                              ]).then((status) {
-                                                print(status);
-                                              });
-                                            }
-                                          });
-                                        },
-                                      )
+                                      
                                     ],
                                   ),
                                 ),

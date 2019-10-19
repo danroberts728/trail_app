@@ -6,10 +6,9 @@ import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_profile_edit.dart';
 import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:alabama_beer_trail/util/const.dart';
-import 'package:alabama_beer_trail/widgets/profile_photo.dart';
+import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_banner.dart';
 import 'package:alabama_beer_trail/widgets/profile_stat.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../util/appauth.dart';
 import 'tabscreen_child.dart';
@@ -68,13 +67,12 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                       Positioned(
                         bottom: 0.0,
                         left: 16.0,
-                        child: ProfilePhoto(
-                          image: snapshot.data['profilePhotoUrl'] != null
-                              ? CachedNetworkImageProvider(
-                                  snapshot.data['profilePhotoUrl'],
-                                )
-                              : AssetImage(Constants
-                                  .options.defaultProfilePhotoAssetLocation),
+                        child: ProfileUserPhoto(
+                          snapshot.data['profilePhotoUrl'],
+                          backupImage: AssetImage(
+                              'assets/images/defaultprofilephoto.png'),
+                          canEdit: false,
+                          placeholder: CircularProgressIndicator(),
                         ),
                       ),
                       Positioned(
