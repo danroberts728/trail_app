@@ -36,6 +36,16 @@ class _ProfileBanner extends State<ProfileBanner> {
       this.imageUrl, this.backupImage, this.canEdit, this.placeholder);
 
   @override
+  void initState() {
+    super.initState();
+    this._userDataBloc.userDataStream.listen((newData) {
+      if (this.imageUrl != newData['bannerImageUrl']) {
+        this.imageUrl = newData['bannerImageUrl'];
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     Widget imageProvider = this.imageUrl != null
         ? CachedNetworkImage(
@@ -64,11 +74,7 @@ class _ProfileBanner extends State<ProfileBanner> {
 
   void saveImage(File file) {
     Navigator.pop(context);
-    this._userDataBloc.updateBannerImage(file).then((url) {
-      setState(() {
-        this.imageUrl = url;
-      });
-    });
+    this._userDataBloc.updateBannerImage(file);
   }
 
   Future<dynamic> showBottomModalSelector() {
