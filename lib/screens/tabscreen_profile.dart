@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
-import 'package:alabama_beer_trail/screens/tabscreen-profile-edit.dart';
+import 'package:alabama_beer_trail/screens/tabscreen_profile_edit.dart';
 import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/widgets/profile_photo.dart';
@@ -12,7 +12,7 @@ import 'package:alabama_beer_trail/widgets/profile_stat.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../util/appauth.dart';
-import 'tabscreenchild.dart';
+import 'tabscreen_child.dart';
 
 import 'package:flutter/material.dart';
 

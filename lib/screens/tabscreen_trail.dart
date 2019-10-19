@@ -6,12 +6,12 @@ import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import '../util/const.dart';
 import '../util/filteroptions.dart';
 import '../util/trailplacecategory.dart';
-import 'tabscreenchild.dart';
+import 'tabscreen_child.dart';
 import 'package:flutter/material.dart';
 import '../data/trailplace.dart';
-import '../widgets/traillistitem.dart';
+import '../widgets/traillist_item.dart';
 import '../util/currentUserLocation.dart';
-import '../widgets/modal-trailfilter.dart';
+import '../widgets/modal_trailfilter.dart';
 
 class TabScreenTrail extends StatefulWidget implements TabScreenChild {
   final _TabScreenTrail _state = _TabScreenTrail();  

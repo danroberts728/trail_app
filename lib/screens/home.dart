@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import '../util/appauth.dart';
-import 'tabscreen-profile.dart';
+import 'tabscreen_profile.dart';
 import 'tabscreen.dart';
 
-import 'tabscreen-trail.dart';
+import 'tabscreen_trail.dart';
 import 'package:flutter/material.dart';
 import '../util/const.dart';
 
