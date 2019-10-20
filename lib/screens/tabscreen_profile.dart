@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
+import 'package:alabama_beer_trail/data/trailplace.dart';
+import 'package:alabama_beer_trail/screens/screen_trailplaces.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_profile_edit.dart';
 import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:alabama_beer_trail/util/const.dart';
@@ -177,21 +179,29 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                     return StreamBuilder(
                       stream: this._placesBloc.trailPlaceStream,
                       builder: (context, placesSnapshot) {
-                        int visitedCount;
-                        int notVisitedCount;
+                        List<String> visited = List<String>();
+                        List<String> notVisited = List<String>();
+                        List<String> favorites = List<String>();
+
                         if (checkInsSnapshot.connectionState ==
-                            ConnectionState.active && placesSnapshot.connectionState == ConnectionState.active) {
+                                ConnectionState.active &&
+                            placesSnapshot.connectionState ==
+                                ConnectionState.active) {
                           List<CheckIn> sData =
                               checkInsSnapshot.data as List<CheckIn>;
-                          List<String> uniquePlacesVisited = List<String>();
+
                           sData.forEach((f) {
-                            if (!uniquePlacesVisited.contains(f.placeId)) {
-                              uniquePlacesVisited.add(f.placeId);
+                            if (!visited.contains(f.placeId)) {
+                              visited.add(f.placeId);
                             }
                           });
-                          visitedCount = uniquePlacesVisited.length;
-                          notVisitedCount =
-                              placesSnapshot.data.length - visitedCount;
+                          var notVisitedPlaces = (placesSnapshot.data as List<TrailPlace>)
+                            .where((p) => !visited.contains(p.id)).toList();
+                          notVisitedPlaces.forEach((p) {
+                            notVisited.add(p.id);
+                          });
+
+                          favorites = List.from(snapshot.data['favorites']);
                         }
                         return Container(
                           child: Column(
@@ -203,19 +213,50 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   ProfileStat(
-                                    value: visitedCount,
+                                    value: visited.length,
                                     postText: "Visited",
-                                    onPressed: () => null,
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TrailPlacesScreen(
+                                            appBarTitle: "Visited",
+                                            placeIds: visited,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                   ProfileStat(
-                                    value: notVisitedCount,
+                                    value: notVisited.length,
                                     postText: "Not Visited",
-                                    onPressed: () => null,
+                                    onPressed: () { Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TrailPlacesScreen(
+                                            appBarTitle: "Not Visited",
+                                            placeIds: notVisited,
+                                          ),
+                                        ),
+                                      );
+                                    }                             
                                   ),
                                   ProfileStat(
-                                    value: snapshot.data['favorites'].length,
+                                    value: favorites.length,
                                     postText: "Favorites",
-                                    onPressed: () => null,
+                                    onPressed: () { Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TrailPlacesScreen(
+                                            appBarTitle: "Favorites",
+                                            placeIds: favorites,
+                                          ),
+                                        ),
+                                      );
+                                    }   
                                   ),
                                 ],
                               ),

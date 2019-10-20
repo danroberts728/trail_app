@@ -11,15 +11,19 @@ class TrailListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10.0),
+        margin: EdgeInsets.all(10.0),
         child: ListView.builder(
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: places.length,
-      itemBuilder: (BuildContext context, int index) {
-        return TrailListItem(
-          place: places[index],
-        );
-      },
-    ));
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: places.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (places.length < 1) {
+              return Center(child: Text("Nothing to show"));
+            } else {
+              return TrailListItem(
+                place: places[index],
+              );
+            }
+          },
+        ));
   }
 }
