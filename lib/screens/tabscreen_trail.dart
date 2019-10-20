@@ -75,7 +75,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
 
   void sortPlaces() {
     if (this._sortMethod == SortMethod.DISTANCE &&
-        _locationBloc.hasPermission) {
+        _locationBloc.hasPermission && _locationBloc.lastLocation != null) {
       this._places.sort((a, b) {
         return GeoMethods.calculateDistance(
                 a.location, _locationBloc.lastLocation)
