@@ -1,20 +1,16 @@
-import 'dart:async';
-import 'dart:math';
-
+import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
+import 'package:alabama_beer_trail/util/geomethods.dart';
+import 'package:alabama_beer_trail/widgets/trail_listview.dart';
 
-import '../util/const.dart';
 import '../util/filteroptions.dart';
-import '../util/trailplacecategory.dart';
 import 'tabscreen_child.dart';
 import 'package:flutter/material.dart';
 import '../data/trailplace.dart';
-import '../widgets/traillist_item.dart';
-import '../util/currentUserLocation.dart';
 import '../widgets/modal_trailfilter.dart';
 
 class TabScreenTrail extends StatefulWidget implements TabScreenChild {
-  final _TabScreenTrail _state = _TabScreenTrail();  
+  final _TabScreenTrail _state = _TabScreenTrail();
 
   @override
   State<StatefulWidget> createState() => _state;
@@ -27,30 +23,85 @@ class TabScreenTrail extends StatefulWidget implements TabScreenChild {
 class _TabScreenTrail extends State<TabScreenTrail>
     with AutomaticKeepAliveClientMixin<TabScreenTrail> {
   FilterOptions _filterOptions;
-  Widget _containerChild = Center(child: CircularProgressIndicator());
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  var _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  var _places = List<TrailPlace>();
+  var _sortMethod = SortMethod.DISTANCE;
 
-  List<TrailPlace> _places = List<TrailPlace>();
-  TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
+  Widget _refreshChildWidget = CircularProgressIndicator();
+
+  var _trailPlacesBloc = TrailPlacesBloc();
+  var _locationBloc = LocationBloc();
 
   /// Build screen when location data received
-  _TabScreenTrail() {
-    Map<TrailPlaceCategory, bool> initialShow = Map<TrailPlaceCategory, bool>();
-    Constants.options.filterStrings.forEach((f) {
-      initialShow[f] = true;
+  _TabScreenTrail();
+
+  @override
+  void initState() {
+    _locationBloc.locationStream.listen((newLocation) {
+      _refreshPlaces();
     });
-    this._filterOptions = FilterOptions(SortOrder.DISTANCE, initialShow);
-    CurrentUserLocation().getLocation().then((Point p) {
-      buildTabScreen();
+    _trailPlacesBloc.trailPlaceStream.listen((newPlaces) {
+      this._places = newPlaces;
+      _refreshPlaces();
+    });
+    super.initState();
+  }
+
+  void _refreshPlaces() {
+    setState(() {
+      this._refreshChildWidget = Center(child: CircularProgressIndicator());
+    });
+
+    sortPlaces();
+
+    // We have to delay the setState to "trick" Flutter
+    // into actually disposing and regenerating the listview
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _refreshChildWidget = TrailListView(places: this._places);
+      });
     });
   }
 
-  void buildTabScreen() {
-    setState(() {
-      this._containerChild = _buildPlacesStream();
-    });
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return RefreshIndicator(
+      key: this._refreshIndicatorKey,
+      onRefresh: () => _locationBloc.refreshLocation(),
+      child: _refreshChildWidget,
+    );
+  }
 
+  void sortPlaces() {
+    if (this._sortMethod == SortMethod.DISTANCE &&
+        _locationBloc.hasPermission) {
+      this._places.sort((a, b) {
+        return GeoMethods.calculateDistance(
+                a.location, _locationBloc.lastLocation)
+            .compareTo(GeoMethods.calculateDistance(
+                b.location, _locationBloc.lastLocation));
+      });
+    } else {
+      this._places.sort((a, b) {
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
+    }
+  }
+
+  List<IconButton> getAppBarActions() {
+    return <IconButton>[
+      IconButton(
+        icon: Icon(Icons.refresh),
+        onPressed: () {
+          this._refreshIndicatorKey.currentState.show();
+        },
+      ),
+      IconButton(
+        icon: Icon(Icons.filter_list),
+        onPressed: filterPressed,
+      ),
+    ];
   }
 
   void filterPressed() {
@@ -63,115 +114,15 @@ class _TabScreenTrail extends State<TabScreenTrail>
     ).then((value) {
       this._filterOptions = value;
       this._refreshIndicatorKey.currentState.show().then((value) {
-        CurrentUserLocation().getLocation().then((Point p) {
-          this._containerChild = this._buildPlacesStream();
-        });
+        return _locationBloc.refreshLocation();
       });
-    });
-  }
-
-  List<IconButton> getAppBarActions() {
-    return <IconButton>[
-      IconButton(
-        icon: Icon(Icons.refresh),
-        onPressed: () {
-          this._refreshIndicatorKey.currentState.show().then((value) {
-            CurrentUserLocation().getLocation().then((Point p) {
-              this._containerChild = this._buildPlacesStream();
-            });
-          });
-        },
-      ),
-      IconButton(
-        icon: Icon(Icons.filter_list),
-        onPressed: filterPressed,
-      ),
-    ];
-  }
-
-  void sortPlacesByDistance() {
-    this._places.sort((TrailPlace a, TrailPlace b) {
-      return a.lastClaculatedDistance.compareTo(b.lastClaculatedDistance);
-    });
-  }
-
-  void sortPlacesByName() {
-    this._places.sort((a, b) {
-      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
     });
   }
 
   @override
   bool get wantKeepAlive => true;
 
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return Container(
-      padding: EdgeInsets.all(10.0),
-      child: RefreshIndicator(
-        key: this._refreshIndicatorKey,
-        onRefresh: this.screenRefresh,
-        child: _containerChild,
-      ),
-    );
-  }
-
-  Future<void> screenRefresh() {
-    return CurrentUserLocation().getLocation().then((Point p) {
-      setState(() {
-        this._containerChild = this._buildPlacesStream();
-      });
-    });
-  }
-
-  StreamBuilder<List<TrailPlace>> _buildPlacesStream() {
-    return StreamBuilder<List<TrailPlace>>(
-      stream: this._trailPlacesBloc.trailPlaceStream,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) return Text("Error: ${snapshot.error}");
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
-          default:
-            this._places = snapshot.data;
-            this._updateDistancesWithLastLocation();
-            this._sortPlaces();
-
-            Set<TrailPlace> placesShown = Set<TrailPlace>();
-            this._filterOptions.show.forEach((cat, show) {
-              if (show) {
-                this._places.forEach((p) {
-                  if (p.categories.contains(cat.name)) {
-                    placesShown.add(p);
-                  }
-                });
-              }
-            });
-
-            if (placesShown.length == 0) {
-              return Center(
-                child: Text(
-                  "Nothing matched your criteria. Try expanding the search filter.",
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-
-            return ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: placesShown.length,
-              itemBuilder: (BuildContext context, int index) {
-                List<TrailPlace> p = placesShown.toList();
-                return new TrailListItem(place: p[index]);
-              },
-            );
-        }
-      },
-    );
-  }
-
-  void _updateDistancesWithLastLocation() {
+  /*void _updateDistancesWithLastLocation() {
     Point p = CurrentUserLocation().lastLocation;
     this._places.forEach((element) =>
         element.lastClaculatedDistance = element.calculateDistance(p));
@@ -183,5 +134,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
       sortPlacesByDistance();
     else
       sortPlacesByName();
-  }
+  }*/
 }
+
+enum SortMethod { DISTANCE, NAME }

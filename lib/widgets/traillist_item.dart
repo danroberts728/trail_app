@@ -1,6 +1,11 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/screens/placedetail_screen.dart';
 import 'package:alabama_beer_trail/util/check_in.dart';
+import 'package:alabama_beer_trail/util/geomethods.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -20,15 +25,34 @@ class TrailListItem extends StatefulWidget {
 
 class _TrailListItem extends State<TrailListItem> {
   final TrailPlace place;
+  bool _locationEnabled = false;
+  double _distance = double.infinity;
+
+  LocationBloc _locationBloc = LocationBloc();
+  StreamSubscription<Point> _streamSub;
 
   _TrailListItem(this.place);
 
   static const double height = 300.0;
 
   @override
+  void initState() {    
+    this._locationEnabled = _locationBloc.hasPermission;
+    this._distance = _getDistance();
+
+    this._streamSub = _locationBloc.locationStream.listen((newUserLocation) {
+      setState(() {
+        this._locationEnabled = _locationBloc.hasPermission;
+        this._distance = _getDistance();
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userDataBloc = UserDataBloc();
-    final userCheckinsBloc = UserCheckinsBloc();
+    final userCheckinsBloc = UserCheckinsBloc();    
 
     return GestureDetector(
       onTap: () {
@@ -129,11 +153,13 @@ class _TrailListItem extends State<TrailListItem> {
                           ),
                           SizedBox(width: 4.0),
                           Text(
-                            this.place.city +
-                                " " +
-                                TrailPlace.toFriendlyDistanceString(
-                                    place.lastClaculatedDistance) +
-                                " mi",
+                            this._locationEnabled
+                                ? this.place.city +
+                                    " " +
+                                    GeoMethods.toFriendlyDistanceString(
+                                        this._distance) +
+                                    " mi"
+                                : this.place.city,
                             style: TextStyle(color: Colors.white),
                           ),
                           Spacer(),
@@ -160,16 +186,17 @@ class _TrailListItem extends State<TrailListItem> {
                                 // Favorite
                                 SizedBox(
                                   width: 26.0,
-                                  child: StreamBuilder<Map<String,dynamic>>(
+                                  child: StreamBuilder<Map<String, dynamic>>(
                                     stream: userDataBloc.userDataStream,
                                     builder: (context, snapshot) {
-                                      List<String> favorites = 
+                                      List<String> favorites =
                                           (snapshot.connectionState ==
                                                   ConnectionState.waiting)
-                                              ? List<String>.from(userDataBloc.userData['favorites'])
-                                              : List<String>.from(snapshot.data['favorites']);
-                                      bool isFavorite =
-                                        favorites != null &&
+                                              ? List<String>.from(userDataBloc
+                                                  .userData['favorites'])
+                                              : List<String>.from(
+                                                  snapshot.data['favorites']);
+                                      bool isFavorite = favorites != null &&
                                           favorites.contains(this.place.id);
                                       return FlatButton(
                                         child: Icon(
@@ -207,8 +234,8 @@ class _TrailListItem extends State<TrailListItem> {
               ),
               Visibility(
                 // Check in button
-                visible: this.place.lastClaculatedDistance <=
-                    Constants.options.minDistanceToCheckin,
+                visible:
+                    this._distance <= Constants.options.minDistanceToCheckin,
                 child: StreamBuilder(
                     stream: userCheckinsBloc.checkInStream,
                     builder: (context, snapshot) {
@@ -219,8 +246,11 @@ class _TrailListItem extends State<TrailListItem> {
                       var now = DateTime.now();
                       var today = DateTime(now.year, now.month, now.day);
 
-                      bool isCheckedIn = checkInsToday.any((e) => 
-                          e.placeId == this.place.id && DateTime(e.timestamp.year, e.timestamp.month, e.timestamp.day) == today);
+                      bool isCheckedIn = checkInsToday.any((e) =>
+                          e.placeId == this.place.id &&
+                          DateTime(e.timestamp.year, e.timestamp.month,
+                                  e.timestamp.day) ==
+                              today);
                       return SizedBox(
                         height: 50.0,
                         width: double.infinity,
@@ -265,5 +295,20 @@ class _TrailListItem extends State<TrailListItem> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _streamSub.cancel();
+    super.dispose();
+  }
+
+  double _getDistance() {
+    if (_locationBloc.hasPermission) {
+      return GeoMethods.calculateDistance(
+          _locationBloc.lastLocation, this.place.location);
+    } else {
+      return double.infinity;
+    }
   }
 }

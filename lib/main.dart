@@ -1,3 +1,5 @@
+import 'package:alabama_beer_trail/blocs/location_bloc.dart';
+
 import 'screens/screen_register.dart';
 import 'screens/screen_signin.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,9 @@ import 'screens/home.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
-    runApp(TrailApp());
+    LocationBloc().refreshLocation().then((value) {
+      runApp(TrailApp());
+    });    
   });
 }
 

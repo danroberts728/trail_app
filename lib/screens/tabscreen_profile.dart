@@ -180,7 +180,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                         int visitedCount;
                         int notVisitedCount;
                         if (checkInsSnapshot.connectionState ==
-                            ConnectionState.active) {
+                            ConnectionState.active && placesSnapshot.connectionState == ConnectionState.active) {
                           List<CheckIn> sData =
                               checkInsSnapshot.data as List<CheckIn>;
                           List<String> uniquePlacesVisited = List<String>();
