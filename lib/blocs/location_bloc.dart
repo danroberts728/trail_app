@@ -37,6 +37,12 @@ class LocationBloc extends Bloc {
           this.lastLocation = Point(data.latitude, data.longitude);
           _locationStreamController.sink.add(this.lastLocation);
         });
+      } else {
+        _location.requestPermission().then((result) {
+          if(result) {
+            refreshLocation();
+          } 
+        });
       }
     });
   }

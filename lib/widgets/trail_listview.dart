@@ -10,7 +10,9 @@ class TrailListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return Container(
+      margin: EdgeInsets.all(10.0),
+        child: ListView.builder(
       physics: const AlwaysScrollableScrollPhysics(),
       itemCount: places.length,
       itemBuilder: (BuildContext context, int index) {
@@ -18,8 +20,6 @@ class TrailListView extends StatelessWidget {
           place: places[index],
         );
       },
-    );
-
-    
+    ));
   }
 }

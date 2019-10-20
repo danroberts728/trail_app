@@ -1,6 +1,8 @@
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
+import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/util/geomethods.dart';
+import 'package:alabama_beer_trail/util/trailplacecategory.dart';
 import 'package:alabama_beer_trail/widgets/trail_listview.dart';
 
 import '../util/filteroptions.dart';
@@ -22,18 +24,21 @@ class TabScreenTrail extends StatefulWidget implements TabScreenChild {
 
 class _TabScreenTrail extends State<TabScreenTrail>
     with AutomaticKeepAliveClientMixin<TabScreenTrail> {
-  FilterOptions _filterOptions;
   var _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   var _places = List<TrailPlace>();
-  var _sortMethod = SortMethod.DISTANCE;
+  FilterOptions _filter;
 
-  Widget _refreshChildWidget = CircularProgressIndicator();
+  Widget _refreshChildWidget = Center(child: CircularProgressIndicator());
 
   var _trailPlacesBloc = TrailPlacesBloc();
   var _locationBloc = LocationBloc();
 
-  /// Build screen when location data received
-  _TabScreenTrail();
+  _TabScreenTrail() {
+    // Set up initial filter options
+    var initialShow = Map<TrailPlaceCategory, bool>();
+    Constants.options.filterStrings.forEach((f) => initialShow[f] = true);
+    this._filter = FilterOptions(SortOrder.DISTANCE, initialShow);
+  }
 
   @override
   void initState() {
@@ -53,12 +58,13 @@ class _TabScreenTrail extends State<TabScreenTrail>
     });
 
     sortPlaces();
+    var places = filterPlaces();
 
     // We have to delay the setState to "trick" Flutter
     // into actually disposing and regenerating the listview
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
-        _refreshChildWidget = TrailListView(places: this._places);
+        _refreshChildWidget = TrailListView(places: places);
       });
     });
   }
@@ -74,7 +80,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
   }
 
   void sortPlaces() {
-    if (this._sortMethod == SortMethod.DISTANCE &&
+    if (this._filter.sort == SortOrder.DISTANCE &&
         _locationBloc.hasPermission && _locationBloc.lastLocation != null) {
       this._places.sort((a, b) {
         return GeoMethods.calculateDistance(
@@ -109,32 +115,29 @@ class _TabScreenTrail extends State<TabScreenTrail>
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return ModalTrailFilter(initialOptions: this._filterOptions);
+        return ModalTrailFilter(initialOptions: this._filter);
       },
     ).then((value) {
-      this._filterOptions = value;
-      this._refreshIndicatorKey.currentState.show().then((value) {
-        return _locationBloc.refreshLocation();
-      });
+      this._filter = value;
+      this._refreshPlaces();
     });
+  }
+
+  List<TrailPlace> filterPlaces() {
+    var placesToShow = Set<TrailPlace>();
+    this._filter.show.forEach((cat, show) {
+      if(show) {
+        this._places.forEach((p) {
+          if(p.categories.contains(cat.name)) {
+            placesToShow.add(p);
+          }
+        });
+      }
+    });
+
+    return placesToShow.toList();
   }
 
   @override
   bool get wantKeepAlive => true;
-
-  /*void _updateDistancesWithLastLocation() {
-    Point p = CurrentUserLocation().lastLocation;
-    this._places.forEach((element) =>
-        element.lastClaculatedDistance = element.calculateDistance(p));
-  }
-
-  void _sortPlaces() {
-    if (_filterOptions.sort == SortOrder.DISTANCE &&
-        CurrentUserLocation().hasPermission)
-      sortPlacesByDistance();
-    else
-      sortPlacesByName();
-  }*/
 }
-
-enum SortMethod { DISTANCE, NAME }
