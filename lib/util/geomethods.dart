@@ -26,6 +26,9 @@ class GeoMethods {
 
   static String toFriendlyDistanceString(double d) {
     // In checkin distance, show 0
+    if (d == null) {
+      return '';
+    }
     if (d < Constants.options.minDistanceToCheckin) 
       return 0.toString();
     // Greater than 10, just round to nearest int
