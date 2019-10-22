@@ -36,7 +36,7 @@ class _TrailListItem extends State<TrailListItem> {
   static const double height = 300.0;
 
   @override
-  void initState() {    
+  void initState() {
     this._locationEnabled = _locationBloc.hasPermission;
     this._distance = _getDistance();
 
@@ -52,7 +52,7 @@ class _TrailListItem extends State<TrailListItem> {
   @override
   Widget build(BuildContext context) {
     final userDataBloc = UserDataBloc();
-    final userCheckinsBloc = UserCheckinsBloc();    
+    final userCheckinsBloc = UserCheckinsBloc();
 
     return GestureDetector(
       onTap: () {
@@ -69,7 +69,7 @@ class _TrailListItem extends State<TrailListItem> {
             children: <Widget>[
               Container(
                 // Trail place logo, name, categories
-                height: 54.0,
+                padding: EdgeInsets.symmetric(vertical: 6.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
@@ -88,26 +88,30 @@ class _TrailListItem extends State<TrailListItem> {
                     SizedBox(
                       width: 12.0,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          this.place.name,
-                          style: TextStyle(
-                            color: Color(0xff93654e),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            this.place.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Color(0xff93654e),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
                           ),
-                        ),
-                        Text(
-                          this.place.categories.join(", "),
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontStyle: FontStyle.italic,
+                          Text(
+                            (this.place.categories..sort()).join(", "),                            
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
