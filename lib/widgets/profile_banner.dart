@@ -95,8 +95,8 @@ class _ProfileBanner extends State<ProfileBanner> {
       ).then((File croppedFile) {
         var image = decodeImage((croppedFile).readAsBytesSync());
         var scaledImage = copyResize(image, width: 1600, height: 900);
-        String scaledImageFilename = croppedFile.path + Random().nextInt(100000).toString() + '.jpg';
-        File(scaledImageFilename)..writeAsBytesSync(encodeJpg(scaledImage, quality: 75));
+        String scaledImageFilename = croppedFile.path + DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
+        File(scaledImageFilename)..writeAsBytesSync(encodeJpg(scaledImage, quality: this._imageQuality));
         this._userDataBloc.updateBannerImage(File(scaledImageFilename));
       });
   }
@@ -123,7 +123,6 @@ class _ProfileBanner extends State<ProfileBanner> {
                     onPressed: () {
                       ImagePicker.pickImage(
                         source: ImageSource.camera,
-                        imageQuality: this._imageQuality,
                         maxHeight: this._maxHeight,
                       ).then((file) {
                         this.saveImage(file);
@@ -136,7 +135,6 @@ class _ProfileBanner extends State<ProfileBanner> {
                     onPressed: () {
                       ImagePicker.pickImage(
                         source: ImageSource.gallery,
-                        imageQuality: this._imageQuality,
                         maxHeight: this._maxHeight,
                       ).then((file) {
                         this.saveImage(file);

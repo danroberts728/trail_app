@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/util/const.dart';
@@ -33,8 +32,8 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
   Widget placeholder;
 
   var _userDataBloc = UserDataBloc();
-  final int _imageQuality = 75;
   final double _maxHeight = 400.0;
+  final int _imageQuality = 75;
 
   _ProfileUserPhoto(
       this.imageUrl, this.backupImage, this.canEdit, this.placeholder);
@@ -100,8 +99,8 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
       ).then((File croppedFile) {
         var image = decodeImage((croppedFile).readAsBytesSync());
         var scaledImage = copyResize(image, width: 800, height: 800);
-        String scaledImageFilename = croppedFile.path + Random().nextInt(100000).toString() + '.jpg';
-        File(scaledImageFilename)..writeAsBytesSync(encodeJpg(scaledImage, quality: 75));
+        String scaledImageFilename = croppedFile.path + DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
+        File(scaledImageFilename)..writeAsBytesSync(encodeJpg(scaledImage, quality: this._imageQuality));
         this._userDataBloc.updateProfileImage(File(scaledImageFilename));
       });
   }
@@ -128,7 +127,6 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                     onPressed: () {
                       ImagePicker.pickImage(
                         source: ImageSource.camera,
-                        imageQuality: this._imageQuality,
                         maxHeight: this._maxHeight,
                       ).then((file) {
                         this.saveImage(file);
@@ -141,7 +139,6 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                     onPressed: () {
                       ImagePicker.pickImage(
                         source: ImageSource.gallery,
-                        imageQuality: this._imageQuality,
                         maxHeight: this._maxHeight,
                       ).then((file) {
                         this.saveImage(file);
