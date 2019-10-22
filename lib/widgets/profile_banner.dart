@@ -1,12 +1,15 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:image/image.dart';
 
 class ProfileBanner extends StatefulWidget {
   final String imageUrl;
@@ -74,7 +77,28 @@ class _ProfileBanner extends State<ProfileBanner> {
 
   void saveImage(File file) {
     Navigator.pop(context);
-    this._userDataBloc.updateBannerImage(file);
+
+    ImageCropper.cropImage(
+      sourcePath: file.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.ratio16x9
+      ],
+      androidUiSettings: AndroidUiSettings(
+        toolbarTitle: "Crop Banner Image",
+        toolbarColor: Constants.colors.themePrimarySwatch,
+        toolbarWidgetColor: Colors.white,
+        initAspectRatio: CropAspectRatioPreset.ratio16x9,
+        lockAspectRatio: true),
+      iosUiSettings: IOSUiSettings(
+        aspectRatioLockEnabled: true,
+        minimumAspectRatio: 1.7),
+      ).then((File croppedFile) {
+        var image = decodeImage((croppedFile).readAsBytesSync());
+        var scaledImage = copyResize(image, width: 1600, height: 900);
+        String scaledImageFilename = croppedFile.path + Random().nextInt(100000).toString() + '.jpg';
+        File(scaledImageFilename)..writeAsBytesSync(encodeJpg(scaledImage, quality: 75));
+        this._userDataBloc.updateBannerImage(File(scaledImageFilename));
+      });
   }
 
   Future<dynamic> showBottomModalSelector() {

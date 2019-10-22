@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -80,7 +83,27 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
 
   void saveImage(File file) {
     Navigator.pop(context);
-    this._userDataBloc.updateProfileImage(file);
+    ImageCropper.cropImage(
+      sourcePath: file.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square
+      ],
+      androidUiSettings: AndroidUiSettings(
+        toolbarTitle: "Crop Profile Image",
+        toolbarColor: Constants.colors.themePrimarySwatch,
+        toolbarWidgetColor: Colors.white,
+        initAspectRatio: CropAspectRatioPreset.square,
+        lockAspectRatio: true),
+      iosUiSettings: IOSUiSettings(
+        aspectRatioLockEnabled: true,
+        minimumAspectRatio: 1),
+      ).then((File croppedFile) {
+        var image = decodeImage((croppedFile).readAsBytesSync());
+        var scaledImage = copyResize(image, width: 800, height: 800);
+        String scaledImageFilename = croppedFile.path + Random().nextInt(100000).toString() + '.jpg';
+        File(scaledImageFilename)..writeAsBytesSync(encodeJpg(scaledImage, quality: 75));
+        this._userDataBloc.updateProfileImage(File(scaledImageFilename));
+      });
   }
 
   Future<dynamic> showBottomModalSelector() {

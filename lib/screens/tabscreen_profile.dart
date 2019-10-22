@@ -5,7 +5,7 @@ import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/data/trailplace.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplaces.dart';
-import 'package:alabama_beer_trail/screens/tabscreen_profile_edit.dart';
+import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
