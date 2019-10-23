@@ -13,6 +13,9 @@ class TrailPlace {
   final String logoUrl;
   final List<String> categories;
   final Point location;
+  final List<String> galleryUrls;
+  final Map<String, String> connections;
+  final String description;
 
   TrailPlace(
       {
@@ -24,6 +27,9 @@ class TrailPlace {
       @required this.zip,
       @required this.featuredImgUrl,
       @required this.logoUrl,
+      @required this.galleryUrls,
       @required this.categories,
-      @required this.location});
+      @required this.location,
+      @required this.connections,
+      @required this.description, });
 }

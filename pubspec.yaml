@@ -38,6 +38,7 @@ dependencies:
   firebase_storage: ^3.0.6
   image: ^2.1.5
   image_cropper: ^1.1.0
+  font_awesome_flutter: ^8.5.0
 
 dev_dependencies:
   flutter_test:

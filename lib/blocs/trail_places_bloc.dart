@@ -29,9 +29,12 @@ class TrailPlacesBloc extends Bloc {
       zip: d['zip'],
       logoUrl: d['logo_img'],
       featuredImgUrl: d['featured_img'],
-      categories: List<String>.from(d['categories']),
+      galleryUrls: d['gallery_urls'] == null ? List<String>() : List<String>.from(d['gallery_urls']),
+      categories: d['categories'] == null ? List<String>() : List<String>.from(d['categories']),
+      connections: d['connections'] == null ? Map<String, String>() : Map<String, String>.from(d['connections']),
       location: Point(d['location'].latitude,
           d['location'].longitude),
+      description: d['description'],
     )));
     this.trailPlaces = newTrailPlaces;
     this._trailPlacesController.sink.add(this.trailPlaces);

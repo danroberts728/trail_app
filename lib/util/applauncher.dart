@@ -9,7 +9,6 @@ class AppLauncher {
   }
   AppLauncher._privateConstructor();
 
-
   void openDirections(String address) async {
     // Android
     var url = 'geo:0,0?q=$address';
@@ -23,5 +22,19 @@ class AppLauncher {
     else {
       throw 'Could not launch $url';
     }
+  }
+
+  void openFacebook(String url) async {
+    var newUrl = url.replaceFirst('facebook.com', 'fb.me');
+    if(await canLaunch(newUrl)) {
+      await launch(newUrl);
+    }
+    else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void openWebsite(String url) async {
+    launch(url);
   }
 }
