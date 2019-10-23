@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
-import 'package:alabama_beer_trail/screens/placedetail_screen.dart';
+import 'package:alabama_beer_trail/screens/screen_trailplace.dart';
 import 'package:alabama_beer_trail/util/check_in.dart';
 import 'package:alabama_beer_trail/util/geomethods.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +59,7 @@ class _TrailListItem extends State<TrailListItem> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => TrailPlaceDetail(place: place)));
+                builder: (context) => TrailPlaceScreen(place: place)));
       },
       child: Container(
         padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
