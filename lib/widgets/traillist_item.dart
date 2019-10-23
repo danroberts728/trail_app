@@ -66,7 +66,6 @@ class _TrailListItem extends State<TrailListItem> {
               TrialPlaceHeader(
                 name: this.place.name,
                 categories: this.place.categories,
-                textSizeMultiplier: 1.0,
                 logo: CachedNetworkImage(
                   imageUrl: this.place.logoUrl,
                   placeholder: (context, url) => RefreshProgressIndicator(),
@@ -134,7 +133,7 @@ class _TrailListItem extends State<TrailListItem> {
                 ),
               ),
               CheckinButton(
-                canCheckin: this._distance <= Constants.options.minDistanceToCheckin,
+                canCheckin: this._distance != null && this._distance <= Constants.options.minDistanceToCheckin,
                 place: this.place,
               )
             ],

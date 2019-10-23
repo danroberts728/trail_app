@@ -15,6 +15,7 @@ class TrailPlace {
   final Point location;
   final List<String> galleryUrls;
   final Map<String, String> connections;
+  final Map<String, String> hours;
   final String description;
 
   TrailPlace(
@@ -31,5 +32,6 @@ class TrailPlace {
       @required this.categories,
       @required this.location,
       @required this.connections,
+      @required this.hours,
       @required this.description, });
 }

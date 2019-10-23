@@ -10,65 +10,106 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
   final String youtubeUrl;
   final String untappdUrl;
 
+  final double iconSize;
+
   TrailPlaceConnectionsBar(
       {this.websiteUrl,
       this.facebookUrl,
       this.twitterUrl,
       this.instagramUrl,
       this.youtubeUrl,
-      this.untappdUrl});
+      this.untappdUrl,
+      this.iconSize,});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       child: Wrap(
-        runAlignment: WrapAlignment.center,
-        direction: Axis.horizontal,
-        spacing: 0.0,
-        alignment: WrapAlignment.start,
-        crossAxisAlignment: WrapCrossAlignment.start,
+        alignment: WrapAlignment.center,
         children: <Widget>[
           Visibility(
             visible: this.websiteUrl != null,
-            child: FlatButton(
-              child: Icon(FontAwesomeIcons.link),
-              onPressed: () => AppLauncher().openWebsite(websiteUrl),
+            child: ButtonTheme(
+              minWidth: 40.0,
+              child: FlatButton(
+                child: Icon(
+                  FontAwesomeIcons.link,
+                  size: iconSize,
+                  color: Color(0xff777777),
+                ),
+                onPressed: () => AppLauncher().openWebsite(websiteUrl),
+              ),
             ),
           ),
           Visibility(
             visible: this.facebookUrl != null,
-            child: FlatButton(
-              child: Icon(FontAwesomeIcons.facebookF),
-              onPressed: () => AppLauncher().openWebsite(facebookUrl),
+            child: ButtonTheme(
+              minWidth: 40.0,
+              child: FlatButton(
+                child: Icon(
+                  FontAwesomeIcons.facebookF,
+                  size: iconSize,
+                  color: Color(0xff3b5998),
+                ),
+                onPressed: () => AppLauncher().openWebsite(facebookUrl),
+              ),
             ),
           ),
           Visibility(
             visible: this.twitterUrl != null,
-            child: FlatButton(
-              child: Icon(FontAwesomeIcons.twitter),
-              onPressed: () => AppLauncher().openWebsite(twitterUrl),
+            child: ButtonTheme(
+              minWidth: 40.0,
+              child: FlatButton(
+                child: Icon(
+                  FontAwesomeIcons.twitter,
+                  size: iconSize,
+                  color: Color(0xff38a1f3),
+                ),
+                onPressed: () => AppLauncher().openWebsite(twitterUrl),
+              ),
             ),
           ),
           Visibility(
             visible: this.instagramUrl != null,
-            child: FlatButton(
-              child: Icon(FontAwesomeIcons.instagram),
-              onPressed: () => AppLauncher().openWebsite(instagramUrl),
+            child: ButtonTheme(
+              minWidth: 40.0,
+              child: FlatButton(
+                child: Icon(
+                  FontAwesomeIcons.instagram,
+                  size: iconSize,
+                  color: Color(0xff8a3ab9),
+                ),
+                onPressed: () => AppLauncher().openWebsite(instagramUrl),
+              ),
             ),
           ),
           Visibility(
             visible: this.youtubeUrl != null,
-            child: FlatButton(
-              child: Icon(FontAwesomeIcons.youtube),
-              onPressed: () => AppLauncher().openWebsite(youtubeUrl),
+            child: ButtonTheme(
+              minWidth: 40.0,
+              child: FlatButton(
+                child: Icon(
+                  FontAwesomeIcons.youtube,
+                  size: iconSize,
+                  color: Color(0xff0000ff),
+                ),
+                onPressed: () => AppLauncher().openWebsite(youtubeUrl),
+              ),
             ),
           ),
           Visibility(
             visible: this.untappdUrl != null,
-            child: FlatButton(
-              child: Icon(FontAwesomeIcons.untappd),
-              onPressed: () => AppLauncher().openWebsite(untappdUrl),
+            child: ButtonTheme(
+              minWidth: 40.0,
+              child: FlatButton(
+                child: Icon(
+                  FontAwesomeIcons.untappd,
+                  size: iconSize,
+                  color: Color(0xffffc000),
+                ),
+                onPressed: () => AppLauncher().openWebsite(untappdUrl),
+              ),
             ),
           ),
         ],

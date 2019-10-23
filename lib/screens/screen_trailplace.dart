@@ -2,6 +2,7 @@ import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/util/geomethods.dart';
 import 'package:alabama_beer_trail/widgets/checkin_button.dart';
+import 'package:alabama_beer_trail/widgets/expandable_text.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_connections_bar.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
@@ -25,15 +26,15 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
 
   final LocationBloc _locationBloc = LocationBloc();
 
-  double _galleryImageWidth;
-  double _galleryImageHeight;
+  double galleryImageWidth;
+  double galleryImageHeight;
 
   _TrailPlaceScreen(this.place);
 
   @override
   Widget build(BuildContext context) {
-    _galleryImageHeight = MediaQuery.of(context).size.height;
-    _galleryImageWidth = MediaQuery.of(context).size.width;
+    galleryImageWidth = MediaQuery.of(context).size.width - 32.0;
+    galleryImageHeight = galleryImageWidth * (9 / 16);
 
     var galleryImageUrls = List.from(this.place.galleryUrls);
     bool hasGalleryImages =
@@ -43,66 +44,99 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
       appBar: AppBar(
         title: Text(place.name),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey,
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.only(top: 5.0),
           alignment: Alignment.topCenter,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              hasGalleryImages
-                  ? CarouselSlider(
-                      enableInfiniteScroll: true,
-                      enlargeCenterPage: true,
-                      height: 150.0,
-                      items: galleryImageUrls.map(
-                        (imgUrl) {
-                          return Builder(
-                            builder: (context) {
-                              return Container(
-                                width: _galleryImageHeight,
-                                height: _galleryImageWidth,
-                                child: Image(
-                                  fit: BoxFit.fitWidth,
-                                  image: NetworkImage(imgUrl),
-                                  width: _galleryImageWidth,
-                                  height: _galleryImageHeight,
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ).toList(),
-                    )
-                  : SizedBox(
-                      height: 0.0,
-                    ),
-              TrialPlaceHeader(
-                name: this.place.name,
-                categories: this.place.categories,
-                textSizeMultiplier: 1.3,
-                titleOverflow: TextOverflow.visible,
-                logo: CachedNetworkImage(
-                  imageUrl: this.place.logoUrl,
-                  placeholder: (context, url) => RefreshProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                  width: 60.0,
-                  height: 60.0,
+              // Carousel
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 3.0),
+                child: hasGalleryImages
+                    ? CarouselSlider(
+                        enableInfiniteScroll: true,
+                        enlargeCenterPage: false,
+                        items: galleryImageUrls.map(
+                          (imgUrl) {
+                            return Builder(
+                              builder: (context) {
+                                return Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 3.0),
+                                  child: Image(
+                                    fit: BoxFit.fitWidth,
+                                    image: NetworkImage(imgUrl),
+                                    width: galleryImageWidth,
+                                    height: galleryImageHeight,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ).toList(),
+                      )
+                    : SizedBox(
+                        height: 0.0,
+                      ),
+              ),
+              // Place Header (logo, name, categories)
+              Container(
+                child: TrialPlaceHeader(
+                  name: this.place.name,
+                  categories: this.place.categories,
+                  titleFontSize: 20,
+                  categoriesFontSize: 16.0,
+                  titleOverflow: TextOverflow.visible,
+                  logo: CachedNetworkImage(
+                    imageUrl: this.place.logoUrl,
+                    placeholder: (context, url) => RefreshProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    width: 60.0,
+                    height: 60.0,
+                  ),
                 ),
               ),
-              _getDistance() < Constants.options.minDistanceToCheckin
-                  ? CheckinButton(
-                      place: this.place,
-                      canCheckin: _getDistance() <
-                          Constants.options.minDistanceToCheckin,
-                    )
-                  : Divider(
-                      color: Constants.colors.second,
-                    ),
+              // Description
               Container(
-                margin: EdgeInsets.symmetric(
+                color: Colors.white,
+                width: double.infinity,
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: 16.0,
+                ),
+                margin: EdgeInsets.all(0.0),
+                child: ExpandableText(
+                  text: this.place.description,
+                  isExpanded: false,
+                  fontSize: 16.0,
+                  previewCharacterCount: 100,
+                ),
+              ),
+              // Check in button
+              Visibility(
+                visible:
+                    _getDistance() < Constants.options.minDistanceToCheckin,
+                child: Container(
+                  margin: EdgeInsets.only(top: 6.0),
+                  child: CheckinButton(
+                    place: this.place,
+                    canCheckin:
+                        _getDistance() < Constants.options.minDistanceToCheckin,
+                  ),
+                ),
+              ),
+
+              // Address and action buttons
+              Container(
+                color: Colors.white,
+                margin: EdgeInsets.only(
+                  top: 6.0,
+                ),
+                padding: EdgeInsets.symmetric(
                   horizontal: 16.0,
                 ),
                 child: Row(
@@ -140,37 +174,55 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
                   ],
                 ),
               ),
-              Divider(
-                color: Constants.colors.second,
-              ),
-              ExpansionTile(
-                title: Text("Connections"),
-                children: <Widget>[
-                  TrailPlaceConnectionsBar(
-                    websiteUrl: this.place.connections['website'],
-                    facebookUrl: this.place.connections['facebook'],
-                    twitterUrl: this.place.connections['twitter'],
-                    instagramUrl: this.place.connections['instagram'],
-                    untappdUrl: this.place.connections['untappd'],
-                    youtubeUrl: this.place.connections['youtube'],
+              // Connections
+              Visibility(
+                visible: this.place.connections != null &&
+                    this.place.connections.values.any((v) => v.length > 0),
+                child: Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.only(
+                    top: 6.0,
                   ),
-                ],
-              ),
-              ExpansionTile(                
-                title: Text("Description"),
-                initiallyExpanded: true,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(this.place.description ?? "",
-                      textAlign: TextAlign.justify,
+                  child: ExpansionTile(
+                    title: Text(
+                      "Connect",
                       style: TextStyle(
-                        fontSize: 16.0,                        
+                        fontSize: 22.0,
+                        color: Constants.colors.second,
                       ),
                     ),
-                    
+                    children: <Widget>[
+                      TrailPlaceConnectionsBar(
+                        websiteUrl: this.place.connections['website'],
+                        facebookUrl: this.place.connections['facebook'],
+                        twitterUrl: this.place.connections['twitter'],
+                        instagramUrl: this.place.connections['instagram'],
+                        untappdUrl: this.place.connections['untappd'],
+                        youtubeUrl: this.place.connections['youtube'],
+                        iconSize: 24.0,
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              ),
+              // Hours
+              Visibility(
+                visible:
+                    this.place.hours != null && this.place.hours.length > 0,
+                child: Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.only(top: 6.0),
+                  child: ExpansionTile(
+                    title: Text(
+                      "Hours",
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        color: Constants.colors.second,
+                      ),
+                    ),
+                    children: <Widget>[],
+                  ),
+                ),
               ),
             ],
           ),

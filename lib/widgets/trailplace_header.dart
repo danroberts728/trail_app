@@ -5,14 +5,17 @@ class TrialPlaceHeader extends StatelessWidget {
   final Widget logo;
   final String name;
   final List<String> categories;
-  final double textSizeMultiplier;
+  final double titleFontSize;
+  final double categoriesFontSize;
   final TextOverflow titleOverflow;
+
 
   TrialPlaceHeader({
     @required this.logo,
     @required this.name,
     @required this.categories, 
-    this.textSizeMultiplier = 1.0,
+    this.titleFontSize = 16.0,   
+    this.categoriesFontSize = 14.0,
     this.titleOverflow = TextOverflow.ellipsis,
   });
 
@@ -44,7 +47,7 @@ class TrialPlaceHeader extends StatelessWidget {
                   style: TextStyle(
                     color: Color(0xff93654e),
                     fontWeight: FontWeight.bold,
-                    fontSize: 16.0 * textSizeMultiplier,
+                    fontSize: titleFontSize,
                   ),
                 ),
                 Text(
@@ -53,7 +56,7 @@ class TrialPlaceHeader extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black54,
                     fontStyle: FontStyle.italic,
-                    fontSize: 14.0 * textSizeMultiplier,
+                    fontSize: categoriesFontSize,
                   ),
                 ),
               ],
