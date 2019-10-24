@@ -21,10 +21,12 @@ class TrialPlaceHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container(      
       // Trail place logo, name, categories
+      margin: EdgeInsets.all(0.0),
       padding: EdgeInsets.symmetric(vertical: 6.0),
       decoration: BoxDecoration(
+        border: null,
         color: Colors.white,
       ),
       child: Row(

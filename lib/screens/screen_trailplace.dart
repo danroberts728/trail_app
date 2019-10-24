@@ -6,6 +6,7 @@ import 'package:alabama_beer_trail/widgets/expandable_text.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_connections_bar.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
+import 'package:alabama_beer_trail/widgets/trailplace_hours.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -84,6 +85,7 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
               ),
               // Place Header (logo, name, categories)
               Container(
+                margin: EdgeInsets.all(0.0),
                 child: TrialPlaceHeader(
                   name: this.place.name,
                   categories: this.place.categories,
@@ -106,7 +108,7 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
                 padding: EdgeInsets.only(
                   left: 16.0,
                   right: 16.0,
-                  bottom: 16.0,
+                  bottom: 8.0,
                 ),
                 margin: EdgeInsets.all(0.0),
                 child: ExpandableText(
@@ -116,12 +118,36 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
                   previewCharacterCount: 100,
                 ),
               ),
+              // Connection Buttons
+              Container(
+                color: Colors.white,
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                  bottom: 6.0,
+                ),
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: 8.0,
+                ),
+                child: TrailPlaceConnectionsBar(
+                  websiteUrl: this.place.connections['website'],
+                  facebookUrl: this.place.connections['facebook'],
+                  twitterUrl: this.place.connections['twitter'],
+                  instagramUrl: this.place.connections['instagram'],
+                  untappdUrl: this.place.connections['untappd'],
+                  youtubeUrl: this.place.connections['youtube'],
+                  iconSize: 16.0,
+                ),
+              ),
               // Check in button
               Visibility(
                 visible:
                     _getDistance() < Constants.options.minDistanceToCheckin,
                 child: Container(
-                  margin: EdgeInsets.only(top: 6.0),
+                  margin: EdgeInsets.only(
+                    bottom: 6.0,
+                  ),
                   child: CheckinButton(
                     place: this.place,
                     canCheckin:
@@ -129,12 +155,11 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
                   ),
                 ),
               ),
-
               // Address and action buttons
               Container(
                 color: Colors.white,
                 margin: EdgeInsets.only(
-                  top: 6.0,
+                  bottom: 6.0,
                 ),
                 padding: EdgeInsets.symmetric(
                   horizontal: 16.0,
@@ -174,44 +199,13 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
                   ],
                 ),
               ),
-              // Connections
-              Visibility(
-                visible: this.place.connections != null &&
-                    this.place.connections.values.any((v) => v.length > 0),
-                child: Container(
-                  color: Colors.white,
-                  margin: EdgeInsets.only(
-                    top: 6.0,
-                  ),
-                  child: ExpansionTile(
-                    title: Text(
-                      "Connect",
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        color: Constants.colors.second,
-                      ),
-                    ),
-                    children: <Widget>[
-                      TrailPlaceConnectionsBar(
-                        websiteUrl: this.place.connections['website'],
-                        facebookUrl: this.place.connections['facebook'],
-                        twitterUrl: this.place.connections['twitter'],
-                        instagramUrl: this.place.connections['instagram'],
-                        untappdUrl: this.place.connections['untappd'],
-                        youtubeUrl: this.place.connections['youtube'],
-                        iconSize: 24.0,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
               // Hours
               Visibility(
                 visible:
                     this.place.hours != null && this.place.hours.length > 0,
                 child: Container(
                   color: Colors.white,
-                  margin: EdgeInsets.only(top: 6.0),
+                  margin: EdgeInsets.only(bottom: 6.0),
                   child: ExpansionTile(
                     title: Text(
                       "Hours",
@@ -220,10 +214,25 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
                         color: Constants.colors.second,
                       ),
                     ),
-                    children: <Widget>[],
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: 16.0,
+                          right: 16.0,
+                          bottom: 8.0,
+                        ),
+                        child: TrailPlaceHours(
+                          hours: this.place.hours,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
+              // Blank Space at Bottom
+              Container(
+                height: 6.0,
+              )
             ],
           ),
         ),

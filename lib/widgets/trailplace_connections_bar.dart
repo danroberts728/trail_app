@@ -24,6 +24,11 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        border: null,
+        color: Colors.white,
+      ),
+      margin: EdgeInsets.all(0.0),
       width: double.infinity,
       child: Wrap(
         alignment: WrapAlignment.center,
