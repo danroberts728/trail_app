@@ -37,4 +37,8 @@ class AppLauncher {
   void openWebsite(String url) async {
     launch(url);
   }
+
+  void call(String number) async {
+    launch("tel: $number");
+  }
 }

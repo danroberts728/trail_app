@@ -36,6 +36,8 @@ class TrailPlacesBloc extends Bloc {
       location: Point(d['location'].latitude,
           d['location'].longitude),
       description: d['description'],
+      emails: d['emails'] == null ? Map<String, String>() : Map<String, String>.from(d['emails']),
+      phones: d['phones'] == null ? Map<String, String>() : Map<String, String>.from(d['phones']),
     )));
     this.trailPlaces = newTrailPlaces;
     this._trailPlacesController.sink.add(this.trailPlaces);

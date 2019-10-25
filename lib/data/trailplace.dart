@@ -17,8 +17,10 @@ class TrailPlace {
   final Map<String, String> connections;
   final Map<String, String> hours;
   final String description;
+  final Map<String, String> emails;
+  final Map<String, String> phones;
 
-  TrailPlace(
+  TrailPlace( 
       {
       @required this.id,
       @required this.name,
@@ -33,5 +35,8 @@ class TrailPlace {
       @required this.location,
       @required this.connections,
       @required this.hours,
-      @required this.description, });
+      @required this.description, 
+      @required this.emails, 
+      @required this.phones,
+      });
 }
