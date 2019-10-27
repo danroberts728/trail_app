@@ -69,8 +69,8 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
                                 return Container(
                                   margin: EdgeInsets.symmetric(horizontal: 3.0),
                                   child: Image(
-                                    fit: BoxFit.fitWidth,
-                                    image: NetworkImage(imgUrl),
+                                    fit: BoxFit.cover,
+                                    image: CachedNetworkImageProvider(imgUrl),
                                     width: galleryImageWidth,
                                     height: galleryImageHeight,
                                   ),
@@ -232,9 +232,9 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
               ),
               // Contacts
               Visibility(
-                visible:
-                    (this.place.emails != null && this.place.hours.length > 0)
-                    || (this.place.phones != null && this.place.phones.length > 0),
+                visible: (this.place.emails != null &&
+                        this.place.emails.length > 0) ||
+                    (this.place.phones != null && this.place.phones.length > 0),
                 child: Container(
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),
