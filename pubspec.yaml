@@ -59,6 +59,7 @@ flutter:
     - assets/images/signin_bkg.jpg
     - assets/images/fthglasses.jpg
     - assets/images/defaultprofilephoto.png
+    - assets/images/fth_black.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
+import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
 
 import 'screens/screen_register.dart';
 import 'screens/screen_signin.dart';
@@ -32,7 +33,7 @@ class TrailApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Constants.colors.themePrimarySwatch,
       ),
-      home: SigninScreen(),
+      home: AppLoadingScreen(),
       routes: {
         '/home': (context) => Home(),
         '/sign-in': (context) => SigninScreen(),
