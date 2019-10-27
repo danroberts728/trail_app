@@ -53,10 +53,6 @@ class _TabScreenTrail extends State<TabScreenTrail>
   }
 
   void _refreshPlaces() {
-    setState(() {
-      this._refreshChildWidget = Center(child: CircularProgressIndicator());
-    });
-
     sortPlaces();
     var places = filterPlaces();
 
@@ -74,7 +70,12 @@ class _TabScreenTrail extends State<TabScreenTrail>
     super.build(context);
     return RefreshIndicator(
       key: this._refreshIndicatorKey,
-      onRefresh: () => _locationBloc.refreshLocation(),
+      onRefresh: () {
+        setState(() {
+          this._refreshChildWidget = Center(child: CircularProgressIndicator());          
+        });        
+        return _locationBloc.refreshLocation();
+      },
       child: _refreshChildWidget,
     );
   }
