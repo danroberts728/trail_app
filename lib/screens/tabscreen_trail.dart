@@ -81,7 +81,8 @@ class _TabScreenTrail extends State<TabScreenTrail>
 
   void sortPlaces() {
     if (this._filter.sort == SortOrder.DISTANCE &&
-        _locationBloc.hasPermission && _locationBloc.lastLocation != null) {
+        _locationBloc.hasPermission &&
+        _locationBloc.lastLocation != null) {
       this._places.sort((a, b) {
         return GeoMethods.calculateDistance(
                 a.location, _locationBloc.lastLocation)
@@ -126,9 +127,9 @@ class _TabScreenTrail extends State<TabScreenTrail>
   List<TrailPlace> filterPlaces() {
     var placesToShow = Set<TrailPlace>();
     this._filter.show.forEach((cat, show) {
-      if(show) {
+      if (show) {
         this._places.forEach((p) {
-          if(p.categories.contains(cat.name)) {
+          if (p.categories.contains(cat.name)) {
             placesToShow.add(p);
           }
         });

@@ -1,4 +1,3 @@
-import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
 
 import 'screens/screen_register.dart';
@@ -10,10 +9,9 @@ import 'util/const.dart';
 import 'screens/home.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
-    LocationBloc().refreshLocation().then((value) {
-      runApp(TrailApp());
-    });    
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(TrailApp());
   });
 }
 
@@ -27,18 +25,17 @@ class TrailApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigatorKey,
-      title: Constants.strings.appName,
-      debugShowCheckedModeBanner: true,
-      theme: ThemeData(
-        primarySwatch: Constants.colors.themePrimarySwatch,
-      ),
-      home: AppLoadingScreen(),
-      routes: {
-        '/home': (context) => Home(),
-        '/sign-in': (context) => SigninScreen(),
-        '/register': (context) => RegisterScreen(),
-      }
-    );
+        navigatorKey: navigatorKey,
+        title: Constants.strings.appName,
+        debugShowCheckedModeBanner: true,
+        theme: ThemeData(
+          primarySwatch: Constants.colors.themePrimarySwatch,
+        ),
+        home: AppLoadingScreen(),
+        routes: {
+          '/home': (context) => Home(),
+          '/sign-in': (context) => SigninScreen(),
+          '/register': (context) => RegisterScreen(),
+        });
   }
 }

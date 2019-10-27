@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
 import 'package:alabama_beer_trail/util/appuser.dart';
 import 'package:flutter/material.dart';
@@ -11,24 +12,30 @@ class AppLoadingScreen extends StatefulWidget {
 class _AppLoadingScreen extends State<AppLoadingScreen> {
   StreamSubscription _authChangeSubscription;
   GlobalKey _scaffoldKey = GlobalKey();
-  
+
   @override
   void initState() {
     super.initState();
-    _authChangeSubscription = AppAuth().onAuthChange.listen((AppUser result) {
-      if (result != null) {
-        try {
-          Navigator.of(_scaffoldKey.currentContext).pushReplacementNamed('/home');
-        } on FlutterError catch (e) {
-          print("Caught Exception in _handleAuthChange: $e");
+    LocationBloc().refreshLocation().then((_) {
+      // Wait for the app to get the location (or confirmation that it won't be)
+      // before continuing away from splash screen.
+      _authChangeSubscription = AppAuth().onAuthChange.listen((AppUser result) {
+        if (result != null) {
+          try {
+            Navigator.of(_scaffoldKey.currentContext)
+                .pushReplacementNamed('/home');
+          } on FlutterError catch (e) {
+            print("Caught Exception in _handleAuthChange: $e");
+          }
+        } else {
+          try {
+            Navigator.of(_scaffoldKey.currentContext)
+                .pushReplacementNamed('/sign-in');
+          } on FlutterError catch (e) {
+            print("Caught Exception in _handleAuthChange: $e");
+          }
         }
-      } else {
-        try {
-          Navigator.of(_scaffoldKey.currentContext).pushReplacementNamed('/sign-in');
-        } on FlutterError catch (e) {
-          print("Caught Exception in _handleAuthChange: $e");
-        }
-      }
+      });
     });
   }
 
@@ -73,8 +80,8 @@ class _AppLoadingScreen extends State<AppLoadingScreen> {
     );
   }
 
-  void dispose()  {
+  void dispose() {
     _authChangeSubscription.cancel();
-    super.dispose();    
+    super.dispose();
   }
 }
