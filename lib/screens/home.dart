@@ -35,6 +35,7 @@ class _HomeState extends State<Home> {
       this._isSignedIn = user != null;
       if (!this._isSignedIn) {
         try {
+          Navigator.of(_scaffoldKey.currentContext).popUntil((route) => route.isFirst);
           Navigator.of(_scaffoldKey.currentContext)
               .pushReplacementNamed('/sign-in');
         } on FlutterError catch (e) {
