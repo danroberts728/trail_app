@@ -24,13 +24,20 @@ class AppLauncher {
     }
   }
 
-  void openFacebook(String url) async {
-    var newUrl = url.replaceFirst('facebook.com', 'fb.me');
-    if(await canLaunch(newUrl)) {
-      await launch(newUrl);
+  void openFacebook(String pageId) async {
+    String fbProtocolUrl;
+    String fallbackUrl = "https://www.facebook.com/$pageId";
+    if(Platform.isAndroid) {
+      fbProtocolUrl = "fb://page/$pageId";
+    } else if (Platform.isIOS) {
+      fbProtocolUrl = "fb://profile/$pageId";
+    } else {
+      fbProtocolUrl = fallbackUrl;
     }
-    else {
-      throw 'Could not launch $url';
+    try {
+      await launch(fbProtocolUrl, forceSafariVC: false);
+    } catch(e) {
+      await launch(fallbackUrl, forceSafariVC: false);
     }
   }
 

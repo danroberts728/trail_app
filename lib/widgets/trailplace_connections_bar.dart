@@ -57,7 +57,7 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
                   size: iconSize,
                   color: Color(0xff3b5998),
                 ),
-                onPressed: () => AppLauncher().openWebsite(facebookUrl),
+                onPressed: () => AppLauncher().openFacebook(facebookUrl),
               ),
             ),
           ),
