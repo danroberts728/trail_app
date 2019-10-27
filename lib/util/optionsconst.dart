@@ -13,7 +13,7 @@ class OptionsConst {
     TrailPlaceCategory("Distillery", "Distilleries"),
     TrailPlaceCategory("Tasting Room", "Tasting Rooms"),
     TrailPlaceCategory("Restaurant", "Restaurants"),
-    TrailPlaceCategory("Beer Bar", "Beer Bars"),
+    TrailPlaceCategory("Open Bar", "Open Bars"),
   ];
   final String defaultBannerImageAssetLocation = 'assets/images/fthglasses.jpg';
   final String defaultDisplayName = "";

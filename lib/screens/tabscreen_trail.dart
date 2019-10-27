@@ -72,7 +72,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
       key: this._refreshIndicatorKey,
       onRefresh: () {
         setState(() {
-          this._refreshChildWidget = Center(child: CircularProgressIndicator());          
+          this._refreshChildWidget = Center(child: CircularProgressIndicator());
         });        
         return _locationBloc.refreshLocation();
       },
@@ -121,6 +121,9 @@ class _TabScreenTrail extends State<TabScreenTrail>
       },
     ).then((value) {
       this._filter = value;
+      setState(() {
+        this._refreshChildWidget = Center(child: CircularProgressIndicator());
+      });      
       this._refreshPlaces();
     });
   }
