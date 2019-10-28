@@ -1,5 +1,7 @@
+import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/data/trailplace.dart';
+import 'package:alabama_beer_trail/util/geomethods.dart';
 import 'package:alabama_beer_trail/widgets/trail_listview.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +35,16 @@ class _TrailPlacesScreen extends State<TrailPlacesScreen> {
             return Center(child: CircularProgressIndicator());
           } else {
             var placesToShow = (snapshot.data as List<TrailPlace>)
-                .where((p) => this.placeIds.contains(p.id));
+                .where((p) => this.placeIds.contains(p.id)).toList();
+            placesToShow.sort((a,b) {
+              if(LocationBloc().lastLocation != null) {
+                var userLocation = LocationBloc().lastLocation;
+                return GeoMethods.calculateDistance(a.location,userLocation)
+                  .compareTo(GeoMethods.calculateDistance(b.location, userLocation));
+              } else {
+                return a.name.compareTo(b.name);
+              }
+            });
             return TrailListView(
               places: placesToShow.toList(),
             );
