@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
+
 import '../util/appauth.dart';
 import 'tabscreen_profile.dart';
 import 'tabscreen.dart';
@@ -35,7 +37,8 @@ class _HomeState extends State<Home> {
       this._isSignedIn = user != null;
       if (!this._isSignedIn) {
         try {
-          Navigator.of(_scaffoldKey.currentContext).popUntil((route) => route.isFirst);
+          Navigator.of(_scaffoldKey.currentContext)
+              .popUntil((route) => route.isFirst);
           Navigator.of(_scaffoldKey.currentContext)
               .pushReplacementNamed('/sign-in');
         } on FlutterError catch (e) {
@@ -55,6 +58,10 @@ class _HomeState extends State<Home> {
     TabScreen(
       child: TabScreenTrail(),
       appBarTitle: Constants.strings.navBarTrailTabTitle,
+    ),
+    TabScreen(
+      child: TabScreenEvents(),
+      appBarTitle: Constants.strings.navBarEventsTabTitle,
     ),
     TabScreen(
       child: TabScreenProfile(),
@@ -94,6 +101,10 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: new Icon(Constants.icons.navBarTrailIcon),
             title: new Text(Constants.strings.navBarTrailLabel),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Constants.icons.navBarEventsIcon),
+            title: Text(Constants.strings.navBarEventsLabel),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Constants.icons.navBarProfileIcon),
