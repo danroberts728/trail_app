@@ -53,6 +53,10 @@ class _TabScreenTrail extends State<TabScreenTrail>
   }
 
   void _refreshPlaces() {
+    if(_locationBloc.hasPermission && _locationBloc.lastLocation == null) {
+      // Wait for location to update.
+      return; 
+    }
     sortPlaces();
     var places = filterPlaces();
 
