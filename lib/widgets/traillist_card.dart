@@ -13,16 +13,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../util/const.dart';
 import '../data/trailplace.dart';
 
-class TrailListItem extends StatefulWidget {
+class TrailListCard extends StatefulWidget {
   final TrailPlace place;
 
-  TrailListItem({@required this.place});
+  TrailListCard({@required this.place});
 
   @override
-  State<StatefulWidget> createState() => _TrailListItem(place);
+  State<StatefulWidget> createState() => _TrailListCard(place);
 }
 
-class _TrailListItem extends State<TrailListItem> {
+class _TrailListCard extends State<TrailListCard> {
   final TrailPlace place;
   bool _locationEnabled = false;
   double _distance = double.infinity;
@@ -30,7 +30,7 @@ class _TrailListItem extends State<TrailListItem> {
   LocationBloc _locationBloc = LocationBloc();
   StreamSubscription<Point> _streamSub;
 
-  _TrailListItem(this.place);
+  _TrailListCard(this.place);
 
   static const double height = 300.0;
 

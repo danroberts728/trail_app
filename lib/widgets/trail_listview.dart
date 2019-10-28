@@ -1,5 +1,5 @@
 import 'package:alabama_beer_trail/data/trailplace.dart';
-import 'package:alabama_beer_trail/widgets/traillist_item.dart';
+import 'package:alabama_beer_trail/widgets/traillist_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -19,7 +19,7 @@ class TrailListView extends StatelessWidget {
             if (places.length < 1) {
               return Center(child: Text("Nothing to show"));
             } else {
-              return TrailListItem(
+              return TrailListCard(
                 place: places[index],
               );
             }
