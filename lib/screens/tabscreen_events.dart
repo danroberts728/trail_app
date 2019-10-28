@@ -1,6 +1,7 @@
 import 'package:alabama_beer_trail/blocs/events_bloc.dart';
 import 'package:alabama_beer_trail/data/trailevent.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_child.dart';
+import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
 class TabScreenEvents extends StatefulWidget implements TabScreenChild {
@@ -32,7 +33,9 @@ class _TabScreenEvents extends State<TabScreenEvents> {
               child: ListView.builder(
                 itemCount: events.length,
                 itemBuilder: (context, index) {
-                  return Text(events[index].eventName);
+                  return TrailEventCard(
+                    event: events[index],
+                  );
                 },
               ),
             );
