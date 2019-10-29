@@ -7,14 +7,26 @@ import 'package:flutter/material.dart';
 
 import 'bloc.dart';
 
-class EventsBloc extends Bloc {
-  EventsBloc() {
-    Firestore.instance.collection('events/').snapshots().listen(_onDataUpdate);
+class MonthlyEventsBloc extends Bloc {
+  MonthlyEventsBloc(DateTime month) {
+    Timestamp startOfMonth = Timestamp.fromDate(DateTime(month.year, month.month, 1, 0, 0, 0, 0, 0));
+    DateTime startOfMonthDate = startOfMonth.toDate();
+    Timestamp endOfMonth = Timestamp.fromDate( DateTime(startOfMonthDate.year, startOfMonthDate.month + 1) );
+
+    Timestamp startTimestamp = Timestamp.now().millisecondsSinceEpoch > startOfMonth.millisecondsSinceEpoch
+      ? Timestamp.now()
+      : startOfMonth;
+
+    Firestore.instance.collection('events/')
+      .where('event_start', isGreaterThanOrEqualTo: startTimestamp)
+      .orderBy('event_start')
+      .endBefore([endOfMonth])
+      .snapshots().listen(_onDataUpdate);
   }
 
   List<TrailEvent> trailEvents = List<TrailEvent>();
   final _trailEventsController = StreamController<List<TrailEvent>>();
-  Stream<List<TrailEvent>> get trailPlaceStream => _trailEventsController.stream;
+  Stream<List<TrailEvent>> get trailEventsStream => _trailEventsController.stream;
 
 
   void _onDataUpdate(QuerySnapshot querySnapshot) {
