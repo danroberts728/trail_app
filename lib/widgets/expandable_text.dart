@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ExpandableText extends StatefulWidget {
-  ExpandableText({this.text, this.isExpanded = false, this.fontSize = 16.0, this.previewCharacterCount = 50});
+  ExpandableText(
+      {this.text,
+      this.isExpanded = false,
+      this.fontSize = 16.0,
+      this.previewCharacterCount = 50});
 
   final String text;
   final bool isExpanded;
@@ -23,7 +27,8 @@ class _ExpandableText extends State<ExpandableText>
   String firstHalf;
   String secondHalf;
 
-  _ExpandableText(this.text, this.isExpanded, this.fontSize, this.previewCharacterCount);
+  _ExpandableText(
+      this.text, this.isExpanded, this.fontSize, this.previewCharacterCount);
 
   @override
   void initState() {
@@ -42,30 +47,40 @@ class _ExpandableText extends State<ExpandableText>
     return Container(
       child: secondHalf.isEmpty
           ? Text(firstHalf ?? '')
-          : Column(
-              children: <Widget>[
-                Text(this.isExpanded ? (firstHalf + secondHalf) : (firstHalf + "..."),
-                  style: TextStyle(
-                    fontSize: this.fontSize,
+          : GestureDetector(
+              onTap: () {
+                setState(() {
+                  this.isExpanded = !isExpanded;
+                });
+              },
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    this.isExpanded
+                        ? (firstHalf + secondHalf)
+                        : (firstHalf + "..."),
+                    style: TextStyle(
+                      fontSize: this.fontSize,
+                    ),
                   ),
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        this.isExpanded ? "show less" : "show more" ,
-                        style: new TextStyle(color: Colors.blue),
-                      ),
-                    ],
+                  InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          this.isExpanded ? "show less" : "show more",
+                          style: new TextStyle(color: Colors.blue),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      setState(() {
+                        this.isExpanded = !isExpanded;
+                      });
+                    },
                   ),
-                  onTap: () {
-                    setState(() {
-                      this.isExpanded = !isExpanded;
-                    });
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
     );
   }

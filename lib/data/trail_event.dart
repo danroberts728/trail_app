@@ -22,8 +22,9 @@ class TrailEvent {
   final Point eventLocationCoord;
   final TrailPlace eventTrailPlace;
   final bool isFeatured;
+  final String eventDetails;
 
-  TrailEvent(
+  TrailEvent( 
       {@required this.eventName,
       this.eventSubTitle,
       this.eventImageUrl,
@@ -39,5 +40,6 @@ class TrailEvent {
       this.eventLocationAddress,
       this.eventLocationCoord,
       this.eventTrailPlace,
-      this.isFeatured, });
+      this.isFeatured, 
+      this.eventDetails,});
 }

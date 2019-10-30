@@ -49,6 +49,7 @@ class MonthlyEventsBloc extends Bloc {
       isFeatured: d['is_featured'],
       learnMoreLink: d['learn_more_link'],
       noEndTime: d['no_end_time'],
+      eventDetails: d['event_details'] ?? '',
       regionCategory: List<String>.from(d['region_category']),
     )));
     this.trailEvents = newTrailEvents;

@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 class TrailEventCard extends StatefulWidget {
   final TrailEvent event;
   final double startMargin;
+  final double endMargin;
   final TextOverflow titleOverflow;
   final double colorBarWidth;
 
@@ -15,7 +16,8 @@ class TrailEventCard extends StatefulWidget {
       {@required this.event,
       this.startMargin = 8.0,
       this.titleOverflow = TextOverflow.ellipsis,
-      this.colorBarWidth = 3.0});
+      this.colorBarWidth = 3.0, 
+      this.endMargin = 4.0});
 
   @override
   State<StatefulWidget> createState() => _TrailEventCard();
@@ -39,7 +41,7 @@ class _TrailEventCard extends State<TrailEventCard> {
         width: double.infinity,
         margin: EdgeInsets.only(
           left: widget.startMargin,
-          right: 4.0,
+          right: widget.endMargin,
         ),
         child: Card(
           elevation: 4.0,
