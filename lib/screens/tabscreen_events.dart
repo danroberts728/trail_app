@@ -1,5 +1,5 @@
 import 'package:alabama_beer_trail/screens/tabscreen_child.dart';
-import 'package:alabama_beer_trail/widgets/monthly_event_list.dart';
+import 'package:alabama_beer_trail/widgets/trailevent_monthly_list.dart';
 import 'package:flutter/material.dart';
 
 class TabScreenEvents extends StatefulWidget implements TabScreenChild {

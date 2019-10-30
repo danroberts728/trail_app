@@ -1,5 +1,5 @@
 import 'package:alabama_beer_trail/data/trailplace.dart';
-import 'package:alabama_beer_trail/widgets/traillist_card.dart';
+import 'package:alabama_beer_trail/widgets/trailplace_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
