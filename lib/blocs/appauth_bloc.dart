@@ -1,32 +1,32 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/data/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'appuser.dart';
+import 'bloc.dart';
 
-class AppAuth {
+class AppAuth extends Bloc {
+  static final AppAuth _singleton = AppAuth._internal();
 
-  /* Singleton Pattern */
-
-  static final AppAuth _instance = AppAuth._privateConstructor();
   factory AppAuth() {
-    return _instance;
+    return _singleton;
   }
-  AppAuth._privateConstructor() {
-    this.onAuthChange = _streamController.stream;
+
+  AppAuth._internal() {
     this._auth.onAuthStateChanged.listen(this._handleAuthStatusChanged);
   }
-  void dispose() {
-    _streamController.close();
-  }
 
-  /* Public Properties */
-
-  /// The user of the application
-  /// 
-  /// Returns null if user is not signed in
   AppUser user;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final _authStreamController = StreamController<AppUser>.broadcast();
+  Stream<AppUser> get onAuthChange => this._authStreamController.stream;
+
+
+  void dispose() {
+    _authStreamController.close();
+  }
 
   /// Returns whether user is signed in or not
   SigninStatus get signinStatus {
@@ -34,18 +34,6 @@ class AppAuth {
       ? SigninStatus.NOT_SIGNED_IN
       : SigninStatus.SIGNED_IN;
   }
-
-  /// Triggers when auth has changed
-  Stream<AppUser> onAuthChange;
-
-  /* Private Properties */
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  StreamController<AppUser> _streamController =
-      StreamController<AppUser>.broadcast();
-
-  /* Private Methods */
 
   void _handleAuthStatusChanged(FirebaseUser fbUser) {
     if(fbUser == null) {
@@ -55,7 +43,7 @@ class AppAuth {
       this.user = AppUser.fromFirebaseUser(fbUser);
     }
     
-    _streamController.add(user);
+    _authStreamController.add(user);
   }
 
   /* Public Methods */

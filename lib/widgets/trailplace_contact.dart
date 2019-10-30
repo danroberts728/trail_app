@@ -1,5 +1,5 @@
-import 'package:alabama_beer_trail/util/applauncher.dart';
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +32,7 @@ class TrailPlaceContact extends StatelessWidget {
                 child: Text(
                   phoneTitle,
                   style: TextStyle(
-                      color: Constants.colors.first,
+                      color: TrailAppSettings.first,
                       fontSize: 18.0,
                       height: 1.4,
                       fontWeight: FontWeight.bold),
@@ -76,7 +76,7 @@ class TrailPlaceContact extends StatelessWidget {
                   child: Text(
                     emailTitle,
                     style: TextStyle(
-                      color: Constants.colors.first,
+                      color: TrailAppSettings.first,
                       fontSize: 18.0,
                     ),
                   ),

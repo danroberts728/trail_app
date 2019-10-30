@@ -1,5 +1,5 @@
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_banner.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   children: <Widget>[
                                     ProfileBanner(
                                       snapshot.data['bannerImageUrl'],
-                                      backupImage: AssetImage(Constants.options
+                                      backupImage: AssetImage(TrailAppSettings
                                           .defaultBannerImageAssetLocation),
                                       canEdit: true,
                                       placeholder: CircularProgressIndicator(),

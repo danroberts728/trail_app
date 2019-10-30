@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'const.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
 class GeoMethods {
   static const _R = 3958.756; // in miles
@@ -29,7 +29,7 @@ class GeoMethods {
     if (d == null) {
       return '';
     }
-    if (d < Constants.options.minDistanceToCheckin) 
+    if (d < TrailAppSettings.minDistanceToCheckin) 
       return 0.toString();
     // Greater than 10, just round to nearest int
     else if (d >= 10) 

@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
-import 'package:alabama_beer_trail/data/trailplace.dart';
+import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplaces.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
-import 'package:alabama_beer_trail/util/check_in.dart';
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_banner.dart';
 import 'package:alabama_beer_trail/widgets/profile_stat.dart';
 
-import '../util/appauth.dart';
+import '../blocs/appauth_bloc.dart';
 import 'tabscreen_child.dart';
 
 import 'package:flutter/material.dart';
@@ -56,8 +56,8 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                         children: <Widget>[
                           ProfileBanner(
                             snapshot.data['bannerImageUrl'],
-                            backupImage: AssetImage(Constants
-                                .options.defaultBannerImageAssetLocation),
+                            backupImage: AssetImage(TrailAppSettings
+                                .defaultBannerImageAssetLocation),
                             canEdit: false,
                             placeholder: CircularProgressIndicator(),
                           ),
@@ -86,7 +86,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                             Text(
                               snapshot.data['displayName'] != null
                                   ? snapshot.data['displayName']
-                                  : Constants.options.defaultDisplayName,
+                                  : TrailAppSettings.defaultDisplayName,
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                 color: Colors.black,
@@ -97,7 +97,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                             Text(
                               userEmail,
                               style: TextStyle(
-                                color: Constants.colors.second,
+                                color: TrailAppSettings.second,
                               ),
                             ),
                             SizedBox(
@@ -169,7 +169,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                       ],
                     )),
                 Divider(
-                  color: Constants.colors.second,
+                  color: TrailAppSettings.second,
                   indent: 16.0,
                   endIndent: 16.0,
                 ),

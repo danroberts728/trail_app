@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
-import 'package:alabama_beer_trail/util/appauth.dart';
-import 'package:alabama_beer_trail/util/appuser.dart';
+import 'package:alabama_beer_trail/blocs/appauth_bloc.dart';
+import 'package:alabama_beer_trail/data/app_user.dart';
 import 'package:flutter/material.dart';
 
 class AppLoadingScreen extends StatefulWidget {

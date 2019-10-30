@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'dart:ui';
 
-import 'package:alabama_beer_trail/data/trailplace.dart';
+import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:flutter/material.dart';
 
 class TrailEvent {

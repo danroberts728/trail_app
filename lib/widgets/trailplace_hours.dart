@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 class TrailPlaceHours extends StatelessWidget {
@@ -37,7 +37,7 @@ class TrailPlaceHours extends StatelessWidget {
                   flex: 1,
                   child: Text(day.toUpperCase(),
                     style: TextStyle(
-                      color: Constants.colors.first,
+                      color: TrailAppSettings.first,
                       fontSize: 18.0,
                       height: 1.4,
                       fontWeight: FontWeight.bold

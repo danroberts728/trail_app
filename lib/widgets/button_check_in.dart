@@ -1,7 +1,7 @@
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
-import 'package:alabama_beer_trail/data/trailplace.dart';
-import 'package:alabama_beer_trail/util/check_in.dart';
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -48,8 +48,8 @@ class _CheckinButton extends State<CheckinButton> {
               child: RaisedButton(
                 elevation: 8.0,
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                color: Constants.colors.second.withAlpha(200),
-                disabledColor: Constants.colors.fourth,
+                color: TrailAppSettings.second.withAlpha(200),
+                disabledColor: TrailAppSettings.fourth,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[

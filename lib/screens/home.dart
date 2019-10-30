@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
 import '../main.dart';
-import '../util/appauth.dart';
+import '../blocs/appauth_bloc.dart';
 import 'tabscreen_profile.dart';
 import 'tabscreen.dart';
 
 import 'tabscreen_trail.dart';
 import 'package:flutter/material.dart';
-import '../util/const.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -58,15 +58,15 @@ class _HomeState extends State<Home> {
   final List<TabScreen> _children = [
     TabScreen(
       child: TabScreenTrail(),
-      appBarTitle: Constants.strings.navBarTrailTabTitle,
+      appBarTitle: TrailAppSettings.navBarTrailTabTitle,
     ),
     TabScreen(
       child: TabScreenEvents(),
-      appBarTitle: Constants.strings.navBarEventsTabTitle,
+      appBarTitle: TrailAppSettings.navBarEventsTabTitle,
     ),
     TabScreen(
       child: TabScreenProfile(),
-      appBarTitle: Constants.strings.navBarProfileTabTitle,
+      appBarTitle: TrailAppSettings.navBarProfileTabTitle,
     ),
   ];
 
@@ -94,23 +94,23 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
-        backgroundColor: Constants.colors.navBarBackgroundColor,
+        backgroundColor: TrailAppSettings.navBarBackgroundColor,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Constants.colors.navBarSelectedItemColor,
-        showUnselectedLabels: Constants.options.navBarShowUnselectedLabels,
-        showSelectedLabels: Constants.options.navBarShowSelectedLabels,
+        selectedItemColor: TrailAppSettings.navBarSelectedItemColor,
+        showUnselectedLabels: TrailAppSettings.navBarShowUnselectedLabels,
+        showSelectedLabels: TrailAppSettings.navBarShowSelectedLabels,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Constants.icons.navBarTrailIcon),
-            title: new Text(Constants.strings.navBarTrailLabel),
+            icon: new Icon(TrailAppSettings.navBarTrailIcon),
+            title: new Text(TrailAppSettings.navBarTrailLabel),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Constants.icons.navBarEventsIcon),
-            title: Text(Constants.strings.navBarEventsLabel),
+            icon: Icon(TrailAppSettings.navBarEventsIcon),
+            title: Text(TrailAppSettings.navBarEventsLabel),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Constants.icons.navBarProfileIcon),
-            title: new Text(Constants.strings.navBarProfileLabel),
+            icon: new Icon(TrailAppSettings.navBarProfileIcon),
+            title: new Text(TrailAppSettings.navBarProfileLabel),
           ),
         ],
       ),

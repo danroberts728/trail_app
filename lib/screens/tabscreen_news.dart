@@ -1,4 +1,5 @@
-import '../util/const.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +24,7 @@ class _NewsFeed extends State<NewsFeed>
   @override
   void initState() {
     var client = new http.Client();
-    client.get(Constants.options.newsScreenRssFeedUrl).then((response) {
+    client.get(TrailAppSettings.newsScreenRssFeedUrl).then((response) {
       return response.body;
     }).then((bodyString) {
       setState(() {
@@ -71,7 +72,7 @@ class NewsFeedItem extends StatelessWidget {
                 height: 150.0,
                 padding: const EdgeInsets.all(0.0),
                 child: Row(children: <Widget>[
-                  Image.network(_item.media.thumbnails.length != 0 ? _item.media.thumbnails[0].url : Constants.options.defaultThumbnailUrl),
+                  Image.network(_item.media.thumbnails.length != 0 ? _item.media.thumbnails[0].url : TrailAppSettings.defaultThumbnailUrl),
                   SizedBox(width: 16.0),
                   Flexible(
                       child: Column(

@@ -1,7 +1,7 @@
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
-import 'package:alabama_beer_trail/data/trailplace.dart';
-import 'package:alabama_beer_trail/util/geomethods.dart';
+import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
 import 'package:flutter/material.dart';
 

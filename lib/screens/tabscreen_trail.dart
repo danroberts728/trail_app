@@ -1,14 +1,14 @@
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
-import 'package:alabama_beer_trail/util/const.dart';
-import 'package:alabama_beer_trail/util/geomethods.dart';
-import 'package:alabama_beer_trail/util/trailplacecategory.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/data/trail_place_category.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
 
-import '../util/filteroptions.dart';
+import '../util/filter_options.dart';
 import 'tabscreen_child.dart';
 import 'package:flutter/material.dart';
-import '../data/trailplace.dart';
+import '../data/trail_place.dart';
 import '../widgets/modal_trailfilter.dart';
 
 class TabScreenTrail extends StatefulWidget implements TabScreenChild {
@@ -36,7 +36,7 @@ class _TabScreenTrail extends State<TabScreenTrail>
   _TabScreenTrail() {
     // Set up initial filter options
     var initialShow = Map<TrailPlaceCategory, bool>();
-    Constants.options.filterStrings.forEach((f) => initialShow[f] = true);
+    TrailAppSettings.filterStrings.forEach((f) => initialShow[f] = true);
     this._filter = FilterOptions(SortOrder.DISTANCE, initialShow);
   }
 

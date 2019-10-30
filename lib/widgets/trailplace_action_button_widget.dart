@@ -1,6 +1,6 @@
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
-import 'package:alabama_beer_trail/data/trailplace.dart';
-import 'package:alabama_beer_trail/util/applauncher.dart';
+import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:flutter/material.dart';
 
 class TrailPlaceActionButtonWidget extends StatefulWidget {

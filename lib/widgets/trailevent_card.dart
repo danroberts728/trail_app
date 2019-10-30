@@ -1,6 +1,6 @@
-import 'package:alabama_beer_trail/data/trailevent.dart';
+import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -74,7 +74,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14.0,
-                              color: Constants.colors.third,
+                              color: TrailAppSettings.third,
                               fontFamilyFallback: ["Arial Narrow"],
                               fontFamily: "Roboto"),
                         ),
@@ -86,7 +86,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                               fontSize: 22.0,
                               height: 1.0,
                               fontWeight: FontWeight.bold,
-                              color: Constants.colors.third,
+                              color: TrailAppSettings.third,
                               fontFamilyFallback: ["Arial Narrow"],
                               fontFamily: "Roboto"),
                         ),
@@ -97,7 +97,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                           style: TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.w600,
-                              color: Constants.colors.third,
+                              color: TrailAppSettings.third,
                               fontFamilyFallback: ["Arial Narrow"],
                               fontFamily: "Roboto"),
                         ),
@@ -118,7 +118,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                           widget.event.eventName,
                           overflow: widget.titleOverflow,
                           style: TextStyle(
-                              color: Constants.colors.first,
+                              color: TrailAppSettings.first,
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0),
                         ),

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alabama_beer_trail/data/trailplace.dart';
+import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'bloc.dart';

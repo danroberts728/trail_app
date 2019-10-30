@@ -1,5 +1,5 @@
-import 'package:alabama_beer_trail/data/trailevent.dart';
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                 "Event Details".toUpperCase(),
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  color: Constants.colors.first,
+                  color: TrailAppSettings.first,
                   fontWeight: FontWeight.bold,
                   fontSize: 20.0,
                 ),

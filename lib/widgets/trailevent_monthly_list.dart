@@ -1,6 +1,6 @@
 import 'package:alabama_beer_trail/blocs/events_bloc.dart';
-import 'package:alabama_beer_trail/data/trailevent.dart';
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -85,7 +85,7 @@ class EventMonthHeader extends StatelessWidget {
             DateFormat("yyyy").format(this.month).toUpperCase(),
         textAlign: TextAlign.start,
         style: TextStyle(
-          color: Constants.colors.third,
+          color: TrailAppSettings.third,
           fontFamily: "Roboto",
           fontFamilyFallback: ["arial narrow"],
           fontSize: 22.0,

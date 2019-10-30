@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
-import 'package:alabama_beer_trail/util/const.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart';
@@ -89,7 +89,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
       ],
       androidUiSettings: AndroidUiSettings(
         toolbarTitle: "Crop Profile Image",
-        toolbarColor: Constants.colors.themePrimarySwatch,
+        toolbarColor: TrailAppSettings.themePrimarySwatch,
         toolbarWidgetColor: Colors.white,
         initAspectRatio: CropAspectRatioPreset.square,
         lockAspectRatio: true),
@@ -166,7 +166,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
           heroTag: 'ProfilePhotoEditButton',
           mini: true,
           elevation: 16.0,
-          backgroundColor: Constants.colors.second.withAlpha(125),
+          backgroundColor: TrailAppSettings.second.withAlpha(125),
           child: Icon(
             Icons.add_a_photo,
           ),

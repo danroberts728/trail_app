@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
-import '../util/appauth.dart';
+import '../blocs/appauth_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 

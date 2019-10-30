@@ -3,15 +3,15 @@ import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail.dart';
-import 'package:alabama_beer_trail/util/geomethods.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/button_check_in.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../util/const.dart';
-import '../data/trailplace.dart';
+import '../data/trail_place.dart';
 
 class TrailListCard extends StatefulWidget {
   final TrailPlace place;
@@ -137,7 +137,7 @@ class _TrailListCard extends State<TrailListCard> {
               ),
               CheckinButton(
                 canCheckin: this._distance != null &&
-                    this._distance <= Constants.options.minDistanceToCheckin,
+                    this._distance <= TrailAppSettings.minDistanceToCheckin,
                 place: this.place,
               )
             ],

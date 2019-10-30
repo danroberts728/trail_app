@@ -1,6 +1,6 @@
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
-import 'package:alabama_beer_trail/util/const.dart';
-import 'package:alabama_beer_trail/util/geomethods.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/button_check_in.dart';
 import 'package:alabama_beer_trail/widgets/expandable_text.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_contact.dart';
@@ -12,7 +12,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../data/trailplace.dart';
+import '../data/trail_place.dart';
 
 class TrailPlaceDetailScreen extends StatefulWidget {
   final TrailPlace place;
@@ -144,7 +144,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
               // Check in button
               Visibility(
                 visible:
-                    _getDistance() < Constants.options.minDistanceToCheckin,
+                    _getDistance() < TrailAppSettings.minDistanceToCheckin,
                 child: Container(
                   margin: EdgeInsets.only(
                     bottom: 6.0,
@@ -152,7 +152,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                   child: CheckinButton(
                     place: this.place,
                     canCheckin:
-                        _getDistance() < Constants.options.minDistanceToCheckin,
+                        _getDistance() < TrailAppSettings.minDistanceToCheckin,
                   ),
                 ),
               ),
@@ -212,7 +212,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       "Hours",
                       style: TextStyle(
                         fontSize: 22.0,
-                        color: Constants.colors.second,
+                        color: TrailAppSettings.second,
                       ),
                     ),
                     children: <Widget>[
@@ -243,7 +243,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       "Contact",
                       style: TextStyle(
                         fontSize: 22.0,
-                        color: Constants.colors.second,
+                        color: TrailAppSettings.second,
                       ),
                     ),
                     children: <Widget>[

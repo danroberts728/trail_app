@@ -1,7 +1,7 @@
-import '../util/const.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../util//appauth.dart';
+import '../blocs//appauth_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _RegisterScreen();
@@ -51,11 +51,11 @@ class _RegisterScreen extends State<RegisterScreen> {
                               style: TextStyle(
                                 fontSize: 32.0,
                                 fontWeight: FontWeight.bold,
-                                color: Constants.colors.first,
+                                color: TrailAppSettings.first,
                               )
                             ),
                             Divider(
-                              color: Constants.colors.fourth,
+                              color: TrailAppSettings.fourth,
                               indent: 50.0,
                               endIndent: 50.0,
                             ),
@@ -146,7 +146,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                                   fontSize: 16.0,
                                 ),
                               ), 
-                              textColor: Constants.colors.second,
+                              textColor: TrailAppSettings.second,
                             ),
                             Container(
                               alignment: Alignment.center,

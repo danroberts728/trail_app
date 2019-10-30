@@ -1,4 +1,4 @@
-import '../util/trailplacecategory.dart';
+import '../data/trail_place_category.dart';
 
 class FilterOptions {
   final SortOrder sort;

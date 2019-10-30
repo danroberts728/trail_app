@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
@@ -6,8 +7,7 @@ import 'screens/screen_register.dart';
 import 'screens/screen_signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'util/appauth.dart';
-import 'util/const.dart';
+import 'blocs/appauth_bloc.dart';
 import 'screens/home.dart';
 
 void main() {
@@ -32,10 +32,10 @@ class TrailApp extends StatelessWidget {
     return MaterialApp(
         navigatorObservers: <NavigatorObserver>[observer],
         navigatorKey: navigatorKey,
-        title: Constants.strings.appName,
+        title: TrailAppSettings.appName,
         debugShowCheckedModeBanner: true,
         theme: ThemeData(
-          primarySwatch: Constants.colors.themePrimarySwatch,
+          primarySwatch: TrailAppSettings.themePrimarySwatch,
         ),
         home: AppLoadingScreen(),
         routes: {

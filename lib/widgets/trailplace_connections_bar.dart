@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/util/applauncher.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

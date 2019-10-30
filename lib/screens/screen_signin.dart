@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import '../util/const.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
-import '../util/appuser.dart';
+import '../data/app_user.dart';
 
-import '../util/appauth.dart';
+import '../blocs/appauth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
@@ -202,7 +202,7 @@ class _SigninScreen extends State<SigninScreen> {
                                   fontSize: 16.0,
                                 ),
                               ),
-                              textColor: Constants.colors.second,
+                              textColor: TrailAppSettings.second,
                             ),
                           ],
                         ),
