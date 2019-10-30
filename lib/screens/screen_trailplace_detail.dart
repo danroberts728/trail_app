@@ -14,16 +14,16 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import '../data/trailplace.dart';
 
-class TrailPlaceScreen extends StatefulWidget {
+class TrailPlaceDetailScreen extends StatefulWidget {
   final TrailPlace place;
 
-  const TrailPlaceScreen({Key key, this.place}) : super(key: key);
+  const TrailPlaceDetailScreen({Key key, this.place}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _TrailPlaceScreen(place);
+  State<StatefulWidget> createState() => _TrailPlaceDetailScreen(place);
 }
 
-class _TrailPlaceScreen extends State<TrailPlaceScreen> {
+class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
   final TrailPlace place;
 
   final LocationBloc _locationBloc = LocationBloc();
@@ -31,7 +31,7 @@ class _TrailPlaceScreen extends State<TrailPlaceScreen> {
   double galleryImageWidth;
   double galleryImageHeight;
 
-  _TrailPlaceScreen(this.place);
+  _TrailPlaceDetailScreen(this.place);
 
   @override
   Widget build(BuildContext context) {

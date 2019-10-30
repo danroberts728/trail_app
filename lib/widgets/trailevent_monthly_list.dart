@@ -77,7 +77,7 @@ class EventMonthHeader extends StatelessWidget {
       alignment: Alignment.topLeft,
       margin: EdgeInsets.symmetric(
         vertical: 16.0,
-        horizontal: 16.0,
+        horizontal: 8.0,
       ),
       child: Text(
         DateFormat("MMMM").format(this.month).toUpperCase() +

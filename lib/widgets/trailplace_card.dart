@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplace.dart';
+import 'package:alabama_beer_trail/screens/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/geomethods.dart';
 import 'package:alabama_beer_trail/widgets/button_check_in.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart';
@@ -55,7 +55,7 @@ class _TrailListCard extends State<TrailListCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => TrailPlaceScreen(place: place)));
+                builder: (context) => TrailPlaceDetailScreen(place: place)));
       },
       child: Container(
         padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
