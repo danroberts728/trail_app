@@ -10,13 +10,10 @@ class TrailEventCard extends StatefulWidget {
   TrailEventCard({@required this.event});
 
   @override
-  State<StatefulWidget> createState() => _TrailEventCard(this.event);
+  State<StatefulWidget> createState() => _TrailEventCard();
 }
 
 class _TrailEventCard extends State<TrailEventCard> {
-  final TrailEvent event;
-
-  _TrailEventCard(this.event);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,7 @@ class _TrailEventCard extends State<TrailEventCard> {
           decoration: BoxDecoration(
             border: BorderDirectional(
               start: BorderSide(
-                color: this.event.eventColor,
+                color: widget.event.eventColor,
                 width: 3.0,
               ),
             ),
@@ -55,7 +52,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                     children: <Widget>[
                       Text(
                         DateFormat("EEE")
-                            .format(event.eventStart)
+                            .format(widget.event.eventStart)
                             .toUpperCase(),
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -65,7 +62,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                             fontFamily: "Roboto"),
                       ),
                       Text(
-                        DateFormat("dd").format(event.eventStart).toUpperCase(),
+                        DateFormat("dd").format(widget.event.eventStart).toUpperCase(),
                         style: TextStyle(
                             fontSize: 22.0,
                             height: 1.0,
@@ -76,7 +73,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                       ),
                       Text(
                         DateFormat("MMM")
-                            .format(event.eventStart)
+                            .format(widget.event.eventStart)
                             .toUpperCase(),
                         style: TextStyle(
                             fontSize: 15.0,
@@ -99,7 +96,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                   children: <Widget>[
                     Container(
                       child: Text(
-                        event.eventName,
+                        widget.event.eventName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -116,11 +113,11 @@ class _TrailEventCard extends State<TrailEventCard> {
                           color: Color(0xFF989999),
                           size: 14.0,
                         ),
-                        event.isEventAllDay
+                        widget.event.isEventAllDay
                             ? Text(
                                 " (All Day: " +
                                     DateFormat("EEEEE")
-                                        .format(event.eventStart) +
+                                        .format(widget.event.eventStart) +
                                     ") ",
                                 style: TextStyle(
                                   color: Color(0xFF666666),
@@ -128,7 +125,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                                 ),
                               )
                             : Text(
-                                DateFormat(" h:mm a").format(event.eventStart),
+                                DateFormat(" h:mm a").format(widget.event.eventStart),
                                 style: TextStyle(
                                   color: Color(0xFF666666),
                                   fontSize: 14.0,
@@ -145,7 +142,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                           size: 14.0,
                         ),
                         Text(
-                          " " + event.eventLocationName,
+                          " " + widget.event.eventLocationName,
                           style: TextStyle(
                             color: Color(0xFF666666),
                             fontSize: 14.0,

@@ -19,6 +19,7 @@ class MonthlyEventsList extends StatefulWidget {
 class _MonthlyEventsList extends State<MonthlyEventsList> {
   final DateTime month;
   MonthlyEventsBloc _thisMonthEventsBloc;
+  List<Widget> _columnList;
 
   _MonthlyEventsList(this.month) {
     this._thisMonthEventsBloc = MonthlyEventsBloc(month);
@@ -26,15 +27,16 @@ class _MonthlyEventsList extends State<MonthlyEventsList> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> columnList = <Widget>[
-      EventMonthHeader(
-        month: this.month,
-      )
-    ];
+    var eventMonthHeader = EventMonthHeader(month: this.month);
 
     return StreamBuilder(
       stream: _thisMonthEventsBloc.trailEventsStream,
       builder: (context, snapshot) {
+        _columnList = <Widget>[
+          eventMonthHeader,
+        ];
+
+
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else {
@@ -42,10 +44,10 @@ class _MonthlyEventsList extends State<MonthlyEventsList> {
             return a.eventStart.compareTo(b.eventStart);
           });
           if(events.length == 0) {
-            columnList.add(Text("No Events scheduled yet"));
+            _columnList.add(Text("No Events scheduled yet"));
           }
           events.forEach((e) {
-            columnList.add(
+            _columnList.add(
               TrailEventCard(
                 event: e,
               ),
@@ -55,7 +57,7 @@ class _MonthlyEventsList extends State<MonthlyEventsList> {
 
         return Container(
           child: Column(
-            children: columnList,
+            children: _columnList,
           ),
         );
       },

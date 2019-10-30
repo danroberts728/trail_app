@@ -3,7 +3,7 @@ import 'package:alabama_beer_trail/util/const.dart';
 import 'package:alabama_beer_trail/util/geomethods.dart';
 import 'package:alabama_beer_trail/widgets/checkin_button.dart';
 import 'package:alabama_beer_trail/widgets/expandable_text.dart';
-import 'package:alabama_beer_trail/widgets/trailpalce_contact.dart';
+import 'package:alabama_beer_trail/widgets/trailplace_contact.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_connections_bar.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
