@@ -29,6 +29,9 @@ class _TrailEventCard extends State<TrailEventCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
+                settings: RouteSettings(
+                  name: 'Trail Event - ' + widget.event.eventName,
+                ),
                 builder: (context) =>
                     TrailEventDetailScreen(event: widget.event)));
       },

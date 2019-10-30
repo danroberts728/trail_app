@@ -55,6 +55,9 @@ class _TrailListCard extends State<TrailListCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
+                settings: RouteSettings(
+                  name: 'Trail Place - ' + widget.place.name,
+                ),
                 builder: (context) => TrailPlaceDetailScreen(place: place)));
       },
       child: Container(
@@ -133,7 +136,8 @@ class _TrailListCard extends State<TrailListCard> {
                 ),
               ),
               CheckinButton(
-                canCheckin: this._distance != null && this._distance <= Constants.options.minDistanceToCheckin,
+                canCheckin: this._distance != null &&
+                    this._distance <= Constants.options.minDistanceToCheckin,
                 place: this.place,
               )
             ],

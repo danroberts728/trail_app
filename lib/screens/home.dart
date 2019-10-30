@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 
+import '../main.dart';
 import '../util/appauth.dart';
 import 'tabscreen_profile.dart';
 import 'tabscreen.dart';
@@ -74,6 +75,7 @@ class _HomeState extends State<Home> {
       _currentIndex = index;
       _appBarTitle = Text(_children[index].appBarTitle);
       _appBarActions = _children[index].getAppBarActions();
+      _sendCurrentTabToAnalytics();
     });
   }
 
@@ -112,6 +114,12 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
+    );
+  }
+
+  void _sendCurrentTabToAnalytics() {
+    TrailApp.analytics.setCurrentScreen(
+      screenName: 'tab/' + this._currentIndex.toString(),
     );
   }
 }

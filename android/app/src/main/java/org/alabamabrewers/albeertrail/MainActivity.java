@@ -1,4 +1,4 @@
-package com.example.beer_trail_app;
+package org.alabamabrewers.albeertrail;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

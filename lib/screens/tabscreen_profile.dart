@@ -195,8 +195,10 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                               visited.add(f.placeId);
                             }
                           });
-                          var notVisitedPlaces = (placesSnapshot.data as List<TrailPlace>)
-                            .where((p) => !visited.contains(p.id)).toList();
+                          var notVisitedPlaces =
+                              (placesSnapshot.data as List<TrailPlace>)
+                                  .where((p) => !visited.contains(p.id))
+                                  .toList();
                           notVisitedPlaces.forEach((p) {
                             notVisited.add(p.id);
                           });
@@ -219,6 +221,8 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
+                                          settings:
+                                              RouteSettings(name: 'Visited'),
                                           builder: (context) =>
                                               TrailPlacesScreen(
                                             appBarTitle: "Visited",
@@ -229,35 +233,39 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                     },
                                   ),
                                   ProfileStat(
-                                    value: notVisited.length,
-                                    postText: "Not Visited",
-                                    onPressed: () { Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              TrailPlacesScreen(
-                                            appBarTitle: "Not Visited",
-                                            placeIds: notVisited,
+                                      value: notVisited.length,
+                                      postText: "Not Visited",
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            settings: RouteSettings(
+                                                name: 'Not Visisted'),
+                                            builder: (context) =>
+                                                TrailPlacesScreen(
+                                              appBarTitle: "Not Visited",
+                                              placeIds: notVisited,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }                             
-                                  ),
+                                        );
+                                      }),
                                   ProfileStat(
-                                    value: favorites.length,
-                                    postText: "Favorites",
-                                    onPressed: () { Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              TrailPlacesScreen(
-                                            appBarTitle: "Favorites",
-                                            placeIds: favorites,
+                                      value: favorites.length,
+                                      postText: "Favorites",
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            settings: RouteSettings(
+                                                name: 'Favorites'),
+                                            builder: (context) =>
+                                                TrailPlacesScreen(
+                                              appBarTitle: "Favorites",
+                                              placeIds: favorites,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }   
-                                  ),
+                                        );
+                                      }),
                                 ],
                               ),
                             ],
@@ -283,6 +291,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
           Navigator.push(
               context,
               MaterialPageRoute(
+                  settings: RouteSettings(name: 'Edit Profile'),
                   builder: (context) =>
                       EditProfileScreen(userId: AppAuth().user.uid)));
         },

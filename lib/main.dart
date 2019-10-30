@@ -1,5 +1,7 @@
-import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
+import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
 import 'screens/screen_register.dart';
 import 'screens/screen_signin.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,9 @@ void main() {
 
 class TrailApp extends StatelessWidget {
   final navigatorKey = GlobalKey<NavigatorState>();
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   TrailApp() {
     AppAuth();
@@ -25,6 +30,7 @@ class TrailApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        navigatorObservers: <NavigatorObserver>[observer],
         navigatorKey: navigatorKey,
         title: Constants.strings.appName,
         debugShowCheckedModeBanner: true,
@@ -33,6 +39,7 @@ class TrailApp extends StatelessWidget {
         ),
         home: AppLoadingScreen(),
         routes: {
+          '/app-loading': (context) => AppLoadingScreen(),
           '/home': (context) => Home(),
           '/sign-in': (context) => SigninScreen(),
           '/register': (context) => RegisterScreen(),
