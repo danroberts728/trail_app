@@ -60,7 +60,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         color: Colors.white,
-                        margin: EdgeInsets.only(bottom: 6.0),
+                        margin: EdgeInsets.only(bottom: 6.0, left: 10.0),
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: ExpandableText(
                           isExpanded: false,
@@ -98,7 +98,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                       children: <Widget>[
                         Container(
                           padding: EdgeInsets.only(
-                            left: 16.0,
+                            left: 10.0,
                             right: 16.0,
                             bottom: 16.0,
                           ),
@@ -135,7 +135,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                     : Row(
                                         children: <Widget>[
                                           Text(
-                                            DateFormat(" h:mm a")
+                                            DateFormat("h:mm a")
                                                 .format(this.event.eventStart),
                                             style: TextStyle(
                                               color: Color(0xFF666666),
@@ -143,17 +143,10 @@ class TrailEventDetailScreen extends StatelessWidget {
                                             ),
                                           ),
                                           event.noEndTime
-                                              ? Text(
-                                                  " No End Time",
-                                                  style: TextStyle(
-                                                    color: Color(0xFF666666),
-                                                    fontSize: 20.0,
-                                                    fontStyle: FontStyle.italic,
-                                                  ),
-                                                )
+                                              ? Text(" ")
                                               : Text(
                                                   " ${String.fromCharCode(0x2014)} " +
-                                                      DateFormat(" h:mm a")
+                                                      DateFormat("h:mm a")
                                                           .format(this
                                                               .event
                                                               .eventEnd),
@@ -174,87 +167,93 @@ class TrailEventDetailScreen extends StatelessWidget {
                 ),
               ),
               // Location
-              Container(
-                color: Colors.white,
-                margin: EdgeInsets.only(bottom: 6.0),
-                child: ExpansionTile(
-                  initiallyExpanded: false,
-                  title: Text(
-                    "Location",
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      color: TrailAppSettings.second,
-                    ),
-                  ),
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: 16.0,
-                        right: 16.0,
-                        bottom: 16.0,
+              Visibility(
+                visible: this.event.eventLocationName != null &&
+                    this.event.eventLocationName.isNotEmpty,
+                child: Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.only(bottom: 6.0),
+                  child: ExpansionTile(
+                    initiallyExpanded: false,
+                    title: Text(
+                      "Location",
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        color: TrailAppSettings.second,
                       ),
-                      child: Container(
-                        color: Colors.white,
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              this.event.eventLocationName,
-                              style: TextStyle(
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.w700,
-                                fontStyle: FontStyle.italic,
-                                fontSize: 20.0,
+                    ),
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: 16.0,
+                          right: 16.0,
+                          bottom: 16.0,
+                        ),
+                        child: Container(
+                          color: Colors.white,
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                this.event.eventLocationName ?? "",
+                                style: TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.w700,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 20.0,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 4.0,
-                            ),
-                            Text(
-                              this.event.eventLocationAddress,
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontStyle: FontStyle.italic,
-                                fontSize: 20.0,
+                              SizedBox(
+                                height: 4.0,
                               ),
-                            ),
-                            SizedBox(height: 8.0,),
-                            RaisedButton(
-                              onPressed: () {
-                                AppLauncher().openDirections(this.event.eventLocationAddress);
-                              },
-                              color: TrailAppSettings.third,
-                              elevation: 12.0,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                                vertical: 8.0,
+                              Text(
+                                this.event.eventLocationAddress ?? "",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 20.0,
+                                ),
                               ),
-                              textColor: Colors.white,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.drive_eta,
-                                  ),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Text(
-                                    "Get Directions",
-                                    style: TextStyle(
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              RaisedButton(
+                                onPressed: () {
+                                  AppLauncher().openDirections(
+                                      this.event.eventLocationName + ", " +
+                                      this.event.eventLocationAddress);
+                                },
+                                color: TrailAppSettings.third,
+                                elevation: 12.0,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                  vertical: 8.0,
+                                ),
+                                textColor: Colors.white,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.drive_eta,
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
+                                    SizedBox(
+                                      width: 16.0,
+                                    ),
+                                    Text(
+                                      "Get Directions",
+                                      style: TextStyle(),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

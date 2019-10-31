@@ -17,8 +17,8 @@ class TrailEventCard extends StatefulWidget {
       {@required this.event,
       this.startMargin = 8.0,
       this.titleOverflow = TextOverflow.ellipsis,
-      this.colorBarWidth = 3.0, 
-      this.endMargin = 4.0, 
+      this.colorBarWidth = 3.0,
+      this.endMargin = 4.0,
       this.elevation = 4.0});
 
   @override
@@ -162,22 +162,27 @@ class _TrailEventCard extends State<TrailEventCard> {
                       SizedBox(
                         height: 4.0,
                       ),
-                      Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.location_on,
-                            color: Color(0xFF666666),
-                            size: 14.0,
-                          ),
-                          Text(
-                            " " + widget.event.eventLocationName,
-                            style: TextStyle(
+                      Visibility(
+                        visible: widget.event.eventLocationName != null,
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.location_on,
                               color: Color(0xFF666666),
-                              fontSize: 14.0,
+                              size: 14.0,
                             ),
-                          ),
-                        ],
-                      )
+                            Text(
+                              widget.event.eventLocationName != null
+                                ? " " + widget.event.eventLocationName
+                                : " ",
+                              style: TextStyle(
+                                color: Color(0xFF666666),
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

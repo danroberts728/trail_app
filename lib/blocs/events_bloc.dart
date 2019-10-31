@@ -38,23 +38,25 @@ class MonthlyEventsBloc extends Bloc {
 
     List<TrailEvent> newTrailEvents = List<TrailEvent>();
     newDocs.forEach((d) => newTrailEvents.add(TrailEvent(
-      eventName: d['event_name'],
-      eventSubTitle: d['event_sub_title'],
+      eventName: d['event_name'] ?? "Unnamed Event",
+      eventSubTitle: d['event_sub_title'] ?? "",
       eventStart: d['event_start'].toDate(),
-      eventCategory: List<String>.from(d['event_category']),
-      eventColor: fromHex(d['event_color']),
-      eventEnd: d['event_end'].toDate(),
+      eventCategory: d['event_category'] != null ? List<String>.from(d['event_category']) : List<String>(),
+      eventColor: d['event_color'] != null ? fromHex(d['event_color']) : Colors.black,
+      eventEnd: d['event_end'] != null ? d['event_end'].toDate() : null,
       eventImageUrl: d['event_image_url'],
       eventLocationAddress: d['event_location_address'],
-      eventLocationCoord: Point(d['event_location_coord'].latitude, d['event_location_coord'].longitude),
+      eventLocationCoord: d['event_location_coord'] != null
+        ? Point(d['event_location_coord'].latitude, d['event_location_coord'].longitude)
+        : null,
       eventLocationName: d['event_location_name'],
       eventTrailPlace: d['event_trail_place'],
-      isEventAllDay: d['is_all_day'],
-      isFeatured: d['is_featured'],
+      isEventAllDay: d['is_all_day'] ?? false,
+      isFeatured: d['is_featured'] ?? false,
       learnMoreLink: d['learn_more_link'],
-      noEndTime: d['no_end_time'],
+      noEndTime: d['no_end_time'] ?? d['event_end'] == null,
       eventDetails: d['event_details'] ?? '',
-      regionCategory: List<String>.from(d['region_category']),
+      regionCategory: d['region_category'] != null ? List<String>.from(d['region_category']) : List<String>(),
     )));
     this.trailEvents = newTrailEvents;
     this._trailEventsController.sink.add(this.trailEvents);
