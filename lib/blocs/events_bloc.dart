@@ -13,8 +13,12 @@ class MonthlyEventsBloc extends Bloc {
     DateTime startOfMonthDate = startOfMonth.toDate();
     Timestamp endOfMonth = Timestamp.fromDate( DateTime(startOfMonthDate.year, startOfMonthDate.month + 1) );
 
+    DateTime now = DateTime.now();
+
+    // Starting date is either the beginning of today or the beginning of the month, whichever is later.
+    // This prevents old events from showing up but still lists events tha happened today
     Timestamp startTimestamp = Timestamp.now().millisecondsSinceEpoch > startOfMonth.millisecondsSinceEpoch
-      ? Timestamp.now()
+      ? Timestamp.fromDate(DateTime(now.year, now.month, now.day, 0, 0, 0, 0, 0))
       : startOfMonth;
 
     Firestore.instance.collection('events/')

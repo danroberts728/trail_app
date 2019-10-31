@@ -11,13 +11,15 @@ class TrailEventCard extends StatefulWidget {
   final double endMargin;
   final TextOverflow titleOverflow;
   final double colorBarWidth;
+  final double elevation;
 
   TrailEventCard(
       {@required this.event,
       this.startMargin = 8.0,
       this.titleOverflow = TextOverflow.ellipsis,
       this.colorBarWidth = 3.0, 
-      this.endMargin = 4.0});
+      this.endMargin = 4.0, 
+      this.elevation = 4.0});
 
   @override
   State<StatefulWidget> createState() => _TrailEventCard();
@@ -44,7 +46,7 @@ class _TrailEventCard extends State<TrailEventCard> {
           right: widget.endMargin,
         ),
         child: Card(
-          elevation: 4.0,
+          elevation: widget.elevation,
           margin: EdgeInsets.all(0.0),
           child: Container(
             decoration: BoxDecoration(
@@ -118,6 +120,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                       Container(
                         child: Text(
                           widget.event.eventName,
+                          maxLines: 2,
                           overflow: widget.titleOverflow,
                           style: TextStyle(
                               color: TrailAppSettings.first,

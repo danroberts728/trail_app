@@ -44,7 +44,7 @@ class _MonthlyEventsList extends State<MonthlyEventsList> {
             return a.eventStart.compareTo(b.eventStart);
           });
           if(events.length == 0) {
-            _columnList.add(Text("No Events scheduled yet"));
+            _columnList.add(Text("No Events scheduled"));
           }
           events.forEach((e) {
             _columnList.add(

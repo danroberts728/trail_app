@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/expandable_text.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
@@ -28,6 +29,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                 endMargin: 0.0,
                 titleOverflow: TextOverflow.visible,
                 colorBarWidth: 6.0,
+                elevation: 1.0,
               ),
               // Event Image
               Visibility(
@@ -40,159 +42,220 @@ class TrailEventDetailScreen extends StatelessWidget {
                   imageUrl: this.event.eventImageUrl ?? '',
                 ),
               ),
-              // Title: Event Details
+              // Event Details
               Visibility(
                 visible: this.event.eventDetails.isNotEmpty,
                 child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Event Details".toUpperCase(),
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      color: TrailAppSettings.first,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                ),
-              ),
-              // Event Description
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: ExpandableText(
-                  isExpanded: false,
-                  text: this.event.eventDetails,
-                  fontSize: 16.0,
-                  previewCharacterCount: 200,
-                ),
-              ),
-              // Title: Event Time
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "Date and Time".toUpperCase(),
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    color: TrailAppSettings.first,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                ),
-              ),
-              // Event Time
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      DateFormat("EEEEE, MMMM dd, yyyy")
-                          .format(this.event.eventStart),
+                  color: Colors.white,
+                  margin: EdgeInsets.only(bottom: 6.0),
+                  child: ExpansionTile(
+                    initiallyExpanded: true,
+                    title: Text(
+                      "Event Details",
                       style: TextStyle(
-                        color: Color(0xFF666666),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.italic,
+                        fontSize: 22.0,
+                        color: TrailAppSettings.second,
                       ),
                     ),
-                    this.event.isEventAllDay
-                        ? Text(
-                            " (All Day: " +
-                                DateFormat("EEEEE")
-                                    .format(this.event.eventStart) +
-                                ") ",
-                            style: TextStyle(
-                              color: Color(0xFF666666),
-                              fontSize: 20.0,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          )
-                        : Row(
-                            children: <Widget>[
-                              Text(
-                                DateFormat(" h:mm a")
-                                    .format(this.event.eventStart),
-                                style: TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                              event.noEndTime
-                                  ? Text(
-                                      " No End Time",
-                                      style: TextStyle(
-                                        color: Color(0xFF666666),
-                                        fontSize: 20.0,
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    )
-                                  : Text(
-                                      " ${String.fromCharCode(0x2014)} " +
-                                          DateFormat(" h:mm a")
-                                              .format(this.event.eventEnd),
-                                      style: TextStyle(
-                                        color: Color(0xFF666666),
-                                        fontSize: 20.0,
-                                      ),
-                                    ),
-                            ],
-                          ),
-                  ],
+                    children: <Widget>[
+                      Container(
+                        color: Colors.white,
+                        margin: EdgeInsets.only(bottom: 6.0),
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ExpandableText(
+                          isExpanded: false,
+                          text: this.event.eventDetails,
+                          fontSize: 16.0,
+                          previewCharacterCount: 200,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              // Title: Location
-              Container(
-                margin: EdgeInsets.only(
-                  top: 16.0,
+              Visibility(
+                visible: !this.event.eventDetails.isNotEmpty,
+                child: SizedBox(
+                  height: 6.0,
                 ),
-                width: double.infinity,
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "Location".toUpperCase(),
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    color: TrailAppSettings.first,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+              ),
+              // Date and Time
+              Container(
+                color: Colors.white,
+                margin: EdgeInsets.only(bottom: 6.0),
+                child: ExpansionTile(
+                  initiallyExpanded: false,
+                  title: Text(
+                    "Date and Time",
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      color: TrailAppSettings.second,
+                    ),
                   ),
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(
+                            left: 16.0,
+                            right: 16.0,
+                            bottom: 16.0,
+                          ),
+                          child: Container(
+                            color: Colors.white,
+                            alignment: Alignment.topLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  DateFormat("EEEEE, MMMM dd, yyyy")
+                                      .format(this.event.eventStart),
+                                  style: TextStyle(
+                                    color: Color(0xFF666666),
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                                this.event.isEventAllDay
+                                    ? Text(
+                                        " (All Day: " +
+                                            DateFormat("EEEEE")
+                                                .format(this.event.eventStart) +
+                                            ") ",
+                                        style: TextStyle(
+                                          color: Color(0xFF666666),
+                                          fontSize: 20.0,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      )
+                                    : Row(
+                                        children: <Widget>[
+                                          Text(
+                                            DateFormat(" h:mm a")
+                                                .format(this.event.eventStart),
+                                            style: TextStyle(
+                                              color: Color(0xFF666666),
+                                              fontSize: 20.0,
+                                            ),
+                                          ),
+                                          event.noEndTime
+                                              ? Text(
+                                                  " No End Time",
+                                                  style: TextStyle(
+                                                    color: Color(0xFF666666),
+                                                    fontSize: 20.0,
+                                                    fontStyle: FontStyle.italic,
+                                                  ),
+                                                )
+                                              : Text(
+                                                  " ${String.fromCharCode(0x2014)} " +
+                                                      DateFormat(" h:mm a")
+                                                          .format(this
+                                                              .event
+                                                              .eventEnd),
+                                                  style: TextStyle(
+                                                    color: Color(0xFF666666),
+                                                    fontSize: 20.0,
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               // Location
               Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                color: Colors.white,
+                margin: EdgeInsets.only(bottom: 6.0),
+                child: ExpansionTile(
+                  initiallyExpanded: false,
+                  title: Text(
+                    "Location",
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      color: TrailAppSettings.second,
+                    ),
+                  ),
                   children: <Widget>[
-                    Text(
-                      this.event.eventLocationName,
-                      style: TextStyle(
-                        color: Color(0xFF666666),
-                        fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 20.0,
+                    Container(
+                      padding: EdgeInsets.only(
+                        left: 16.0,
+                        right: 16.0,
+                        bottom: 16.0,
                       ),
-                    ),
-                    SizedBox(
-                      height: 4.0,
-                    ),
-                    Text(
-                      this.event.eventLocationAddress,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 20.0,
+                      child: Container(
+                        color: Colors.white,
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              this.event.eventLocationName,
+                              style: TextStyle(
+                                color: Color(0xFF666666),
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.italic,
+                                fontSize: 20.0,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              this.event.eventLocationAddress,
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontStyle: FontStyle.italic,
+                                fontSize: 20.0,
+                              ),
+                            ),
+                            SizedBox(height: 8.0,),
+                            RaisedButton(
+                              onPressed: () {
+                                AppLauncher().openDirections(this.event.eventLocationAddress);
+                              },
+                              color: TrailAppSettings.third,
+                              elevation: 12.0,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                                vertical: 8.0,
+                              ),
+                              textColor: Colors.white,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.drive_eta,
+                                  ),
+                                  SizedBox(
+                                    width: 16.0,
+                                  ),
+                                  Text(
+                                    "Get Directions",
+                                    style: TextStyle(
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 16.0,
               ),
             ],
           ),
