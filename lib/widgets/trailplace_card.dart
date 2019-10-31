@@ -82,7 +82,7 @@ class _TrailListCard extends State<TrailListCard> {
                 padding: EdgeInsets.all(0.0),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(
+                    image: CachedNetworkImageProvider(
                       this.place.featuredImgUrl,
                     ),
                     fit: BoxFit.cover,
