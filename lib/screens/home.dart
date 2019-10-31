@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
+import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
 import '../main.dart';
@@ -65,6 +66,10 @@ class _HomeState extends State<Home> {
       appBarTitle: TrailAppSettings.navBarEventsTabTitle,
     ),
     TabScreen(
+      child: TabScreenNews(),
+      appBarTitle: TrailAppSettings.navBarNewsTabTitle,
+    ),
+    TabScreen(
       child: TabScreenProfile(),
       appBarTitle: TrailAppSettings.navBarProfileTabTitle,
     ),
@@ -107,6 +112,10 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(TrailAppSettings.navBarEventsIcon),
             title: Text(TrailAppSettings.navBarEventsLabel),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(TrailAppSettings.navBarNewsIcon),
+            title: Text(TrailAppSettings.navBarNewsLabel)
           ),
           BottomNavigationBarItem(
             icon: new Icon(TrailAppSettings.navBarProfileIcon),

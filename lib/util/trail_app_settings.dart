@@ -34,7 +34,7 @@ class TrailAppSettings {
   // Other Options
 	static final bool navBarShowSelectedLabels = true;
 	static final bool navBarShowUnselectedLabels = false;
-	static final String newsScreenRssFeedUrl = 'https://freethehops.org/category/announcements/feed/';
+	static final String newsScreenRssFeedUrl = 'https://freethehops.org/category/app-publish/feed/';
 	static final String defaultThumbnailUrl = 'https://freethehops.org/wp-content/uploads/sites/7/2019/05/FTH-Pocket-Logo-Teal-Front-cropped-150x150.jpeg';
 	static final int locationUpdatesIntervalMs = 5000;
 	static final double locationDisplacementFilterM = 10.0;
