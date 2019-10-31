@@ -38,7 +38,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
     galleryImageWidth = MediaQuery.of(context).size.width - 32.0;
     galleryImageHeight = galleryImageWidth * (9 / 16);
 
-    var galleryImageUrls = List.from(this.place.galleryUrls);
+    var galleryImageUrls = List.from(this.place.galleryUrls)
+      ..insert(0, this.place.featuredImgUrl);
     bool hasGalleryImages =
         galleryImageUrls != null && galleryImageUrls.length > 0;
 
@@ -59,9 +60,9 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 3.0),
                 child: hasGalleryImages
-                    ? CarouselSlider(
+                    ? CarouselSlider(                      
                         enableInfiniteScroll: true,
-                        enlargeCenterPage: false,
+                        enlargeCenterPage: true,
                         items: galleryImageUrls.map(
                           (imgUrl) {
                             return Builder(
