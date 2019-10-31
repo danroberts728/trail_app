@@ -212,7 +212,6 @@ class TrailEventDetailScreen extends StatelessWidget {
                                 this.event.eventLocationAddress ?? "",
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  fontStyle: FontStyle.italic,
                                   fontSize: 20.0,
                                 ),
                               ),
