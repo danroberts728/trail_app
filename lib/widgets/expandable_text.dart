@@ -49,6 +49,7 @@ class _ExpandableText extends State<ExpandableText>
           ? Text(firstHalf ?? '')
           : GestureDetector(
               onTap: () {
+                Feedback.forTap(context);
                 setState(() {
                   this.isExpanded = !isExpanded;
                 });

@@ -16,6 +16,7 @@ class TrailNewsItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        Feedback.forTap(context);
         AppLauncher().openWebsite(_item.link);
       },
       child: Container(

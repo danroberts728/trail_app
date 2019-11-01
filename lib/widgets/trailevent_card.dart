@@ -30,6 +30,7 @@ class _TrailEventCard extends State<TrailEventCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        Feedback.forTap(context);
         Navigator.push(
             context,
             MaterialPageRoute(
