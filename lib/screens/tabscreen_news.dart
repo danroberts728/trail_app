@@ -1,15 +1,15 @@
+import 'package:alabama_beer_trail/blocs/trailnews_bloc.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_child.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/beernews_item.dart';
+import 'package:alabama_beer_trail/widgets/trailnews_item.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:webfeed/webfeed.dart';
-import 'package:http/http.dart' as http;
 
 class TabScreenNews extends StatefulWidget implements TabScreenChild {
   @override
-  State<StatefulWidget> createState() => _TabScreenNews();  
+  State<StatefulWidget> createState() => _TabScreenNews();
 
   @override
   List<IconButton> getAppBarActions() {
@@ -19,23 +19,11 @@ class TabScreenNews extends StatefulWidget implements TabScreenChild {
 
 class _TabScreenNews extends State<TabScreenNews>
     with AutomaticKeepAliveClientMixin<TabScreenNews> {
-  RssFeed _rssFeed = RssFeed();
+  TrailNewsBloc _trailNewsBloc =
+      TrailNewsBloc(TrailAppSettings.newsScreenRssFeedUrl);
 
   @override
   bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    var client = new http.Client();
-    client.get(TrailAppSettings.newsScreenRssFeedUrl).then((response) {
-      return response.body;
-    }).then((bodyString) {
-      setState(() {
-        this._rssFeed = new RssFeed.parse(bodyString);
-      });
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +32,35 @@ class _TabScreenNews extends State<TabScreenNews>
       margin: EdgeInsets.symmetric(
         horizontal: 0.0,
       ),
-      child: ListView.builder(
-        itemCount: _rssFeed.items.length,
-        itemBuilder: (context, index) {
-          return Container(
-            child: NewsFeedItem(this._rssFeed.items[index]),
-          );
+      child: StreamBuilder(
+        stream: _trailNewsBloc.trailPlaceStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(snapshot.error.toString()),
+              ),
+            );
+            return Center(child: Text(snapshot.error.toString()));
+          } else {
+            List<RssItem> newsItems = snapshot.data;
+            return ListView.builder(              
+              itemCount: newsItems.length,
+              itemBuilder: (context, index) {
+                if (newsItems == null) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return Container(
+                    child: TrailNewsItem(newsItems[index]),
+                  );
+                }
+              },
+            );
+          }
         },
-      )
+      ),
     );
   }
 }
