@@ -33,8 +33,9 @@ class TrailPlacesBloc extends Bloc {
       categories: d['categories'] == null ? List<String>() : List<String>.from(d['categories']),
       connections: d['connections'] == null ? Map<String, String>() : Map<String, String>.from(d['connections']),
       hours: d['hours'] == null ? Map<String, String>() : Map<String,String>.from(d['hours']),
-      location: Point(d['location'].latitude,
-          d['location'].longitude),
+      location: (d['location'] is GeoPoint) 
+        ? Point(d['location'].latitude, d['location'].longitude)
+        : Point(d['location']['_latitude'], d['location']['_longitude']),
       description: d['description'],
       emails: d['emails'] == null ? Map<String, String>() : Map<String, String>.from(d['emails']),
       phones: d['phones'] == null ? Map<String, String>() : Map<String, String>.from(d['phones']),
