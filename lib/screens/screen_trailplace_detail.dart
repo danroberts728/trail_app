@@ -177,14 +177,14 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          place.address,
+                          place.address ?? "",
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.black54,
                           ),
                         ),
                         Text(
-                          place.city + ", " + place.state,
+                          place.city + ", " + (place.state ?? ""),
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.black54,

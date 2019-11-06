@@ -119,13 +119,13 @@ class _TrailListCard extends State<TrailListCard> {
                           ),
                           SizedBox(width: 4.0),
                           Text(
-                            this._locationEnabled
+                            this._locationEnabled && this.place.city != null
                                 ? this.place.city +
                                     " " +
                                     GeoMethods.toFriendlyDistanceString(
                                         this._distance) +
                                     " mi"
-                                : this.place.city,
+                                : this.place.city ?? "",
                             style: TextStyle(color: Colors.white),
                           ),
                           Spacer(),
