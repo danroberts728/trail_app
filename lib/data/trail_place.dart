@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class TrailPlace {
@@ -20,23 +21,59 @@ class TrailPlace {
   final Map<String, String> emails;
   final Map<String, String> phones;
 
-  TrailPlace( 
-      {
-      @required this.id,
-      @required this.name,
-      @required this.address,
-      @required this.city,
-      @required this.state,
-      @required this.zip,
-      @required this.featuredImgUrl,
-      @required this.logoUrl,
-      @required this.galleryUrls,
-      @required this.categories,
-      @required this.location,
-      @required this.connections,
-      @required this.hours,
-      @required this.description, 
-      @required this.emails, 
-      @required this.phones,
-      });
+  TrailPlace({
+    @required this.id,
+    @required this.name,
+    @required this.address,
+    @required this.city,
+    @required this.state,
+    @required this.zip,
+    @required this.featuredImgUrl,
+    @required this.logoUrl,
+    @required this.galleryUrls,
+    @required this.categories,
+    @required this.location,
+    @required this.connections,
+    @required this.hours,
+    @required this.description,
+    @required this.emails,
+    @required this.phones,
+  });
+
+  static TrailPlace createFromFirebase(DocumentSnapshot d) {
+    try {
+      return TrailPlace(
+        id: d.documentID,
+        name: d['name'],
+        address: d['address'],
+        city: d['city'],
+        state: d['state'],
+        zip: d['zip'],
+        logoUrl: d['logo_img'],
+        featuredImgUrl: d['featured_img'],
+        galleryUrls: d['gallery_urls'] == null
+            ? List<String>()
+            : List<String>.from(d['gallery_urls']),
+        categories: d['categories'] == null
+            ? List<String>()
+            : List<String>.from(d['categories']),
+        connections: d['connections'] == null
+            ? Map<String, String>()
+            : Map<String, String>.from(d['connections']),
+        hours: d['hours'] == null
+            ? Map<String, String>()
+            : Map<String, String>.from(d['hours']),
+        location: Point(d['location'].latitude, d['location'].longitude),
+        description: d['description'],
+        emails: d['emails'] == null
+            ? Map<String, String>()
+            : Map<String, String>.from(d['emails']),
+        phones: d['phones'] == null
+            ? Map<String, String>()
+            : Map<String, String>.from(d['phones']),
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
 }
