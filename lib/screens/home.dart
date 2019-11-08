@@ -21,16 +21,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
-  Text _appBarTitle;
-  List<IconButton> _appBarActions;
   bool _isSignedIn = false;
   GlobalKey _scaffoldKey = GlobalKey();
   StreamSubscription _authChangeSubscription;
-
-  _HomeState() {
-    _appBarTitle = Text(_children[_currentIndex].appBarTitle);
-    _appBarActions = _children[_currentIndex].getAppBarActions();
-  }
 
   @override
   void initState() {
@@ -59,27 +52,21 @@ class _HomeState extends State<Home> {
   final List<TabScreen> _children = [
     TabScreen(
       child: TabScreenTrail(),
-      appBarTitle: TrailAppSettings.navBarTrailTabTitle,
     ),
     TabScreen(
       child: TabScreenEvents(),
-      appBarTitle: TrailAppSettings.navBarEventsTabTitle,
     ),
     TabScreen(
       child: TabScreenNews(),
-      appBarTitle: TrailAppSettings.navBarNewsTabTitle,
     ),
     TabScreen(
       child: TabScreenProfile(),
-      appBarTitle: TrailAppSettings.navBarProfileTabTitle,
     ),
   ];
 
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
-      _appBarTitle = Text(_children[index].appBarTitle);
-      _appBarActions = _children[index].getAppBarActions();
       _sendCurrentTabToAnalytics();
     });
   }
@@ -88,10 +75,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: _appBarTitle,
-        actions: _appBarActions,
-      ),
       body: IndexedStack(
         index: _currentIndex,
         children: _children,
