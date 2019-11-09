@@ -38,10 +38,6 @@ class _TabScreenTrail extends State<TabScreenTrail>
               this._searchKeyTapped();
             },
           ),
-          IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: filterPressed,
-          ),
         ],
       ),
       body: StreamBuilder(

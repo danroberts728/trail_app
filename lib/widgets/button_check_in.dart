@@ -8,25 +8,23 @@ import 'package:flutter/widgets.dart';
 class CheckinButton extends StatefulWidget {
   final bool canCheckin;
   final TrailPlace place;
+  final bool showAlways;
 
-  CheckinButton({this.canCheckin = false, @required this.place});
+  CheckinButton(
+      {this.canCheckin = false, @required this.place, this.showAlways = false});
 
   @override
-  State<StatefulWidget> createState() => _CheckinButton(canCheckin, place);
+  State<StatefulWidget> createState() => _CheckinButton();
 }
 
 class _CheckinButton extends State<CheckinButton> {
-  bool canCheckin;
   UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
-  TrailPlace place;
-
-  _CheckinButton(this.canCheckin, this.place);
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
       // Check in button
-      visible: this.canCheckin,
+      visible: widget.canCheckin || widget.showAlways,
       child: StreamBuilder(
           stream: _userCheckinsBloc.checkInStream,
           builder: (context, snapshot) {
@@ -38,7 +36,7 @@ class _CheckinButton extends State<CheckinButton> {
             var today = DateTime(now.year, now.month, now.day);
 
             bool isCheckedIn = checkInsToday.any((e) =>
-                e.placeId == this.place.id &&
+                e.placeId == widget.place.id &&
                 DateTime(
                         e.timestamp.year, e.timestamp.month, e.timestamp.day) ==
                     today);
@@ -75,7 +73,73 @@ class _CheckinButton extends State<CheckinButton> {
                 onPressed: isCheckedIn
                     ? null
                     : () {
-                        _userCheckinsBloc.checkIn(this.place.id);
+                        if (!widget.canCheckin) {
+                          showGeneralDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              barrierColor: Colors.black.withOpacity(0.4),
+                              transitionDuration: Duration(milliseconds: 300),
+                              barrierLabel: '',
+                              transitionBuilder:
+                                  (context, anim1, anim2, child) {
+                                return Transform.scale(
+                                  alignment: Alignment.center,
+                                  scale: anim1.value,
+                                  child: child,
+                                );
+                              },
+                              pageBuilder: (context, anim1, anim2) {
+                                return Material(
+                                  type: MaterialType.transparency,
+                                  child: Center(
+                                    child: SizedBox(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            borderRadius:
+                                                BorderRadius.circular(16.0),
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 2.0,
+                                            )),
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              "You are not close enough to check in to " +
+                                                  widget.place.name,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 22.0,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 24.0,
+                                            ),
+                                            RaisedButton(
+                                              child: Text(
+                                                "Close",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              color: TrailAppSettings.second,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              });
+                          return null;
+                        } else {
+                          return _userCheckinsBloc.checkIn(widget.place.id);
+                        }
                       },
               ),
             );

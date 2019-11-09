@@ -60,7 +60,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 3.0),
                 child: hasGalleryImages
-                    ? CarouselSlider(                      
+                    ? CarouselSlider(
                         enableInfiniteScroll: true,
                         enlargeCenterPage: true,
                         items: galleryImageUrls.map(
@@ -143,18 +143,15 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                 ),
               ),
               // Check in button
-              Visibility(
-                visible:
-                    _getDistance() < TrailAppSettings.minDistanceToCheckin,
-                child: Container(
-                  margin: EdgeInsets.only(
-                    bottom: 6.0,
-                  ),
-                  child: CheckinButton(
-                    place: this.place,
-                    canCheckin:
-                        _getDistance() < TrailAppSettings.minDistanceToCheckin,
-                  ),
+              Container(
+                margin: EdgeInsets.only(
+                  bottom: 6.0,
+                ),
+                child: CheckinButton(
+                  showAlways: true,
+                  place: this.place,
+                  canCheckin:
+                      _getDistance() < TrailAppSettings.minDistanceToCheckin,
                 ),
               ),
               // Address and action buttons
