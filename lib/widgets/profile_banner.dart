@@ -50,18 +50,23 @@ class _ProfileBanner extends State<ProfileBanner> {
   @override
   Widget build(BuildContext context) {
     Widget imageProvider = this.imageUrl != null
-        ? CachedNetworkImage(
-            imageUrl: this.imageUrl,
-            imageBuilder: (context, imageProvider) => Container(
+        ? LayoutBuilder(
+            builder: (context, constraints) {
+              return CachedNetworkImage(
+                imageUrl: this.imageUrl,
+                imageBuilder: (context, imageProvider) => Container(
                   width: double.infinity,
-                  height: 140.0,
+                  height: constraints.maxWidth * (9/16),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: imageProvider, fit: BoxFit.cover),
                   ),
                 ),
-            placeholder: (context, url) => this.placeholder,
-            errorWidget: (context, url, error) => Icon(Icons.error))
+                placeholder: (context, url) => this.placeholder,
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              );
+            },
+          )
         : this.backupImage;
 
     var stackedWidgets = <Widget>[imageProvider];
@@ -79,25 +84,25 @@ class _ProfileBanner extends State<ProfileBanner> {
 
     ImageCropper.cropImage(
       sourcePath: file.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.ratio16x9
-      ],
+      aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
       androidUiSettings: AndroidUiSettings(
-        toolbarTitle: "Crop Banner Image",
-        toolbarColor: TrailAppSettings.themePrimarySwatch,
-        toolbarWidgetColor: Colors.white,
-        initAspectRatio: CropAspectRatioPreset.ratio16x9,
-        lockAspectRatio: true),
-      iosUiSettings: IOSUiSettings(
-        aspectRatioLockEnabled: true,
-        minimumAspectRatio: 1.7),
-      ).then((File croppedFile) {
-        var image = decodeImage((croppedFile).readAsBytesSync());
-        var scaledImage = copyResize(image, width: 1600, height: 900);
-        String scaledImageFilename = croppedFile.path + DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
-        File(scaledImageFilename)..writeAsBytesSync(encodeJpg(scaledImage, quality: this._imageQuality));
-        this._userDataBloc.updateBannerImage(File(scaledImageFilename));
-      });
+          toolbarTitle: "Crop Banner Image",
+          toolbarColor: TrailAppSettings.themePrimarySwatch,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.ratio16x9,
+          lockAspectRatio: true),
+      iosUiSettings:
+          IOSUiSettings(aspectRatioLockEnabled: true, minimumAspectRatio: 1.7),
+    ).then((File croppedFile) {
+      var image = decodeImage((croppedFile).readAsBytesSync());
+      var scaledImage = copyResize(image, width: 1600, height: 900);
+      String scaledImageFilename = croppedFile.path +
+          DateTime.now().millisecondsSinceEpoch.toString() +
+          '.jpg';
+      File(scaledImageFilename)
+        ..writeAsBytesSync(encodeJpg(scaledImage, quality: this._imageQuality));
+      this._userDataBloc.updateBannerImage(File(scaledImageFilename));
+    });
   }
 
   Future<dynamic> showBottomModalSelector() {

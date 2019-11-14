@@ -28,16 +28,10 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
 
   final LocationBloc _locationBloc = LocationBloc();
 
-  double galleryImageWidth;
-  double galleryImageHeight;
-
   _TrailPlaceDetailScreen(this.place);
 
   @override
   Widget build(BuildContext context) {
-    galleryImageWidth = MediaQuery.of(context).size.width - 32.0;
-    galleryImageHeight = galleryImageWidth * (9 / 16);
-
     var galleryImageUrls = List.from(this.place.galleryUrls)
       ..insert(0, this.place.featuredImgUrl);
     bool hasGalleryImages =
@@ -60,27 +54,34 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 3.0),
                 child: hasGalleryImages
-                    ? CarouselSlider(
-                        enableInfiniteScroll: true,
-                        enlargeCenterPage: true,
-                        items: galleryImageUrls.map(
-                          (imgUrl) {
-                            return Builder(
-                              builder: (context) {
-                                return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 3.0),
-                                  child: Image(
-                                    fit: BoxFit.cover,
-                                    image: CachedNetworkImageProvider(imgUrl),
-                                    width: galleryImageWidth,
-                                    height: galleryImageHeight,
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ).toList(),
-                      )
+                    ? LayoutBuilder(builder: (context, constraints) {
+                        var mainImageWidth = (constraints.maxWidth * 0.8);
+                        var mainImageHeight = mainImageWidth * (9 / 16);
+
+                        return CarouselSlider(
+                          height: mainImageHeight,
+                          enableInfiniteScroll: true,
+                          enlargeCenterPage: true,
+                          items: galleryImageUrls.map(
+                            (imgUrl) {
+                              return Builder(
+                                builder: (context) {
+                                  return Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 3.0),
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      image: CachedNetworkImageProvider(imgUrl),
+                                      width: mainImageWidth,
+                                      height: mainImageHeight,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ).toList(),
+                        );
+                      })
                     : SizedBox(
                         height: 0.0,
                       ),

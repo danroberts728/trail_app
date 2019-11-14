@@ -133,7 +133,7 @@ class TrailListViewState extends State<TrailListView> {
               AnimatedContainer(
                 duration: Duration(milliseconds: 500),
                 height: _showSearchBar ? 50.0 : 0.0,
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                 child: Visibility(
                   visible: _showSearchBar,
                   child: TextField(

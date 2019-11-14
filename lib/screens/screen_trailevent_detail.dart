@@ -35,11 +35,16 @@ class TrailEventDetailScreen extends StatelessWidget {
               Visibility(
                 visible: this.event.eventImageUrl != null &&
                     this.event.eventImageUrl != '',
-                child: CachedNetworkImage(
-                  height: 200.0,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  imageUrl: this.event.eventImageUrl ?? '',
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return CachedNetworkImage(
+                      height: constraints.maxWidth * (9/16),
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                      imageUrl: this.event.eventImageUrl ?? '',
+                    );
+                  },
                 ),
               ),
               // Event Details
@@ -221,8 +226,9 @@ class TrailEventDetailScreen extends StatelessWidget {
                               RaisedButton(
                                 onPressed: () {
                                   AppLauncher().openDirections(
-                                      this.event.eventLocationName + ", " +
-                                      this.event.eventLocationAddress);
+                                      this.event.eventLocationName +
+                                          ", " +
+                                          this.event.eventLocationAddress);
                                 },
                                 color: TrailAppSettings.third,
                                 elevation: 12.0,

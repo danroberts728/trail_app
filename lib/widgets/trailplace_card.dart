@@ -50,18 +50,17 @@ class _TrailListCard extends State<TrailListCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Feedback.forTap(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                settings: RouteSettings(
-                  name: 'Trail Place - ' + widget.place.name,
-                ),
-                builder: (context) => TrailPlaceDetailScreen(place: place)));
-      },
-      child: Container(
+    return GestureDetector(onTap: () {
+      Feedback.forTap(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              settings: RouteSettings(
+                name: 'Trail Place - ' + widget.place.name,
+              ),
+              builder: (context) => TrailPlaceDetailScreen(place: place)));
+    }, child: LayoutBuilder(builder: (context, constraints) {
+      return Container(
         padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
         child: Card(
           elevation: 12.0,
@@ -79,14 +78,15 @@ class _TrailListCard extends State<TrailListCard> {
                 ),
               ),
               Container(
-                height: 150.0,
+                width: constraints.maxWidth,
+                height: constraints.maxWidth * (9/16), // Force 16:9 image ratio
                 padding: EdgeInsets.all(0.0),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: CachedNetworkImageProvider(
-                      this.place.featuredImgUrl,
+                      this.place.featuredImgUrl,                    
                     ),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.cover,                    
                     repeat: ImageRepeat.noRepeat,
                     alignment: Alignment.center,
                   ),
@@ -96,7 +96,7 @@ class _TrailListCard extends State<TrailListCard> {
                   children: <Widget>[
                     SizedBox(
                       // Space for featured photo
-                      height: 110.0,
+                      height: constraints.maxWidth * (9/16) - 40,
                     ),
                     Container(
                       // Location and action buttons
@@ -144,8 +144,8 @@ class _TrailListCard extends State<TrailListCard> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    }));
   }
 
   @override
