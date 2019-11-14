@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:location/location.dart';
 
 import 'bloc.dart';
@@ -15,6 +16,15 @@ class LocationBloc extends Bloc {
   LocationBloc._internal() {
     _location.hasPermission().then((result) {
       this.hasPermission = result;
+      if (result) {
+        this._location.changeSettings(
+            interval: TrailAppSettings.locationUpdatesIntervalMs,
+            distanceFilter: TrailAppSettings.locationUpdatesDisplacementThreshold );
+        this._location.onLocationChanged().listen((data) {
+          this.lastLocation = Point(data.latitude, data.longitude);
+          _locationStreamController.sink.add(this.lastLocation);
+        });
+      }
     });
   }
 
@@ -33,15 +43,12 @@ class LocationBloc extends Bloc {
     _location.hasPermission().then((result) {
       this.hasPermission = result;
       if (hasPermission) {
-        _location.getLocation().then((data) {
-          this.lastLocation = Point(data.latitude, data.longitude);
-          _locationStreamController.sink.add(this.lastLocation);
-        });
+        _location.getLocation();
       } else {
         _location.requestPermission().then((result) {
-          if(result) {
-            refreshLocation();
-          } 
+          if (result) {
+           _location.getLocation();
+          }
         });
       }
     });

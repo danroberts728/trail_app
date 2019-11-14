@@ -36,9 +36,9 @@ class TrailAppSettings {
 	static final bool navBarShowUnselectedLabels = false;
 	static final String newsScreenRssFeedUrl = 'https://freethehops.org/category/app-publish/feed/';
 	static final String defaultNewsThumbnailAsset = 'assets/images/newsfeed_empty_image.jpg';
-	static final int locationUpdatesIntervalMs = 5000;
-	static final double locationDisplacementFilterM = 10.0;
-	static final double minDistanceToCheckin = 0.15;
+	static final int locationUpdatesIntervalMs = 300000;
+  static final double locationUpdatesDisplacementThreshold = 10;
+	static final double minDistanceToCheckin = 0.05;
 	static final List<TrailPlaceCategory> filterStrings = <TrailPlaceCategory> [
     TrailPlaceCategory("Brewery", "Breweries"),
     TrailPlaceCategory("Distillery", "Distilleries"),
