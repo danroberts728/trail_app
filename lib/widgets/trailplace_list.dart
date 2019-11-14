@@ -97,6 +97,13 @@ class TrailListViewState extends State<TrailListView> {
     _refreshScreen();
   }
 
+  Future<void> _refreshPulled() {
+    setState(() {
+      _showUpdate = true;
+    });    
+     return _locationBloc.refreshLocation();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -117,8 +124,7 @@ class TrailListViewState extends State<TrailListView> {
     } else {
       return RefreshIndicator(
         onRefresh: () {
-          _showUpdate = true;
-          return _locationBloc.refreshLocation();
+          return _refreshPulled();          
         },
         child: Container(
           child: Column(

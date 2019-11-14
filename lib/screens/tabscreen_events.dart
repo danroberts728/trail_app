@@ -1,4 +1,3 @@
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_monthly_list.dart';
 import 'package:flutter/material.dart';
 
@@ -15,29 +14,24 @@ class _TabScreenEvents extends State<TabScreenEvents> {
   Widget build(BuildContext context) {
     var now = DateTime.now();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(TrailAppSettings.navBarEventsTabTitle),
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              MonthlyEventsList(
-                month: now,
-              ),
-              MonthlyEventsList(
-                month: DateTime(now.year, now.month + 1),
-              ),
-              MonthlyEventsList(
-                month: DateTime(now.year, now.month + 2),
-              ),
-              SizedBox(height: 16.0),
-            ],
-          ),
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            MonthlyEventsList(
+              month: now,
+            ),
+            MonthlyEventsList(
+              month: DateTime(now.year, now.month + 1),
+            ),
+            MonthlyEventsList(
+              month: DateTime(now.year, now.month + 2),
+            ),
+            SizedBox(height: 16.0),
+          ],
         ),
       ),
     );

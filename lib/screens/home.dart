@@ -12,6 +12,11 @@ import 'tabscreen.dart';
 import 'tabscreen_trail.dart';
 import 'package:flutter/material.dart';
 
+/// The app home screen
+/// 
+/// This controls the scaffold for the tabs
+/// and directs the user to the tabs
+/// or the sign in screen
 class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -21,6 +26,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+  Text _appBarTitle;
   bool _isSignedIn = false;
   GlobalKey _scaffoldKey = GlobalKey();
   StreamSubscription _authChangeSubscription;
@@ -28,6 +34,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    _appBarTitle = Text(_children[_currentIndex].appBarTitle);
     _authChangeSubscription = AppAuth().onAuthChange.listen((user) {
       this._isSignedIn = user != null;
       if (!this._isSignedIn) {
@@ -51,15 +58,19 @@ class _HomeState extends State<Home> {
 
   final List<TabScreen> _children = [
     TabScreen(
+      appBarTitle: TrailAppSettings.navBarTrailTabTitle,
       child: TabScreenTrail(),
     ),
     TabScreen(
+      appBarTitle: TrailAppSettings.navBarEventsTabTitle,
       child: TabScreenEvents(),
     ),
     TabScreen(
+      appBarTitle: TrailAppSettings.navBarNewsTabTitle,
       child: TabScreenNews(),
     ),
     TabScreen(
+      appBarTitle: TrailAppSettings.navBarProfileTabTitle,
       child: TabScreenProfile(),
     ),
   ];
@@ -67,6 +78,7 @@ class _HomeState extends State<Home> {
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+      _appBarTitle = Text(_children[index].appBarTitle);
       _sendCurrentTabToAnalytics();
     });
   }
@@ -75,6 +87,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        title: _appBarTitle,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+
+            },
+          )
+        ],
+      ),
       body: IndexedStack(
         index: _currentIndex,
         children: _children,

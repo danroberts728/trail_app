@@ -22,43 +22,38 @@ class _TabScreenNews extends State<TabScreenNews>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(TrailAppSettings.navBarNewsTabTitle),
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 0.0,
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 0.0,
-        ),
-        child: StreamBuilder(
-          stream: _trailNewsBloc.trailPlaceStream,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(snapshot.error.toString()),
-                ),
-              );
-              return Center(child: Text(snapshot.error.toString()));
-            } else {
-              List<RssItem> newsItems = snapshot.data;
-              return ListView.builder(
-                itemCount: newsItems.length,
-                itemBuilder: (context, index) {
-                  if (newsItems == null) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    return Container(
-                      child: TrailNewsItem(newsItems[index]),
-                    );
-                  }
-                },
-              );
-            }
-          },
-        ),
+      child: StreamBuilder(
+        stream: _trailNewsBloc.trailPlaceStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(snapshot.error.toString()),
+              ),
+            );
+            return Center(child: Text(snapshot.error.toString()));
+          } else {
+            List<RssItem> newsItems = snapshot.data;
+            return ListView.builder(
+              itemCount: newsItems.length,
+              itemBuilder: (context, index) {
+                if (newsItems == null) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return Container(
+                    child: TrailNewsItem(newsItems[index]),
+                  );
+                }
+              },
+            );
+          }
+        },
       ),
     );
   }
