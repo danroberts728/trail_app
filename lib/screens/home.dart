@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 
 import '../main.dart';
 import '../blocs/appauth_bloc.dart';
@@ -93,7 +94,10 @@ class _HomeState extends State<Home> {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-
+              showSearch(
+                context: context,
+                delegate: TrailSearchDelegate(),
+              );
             },
           )
         ],

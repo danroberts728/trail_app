@@ -23,23 +23,10 @@ class TrailListView extends StatefulWidget {
 }
 
 class TrailListViewState extends State<TrailListView> {
-  String _searchQuery;
-  final _searchController = new TextEditingController();
-  bool _showSearchBar = false;
   FilterOptions _filter;
   bool _showUpdate;
 
   var _locationBloc = LocationBloc();
-
-  void updateSearchQuery(String query) {
-    this._searchQuery = query;
-  }
-
-  void showSearchBar() {
-    setState(() {
-      _showSearchBar = true;
-    });
-  }
 
   void showFilterModal() {
     showDialog(
@@ -55,7 +42,7 @@ class TrailListViewState extends State<TrailListView> {
       }
       setState(() {
         this._filter = value;
-      });      
+      });
       if (doUpdate) {
         _refreshScreen();
       }
@@ -63,6 +50,9 @@ class TrailListViewState extends State<TrailListView> {
   }
 
   void _refreshScreen() {
+    if(!this.mounted) {
+      return;
+    }
     // Clear the screen
     setState(() {
       _showUpdate = true;
@@ -100,8 +90,8 @@ class TrailListViewState extends State<TrailListView> {
   Future<void> _refreshPulled() {
     setState(() {
       _showUpdate = true;
-    });    
-     return _locationBloc.refreshLocation();
+    });
+    return _locationBloc.refreshLocation();
   }
 
   @override
@@ -124,52 +114,11 @@ class TrailListViewState extends State<TrailListView> {
     } else {
       return RefreshIndicator(
         onRefresh: () {
-          return _refreshPulled();          
+          return _refreshPulled();
         },
         child: Container(
           child: Column(
             children: <Widget>[
-              // Search
-              AnimatedContainer(
-                duration: Duration(milliseconds: 500),
-                height: _showSearchBar ? 50.0 : 0.0,
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                child: Visibility(
-                  visible: _showSearchBar,
-                  child: TextField(
-                    onChanged: (query) {
-                      setState(() {
-                        _searchQuery = query;
-                      });
-                    },
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0.0),
-                      suffixIcon: _showSearchBar
-                          ? IconButton(
-                              icon: Icon(Icons.clear, color: Colors.grey),
-                              onPressed: () {
-                                _searchController.clear();
-                                setState(() {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-                                  _showSearchBar = false;
-                                  _searchQuery = "";
-                                });
-                              },
-                            )
-                          : null,
-                      isDense: true,
-                      labelText: '',
-                      hintText: '',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               // ListView
               Expanded(
                 child: Container(
@@ -189,18 +138,10 @@ class TrailListViewState extends State<TrailListView> {
                           .any((f) => filterIncludes.contains(f))) {
                         // Remove items that don't match filter
                         return Container();
-                      } else if (_searchQuery == null ||
-                          _searchQuery.isEmpty ||
-                          widget.places[index].name
-                              .toLowerCase()
-                              .contains(_searchQuery.toLowerCase())) {
-                        // Only include items that match search (or all filtered items if search is not active)
+                      } else {
                         return TrailListCard(
                           place: widget.places[index],
                         );
-                      } else {
-                        // Remove items that don't match search
-                        return Container();
                       }
                     },
                   ),
