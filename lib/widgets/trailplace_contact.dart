@@ -24,42 +24,35 @@ class TrailPlaceContact extends StatelessWidget {
     if (phones != null && phones.length != 0) {
       phones.forEach((phoneTitle, phoneNumber) {
         retval.add(
-          Flex(
-            direction: Axis.horizontal,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Text(
-                  phoneTitle,
-                  style: TextStyle(
-                      color: TrailAppSettings.first,
-                      fontSize: 18.0,
-                      height: 1.4,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: FlatButton(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.phone),
-                      SizedBox(
-                        width: 6.0,
-                      ),
-                      Text(
-                        phoneNumber,
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ],
+          RaisedButton(
+              elevation: 4.0,
+              padding: EdgeInsets.all(8.0),
+              color: TrailAppSettings.third,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4.0))),
+              onPressed: () {
+                AppLauncher().call(phoneNumber);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.phone,
+                    color: Colors.white,
                   ),
-                  onPressed: () {
-                    AppLauncher().call(phoneNumber);
-                  },
-                ),
-              ),
-            ],
-          ),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Text(
+                    phoneTitle,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        height: 1.4,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )),
         );
       });
     }
@@ -68,40 +61,35 @@ class TrailPlaceContact extends StatelessWidget {
       emails.forEach(
         (emailTitle, emailAddress) {
           retval.add(
-            Flex(
-              direction: Axis.horizontal,
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Text(
+            RaisedButton(
+              elevation: 4.0,
+              padding: EdgeInsets.all(8.0),
+              color: TrailAppSettings.third,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4.0))),
+              onPressed: () {
+                AppLauncher().email(emailAddress);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Text(
                     emailTitle,
                     style: TextStyle(
-                      color: TrailAppSettings.first,
-                      fontSize: 18.0,
-                    ),
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        height: 1.4,
+                        fontWeight: FontWeight.bold),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: FlatButton(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.email),
-                        SizedBox(
-                          width: 6.0,
-                        ),
-                        Text(
-                          emailAddress,
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      AppLauncher().call(emailAddress);
-                    },
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

@@ -48,4 +48,8 @@ class AppLauncher {
   void call(String number) async {
     launch("tel: $number");
   }
+
+  void email(String address) async {
+    launch("mailto: $address");
+  }
 }
