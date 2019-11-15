@@ -34,8 +34,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
   Widget build(BuildContext context) {
     var galleryImageUrls = List.from(this.place.galleryUrls)
       ..insert(0, this.place.featuredImgUrl);
-    bool hasGalleryImages =
-        galleryImageUrls != null && galleryImageUrls.length > 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -53,14 +51,23 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
               Container(
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 3.0),
-                child: hasGalleryImages
-                    ? LayoutBuilder(builder: (context, constraints) {
-                        var mainImageWidth = (constraints.maxWidth * 0.8);
+                child: LayoutBuilder(builder: (context, constraints) {
+                        var mainImageFullWidth = constraints.maxWidth;
+                        var mainImageFullHeight = mainImageFullWidth * (9/16);
+
+                        var mainImageWidth = (constraints.maxWidth * 0.8);                        
                         var mainImageHeight = mainImageWidth * (9 / 16);
 
                         return CarouselSlider(
-                          height: mainImageHeight,
-                          enableInfiniteScroll: true,
+                          viewportFraction: galleryImageUrls.length > 2
+                            ? 0.8
+                            : 1.0,
+                          height: galleryImageUrls.length > 2
+                            ? mainImageHeight
+                            : mainImageFullHeight,
+                          enableInfiniteScroll: galleryImageUrls.length > 2
+                            ? true
+                            : false,
                           enlargeCenterPage: true,
                           items: galleryImageUrls.map(
                             (imgUrl) {
@@ -72,8 +79,12 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                                     child: Image(
                                       fit: BoxFit.cover,
                                       image: CachedNetworkImageProvider(imgUrl),
-                                      width: mainImageWidth,
-                                      height: mainImageHeight,
+                                      width:galleryImageUrls.length > 2
+                                        ? mainImageWidth
+                                        : mainImageFullWidth,
+                                      height: galleryImageUrls.length > 2
+                                        ? mainImageHeight
+                                        : mainImageFullHeight,
                                     ),
                                   );
                                 },
@@ -82,9 +93,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                           ).toList(),
                         );
                       })
-                    : SizedBox(
-                        height: 0.0,
-                      ),
               ),
               // Place Header (logo, name, categories)
               Container(

@@ -43,7 +43,10 @@ class LocationBloc extends Bloc {
     _location.hasPermission().then((result) {
       this.hasPermission = result;
       if (hasPermission) {
-        _location.getLocation();
+        _location.getLocation().then((result) {
+          this.lastLocation = Point(result.latitude, result.longitude);
+          _locationStreamController.sink.add(this.lastLocation);
+        });
       } else {
         _location.requestPermission().then((result) {
           if (result) {
