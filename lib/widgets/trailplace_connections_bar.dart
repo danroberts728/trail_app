@@ -9,7 +9,6 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
   final String instagramUrl;
   final String youtubeUrl;
   final String untappdUrl;
-
   final double iconSize;
 
   TrailPlaceConnectionsBar(
@@ -31,10 +30,10 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
       margin: EdgeInsets.all(0.0),
       width: double.infinity,
       child: Wrap(
-        alignment: WrapAlignment.center,
+        alignment: WrapAlignment.start,
         children: <Widget>[
           Visibility(
-            visible: this.websiteUrl != null,
+            visible: this.websiteUrl != null && this.websiteUrl.isNotEmpty,
             child: ButtonTheme(
               minWidth: 40.0,
               child: FlatButton(
@@ -48,7 +47,7 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: this.facebookUrl != null,
+            visible: this.facebookUrl != null && this.facebookUrl.isNotEmpty,
             child: ButtonTheme(
               minWidth: 40.0,
               child: FlatButton(
@@ -62,7 +61,7 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: this.twitterUrl != null,
+            visible: this.twitterUrl != null && this.twitterUrl.isNotEmpty,
             child: ButtonTheme(
               minWidth: 40.0,
               child: FlatButton(
@@ -76,7 +75,7 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: this.instagramUrl != null,
+            visible: this.instagramUrl != null && this.instagramUrl.isNotEmpty,
             child: ButtonTheme(
               minWidth: 40.0,
               child: FlatButton(
@@ -90,7 +89,7 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: this.youtubeUrl != null,
+            visible: this.youtubeUrl != null && this.youtubeUrl.isNotEmpty,
             child: ButtonTheme(
               minWidth: 40.0,
               child: FlatButton(
@@ -104,7 +103,7 @@ class TrailPlaceConnectionsBar extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: this.untappdUrl != null,
+            visible: false, // For now
             child: ButtonTheme(
               minWidth: 40.0,
               child: FlatButton(

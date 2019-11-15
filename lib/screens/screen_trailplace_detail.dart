@@ -148,7 +148,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                   instagramUrl: this.place.connections['instagram'],
                   untappdUrl: this.place.connections['untappd'],
                   youtubeUrl: this.place.connections['youtube'],
-                  iconSize: 16.0,
+                  iconSize: 24.0,
                 ),
               ),
               // Check in button
