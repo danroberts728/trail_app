@@ -18,7 +18,8 @@ class LocationBloc extends Bloc {
       this.hasPermission = result;
       if (result) {
         this._location.changeSettings(
-            distanceFilter: TrailAppSettings.locationUpdatesDisplacementThreshold );
+            interval: TrailAppSettings.locationUpdatesIntervalMs,
+        );
         this._location.onLocationChanged().listen((data) {
           this.lastLocation = Point(data.latitude, data.longitude);
           _locationStreamController.sink.add(this.lastLocation);
