@@ -91,7 +91,18 @@ class TrailListViewState extends State<TrailListView> {
     setState(() {
       _showUpdate = true;
     });
-    return _locationBloc.refreshLocation();
+    return _locationBloc.refreshLocation().then( (_) {
+      if(!_showUpdate) {
+        setState(() {
+          _showUpdate = false;
+        });
+      }
+    }).timeout(Duration(seconds: 5),
+      onTimeout: () {
+        setState(() {
+          _showUpdate = false;
+        });
+    });
   }
 
   @override
