@@ -1,5 +1,6 @@
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/data/user_data.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:flutter/material.dart';
 
@@ -48,13 +49,13 @@ class _TrailPlaceActionButtonWidget extends State<TrailPlaceActionButtonWidget> 
           // Favorite
           SizedBox(
             width: 26.0,
-            child: StreamBuilder<Map<String, dynamic>>(
+            child: StreamBuilder<UserData>(
               stream: userDataBloc.userDataStream,
               builder: (context, snapshot) {
                 List<String> favorites =
                     (snapshot.connectionState == ConnectionState.waiting)
-                        ? List<String>.from(userDataBloc.userData['favorites'])
-                        : List<String>.from(snapshot.data['favorites']);
+                        ? List<String>.from(userDataBloc.userData.favorites)
+                        : List<String>.from(snapshot.data.favorites);
                 bool isFavorite =
                     favorites != null && favorites.contains(this.place.id);
                 return FlatButton(

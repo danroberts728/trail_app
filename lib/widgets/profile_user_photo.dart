@@ -42,8 +42,8 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
   void initState() {
     super.initState();
     this._userDataBloc.userDataStream.listen((newData) {
-      if (this.imageUrl != newData['profilePhotoUrl']) {
-        this.imageUrl = newData['profilePhotoUrl'];
+      if (this.imageUrl != newData.profilePhotoUrl) {
+        this.imageUrl = newData.profilePhotoUrl;
       }
     });
   }
@@ -68,7 +68,17 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                 height: 100.0,
                 child: Center(child: this.placeholder)),
             errorWidget: (context, url, error) => Icon(Icons.error))
-        : this.backupImage;
+        : Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 3.0),
+            image: DecorationImage(
+              image: this.backupImage, fit: BoxFit.cover
+            )
+          )
+        );
 
     var stackedWidgets = <Widget>[imageProvider];
     if (this.canEdit) {

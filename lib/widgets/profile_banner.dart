@@ -41,33 +41,43 @@ class _ProfileBanner extends State<ProfileBanner> {
   void initState() {
     super.initState();
     this._userDataBloc.userDataStream.listen((newData) {
-      if (this.imageUrl != newData['bannerImageUrl']) {
-        this.imageUrl = newData['bannerImageUrl'];
+      if (this.imageUrl != newData.bannerImageUrl) {
+        this.imageUrl = newData.bannerImageUrl;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget imageProvider = this.imageUrl != null
-        ? LayoutBuilder(
-            builder: (context, constraints) {
-              return CachedNetworkImage(
-                imageUrl: this.imageUrl,
-                imageBuilder: (context, imageProvider) => Container(
-                  width: double.infinity,
-                  height: constraints.maxWidth * (9/16),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: imageProvider, fit: BoxFit.cover),
-                  ),
-                ),
-                placeholder: (context, url) => this.placeholder,
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              );
-            },
-          )
-        : this.backupImage;
+    Widget imageProvider = LayoutBuilder(
+      builder: (context, constraints) {
+        return this.imageUrl != null
+        ? CachedNetworkImage(
+          imageUrl: this.imageUrl,
+          imageBuilder: (context, imageProvider) => Container(
+            width: double.infinity,
+            height: constraints.maxWidth * (9 / 16),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover),
+            ),
+          ),
+          placeholder: (context, url) => this.placeholder,
+          errorWidget: (context, url, error) => Icon(Icons.error),
+        )
+        : Container(
+          width: double.infinity,
+          height: constraints.maxWidth * (9/16),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: this.backupImage,
+              fit: BoxFit.cover,
+            )
+          ),
+        );
+      },
+    );
 
     var stackedWidgets = <Widget>[imageProvider];
     if (this.canEdit) {
