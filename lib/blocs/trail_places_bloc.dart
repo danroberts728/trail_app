@@ -7,7 +7,10 @@ import 'bloc.dart';
 
 class TrailPlacesBloc extends Bloc {
   TrailPlacesBloc() {
-    Firestore.instance.collection('places/').snapshots().listen(_onDataUpdate);
+    Firestore.instance.collection('places/')
+      .where('published', isEqualTo: true)
+      .snapshots()
+      .listen(_onDataUpdate);
   }
 
   List<TrailPlace> trailPlaces = List<TrailPlace>();
