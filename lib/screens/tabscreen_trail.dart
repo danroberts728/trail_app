@@ -1,60 +1,47 @@
-import 'package:alabama_beer_trail/screens/tabscreen_trail_list.dart';
-import 'package:alabama_beer_trail/screens/tabscreen_trail_map.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
+import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
 
-/// The tab screen for the Trail
-/// 
+import 'package:flutter/material.dart';
+import '../data/trail_place.dart';
+
+/// The trail tab screen
+///
+/// This is the major screen for the app
 class TabScreenTrail extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _TabScreenTrail();
 }
 
-/// The state for the trail tab
-/// 
+/// The state of the trail tab screen
+///
 class _TabScreenTrail extends State<TabScreenTrail>
-    with SingleTickerProviderStateMixin {
+    with AutomaticKeepAliveClientMixin<TabScreenTrail> {
+  /// The global ke yfor the list view state
+  var _trailListViewKey = GlobalKey<TrailListViewState>();
 
-  /// The controller for the sub-tab
-  /// 
-  /// The tabs switch between the list and map screens
-  TabController _controller;
+  /// The BloC for the trail places
+  var _trailPlacesBloc = TrailPlacesBloc();
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = TabController(length: 2, vsync: this);
+  void filterPressed() {
+    _trailListViewKey.currentState.showFilterModal();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          color: Colors.white,
-          child: TabBar(
-            isScrollable: false,
-            labelPadding: EdgeInsets.symmetric(vertical: 0.0),
-            indicatorColor: TrailAppSettings.second,
-            indicatorWeight: 4.0,
-            labelColor: TrailAppSettings.second,
-            controller: _controller,
-            tabs: <Widget>[Tab(text: "List"), Tab(text: "Map")],
-          ),
-        ),
-        Expanded(
-          child: Container(
-            child: TabBarView(
-              controller: _controller,
-              children: <Widget>[
-                TabScreenTrailList(),
-                TabScreenTrailMap(),
-              ],
-            ),
-          ),
-        ),
-      ],
+    super.build(context);
+    return StreamBuilder(
+      stream: _trailPlacesBloc.trailPlaceStream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          List<TrailPlace> places = snapshot.data;
+          return TrailListView(key: _trailListViewKey, places: places);
+        }
+      },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

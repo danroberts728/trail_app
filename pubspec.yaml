@@ -30,7 +30,6 @@ dependencies:
   image_cropper: ^1.1.0
   font_awesome_flutter: ^8.5.0
   firebase_analytics: ^5.0.2
-  google_maps_flutter: ^0.5.21+11
 
 dev_dependencies:
   flutter_test:

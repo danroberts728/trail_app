@@ -30,10 +30,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Google Maps API -->
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC6SCgVDgMC2wAUYMaVcCy1fHF2AiDzd-g"/>
-
         <!-- Facebook Login configuration -->
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
