@@ -38,7 +38,7 @@ class TrailAppSettings {
 	static final String defaultNewsThumbnailAsset = 'assets/images/newsfeed_empty_image.jpg';
 	static final int locationUpdatesIntervalMs = 300000;
   static final double locationUpdatesDisplacementThreshold = 10;
-	static final double minDistanceToCheckin = 0.05;
+	static final double minDistanceToCheckin = 0.10;
 	static final List<TrailPlaceCategory> filterStrings = <TrailPlaceCategory> [
     TrailPlaceCategory("Brewery", "Breweries"),
     TrailPlaceCategory("Distillery", "Distilleries"),
