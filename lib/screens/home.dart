@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -14,7 +15,7 @@ import 'tabscreen_trail.dart';
 import 'package:flutter/material.dart';
 
 /// The app home screen
-/// 
+///
 /// This controls the scaffold for the tabs
 /// and directs the user to the tabs
 /// or the sign in screen
@@ -31,6 +32,10 @@ class _HomeState extends State<Home> {
   bool _isSignedIn = false;
   GlobalKey _scaffoldKey = GlobalKey();
   StreamSubscription _authChangeSubscription;
+
+  void _popMenuSelect(PopMenuChoice choice) {
+    choice.action();
+  }
 
   @override
   void initState() {
@@ -99,7 +104,39 @@ class _HomeState extends State<Home> {
                 delegate: TrailSearchDelegate(),
               );
             },
-          )
+          ),
+          PopupMenuButton<PopMenuChoice>(
+            shape: RoundedRectangleBorder(),
+            elevation: 3.2,
+            onSelected: _popMenuSelect,
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<PopMenuChoice>(
+                  value: PopMenuChoice(
+                    title: "About",
+                    icon: Icons.question_answer,
+                    action: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              settings: RouteSettings(
+                                name: 'About',
+                              ),
+                              builder: (context) => AboutScreen()));
+                    },
+                  ),
+                  child: Container(child: Text("About")),
+                ),
+                PopupMenuItem<PopMenuChoice>(
+                    value: PopMenuChoice(
+                      title: "Log Out",
+                      icon: Icons.power_settings_new,
+                      action: () => AppAuth().logout(),
+                    ),
+                    child: Container(child: Text("Log Out")))
+              ];
+            },
+          ),
         ],
       ),
       body: IndexedStack(
@@ -124,9 +161,8 @@ class _HomeState extends State<Home> {
             title: Text(TrailAppSettings.navBarEventsLabel),
           ),
           BottomNavigationBarItem(
-            icon: Icon(TrailAppSettings.navBarNewsIcon),
-            title: Text(TrailAppSettings.navBarNewsLabel)
-          ),
+              icon: Icon(TrailAppSettings.navBarNewsIcon),
+              title: Text(TrailAppSettings.navBarNewsLabel)),
           BottomNavigationBarItem(
             icon: new Icon(TrailAppSettings.navBarProfileIcon),
             title: new Text(TrailAppSettings.navBarProfileLabel),
@@ -141,4 +177,12 @@ class _HomeState extends State<Home> {
       screenName: 'tab/' + this._currentIndex.toString(),
     );
   }
+}
+
+class PopMenuChoice {
+  const PopMenuChoice({this.title, this.icon, this.action});
+
+  final String title;
+  final IconData icon;
+  final Function action;
 }

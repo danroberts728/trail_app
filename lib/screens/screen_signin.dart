@@ -35,8 +35,10 @@ class _SigninScreen extends State<SigninScreen> {
     _authChangeSubscription = AppAuth().onAuthChange.listen((AppUser result) {
       if (result != null) {
         try {
-          Navigator.of(_scaffoldKey.currentContext).popUntil((route) => route.isFirst);
-          Navigator.of(_scaffoldKey.currentContext).pushReplacementNamed('/home');
+          Navigator.of(_scaffoldKey.currentContext)
+              .popUntil((route) => route.isFirst);
+          Navigator.of(_scaffoldKey.currentContext)
+              .pushReplacementNamed('/home');
         } on FlutterError catch (e) {
           print("Caught Exception in _handleAuthChange: $e");
         }
@@ -154,7 +156,8 @@ class _SigninScreen extends State<SigninScreen> {
                                     if (result.success == false) {
                                       setState(() {
                                         _formError = result.errorMessage;
-                                        _submitButtonState = SubmitButtonState.Waiting;
+                                        _submitButtonState =
+                                            SubmitButtonState.Waiting;
                                       });
                                     }
                                   });
@@ -167,12 +170,19 @@ class _SigninScreen extends State<SigninScreen> {
                                       SubmitButtonState.Waiting
                                   ? Text("Sign In")
                                   : CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Colors.white),
-                                      ),
-                              
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    ),
                             ),
-                            Text("Forgot your password?"),
+                            SizedBox(height: 12.0),
+                            InkWell(
+                              child: Text(
+                                "Forgot your password?",
+                                style:
+                                    TextStyle(color: TrailAppSettings.second),
+                              ),
+                              onTap: () {},
+                            ),
                             SizedBox(height: 6.0),
                             Container(
                               alignment: Alignment.center,
