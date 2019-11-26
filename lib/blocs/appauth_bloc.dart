@@ -126,6 +126,14 @@ class AppAuth extends Bloc {
       return null;
     }
   }
+
+  void resetPassword(String email) {
+    try {
+      _auth.sendPasswordResetEmail(email: email);
+    } catch(e) {
+      throw e;
+    }
+  }
 }
 
 /// User's sign in status

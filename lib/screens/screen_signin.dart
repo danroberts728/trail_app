@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/screens/screen_forgot_password.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
 import '../data/app_user.dart';
@@ -175,13 +176,33 @@ class _SigninScreen extends State<SigninScreen> {
                                     ),
                             ),
                             SizedBox(height: 12.0),
-                            InkWell(
-                              child: Text(
-                                "Forgot your password?",
-                                style:
-                                    TextStyle(color: TrailAppSettings.second),
-                              ),
-                              onTap: () {},
+                            Builder(
+                              builder: (context) {
+                                return InkWell(
+                                  child: Text(
+                                    "Forgot your password?",
+                                    style: TextStyle(
+                                        color: TrailAppSettings.second),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                settings: RouteSettings(
+                                                  name: 'About',
+                                                ),
+                                                builder: (context) =>
+                                                    PasswordResetScreen()))
+                                        .then((emailAddress) {
+                                      Scaffold.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                            "Password reset sent to $emailAddress"),
+                                      ));
+                                    });
+                                  },
+                                );
+                              },
                             ),
                             SizedBox(height: 6.0),
                             Container(
