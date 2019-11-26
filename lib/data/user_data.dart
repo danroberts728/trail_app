@@ -23,12 +23,13 @@ class UserData {
       return UserData(
           aboutYou: d['aboutYou'],
           bannerImageUrl: d['bannerImageUrl'],
-          birthDay: d['birthdate'],
+          birthDay: d['birthdate'].toDate(),
           displayName: d['displayName'],
           favorites: List<String>.from(d['favorites']),
           location: d['location'],
           profilePhotoUrl: d['profilePhotoUrl']);
     } catch (e) {
+      print("Error buliding user data from firebase: $e");
       return UserData(
         aboutYou: null,
         bannerImageUrl: null,
