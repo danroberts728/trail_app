@@ -1,4 +1,3 @@
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 class TrailPlaceHours extends StatelessWidget {
@@ -6,8 +5,15 @@ class TrailPlaceHours extends StatelessWidget {
 
   const TrailPlaceHours({Key key, this.hours}) : super(key: key);
 
-  static List<String> _orderedDays = 
-    ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',];
+  static List<String> _orderedDays = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class TrailPlaceHours extends StatelessWidget {
   List<Widget> _buildHoursList() {
     List<Widget> retval = List<Widget>();
 
-    if(hours == null || hours.length == 0) {
+    if (hours == null || hours.length == 0) {
       return retval;
     }
 
@@ -30,27 +36,25 @@ class TrailPlaceHours extends StatelessWidget {
         retval.add(
           Visibility(
             visible: true,
-            child: Flex(
-              direction: Axis.horizontal,
+            child: Row(
               children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Text(day.toUpperCase(),
-                    style: TextStyle(
-                      color: TrailAppSettings.first,
+                Text(
+                  day.substring(0, 3).toUpperCase(),
+                  style: TextStyle(
+                      color: Colors.black54,
                       fontSize: 18.0,
                       height: 1.4,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),                  
+                      fontWeight: FontWeight.bold),
                 ),
+                SizedBox(width: 8.0),
                 Expanded(
-                  flex: 1,
-                  child: Text(hours[day].toUpperCase(),                  
+                  child: Text(
+                    hours[day].toUpperCase(),
                     style: TextStyle(
                       fontSize: 18.0,
+                      color: Colors.black45
                     ),
-                  ),                  
+                  ),
                 ),
               ],
             ),

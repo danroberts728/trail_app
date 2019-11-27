@@ -24,35 +24,29 @@ class TrailPlaceContact extends StatelessWidget {
     if (phones != null && phones.length != 0) {
       phones.forEach((phoneTitle, phoneNumber) {
         retval.add(
-          RaisedButton(
-              elevation: 4.0,
-              padding: EdgeInsets.all(8.0),
-              color: TrailAppSettings.third,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4.0))),
-              onPressed: () {
-                AppLauncher().call(phoneNumber);
-              },
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 8.0),
+            child: InkWell(
+              onTap: () => AppLauncher().call(phoneNumber),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
                     Icons.phone,
-                    color: Colors.white,
+                    color: TrailAppSettings.second,
                   ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
+                  SizedBox(width: 8.0),
                   Text(
-                    phoneTitle,
+                    phoneNumber,
                     style: TextStyle(
-                        color: Colors.white,
+                        color: TrailAppSettings.second,
                         fontSize: 18.0,
                         height: 1.4,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
-              )),
+              ),
+            ),
+          ),
         );
       });
     }
@@ -61,34 +55,28 @@ class TrailPlaceContact extends StatelessWidget {
       emails.forEach(
         (emailTitle, emailAddress) {
           retval.add(
-            RaisedButton(
-              elevation: 4.0,
-              padding: EdgeInsets.all(8.0),
-              color: TrailAppSettings.third,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4.0))),
-              onPressed: () {
-                AppLauncher().email(emailAddress);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.email,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                  Text(
-                    emailTitle,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        height: 1.4,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 8.0),
+              child: InkWell(
+                onTap: () => AppLauncher().email(emailAddress),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.email,
+                      color: TrailAppSettings.second,
+                    ),
+                    SizedBox(width: 8.0),
+                    Text(
+                      emailAddress,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: TrailAppSettings.second,
+                          fontSize: 18.0,
+                          height: 1.4,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

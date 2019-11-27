@@ -216,11 +216,13 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),
                   child: ExpansionTile(
+                    initiallyExpanded: true,
                     title: Text(
                       "Hours",
                       style: TextStyle(
                         fontSize: 22.0,
-                        color: TrailAppSettings.second,
+                        color: TrailAppSettings.first,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     children: <Widget>[
@@ -247,11 +249,13 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),
                   child: ExpansionTile(
+                    initiallyExpanded: true,
                     title: Text(
                       "Contact",
                       style: TextStyle(
                         fontSize: 22.0,
-                        color: TrailAppSettings.second,
+                        color: TrailAppSettings.first,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     children: <Widget>[
