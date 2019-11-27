@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/screens/screen_about.dart';
+import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -26,21 +27,33 @@ class Home extends StatefulWidget {
   }
 }
 
+/// The state for the home screen
+///
 class _HomeState extends State<Home> {
+  /// The currently-selected tab index
   int _currentIndex = 0;
-  Text _appBarTitle;
-  bool _isSignedIn = false;
-  GlobalKey _scaffoldKey = GlobalKey();
-  StreamSubscription _authChangeSubscription;
 
-  void _popMenuSelect(PopMenuChoice choice) {
-    choice.action();
-  }
+  /// The Floating Action Button for the current tab
+  FloatingActionButton _floatingActionButton;
+
+  /// The app bar title
+  ///
+  /// This is updated when the [_currentIndex] is changed
+  Text _appBarTitle;
+
+  /// Whether the user is currently signed-in
+  bool _isSignedIn = false;
+
+  /// The key for the scaffold
+  GlobalKey _scaffoldKey = GlobalKey();
+
+  /// A stream that sends updates to the user's auth/sign-in status
+  StreamSubscription _authChangeSubscription;
 
   @override
   void initState() {
     super.initState();
-    _appBarTitle = Text(_children[_currentIndex].appBarTitle);
+    _appBarTitle = Text(_appTabs[_currentIndex].appBarTitle);
     _authChangeSubscription = AppAuth().onAuthChange.listen((user) {
       this._isSignedIn = user != null;
       if (!this._isSignedIn) {
@@ -56,13 +69,8 @@ class _HomeState extends State<Home> {
     });
   }
 
-  @override
-  void dispose() {
-    _authChangeSubscription.cancel();
-    super.dispose();
-  }
-
-  final List<TabScreen> _children = [
+  /// A list of the tabs.
+  final List<TabScreen> _appTabs = [
     TabScreen(
       appBarTitle: TrailAppSettings.navBarTrailTabTitle,
       child: TabScreenTrail(),
@@ -81,18 +89,12 @@ class _HomeState extends State<Home> {
     ),
   ];
 
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-      _appBarTitle = Text(_children[index].appBarTitle);
-      _sendCurrentTabToAnalytics();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
+      floatingActionButton: _floatingActionButton,
       appBar: AppBar(
         title: _appBarTitle,
         actions: <Widget>[
@@ -108,7 +110,7 @@ class _HomeState extends State<Home> {
           PopupMenuButton<PopMenuChoice>(
             shape: RoundedRectangleBorder(),
             elevation: 3.2,
-            onSelected: _popMenuSelect,
+            onSelected: (choice) => choice.action(),
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem<PopMenuChoice>(
@@ -141,10 +143,10 @@ class _HomeState extends State<Home> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: _children,
+        children: _appTabs,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
+        onTap: _onTabTapped,
         currentIndex: _currentIndex,
         backgroundColor: TrailAppSettings.navBarBackgroundColor,
         type: BottomNavigationBarType.fixed,
@@ -172,6 +174,47 @@ class _HomeState extends State<Home> {
     );
   }
 
+  @override
+  void dispose() {
+    _authChangeSubscription.cancel();
+    super.dispose();
+  }
+
+  /// Called when user taps a tab on the bottom
+  void _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+      _appBarTitle = Text(_appTabs[index].appBarTitle);
+      _sendCurrentTabToAnalytics();
+      _setFloatingActionButton();
+    });
+  }
+
+  void _setFloatingActionButton() {
+    if (_currentIndex == 3) {
+      // Profile Tab
+      _floatingActionButton = FloatingActionButton(
+        child: Icon(Icons.edit),
+        backgroundColor: TrailAppSettings.third,
+        foregroundColor: Colors.white,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              settings: RouteSettings(
+                name: 'Edit Profile',
+              ),
+              builder: (context) => EditProfileScreen(),
+            ),
+          );
+        },
+      );
+    } else {
+      _floatingActionButton = null;
+    }
+  }
+
+  /// Send the current tab selection to analytics
   void _sendCurrentTabToAnalytics() {
     TrailApp.analytics.setCurrentScreen(
       screenName: 'tab/' + this._currentIndex.toString(),
@@ -179,6 +222,7 @@ class _HomeState extends State<Home> {
   }
 }
 
+/// A pop menu item
 class PopMenuChoice {
   const PopMenuChoice({this.title, this.icon, this.action});
 

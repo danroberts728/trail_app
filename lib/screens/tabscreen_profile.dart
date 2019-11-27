@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
@@ -16,18 +14,25 @@ import '../blocs/appauth_bloc.dart';
 
 import 'package:flutter/material.dart';
 
+/// The tab screen for the user's own profile
+/// 
 class TabScreenProfile extends StatefulWidget {
-  final _TabScreenProfile _state = _TabScreenProfile();
-
   @override
-  State<StatefulWidget> createState() => _state;
+  State<StatefulWidget> createState() => _TabScreenProfile();
 }
 
+/// The state for the profile tab
 class _TabScreenProfile extends State<TabScreenProfile> {
+  /// The user's current sign in status
   SigninStatus signinStatus = SigninStatus.NOT_SIGNED_IN;
 
+  /// BLoC for user data
   UserDataBloc _userDataBloc = UserDataBloc();
+
+  /// BLoC for user's check-ins
   UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
+
+  /// BLoC for trail places
   TrailPlacesBloc _placesBloc = TrailPlacesBloc();
 
   @override
@@ -286,5 +291,4 @@ class _TabScreenProfile extends State<TabScreenProfile> {
         });
   }
 
-  FutureOr onValue(void value) {}
 }
