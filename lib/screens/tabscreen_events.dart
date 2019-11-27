@@ -43,6 +43,9 @@ class _TabScreenEvents extends State<TabScreenEvents> {
     return Future.delayed(Duration(seconds: 1), () {
       setState(() {
         _now = DateTime.now();
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("Events list updated.")
+        ));
       });
     });
   }

@@ -22,39 +22,52 @@ class _TabScreenNews extends State<TabScreenNews>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 0.0,
-      ),
-      child: StreamBuilder(
-        stream: _trailNewsBloc.trailPlaceStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text(snapshot.error.toString()),
-              ),
-            );
-            return Center(child: Text(snapshot.error.toString()));
-          } else {
-            List<RssItem> newsItems = snapshot.data;
-            return ListView.builder(
-              itemCount: newsItems.length,
-              itemBuilder: (context, index) {
-                if (newsItems == null) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return Container(
-                    child: TrailNewsItem(newsItems[index]),
-                  );
-                }
-              },
-            );
-          }
-        },
+    return RefreshIndicator(
+      onRefresh: _refreshPulled,
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 0.0,
+        ),
+        child: StreamBuilder(
+          stream: _trailNewsBloc.trailNewsStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(snapshot.error.toString()),
+                ),
+              );
+              return Center(child: Text(snapshot.error.toString()));
+            } else {
+              List<RssItem> newsItems = snapshot.data;
+              return ListView.builder(
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: newsItems.length,
+                itemBuilder: (context, index) {
+                  if (newsItems == null) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return Container(
+                      child: TrailNewsItem(newsItems[index]),
+                    );
+                  }
+                },
+              );
+            }
+          },
+        ),
       ),
     );
+  }
+
+  Future<void> _refreshPulled() {
+    return Future.delayed(Duration(seconds: 1), () {
+      _trailNewsBloc.onReadTimer().then((_) {
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text("Events list updated.")));
+      });
+    });
   }
 }

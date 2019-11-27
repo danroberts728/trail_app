@@ -11,13 +11,12 @@ class TrailNewsBloc extends Bloc {
   TrailNewsBloc(this.feedUrl) {
     onReadTimer().then((_) {
       _timer = Timer(Duration(seconds: 120), onReadTimer);
-    });
-    
+    });    
   }
 
   List<RssItem> newsItems = List<RssItem>();
   final _trailNewsController = StreamController<List<RssItem>>();
-  Stream<List<RssItem>> get trailPlaceStream => _trailNewsController.stream;
+  Stream<List<RssItem>> get trailNewsStream => _trailNewsController.stream;
 
   Future<void> onReadTimer() {
     var client = http.Client();
