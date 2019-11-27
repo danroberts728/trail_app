@@ -122,9 +122,7 @@ class TrailListViewState extends State<TrailListView> {
       return Center(child: Center(child: CircularProgressIndicator()));
     } else {
       return RefreshIndicator(
-        onRefresh: () {
-          return _refreshPulled();
-        },
+        onRefresh: _refreshPulled,
         child: Container(
           child: Column(
             children: <Widget>[

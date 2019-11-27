@@ -8,32 +8,42 @@ class TabScreenEvents extends StatefulWidget {
 }
 
 class _TabScreenEvents extends State<TabScreenEvents> {
-  static var now = DateTime.now();
+  var _now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    var now = DateTime.now();
-
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            MonthlyEventsList(
-              month: now,
-            ),
-            MonthlyEventsList(
-              month: DateTime(now.year, now.month + 1),
-            ),
-            MonthlyEventsList(
-              month: DateTime(now.year, now.month + 2),
-            ),
-            SizedBox(height: 16.0),
-          ],
+    return RefreshIndicator(
+      onRefresh: _refreshPulled,
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              MonthlyEventsList(
+                month: _now,
+              ),
+              MonthlyEventsList(
+                month: DateTime(_now.year, _now.month + 1),
+              ),
+              MonthlyEventsList(
+                month: DateTime(_now.year, _now.month + 2),
+              ),
+              SizedBox(height: 16.0),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> _refreshPulled() {
+    return Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        _now = DateTime.now();
+      });
+    });
   }
 }
