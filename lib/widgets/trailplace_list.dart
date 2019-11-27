@@ -84,7 +84,11 @@ class TrailListViewState extends State<TrailListView> {
   }
 
   void _onLocationUpdate(Point<num> newLocation) {
-    _refreshScreen();
+    // Only refresh the screen if the user pulled
+    // to refresh.
+    if(_showUpdate) {
+      _refreshScreen();
+    }    
   }
 
   Future<void> _refreshPulled() {
