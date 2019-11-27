@@ -5,63 +5,60 @@ class ExpandableText extends StatefulWidget {
       {this.text,
       this.isExpanded = false,
       this.fontSize = 16.0,
-      this.previewCharacterCount = 50});
+      this.previewCharacterCount = 50, 
+      this.minCharacterCountToExpand = 60});
 
   final String text;
   final bool isExpanded;
   final double fontSize;
   final int previewCharacterCount;
+  final int minCharacterCountToExpand;
 
   @override
   _ExpandableText createState() =>
-      new _ExpandableText(text, isExpanded, fontSize, previewCharacterCount);
+      new _ExpandableText();
 }
 
 class _ExpandableText extends State<ExpandableText>
     with TickerProviderStateMixin<ExpandableText> {
-  String text;
-  bool isExpanded;
-  double fontSize;
-  int previewCharacterCount;
 
-  String firstHalf;
-  String secondHalf;
-
-  _ExpandableText(
-      this.text, this.isExpanded, this.fontSize, this.previewCharacterCount);
+  bool _isExpanded = false;
+  String _firstHalf;
+  String _secondHalf;
 
   @override
   void initState() {
     super.initState();
-    if (text != null && text.length > previewCharacterCount) {
-      firstHalf = text.substring(0, previewCharacterCount);
-      secondHalf = text.substring(previewCharacterCount, text.length);
+    this._isExpanded = widget.isExpanded;
+    if (widget.text != null && widget.text.length > widget.minCharacterCountToExpand) {
+      _firstHalf = widget.text.substring(0, widget.previewCharacterCount);
+      _secondHalf = widget.text.substring(widget.previewCharacterCount, widget.text.length);
     } else {
-      firstHalf = text;
-      secondHalf = "";
+      _firstHalf = widget.text;
+      _secondHalf = "";
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: secondHalf.isEmpty
-          ? Text(firstHalf ?? '')
+      child: _secondHalf.isEmpty
+          ? Text(_firstHalf ?? '')
           : GestureDetector(
               onTap: () {
                 Feedback.forTap(context);
                 setState(() {
-                  this.isExpanded = !isExpanded;
+                  _isExpanded = !_isExpanded;
                 });
               },
               child: Column(
                 children: <Widget>[
                   Text(
-                    this.isExpanded
-                        ? (firstHalf + secondHalf)
-                        : (firstHalf + "..."),
+                    this._isExpanded
+                        ? (_firstHalf + _secondHalf)
+                        : (_firstHalf + "..."),
                     style: TextStyle(
-                      fontSize: this.fontSize,
+                      fontSize: widget.fontSize,
                     ),
                   ),
                   InkWell(
@@ -69,14 +66,14 @@ class _ExpandableText extends State<ExpandableText>
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          this.isExpanded ? "show less" : "show more",
+                          _isExpanded ? "show less" : "show more",
                           style: new TextStyle(color: Colors.blue),
                         ),
                       ],
                     ),
                     onTap: () {
                       setState(() {
-                        this.isExpanded = !isExpanded;
+                        _isExpanded = !_isExpanded;
                       });
                     },
                   ),

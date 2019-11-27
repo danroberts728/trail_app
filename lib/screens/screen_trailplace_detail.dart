@@ -127,6 +127,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                   isExpanded: false,
                   fontSize: 16.0,
                   previewCharacterCount: 100,
+                  minCharacterCountToExpand: 120,
                 ),
               ),
               // Connection Buttons
