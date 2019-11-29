@@ -36,27 +36,32 @@ class TrailPlaceHours extends StatelessWidget {
         retval.add(
           Visibility(
             visible: true,
-            child: Row(
-              children: <Widget>[
-                Text(
-                  day.substring(0, 3).toUpperCase(),
-                  style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 18.0,
-                      height: 1.4,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(width: 8.0),
-                Expanded(
-                  child: Text(
-                    hours[day].toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black45
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: constraints.maxWidth / 3,
+                      child: Text(
+                        day.substring(0, 3).toUpperCase(),
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 18.0,
+                            height: 1.4,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ),
-              ],
+                    Flexible(
+                      flex: 2,
+                      fit: FlexFit.tight,
+                      child: Text(
+                        hours[day].toUpperCase(),
+                        style: TextStyle(fontSize: 18.0, color: Colors.black45),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         );

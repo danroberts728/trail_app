@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 class ExpandableText extends StatefulWidget {
@@ -67,7 +68,7 @@ class _ExpandableText extends State<ExpandableText>
                       children: <Widget>[
                         Text(
                           _isExpanded ? "show less" : "show more",
-                          style: new TextStyle(color: Colors.blue),
+                          style: new TextStyle(color: TrailAppSettings.actionLinksColor),
                         ),
                       ],
                     ),
