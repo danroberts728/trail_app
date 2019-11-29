@@ -15,7 +15,7 @@ import '../blocs/appauth_bloc.dart';
 import 'package:flutter/material.dart';
 
 /// The tab screen for the user's own profile
-/// 
+///
 class TabScreenProfile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _TabScreenProfile();
@@ -44,7 +44,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
         builder: (context, snapshot) {
           UserData userData;
           if (snapshot.connectionState == ConnectionState.waiting) {
-             userData = this._userDataBloc.userData;
+            userData = this._userDataBloc.userData;
           } else {
             userData = snapshot.data;
           }
@@ -97,7 +97,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                       : TrailAppSettings.defaultDisplayName,
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: TrailAppSettings.mainHeadingColor,
                                     fontSize: 22.0,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -105,7 +105,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                 Text(
                                   userEmail,
                                   style: TextStyle(
-                                    color: TrailAppSettings.second,
+                                    color: TrailAppSettings.subHeadingColor,
                                   ),
                                 ),
                                 SizedBox(
@@ -189,7 +189,6 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                           builder: (context, placesSnapshot) {
                             List<String> visited = List<String>();
                             List<String> notVisited = List<String>();
-                            List<String> favorites = List<String>();
 
                             if (checkInsSnapshot.connectionState ==
                                     ConnectionState.active &&
@@ -211,7 +210,6 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                 notVisited.add(p.id);
                               });
 
-                              favorites = List.from(userData.favorites);
                             }
                             return Container(
                               child: Column(
@@ -221,26 +219,30 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      ProfileStat(
-                                        value: visited.length,
-                                        postText: "Visited",
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              settings: RouteSettings(
-                                                  name: 'Visited'),
-                                              builder: (context) =>
-                                                  TrailPlacesScreen(
-                                                appBarTitle: "Visited",
-                                                placeIds: visited,
+                                      Center(                                        
+                                        child: ProfileStat(
+                                          value: visited.length,
+                                          postText: "Visited",
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                settings: RouteSettings(
+                                                    name: 'Visited'),
+                                                builder: (context) =>
+                                                    TrailPlacesScreen(
+                                                  appBarTitle: "Visited",
+                                                  placeIds: visited,
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
+                                            );
+                                          },
+                                        ),
                                       ),
-                                      ProfileStat(
+                                      Center(
+                                        child: ProfileStat(
                                           value: notVisited.length,
                                           postText: "Not Visited",
                                           onPressed: () {
@@ -256,24 +258,9 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                                                 ),
                                               ),
                                             );
-                                          }),
-                                      ProfileStat(
-                                          value: favorites.length,
-                                          postText: "Favorites",
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                settings: RouteSettings(
-                                                    name: 'Favorites'),
-                                                builder: (context) =>
-                                                    TrailPlacesScreen(
-                                                  appBarTitle: "Favorites",
-                                                  placeIds: favorites,
-                                                ),
-                                              ),
-                                            );
-                                          }),
+                                          },
+                                        ),
+                                      ),                                      
                                     ],
                                   ),
                                 ],
@@ -290,5 +277,4 @@ class _TabScreenProfile extends State<TabScreenProfile> {
           });
         });
   }
-
 }

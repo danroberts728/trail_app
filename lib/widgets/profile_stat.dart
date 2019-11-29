@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 class ProfileStat extends StatelessWidget {
@@ -18,6 +19,7 @@ class ProfileStat extends StatelessWidget {
         children: <Widget>[
           Text(
             "${this.value ?? '-'}",
+            overflow: TextOverflow.fade,
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -25,7 +27,11 @@ class ProfileStat extends StatelessWidget {
           ),
           Text(
             " ${this.postText}",
-            style: TextStyle(color: Colors.grey, fontSize: 16.0),
+            overflow: TextOverflow.fade,
+            style: TextStyle(
+              color: TrailAppSettings.actionLinksColor,
+              fontSize: 16.0
+            ),
           ),
         ],
       ),
