@@ -32,8 +32,6 @@ class _TrailListCard extends State<TrailListCard> {
 
   _TrailListCard(this.place);
 
-  static const double height = 300.0;
-
   @override
   void initState() {
     this._locationEnabled = _locationBloc.hasPermission;
@@ -61,8 +59,9 @@ class _TrailListCard extends State<TrailListCard> {
               builder: (context) => TrailPlaceDetailScreen(place: place)));
     }, child: LayoutBuilder(builder: (context, constraints) {
       return Container(
-        padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
+        //padding: const EdgeInsets.only(bottom: 12.0),
         child: Card(
+          margin: EdgeInsets.only(bottom: 4.0, top: 2.0),
           elevation: 12.0,
           child: Column(
             children: <Widget>[

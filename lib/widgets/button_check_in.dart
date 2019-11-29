@@ -45,7 +45,7 @@ class _CheckinButton extends State<CheckinButton> {
               width: double.infinity,
               child: RaisedButton(
                 elevation: 8.0,
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
                 color: TrailAppSettings.second.withAlpha(200),
                 disabledColor: TrailAppSettings.fourth,
                 child: Row(

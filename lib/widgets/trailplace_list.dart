@@ -129,8 +129,10 @@ class TrailListViewState extends State<TrailListView> {
               // ListView
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10.0),
-                  child: ListView.builder(
+                  color: Colors.grey,
+                  margin: EdgeInsets.all(0),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0.0),
+                  child: ListView.builder(                    
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: widget.places.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -146,7 +148,7 @@ class TrailListViewState extends State<TrailListView> {
                         // Remove items that don't match filter
                         return Container();
                       } else {
-                        return TrailListCard(
+                        return TrailListCard(                          
                           place: widget.places[index],
                         );
                       }

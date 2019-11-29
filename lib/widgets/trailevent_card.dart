@@ -15,10 +15,10 @@ class TrailEventCard extends StatefulWidget {
 
   TrailEventCard(
       {@required this.event,
-      this.startMargin = 8.0,
+      this.startMargin = 0.0,
       this.titleOverflow = TextOverflow.ellipsis,
       this.colorBarWidth = 3.0,
-      this.endMargin = 4.0,
+      this.endMargin = 0.0,
       this.elevation = 4.0});
 
   @override
