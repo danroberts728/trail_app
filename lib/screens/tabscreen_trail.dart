@@ -36,9 +36,12 @@ class _TabScreenTrail extends State<TabScreenTrail>
           child: TabBar(
             isScrollable: false,
             labelPadding: EdgeInsets.symmetric(vertical: 0.0),
-            indicatorColor: TrailAppSettings.second,
+            indicatorColor: TrailAppSettings.actionLinksColor,
             indicatorWeight: 4.0,
-            labelColor: TrailAppSettings.second,
+            labelColor: TrailAppSettings.subHeadingColor,
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
             controller: _controller,
             tabs: <Widget>[Tab(text: "List"), Tab(text: "Map")],
           ),
