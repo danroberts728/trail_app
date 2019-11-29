@@ -59,9 +59,8 @@ class _TrailListCard extends State<TrailListCard> {
               builder: (context) => TrailPlaceDetailScreen(place: place)));
     }, child: LayoutBuilder(builder: (context, constraints) {
       return Container(
-        //padding: const EdgeInsets.only(bottom: 12.0),
         child: Card(
-          margin: EdgeInsets.only(bottom: 4.0, top: 2.0),
+          margin: EdgeInsets.only(bottom: 4.0, top: 2.0, left: 8.0, right: 8.0),
           elevation: 12.0,
           child: Column(
             children: <Widget>[

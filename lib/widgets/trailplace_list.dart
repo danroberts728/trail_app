@@ -129,7 +129,6 @@ class TrailListViewState extends State<TrailListView> {
               // ListView
               Expanded(
                 child: Container(
-                  color: Colors.grey,
                   margin: EdgeInsets.all(0),
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0.0),
                   child: ListView.builder(                    
