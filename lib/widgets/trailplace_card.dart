@@ -132,7 +132,10 @@ class _TrailListCard extends State<TrailListCard> {
                             ),
                           ),
                           Spacer(),
-                          TrailPlaceActionButtonWidget(place: this.place),
+                          TrailPlaceActionButtonWidget(
+                            place: this.place,
+                            mapIconColor: TrailAppSettings.actionLinksColor,
+                          ),
                         ],
                       ),
                     ),

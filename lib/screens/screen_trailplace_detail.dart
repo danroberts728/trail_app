@@ -202,6 +202,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     Spacer(),
                     TrailPlaceActionButtonWidget(
                       place: this.place,
+                      mapIconColor: TrailAppSettings.actionLinksColor,
                     ),
                   ],
                 ),

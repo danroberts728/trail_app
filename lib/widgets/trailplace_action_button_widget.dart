@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 
 class TrailPlaceActionButtonWidget extends StatefulWidget {
   final TrailPlace place;
-  final Color carIconColor;
+  final Color mapIconColor;
   final double iconSize;
 
   const TrailPlaceActionButtonWidget(
       {Key key,
       @required this.place,
-      this.carIconColor = Colors.lightBlue,
+      this.mapIconColor = Colors.grey,
       this.iconSize = 32.0})
       : super(key: key);
 
@@ -41,8 +41,8 @@ class _TrailPlaceActionButtonWidget
                 AppLauncher().openDirections(address);
               },
               child: Icon(
-                Icons.directions,
-                color: widget.carIconColor,
+                Icons.map,
+                color: widget.mapIconColor,
                 size: widget.iconSize,
               ),
             ),
