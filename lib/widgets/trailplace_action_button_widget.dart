@@ -9,19 +9,20 @@ class TrailPlaceActionButtonWidget extends StatefulWidget {
   final Color carIconColor;
   final double iconSize;
 
-  const TrailPlaceActionButtonWidget({Key key, @required this.place, this.carIconColor = Colors.white60, this.iconSize = 24.0}) : super(key: key);
+  const TrailPlaceActionButtonWidget(
+      {Key key,
+      @required this.place,
+      this.carIconColor = Colors.lightBlue,
+      this.iconSize = 32.0})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _TrailPlaceActionButtonWidget(this.place, this.carIconColor, this.iconSize);
+  State<StatefulWidget> createState() => _TrailPlaceActionButtonWidget();
 }
 
-class _TrailPlaceActionButtonWidget extends State<TrailPlaceActionButtonWidget> {
-  final TrailPlace place;
+class _TrailPlaceActionButtonWidget
+    extends State<TrailPlaceActionButtonWidget> {
   var userDataBloc = UserDataBloc();
-  final Color carIconColor;
-  final double iconSize;
-
-  _TrailPlaceActionButtonWidget(this.place, this.carIconColor, this.iconSize);
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +37,13 @@ class _TrailPlaceActionButtonWidget extends State<TrailPlaceActionButtonWidget> 
               padding: EdgeInsets.all(0),
               onPressed: () {
                 String address =
-                    '${this.place.name}, ${this.place.address}, ${this.place.city}, ${this.place.state} ${this.place.zip}';
+                    '${widget.place.name}, ${widget.place.address}, ${widget.place.city}, ${widget.place.state} ${widget.place.zip}';
                 AppLauncher().openDirections(address);
               },
               child: Icon(
-                Icons.drive_eta,
-                color: carIconColor,
-                size: iconSize,
+                Icons.directions,
+                color: widget.carIconColor,
+                size: widget.iconSize,
               ),
             ),
           ),
@@ -57,23 +58,23 @@ class _TrailPlaceActionButtonWidget extends State<TrailPlaceActionButtonWidget> 
                         ? List<String>.from(userDataBloc.userData.favorites)
                         : List<String>.from(snapshot.data.favorites);
                 bool isFavorite =
-                    favorites != null && favorites.contains(this.place.id);
+                    favorites != null && favorites.contains(widget.place.id);
                 return FlatButton(
                   child: Icon(
                     isFavorite ? Icons.favorite : Icons.favorite_border,
                     color: Colors.red,
-                    size: iconSize,
+                    size: widget.iconSize,
                   ),
                   onPressed: () {
                     setState(() {
                       isFavorite = !isFavorite;
                       Scaffold.of(context).showSnackBar(SnackBar(
                           content: isFavorite
-                              ? Text("${this.place.name} added to favorites")
+                              ? Text("${widget.place.name} added to favorites")
                               : Text(
-                                  "${this.place.name} removed from favorites")));
+                                  "${widget.place.name} removed from favorites")));
                     });
-                    userDataBloc.toggleFavorite(this.place.id);
+                    userDataBloc.toggleFavorite(widget.place.id);
                   },
                 );
               },

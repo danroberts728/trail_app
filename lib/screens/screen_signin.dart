@@ -56,26 +56,27 @@ class _SigninScreen extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Sign In"),
+        title: Text(TrailAppSettings.signInAppBarTitle),
       ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage("assets/images/signin_bkg.jpg"),
+          image: AssetImage(TrailAppSettings.signInBackgroundAsset),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken),
         )),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(30.0),
           child: Card(
             elevation: 16.0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(16.0))),
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: Colors.white,
             child: SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.all(20.0),
@@ -164,12 +165,12 @@ class _SigninScreen extends State<SigninScreen> {
                                   });
                                 }
                               },
-                              color: Colors.green,
+                              color: TrailAppSettings.signInSignInButtonColor,
                               textTheme: ButtonTextTheme.primary,
                               padding: EdgeInsets.symmetric(horizontal: 80.0),
                               child: _submitButtonState ==
                                       SubmitButtonState.Waiting
-                                  ? Text("Sign In")
+                                  ? Text(TrailAppSettings.signInButtonText)
                                   : CircularProgressIndicator(
                                       valueColor: AlwaysStoppedAnimation<Color>(
                                           Colors.white),
@@ -182,7 +183,7 @@ class _SigninScreen extends State<SigninScreen> {
                                   child: Text(
                                     "Forgot your password?",
                                     style: TextStyle(
-                                        color: TrailAppSettings.second),
+                                        color: TrailAppSettings.signInForgotPwdColor),
                                   ),
                                   onTap: () {
                                     Navigator.push(
@@ -209,7 +210,7 @@ class _SigninScreen extends State<SigninScreen> {
                               alignment: Alignment.center,
                               child: Text(_formError == null ? '' : formError,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(color: Colors.redAccent)),
+                                  style: TextStyle(color: TrailAppSettings.errorColor)),
                             ),
                             SizedBox(height: 6.0),
                             Divider(
@@ -233,7 +234,7 @@ class _SigninScreen extends State<SigninScreen> {
                                   fontSize: 16.0,
                                 ),
                               ),
-                              textColor: TrailAppSettings.second,
+                              textColor: TrailAppSettings.actionLinksColor,
                             ),
                           ],
                         ),

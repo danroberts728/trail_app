@@ -202,8 +202,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     Spacer(),
                     TrailPlaceActionButtonWidget(
                       place: this.place,
-                      carIconColor: Colors.black45,
-                      iconSize: 32.0,
                     ),
                   ],
                 ),

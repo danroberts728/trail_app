@@ -96,17 +96,17 @@ class _TrailListCard extends State<TrailListCard> {
                   children: <Widget>[
                     SizedBox(
                       // Space for featured photo
-                      height: constraints.maxWidth * (9/16) - 40,
+                      height: constraints.maxWidth * (9/16) - 50,
                     ),
                     Container(
                       // Location and action buttons
-                      height: 40.0,
+                      height: 50.0,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8.0,
                         vertical: 0.0,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black38,
+                        color: Colors.black54,
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,7 +115,7 @@ class _TrailListCard extends State<TrailListCard> {
                           Icon(
                             Icons.location_on,
                             color: Colors.white,
-                            size: 16.0,
+                            size: 18.0,
                           ),
                           SizedBox(width: 4.0),
                           Text(
@@ -126,7 +126,10 @@ class _TrailListCard extends State<TrailListCard> {
                                         this._distance) +
                                     " mi"
                                 : this.place.city ?? "",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.0
+                            ),
                           ),
                           Spacer(),
                           TrailPlaceActionButtonWidget(place: this.place),
