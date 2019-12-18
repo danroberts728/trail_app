@@ -66,7 +66,7 @@ class _TabScreenNews extends State<TabScreenNews>
     return Future.delayed(Duration(seconds: 1), () {
       _trailNewsBloc.onReadTimer().then((_) {
         Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("Events list updated.")));
+            .showSnackBar(SnackBar(content: Text("News updated.")));
       });
     });
   }

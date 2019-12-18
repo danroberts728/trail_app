@@ -7,8 +7,9 @@ import 'package:intl/intl.dart';
 
 class MonthlyEventsList extends StatefulWidget {
   final DateTime month;
+  final Function onEmpty;
 
-  const MonthlyEventsList({Key key, @required this.month}) : super(key: key);
+  const MonthlyEventsList({Key key, @required this.month, this.onEmpty}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -35,17 +36,16 @@ class _MonthlyEventsList extends State<MonthlyEventsList> {
         _columnList = <Widget>[
           eventMonthHeader,
         ];
-
-
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
+        } else if (snapshot.data.length == 0) {
+          // If no events, don't show anything for this month.
+          widget.onEmpty();
+          return SizedBox(height: 0,);
         } else {
           List<TrailEvent> events = snapshot.data..sort((TrailEvent a, TrailEvent b) {
             return a.eventStart.compareTo(b.eventStart);
           });
-          if(events.length == 0) {
-            _columnList.add(Text("No Events scheduled"));
-          }
           events.forEach((e) {
             _columnList.add(
               TrailEventCard(
