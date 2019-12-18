@@ -11,6 +11,7 @@ import 'blocs/appauth_bloc.dart';
 import 'screens/home.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(TrailApp());
