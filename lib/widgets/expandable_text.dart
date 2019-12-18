@@ -6,7 +6,7 @@ class ExpandableText extends StatefulWidget {
       {this.text,
       this.isExpanded = false,
       this.fontSize = 16.0,
-      this.previewCharacterCount = 50, 
+      this.previewCharacterCount = 50,
       this.minCharacterCountToExpand = 60});
 
   final String text;
@@ -16,13 +16,11 @@ class ExpandableText extends StatefulWidget {
   final int minCharacterCountToExpand;
 
   @override
-  _ExpandableText createState() =>
-      new _ExpandableText();
+  _ExpandableText createState() => new _ExpandableText();
 }
 
 class _ExpandableText extends State<ExpandableText>
     with TickerProviderStateMixin<ExpandableText> {
-
   bool _isExpanded = false;
   String _firstHalf;
   String _secondHalf;
@@ -31,9 +29,11 @@ class _ExpandableText extends State<ExpandableText>
   void initState() {
     super.initState();
     this._isExpanded = widget.isExpanded;
-    if (widget.text != null && widget.text.length > widget.minCharacterCountToExpand) {
+    if (widget.text != null &&
+        widget.text.length > widget.minCharacterCountToExpand) {
       _firstHalf = widget.text.substring(0, widget.previewCharacterCount);
-      _secondHalf = widget.text.substring(widget.previewCharacterCount, widget.text.length);
+      _secondHalf = widget.text
+          .substring(widget.previewCharacterCount, widget.text.length);
     } else {
       _firstHalf = widget.text;
       _secondHalf = "";
@@ -44,7 +44,12 @@ class _ExpandableText extends State<ExpandableText>
   Widget build(BuildContext context) {
     return Container(
       child: _secondHalf.isEmpty
-          ? Text(_firstHalf ?? '')
+          ? Text(
+              _firstHalf ?? ',',
+              style: TextStyle(
+                fontSize: widget.fontSize,
+              ),
+            )
           : GestureDetector(
               onTap: () {
                 Feedback.forTap(context);
@@ -68,7 +73,8 @@ class _ExpandableText extends State<ExpandableText>
                       children: <Widget>[
                         Text(
                           _isExpanded ? "show less" : "show more",
-                          style: new TextStyle(color: TrailAppSettings.actionLinksColor),
+                          style: new TextStyle(
+                              color: TrailAppSettings.actionLinksColor),
                         ),
                       ],
                     ),
