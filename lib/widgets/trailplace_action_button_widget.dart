@@ -26,8 +26,10 @@ class _TrailPlaceActionButtonWidget
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme.bar(
-      height: 50.0,
+    return ButtonBarTheme(
+      data: ButtonBarThemeData(
+        buttonHeight: 50.0
+      ),
       child: ButtonBar(
         children: <Widget>[
           // Map
