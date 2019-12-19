@@ -10,10 +10,10 @@ import 'package:flutter/services.dart';
 import 'blocs/appauth_bloc.dart';
 import 'screens/home.dart';
 
-void main() {
+void main() {  
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+      .then((_) {    
     runApp(TrailApp());
   });
 }
