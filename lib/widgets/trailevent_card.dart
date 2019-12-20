@@ -3,6 +3,7 @@ import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
 
 class TrailEventCard extends StatefulWidget {
@@ -35,7 +36,7 @@ class _TrailEventCard extends State<TrailEventCard> {
             context,
             MaterialPageRoute(
                 settings: RouteSettings(
-                  name: 'Trail Event - ' + widget.event.eventName,
+                  name: 'Trail Event - ' + widget.event.name
                 ),
                 builder: (context) =>
                     TrailEventDetailScreen(event: widget.event)));
@@ -53,7 +54,7 @@ class _TrailEventCard extends State<TrailEventCard> {
             decoration: BoxDecoration(
               border: BorderDirectional(
                 start: BorderSide(
-                  color: widget.event.eventColor,
+                  color: widget.event.color,
                   width: widget.colorBarWidth,
                 ),
               ),
@@ -74,7 +75,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                       children: <Widget>[
                         Text(
                           DateFormat("EEE")
-                              .format(widget.event.eventStart)
+                              .format(widget.event.start)
                               .toUpperCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -85,7 +86,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                         ),
                         Text(
                           DateFormat("dd")
-                              .format(widget.event.eventStart)
+                              .format(widget.event.start)
                               .toUpperCase(),
                           style: TextStyle(
                               fontSize: 22.0,
@@ -97,7 +98,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                         ),
                         Text(
                           DateFormat("MMM")
-                              .format(widget.event.eventStart)
+                              .format(widget.event.start)
                               .toUpperCase(),
                           style: TextStyle(
                               fontSize: 15.0,
@@ -120,7 +121,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          widget.event.eventName,
+                          HtmlUnescape().convert(widget.event.name),
                           maxLines: 2,
                           overflow: widget.titleOverflow,
                           style: TextStyle(
@@ -139,11 +140,11 @@ class _TrailEventCard extends State<TrailEventCard> {
                             color: Color(0xFF989999),
                             size: 14.0,
                           ),
-                          widget.event.isEventAllDay
+                          widget.event.allDayEvent
                               ? Text(
                                   " (All Day: " +
                                       DateFormat("EEEEE")
-                                          .format(widget.event.eventStart) +
+                                          .format(widget.event.start) +
                                       ") ",
                                   style: TextStyle(
                                     color: Color(0xFF666666),
@@ -152,7 +153,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                                 )
                               : Text(
                                   DateFormat(" h:mm a")
-                                      .format(widget.event.eventStart),
+                                      .format(widget.event.start),
                                   style: TextStyle(
                                     color: Color(0xFF666666),
                                     fontSize: 14.0,
@@ -164,7 +165,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                         height: 4.0,
                       ),
                       Visibility(
-                        visible: widget.event.eventLocationName != null,
+                        visible: widget.event.locationName != null,
                         child: Row(
                           children: <Widget>[
                             Icon(
@@ -173,8 +174,8 @@ class _TrailEventCard extends State<TrailEventCard> {
                               size: 14.0,
                             ),
                             Text(
-                              widget.event.eventLocationName != null
-                                ? " " + widget.event.eventLocationName
+                              widget.event.locationName != null
+                                ? " " + widget.event.locationName
                                 : " ",
                               style: TextStyle(
                                 color: Color(0xFF666666),

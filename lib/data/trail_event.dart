@@ -1,78 +1,67 @@
-import 'dart:math';
-
 import 'dart:ui';
 
-import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class TrailEvent {
-  final String eventName;
-  final String eventSubTitle;
-  final String eventImageUrl;
-  final String learnMoreLink;
-  final DateTime eventStart;
-  final bool isEventAllDay;
-  final DateTime eventEnd;
-  final bool noEndTime;
-  final List<String> regionCategory;
-  final List<String> eventCategory;
-  final Color eventColor;
-  final String eventLocationName;
-  final String eventLocationAddress;
-  final Point eventLocationCoord;
-  final TrailPlace eventTrailPlace;
-  final bool isFeatured;
-  final String eventDetails;
+  final String name;
+  final String details;
+  final Color color;
+  final bool featured;
+  final String imageUrl;
 
-  TrailEvent({
-    @required this.eventName,
-    this.eventSubTitle,
-    this.eventImageUrl,
-    this.learnMoreLink,
-    @required this.eventStart,
-    this.isEventAllDay,
-    this.eventEnd,
-    this.noEndTime,
-    this.regionCategory,
-    this.eventCategory,
-    this.eventColor,
-    this.eventLocationName,
-    this.eventLocationAddress,
-    this.eventLocationCoord,
-    this.eventTrailPlace,
-    this.isFeatured,
-    this.eventDetails,
-  });
+  final String locationName;
+  final String locationAddress;
 
+  final DateTime start;
+  final DateTime end;
+  final String eventTimeZone;
+  final bool allDayEvent;
+
+
+  TrailEvent(
+    {this.name, 
+    this.details, 
+    this.color, 
+    this.featured, 
+    this.imageUrl, 
+    this.locationName, 
+    this.locationAddress, 
+    this.start, 
+    this.end, 
+    this.eventTimeZone, 
+    this.allDayEvent}
+    
+  );
   static TrailEvent buildFromFirebase(DocumentSnapshot d) {
     try {
       return TrailEvent(
-        eventName: d['event_name'] ?? "Unnamed Event",
-        eventSubTitle: d['event_sub_title'] ?? "",
-        eventStart: d['event_start'].toDate(),
-        eventCategory: d['event_category'] != null
-            ? List<String>.from(d['event_category'])
-            : List<String>(),
-        eventColor:
-            d['event_color'] != null ? _fromHex(d['event_color']) : Colors.black,
-        eventEnd: d['event_end'] != null ? d['event_end'].toDate() : null,
-        eventImageUrl: d['event_image_url'],
-        eventLocationAddress: d['event_location_address'],
-        eventLocationCoord: d['event_location_coord'] != null
-            ? Point(d['event_location_coord'].latitude,
-                d['event_location_coord'].longitude)
-            : null,
-        eventLocationName: d['event_location_name'],
-        eventTrailPlace: d['event_trail_place'],
-        isEventAllDay: d['is_all_day'] ?? false,
-        isFeatured: d['is_featured'] ?? false,
-        learnMoreLink: d['learn_more_link'],
-        noEndTime: d['no_end_time'] ?? d['event_end'] == null,
-        eventDetails: d['event_details'] ?? '',
-        regionCategory: d['region_category'] != null
-            ? List<String>.from(d['region_category'])
-            : List<String>(),
+        name: d['name'] ?? '<Unnamed>',
+        details: d['details'] ?? '',
+        color: d['color'] != null
+          ? _fromHex(d['color'])
+          : Colors.black,
+        featured: d['featured'] != null
+          ? d['featured'] == 'yes'
+          : false,
+        imageUrl: d['image_url'] != null
+          ? d['image_url']
+          : null,
+        locationName: d['location_name'] != null
+          ? d['location_name']
+          : '',
+        locationAddress: d['location_addrss'] != null
+          ? d['location_address']
+          : '',
+        start: d['start'] != null
+          ? Timestamp(int.parse(d['start']), 0).toDate()
+          : DateTime(2000),
+        end: d['end'] != null
+          ? Timestamp(int.parse(d['end']), 0).toDate()
+          : null,
+        allDayEvent: d['all_day_event'] != null
+          ? d['all_day_event'] == "yes"
+          : false,
       );
     } catch (e) {
       throw e;

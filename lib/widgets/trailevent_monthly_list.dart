@@ -44,7 +44,7 @@ class _MonthlyEventsList extends State<MonthlyEventsList> {
           return SizedBox(height: 0,);
         } else {
           List<TrailEvent> events = snapshot.data..sort((TrailEvent a, TrailEvent b) {
-            return a.eventStart.compareTo(b.eventStart);
+            return a.start.compareTo(b.start);
           });
           events.forEach((e) {
             _columnList.add(

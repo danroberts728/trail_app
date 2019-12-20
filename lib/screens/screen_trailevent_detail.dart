@@ -1,10 +1,11 @@
 import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/expandable_text.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
 
 class TrailEventDetailScreen extends StatelessWidget {
@@ -16,7 +17,7 @@ class TrailEventDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(event.eventName),
+        title: Text(HtmlUnescape().convert(event.name),),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -33,23 +34,23 @@ class TrailEventDetailScreen extends StatelessWidget {
               ),
               // Event Image
               Visibility(
-                visible: this.event.eventImageUrl != null &&
-                    this.event.eventImageUrl != '',
+                visible: this.event.imageUrl != null &&
+                    this.event.imageUrl != '',
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    return CachedNetworkImage(
+                    return CachedNetworkImage(                      
                       height: constraints.maxWidth * (9/16),
                       width: double.infinity,
                       fit: BoxFit.cover,
                       alignment: Alignment.center,
-                      imageUrl: this.event.eventImageUrl ?? '',
+                      imageUrl: this.event.imageUrl ?? '',
                     );
                   },
                 ),
               ),
               // Event Details
               Visibility(
-                visible: this.event.eventDetails.isNotEmpty,
+                visible: this.event.details.isNotEmpty,
                 child: Container(
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),
@@ -67,11 +68,10 @@ class TrailEventDetailScreen extends StatelessWidget {
                         color: Colors.white,
                         margin: EdgeInsets.only(bottom: 6.0, left: 10.0),
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: ExpandableText(
-                          isExpanded: false,
-                          text: this.event.eventDetails,
-                          fontSize: 16.0,
-                          previewCharacterCount: 200,
+                        child: Html(data: this.event.details,
+                          defaultTextStyle: TextStyle(
+                            fontSize: 16.0,
+                          ),
                         ),
                       ),
                     ],
@@ -79,7 +79,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: !this.event.eventDetails.isNotEmpty,
+                visible: !this.event.details.isNotEmpty,
                 child: SizedBox(
                   height: 6.0,
                 ),
@@ -117,7 +117,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   DateFormat("EEEEE, MMMM dd, yyyy")
-                                      .format(this.event.eventStart),
+                                      .format(this.event.start),
                                   style: TextStyle(
                                     color: Color(0xFF666666),
                                     fontSize: 20.0,
@@ -125,11 +125,11 @@ class TrailEventDetailScreen extends StatelessWidget {
                                     fontStyle: FontStyle.italic,
                                   ),
                                 ),
-                                this.event.isEventAllDay
+                                this.event.allDayEvent
                                     ? Text(
                                         " (All Day: " +
                                             DateFormat("EEEEE")
-                                                .format(this.event.eventStart) +
+                                                .format(this.event.start) +
                                             ") ",
                                         style: TextStyle(
                                           color: Color(0xFF666666),
@@ -141,20 +141,18 @@ class TrailEventDetailScreen extends StatelessWidget {
                                         children: <Widget>[
                                           Text(
                                             DateFormat("h:mm a")
-                                                .format(this.event.eventStart),
+                                                .format(this.event.start),
                                             style: TextStyle(
                                               color: Color(0xFF666666),
                                               fontSize: 20.0,
                                             ),
                                           ),
-                                          event.noEndTime
-                                              ? Text(" ")
-                                              : Text(
+                                          Text(
                                                   " ${String.fromCharCode(0x2014)} " +
                                                       DateFormat("h:mm a")
                                                           .format(this
                                                               .event
-                                                              .eventEnd),
+                                                              .end),
                                                   style: TextStyle(
                                                     color: Color(0xFF666666),
                                                     fontSize: 20.0,
@@ -173,8 +171,8 @@ class TrailEventDetailScreen extends StatelessWidget {
               ),
               // Location
               Visibility(
-                visible: this.event.eventLocationName != null &&
-                    this.event.eventLocationName.isNotEmpty,
+                visible: this.event.locationName != null &&
+                    this.event.locationName.isNotEmpty,
                 child: Container(
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),
@@ -202,7 +200,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                this.event.eventLocationName ?? "",
+                                this.event.locationName ?? "",
                                 style: TextStyle(
                                   color: Color(0xFF666666),
                                   fontWeight: FontWeight.w700,
@@ -214,7 +212,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                 height: 4.0,
                               ),
                               Text(
-                                this.event.eventLocationAddress ?? "",
+                                this.event.locationAddress ?? "",
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   fontSize: 20.0,
@@ -226,9 +224,9 @@ class TrailEventDetailScreen extends StatelessWidget {
                               RaisedButton(
                                 onPressed: () {
                                   AppLauncher().openDirections(
-                                      this.event.eventLocationName +
+                                      this.event.locationName +
                                           ", " +
-                                          this.event.eventLocationAddress);
+                                          this.event.locationAddress);
                                 },
                                 color: TrailAppSettings.third,
                                 elevation: 12.0,

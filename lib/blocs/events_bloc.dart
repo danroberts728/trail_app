@@ -20,9 +20,9 @@ class MonthlyEventsBloc extends Bloc {
       : startOfMonth;
 
     Firestore.instance.collection('events/')
-      .where('event_start', isGreaterThanOrEqualTo: startTimestamp)
-      .orderBy('event_start')
-      .endBefore([endOfMonth])
+      .where('start_timestamp_seconds', isGreaterThanOrEqualTo: startTimestamp.seconds)
+      .orderBy('start_timestamp_seconds')
+      .endBefore([endOfMonth.seconds])
       .snapshots().listen(_onDataUpdate);
   }
 
