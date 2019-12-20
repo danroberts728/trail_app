@@ -2,7 +2,6 @@ import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
-import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'blocs/appauth_bloc.dart';
 import 'screens/screen_register.dart';
@@ -47,7 +46,6 @@ class TrailApp extends StatelessWidget {
           ? Home(observer)
           : SigninScreen(),
         routes: {
-          '/app-loading': (context) => AppLoadingScreen(),
           '/home': (context) => Home(observer),
           '/sign-in': (context) => SigninScreen(),
           '/register': (context) => RegisterScreen(),
