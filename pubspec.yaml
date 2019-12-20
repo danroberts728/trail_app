@@ -29,7 +29,7 @@ dependencies:
   image: ^2.1.5
   image_cropper: ^1.1.0
   font_awesome_flutter: ^8.5.0
-  firebase_analytics: ^5.0.2
+  firebase_analytics: ^5.0.9
   google_maps_flutter: ^0.5.21
   clustering_google_maps: ^0.1.2
 

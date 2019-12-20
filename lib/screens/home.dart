@@ -6,8 +6,8 @@ import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
+import 'package:firebase_analytics/observer.dart';
 
-import '../main.dart';
 import '../blocs/appauth_bloc.dart';
 import 'tabscreen_profile.dart';
 import 'tabscreen.dart';
@@ -21,6 +21,10 @@ import 'package:flutter/material.dart';
 /// and directs the user to the tabs
 /// or the sign in screen
 class Home extends StatefulWidget {
+  Home(this.observer);
+
+  final FirebaseAnalyticsObserver observer;
+
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
@@ -29,7 +33,8 @@ class Home extends StatefulWidget {
 
 /// The state for the home screen
 ///
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home>
+  with SingleTickerProviderStateMixin, RouteAware {
   /// The currently-selected tab index
   int _currentIndex = 0;
 
@@ -49,6 +54,22 @@ class _HomeState extends State<Home> {
 
   /// A stream that sends updates to the user's auth/sign-in status
   StreamSubscription _authChangeSubscription;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    widget.observer.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void didPush() {
+    _sendCurrentTabToAnalytics();
+  }
+
+  @override
+  void didPopNext() {
+    _sendCurrentTabToAnalytics();
+  }
 
   @override
   void initState() {
@@ -177,6 +198,7 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     _authChangeSubscription.cancel();
+    widget.observer.unsubscribe(this);
     super.dispose();
   }
 
@@ -216,8 +238,8 @@ class _HomeState extends State<Home> {
 
   /// Send the current tab selection to analytics
   void _sendCurrentTabToAnalytics() {
-    TrailApp.analytics.setCurrentScreen(
-      screenName: 'tab/' + this._currentIndex.toString(),
+    widget.observer.analytics.setCurrentScreen(
+      screenName: 'tab/$_currentIndex',
     );
   }
 }

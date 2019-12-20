@@ -21,8 +21,7 @@ void main() {
 class TrailApp extends StatelessWidget {
   final navigatorKey = GlobalKey<NavigatorState>();
   static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   TrailApp() {
     AppAuth();
@@ -45,7 +44,7 @@ class TrailApp extends StatelessWidget {
         home: AppLoadingScreen(),
         routes: {
           '/app-loading': (context) => AppLoadingScreen(),
-          '/home': (context) => Home(),
+          '/home': (context) => Home(observer),
           '/sign-in': (context) => SigninScreen(),
           '/register': (context) => RegisterScreen(),
         });
