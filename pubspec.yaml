@@ -32,6 +32,7 @@ dependencies:
   firebase_analytics: ^5.0.9
   google_maps_flutter: ^0.5.21
   clustering_google_maps: ^0.1.2
+  firebase_crashlytics: ^0.1.2
 
 #dev_dependencies:
 #  flutter_test:

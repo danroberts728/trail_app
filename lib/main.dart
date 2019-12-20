@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
 import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'screens/screen_register.dart';
 import 'screens/screen_signin.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,12 @@ import 'package:flutter/services.dart';
 import 'blocs/appauth_bloc.dart';
 import 'screens/home.dart';
 
-void main() {  
+void main() {
+  Crashlytics.instance.enableInDevMode = true;
+
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {    
     runApp(TrailApp());
