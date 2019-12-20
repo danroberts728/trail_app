@@ -4,11 +4,11 @@ import 'package:firebase_analytics/observer.dart';
 
 import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'blocs/appauth_bloc.dart';
 import 'screens/screen_register.dart';
 import 'screens/screen_signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'blocs/appauth_bloc.dart';
 import 'screens/home.dart';
 
 void main() {
@@ -28,9 +28,6 @@ class TrailApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
-  TrailApp() {
-    AppAuth();
-  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -46,7 +43,9 @@ class TrailApp extends StatelessWidget {
             title: TextStyle(color: Colors.white)
           )
         ),
-        home: AppLoadingScreen(),
+        home: AppAuth().user != null
+          ? Home(observer)
+          : SigninScreen(),
         routes: {
           '/app-loading': (context) => AppLoadingScreen(),
           '/home': (context) => Home(observer),
