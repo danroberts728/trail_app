@@ -46,9 +46,6 @@ class _HomeState extends State<Home>
   /// This is updated when the [_currentIndex] is changed
   Text _appBarTitle;
 
-  /// Whether the user is currently signed-in
-  bool _isSignedIn = false;
-
   /// The key for the scaffold
   GlobalKey _scaffoldKey = GlobalKey();
 
@@ -75,19 +72,6 @@ class _HomeState extends State<Home>
   void initState() {
     super.initState();
     _appBarTitle = Text(_appTabs[_currentIndex].appBarTitle);
-    _authChangeSubscription = AppAuth().onAuthChange.listen((user) {
-      this._isSignedIn = user != null;
-      if (!this._isSignedIn) {
-        try {
-          Navigator.of(_scaffoldKey.currentContext)
-              .popUntil((route) => route.isFirst);
-          Navigator.of(_scaffoldKey.currentContext)
-              .pushReplacementNamed('/sign-in');
-        } on FlutterError catch (e) {
-          print("Caught Exception in _handleAuthChange: $e");
-        }
-      }
-    });
   }
 
   /// A list of the tabs.

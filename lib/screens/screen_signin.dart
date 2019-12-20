@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:alabama_beer_trail/screens/screen_forgot_password.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
-import '../data/app_user.dart';
-
 import '../blocs/appauth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
@@ -32,19 +30,7 @@ class _SigninScreen extends State<SigninScreen> {
 
   @override
   void initState() {
-    super.initState();
-    _authChangeSubscription = AppAuth().onAuthChange.listen((AppUser result) {
-      if (result != null) {
-        try {
-          Navigator.of(_scaffoldKey.currentContext)
-              .popUntil((route) => route.isFirst);
-          Navigator.of(_scaffoldKey.currentContext)
-              .pushReplacementNamed('/home');
-        } on FlutterError catch (e) {
-          print("Caught Exception in _handleAuthChange: $e");
-        }
-      }
-    });
+    super.initState();  
   }
 
   @override

@@ -20,7 +20,7 @@ class AppAuth extends Bloc {
   AppUser user;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final _authStreamController = StreamController<AppUser>.broadcast();
+  final _authStreamController = StreamController<AppUser>();
   Stream<AppUser> get onAuthChange => this._authStreamController.stream;
 
 
