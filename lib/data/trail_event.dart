@@ -9,12 +9,16 @@ class TrailEvent {
   final Color color;
   final bool featured;
   final String imageUrl;
+  final String learnMoreLink;
 
   final String locationName;
   final String locationAddress;
+  final String locationCity;
+  final String locationState;
 
   final DateTime start;
   final DateTime end;
+  final bool hideEndTime;
   final String eventTimeZone;
   final bool allDayEvent;
 
@@ -25,17 +29,21 @@ class TrailEvent {
     this.color, 
     this.featured, 
     this.imageUrl, 
+    this.learnMoreLink,
     this.locationName, 
-    this.locationAddress, 
+    this.locationAddress,
+    this.locationCity,
+    this.locationState,
     this.start, 
-    this.end, 
-    this.eventTimeZone, 
+    this.end,
+    this.hideEndTime,
+    this.eventTimeZone,
     this.allDayEvent}
-    
   );
+
   static TrailEvent buildFromFirebase(DocumentSnapshot d) {
     try {
-      return TrailEvent(
+      var trailEvent = TrailEvent(
         name: d['name'] ?? '<Unnamed>',
         details: d['details'] ?? '',
         color: d['color'] != null
@@ -47,22 +55,35 @@ class TrailEvent {
         imageUrl: d['image_url'] != null
           ? d['image_url']
           : null,
+        learnMoreLink: d['learnmore_link'] != null
+          ? d['learnmore_link']
+          : '',
         locationName: d['location_name'] != null
           ? d['location_name']
           : '',
-        locationAddress: d['location_addrss'] != null
+        locationAddress: d['location_address'] != null
           ? d['location_address']
           : '',
-        start: d['start'] != null
-          ? Timestamp(int.parse(d['start']), 0).toDate()
+        locationCity: d['location_city'] != null
+          ? d['location_city']
+          : '',
+        locationState: d['location_state'] != null
+          ? d['location_state']
+          : '',
+        start: d['start_timestamp_seconds'] != null
+          ? Timestamp(d['start_timestamp_seconds'], 0).toDate().subtract(DateTime.now().timeZoneOffset)
           : DateTime(2000),
-        end: d['end'] != null
-          ? Timestamp(int.parse(d['end']), 0).toDate()
+        end: d['end_timestamp_seconds'] != null
+          ? Timestamp(d['end_timestamp_seconds'], 0).toDate().subtract(DateTime.now().timeZoneOffset)
           : null,
+        hideEndTime: d['hide_endtime'] != null 
+          ? d['hide_endtime'] == 'yes'
+          : false,
         allDayEvent: d['all_day_event'] != null
           ? d['all_day_event'] == "yes"
           : false,
       );
+      return trailEvent;
     } catch (e) {
       throw e;
     }

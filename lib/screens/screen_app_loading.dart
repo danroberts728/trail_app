@@ -59,7 +59,9 @@ class _AppLoadingScreen extends State<AppLoadingScreen> {
   }
 
   void dispose() {
-    _authChangeSubscription.cancel();
+    if(_authChangeSubscription != null) {
+      _authChangeSubscription.cancel();
+    }    
     super.dispose();
   }
 }
