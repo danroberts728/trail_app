@@ -17,7 +17,9 @@ class TrailEventDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(HtmlUnescape().convert(event.name),),
+        title: Text(
+          HtmlUnescape().convert(event.name),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -34,12 +36,12 @@ class TrailEventDetailScreen extends StatelessWidget {
               ),
               // Event Image
               Visibility(
-                visible: this.event.imageUrl != null &&
-                    this.event.imageUrl != '',
+                visible:
+                    this.event.imageUrl != null && this.event.imageUrl != '',
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    return CachedNetworkImage(                      
-                      height: constraints.maxWidth * (9/16),
+                    return CachedNetworkImage(
+                      height: constraints.maxWidth * (9 / 16),
                       width: double.infinity,
                       fit: BoxFit.cover,
                       alignment: Alignment.center,
@@ -57,21 +59,50 @@ class TrailEventDetailScreen extends StatelessWidget {
                   child: ExpansionTile(
                     initiallyExpanded: true,
                     title: Text(
-                      "Event Details",
+                      "Details",
                       style: TextStyle(
                         fontSize: 22.0,
-                        color: TrailAppSettings.second,
+                        color: TrailAppSettings.mainHeadingColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     children: <Widget>[
                       Container(
-                        color: Colors.white,
                         margin: EdgeInsets.only(bottom: 6.0, left: 10.0),
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Html(data: this.event.details,
-                          defaultTextStyle: TextStyle(
-                            fontSize: 16.0,
-                          ),
+                        child: Column(
+                          children: <Widget>[
+                            Html(
+                              data: this.event.details,
+                              defaultTextStyle: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Visibility(
+                              visible: event.learnMoreLink != null,
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: RaisedButton(
+                                  color: TrailAppSettings.actionLinksColor,
+                                  textColor: Colors.white70,
+                                  onPressed: () {
+                                    AppLauncher()
+                                        .openWebsite(event.learnMoreLink);
+                                  },
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text("Learn More"),
+                                        SizedBox(
+                                          width: 8.0,
+                                        ),
+                                        Icon(Icons.open_in_new)
+                                      ]),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -86,85 +117,56 @@ class TrailEventDetailScreen extends StatelessWidget {
               ),
               // Date and Time
               Container(
-                color: Colors.white,
                 margin: EdgeInsets.only(bottom: 6.0),
                 child: ExpansionTile(
-                  initiallyExpanded: false,
+                  initiallyExpanded: true,
                   title: Text(
-                    "Date and Time",
+                    "When",
                     style: TextStyle(
                       fontSize: 22.0,
-                      color: TrailAppSettings.second,
+                      color: TrailAppSettings.mainHeadingColor,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: 10.0,
-                            right: 16.0,
-                            bottom: 16.0,
+                    Container(
+                      margin:
+                          EdgeInsets.only(bottom: 6.0, left: 10.0, right: 10.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.calendar_today,
+                            size: 32.0,
+                            color: Colors.black54,
                           ),
-                          child: Container(
-                            color: Colors.white,
-                            alignment: Alignment.topLeft,
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  DateFormat("EEEEE, MMMM dd, yyyy")
-                                      .format(this.event.start),
-                                  style: TextStyle(
-                                    color: Color(0xFF666666),
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w700,
-                                    fontStyle: FontStyle.italic,
-                                  ),
+                          SizedBox(
+                            width: 8.0,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                DateFormat("EEEEE, MMMM dd, yyyy")
+                                    .format(this.event.start),
+                                style: TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                this.event.allDayEvent
-                                    ? Text(
-                                        " (All Day: " +
-                                            DateFormat("EEEEE")
-                                                .format(this.event.start) +
-                                            ") ",
-                                        style: TextStyle(
-                                          color: Color(0xFF666666),
-                                          fontSize: 20.0,
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                      )
-                                    : Row(
-                                        children: <Widget>[
-                                          Text(
-                                            DateFormat("h:mm a")
-                                                .format(this.event.start),
-                                            style: TextStyle(
-                                              color: Color(0xFF666666),
-                                              fontSize: 20.0,
-                                            ),
-                                          ),
-                                          Text(
-                                                  " ${String.fromCharCode(0x2014)} " +
-                                                      DateFormat("h:mm a")
-                                                          .format(this
-                                                              .event
-                                                              .end),
-                                                  style: TextStyle(
-                                                    color: Color(0xFF666666),
-                                                    fontSize: 20.0,
-                                                  ),
-                                                ),
-                                        ],
-                                      ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                event.getTimeString(),
+                                style: TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -177,82 +179,90 @@ class TrailEventDetailScreen extends StatelessWidget {
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),
                   child: ExpansionTile(
-                    initiallyExpanded: false,
+                    initiallyExpanded: true,
                     title: Text(
-                      "Location",
+                      "Where",
                       style: TextStyle(
                         fontSize: 22.0,
-                        color: TrailAppSettings.second,
+                        color: TrailAppSettings.mainHeadingColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.only(
-                          left: 16.0,
-                          right: 16.0,
-                          bottom: 16.0,
-                        ),
-                        child: Container(
-                          color: Colors.white,
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                this.event.locationName ?? "",
-                                style: TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.w700,
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 20.0,
+                        margin: EdgeInsets.only(
+                            bottom: 6.0, left: 10.0, right: 10.0),
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Stack(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.location_on,
+                                  size: 32.0,
+                                  color: Colors.black54,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 4.0,
-                              ),
-                              Text(
-                                this.event.locationAddress ?? "",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 20.0,
+                                SizedBox(
+                                  width: 8.0,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 8.0,
-                              ),
-                              RaisedButton(
-                                onPressed: () {
-                                  AppLauncher().openDirections(
-                                      this.event.locationName +
-                                          ", " +
-                                          this.event.locationAddress);
-                                },
-                                color: TrailAppSettings.third,
-                                elevation: 12.0,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 16.0,
-                                  vertical: 8.0,
-                                ),
-                                textColor: Colors.white,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Icon(
-                                      Icons.drive_eta,
-                                    ),
-                                    SizedBox(
-                                      width: 16.0,
+                                    Text(
+                                      event.locationName,
+                                      overflow: TextOverflow.fade,
+                                      style: TextStyle(
+                                        color: Color(0xFF666666),
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     Text(
-                                      "Get Directions",
-                                      style: TextStyle(),
+                                      event.locationAddress,
+                                      style: TextStyle(
+                                        color: Color(0xFF666666),
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      event.locationCity +
+                                          ", " +
+                                          event.locationState,
+                                      style: TextStyle(
+                                        color: Color(0xFF666666),
+                                        fontSize: 18.0,
+                                      ),
                                     ),
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
+                              ],
+                            ),
+                            Positioned(
+                              right: 10.0,
+                              child: SizedBox(
+                                width: 26.0,
+                                child: FlatButton(
+                                  padding: EdgeInsets.all(0),
+                                  onPressed: () {
+                                    AppLauncher().openDirections(
+                                        event.locationName +
+                                            ", " +
+                                            event.locationAddress +
+                                            ", " +
+                                            event.locationCity +
+                                            "," +
+                                            event.locationState);
+                                  },
+                                  child: Icon(
+                                    Icons.map,
+                                    color: TrailAppSettings.actionLinksColor,
+                                    size: 32.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

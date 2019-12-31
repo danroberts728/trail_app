@@ -60,7 +60,7 @@ class TrailNewsItem extends StatelessWidget {
                       SizedBox(
                         height: 8.0,
                       ),
-                      // Excer
+                      // Excerpt
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(
@@ -76,7 +76,7 @@ class TrailNewsItem extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             Icons.calendar_today,
-                            color: TrailAppSettings.second,
+                            color: TrailAppSettings.subHeadingColor,
                             size: 12.0,
                           ),
                           SizedBox(
@@ -85,14 +85,14 @@ class TrailNewsItem extends StatelessWidget {
                           Text(
                             DateFormat("MMM d y").format(pubDate),
                             style: TextStyle(
-                                color: TrailAppSettings.second, fontSize: 12.0),
+                                color: TrailAppSettings.subHeadingColor, fontSize: 12.0),
                           ),
                           SizedBox(
                             width: 8.0,
                           ),
                           Icon(
                             Icons.person,
-                            color: TrailAppSettings.second,
+                            color: TrailAppSettings.subHeadingColor,
                             size: 12.0,
                           ),
                           SizedBox(
@@ -100,8 +100,9 @@ class TrailNewsItem extends StatelessWidget {
                           ),
                           Text(
                             _item.author.toUpperCase(),
+                            overflow: TextOverflow.fade,
                             style: TextStyle(
-                                color: TrailAppSettings.second, fontSize: 12.0),
+                                color: TrailAppSettings.subHeadingColor, fontSize: 12.0),
                           ),
                         ],
                       ),

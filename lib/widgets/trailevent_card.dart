@@ -35,9 +35,8 @@ class _TrailEventCard extends State<TrailEventCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                settings: RouteSettings(
-                  name: 'Trail Event - ' + widget.event.name
-                ),
+                settings:
+                    RouteSettings(name: 'Trail Event - ' + widget.event.name),
                 builder: (context) =>
                     TrailEventDetailScreen(event: widget.event)));
       },
@@ -67,6 +66,7 @@ class _TrailEventCard extends State<TrailEventCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                // Date Box
                 SizedBox(
                   width: 35.0,
                   child: Center(
@@ -119,6 +119,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      // Event Name
                       Container(
                         child: Text(
                           HtmlUnescape().convert(widget.event.name),
@@ -131,34 +132,26 @@ class _TrailEventCard extends State<TrailEventCard> {
                         ),
                       ),
                       SizedBox(
-                        height: 4.0,
+                        height: 8.0,
                       ),
+                      // Time
                       Row(
                         children: <Widget>[
+                          // Clock Icon
                           Icon(
                             Icons.access_time,
                             color: Color(0xFF989999),
                             size: 14.0,
                           ),
-                          widget.event.allDayEvent
-                              ? Text(
-                                  " (All Day: " +
-                                      DateFormat("EEEEE")
-                                          .format(widget.event.start) +
-                                      ") ",
-                                  style: TextStyle(
-                                    color: Color(0xFF666666),
-                                    fontSize: 14.0,
-                                  ),
-                                )
-                              : Text(
-                                  DateFormat(" h:mm a")
-                                      .format(widget.event.start),
-                                  style: TextStyle(
-                                    color: Color(0xFF666666),
-                                    fontSize: 14.0,
-                                  ),
-                                ),
+                          SizedBox(width: 8.0,),
+                          // Time
+                          Text(
+                            widget.event.getTimeString(),
+                            style: TextStyle(
+                              color: Color(0xFF666666),
+                              fontSize: 14.0,
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -173,10 +166,11 @@ class _TrailEventCard extends State<TrailEventCard> {
                               color: Color(0xFF666666),
                               size: 14.0,
                             ),
+                            SizedBox(width: 8.0,),
                             Text(
                               widget.event.locationName != null
-                                ? " " + widget.event.locationName
-                                : " ",
+                                  ? widget.event.locationName
+                                  : " ",
                               style: TextStyle(
                                 color: Color(0xFF666666),
                                 fontSize: 14.0,
