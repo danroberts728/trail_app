@@ -5,6 +5,8 @@ import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/event_filter_fab.dart';
+import 'package:alabama_beer_trail/widgets/event_filter_widget.dart';
 import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 
@@ -34,7 +36,7 @@ class Home extends StatefulWidget {
 /// The state for the home screen
 ///
 class _HomeState extends State<Home>
-  with SingleTickerProviderStateMixin, RouteAware {
+    with SingleTickerProviderStateMixin, RouteAware {
   /// The currently-selected tab index
   int _currentIndex = 0;
 
@@ -197,12 +199,27 @@ class _HomeState extends State<Home>
   }
 
   void _setFloatingActionButton() {
-    if (_currentIndex == 3) {
+    if (_currentIndex == 1) {
+      // Events Tab
+      _floatingActionButton = FloatingActionButton(
+        child: EventFilterFab(),
+        backgroundColor: TrailAppSettings.actionLinksColor,
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return SingleChildScrollView(
+                  child: EventFilterWidget(),
+                );
+              });
+        },
+      );
+    } else if (_currentIndex == 3) {
       // Profile Tab
       _floatingActionButton = FloatingActionButton(
         child: Icon(Icons.edit),
-        backgroundColor: TrailAppSettings.third,
-        foregroundColor: Colors.white,
+        backgroundColor: TrailAppSettings.actionLinksColor,
+        foregroundColor: Colors.white70,
         onPressed: () {
           Navigator.push(
             context,

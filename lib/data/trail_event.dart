@@ -16,6 +16,8 @@ class TrailEvent {
   final String locationAddress;
   final String locationCity;
   final String locationState;
+  final double locationLat;
+  final double locationLon;
 
   final DateTime start;
   final DateTime end;
@@ -34,6 +36,8 @@ class TrailEvent {
       this.locationAddress,
       this.locationCity,
       this.locationState,
+      this.locationLat,
+      this.locationLon,
       this.start,
       this.end,
       this.hideEndTime,
@@ -54,6 +58,8 @@ class TrailEvent {
             d['location_address'] != null ? d['location_address'] : '',
         locationCity: d['location_city'] != null ? d['location_city'] : '',
         locationState: d['location_state'] != null ? d['location_state'] : '',
+        locationLat: d['location_lat'] != null ? double.tryParse(d['location_lat']) : null,
+        locationLon: d['location_lon'] != null ? double.tryParse(d['location_lon']) : null,
         start: d['start_timestamp_seconds'] != null
             ? Timestamp(d['start_timestamp_seconds'], 0)
                 .toDate()

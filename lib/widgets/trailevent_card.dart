@@ -51,7 +51,8 @@ class _TrailEventCard extends State<TrailEventCard> {
           margin: EdgeInsets.all(0.0),
           child: Container(
             decoration: BoxDecoration(
-              border: BorderDirectional(
+              color: widget.event.featured ? Color(0xfffff6e2) : Color(0x00025c6e),
+              border: BorderDirectional(                
                 start: BorderSide(
                   color: widget.event.color,
                   width: widget.colorBarWidth,
@@ -119,6 +120,26 @@ class _TrailEventCard extends State<TrailEventCard> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      // Featured Tag
+                      Visibility(
+                        visible: widget.event.featured,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 9.0),
+                          margin: EdgeInsets.symmetric(vertical: 4.0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                              color: Color(0xffffcb55)),
+                          child: Text(
+                            "Featured".toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
                       // Event Name
                       Container(
                         child: Text(
@@ -143,7 +164,9 @@ class _TrailEventCard extends State<TrailEventCard> {
                             color: Color(0xFF989999),
                             size: 14.0,
                           ),
-                          SizedBox(width: 8.0,),
+                          SizedBox(
+                            width: 8.0,
+                          ),
                           // Time
                           Text(
                             widget.event.getTimeString(),
@@ -166,7 +189,9 @@ class _TrailEventCard extends State<TrailEventCard> {
                               color: Color(0xFF666666),
                               size: 14.0,
                             ),
-                            SizedBox(width: 8.0,),
+                            SizedBox(
+                              width: 8.0,
+                            ),
                             Text(
                               widget.event.locationName != null
                                   ? widget.event.locationName

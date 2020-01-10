@@ -1,5 +1,10 @@
+import 'dart:math';
+
+import 'package:alabama_beer_trail/blocs/event_filter_bloc.dart';
 import 'package:alabama_beer_trail/blocs/events_bloc.dart';
+import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +14,8 @@ class MonthlyEventsList extends StatefulWidget {
   final DateTime month;
   final Function onEmpty;
 
-  const MonthlyEventsList({Key key, @required this.month, this.onEmpty}) : super(key: key);
+  const MonthlyEventsList({Key key, @required this.month, this.onEmpty})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,10 +26,19 @@ class MonthlyEventsList extends StatefulWidget {
 class _MonthlyEventsList extends State<MonthlyEventsList> {
   final DateTime month;
   MonthlyEventsBloc _thisMonthEventsBloc;
+  EventFilterBloc _eventFilterBloc = EventFilterBloc();
+  LocationBloc _locationBloc = LocationBloc();
   List<Widget> _columnList;
+  double _distanceFilter;
 
-  _MonthlyEventsList(this.month) {
+  _MonthlyEventsList(this.month) {    
     this._thisMonthEventsBloc = MonthlyEventsBloc(month);
+    this._distanceFilter = _eventFilterBloc.distance ?? double.infinity;
+    _eventFilterBloc.eventFilterStream.listen((distance) {
+      setState(() {
+        this._distanceFilter = distance;
+      });
+    });
   }
 
   @override
@@ -38,21 +53,49 @@ class _MonthlyEventsList extends State<MonthlyEventsList> {
         ];
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
-        } else if (snapshot.data.length == 0) {
-          // If no events, don't show anything for this month.
-          widget.onEmpty();
-          return SizedBox(height: 0,);
         } else {
-          List<TrailEvent> events = snapshot.data..sort((TrailEvent a, TrailEvent b) {
-            return a.start.compareTo(b.start);
-          });
-          events.forEach((e) {
-            _columnList.add(
-              TrailEventCard(
-                event: e,
-              ),
+          List<TrailEvent> events = snapshot.data;
+
+          events = events.where((e) {
+            if (_distanceFilter == double.infinity) {
+              // Location is 'ALL' return all
+              return true;
+            } else if (_locationBloc.lastLocation == null) {
+              // We do not have user location
+              return true;
+            } else {
+              // Filter events in filter distance (include all filtered)
+              if( e.featured ) {
+                return true;
+              }
+              Point eventPoint = Point(e.locationLat, e.locationLon);
+              Point userPoint = Point(
+                  _locationBloc.lastLocation.x, _locationBloc.lastLocation.y);
+              return GeoMethods.calculateDistance(eventPoint, userPoint) <=
+                  _distanceFilter;
+            }
+          }).toList();
+
+          if (events.length == 0) {
+            // If no events, don't show anything for this month.
+            widget.onEmpty();
+            return SizedBox(
+              height: 0,
             );
-          });
+          } else {
+            // Otherwise, sort by start time and return
+            List<TrailEvent> retval = events
+              ..sort((TrailEvent a, TrailEvent b) {
+                return a.start.compareTo(b.start);
+              });
+            retval.forEach((e) {
+              _columnList.add(
+                TrailEventCard(
+                  event: e,
+                ),
+              );
+            });
+          }
         }
 
         return Container(
