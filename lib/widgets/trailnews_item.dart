@@ -99,7 +99,7 @@ class TrailNewsItem extends StatelessWidget {
                             width: 4.0,
                           ),
                           Text(
-                            _item.author.toUpperCase(),
+                            _item.dc.creator.toUpperCase(),
                             overflow: TextOverflow.fade,
                             style: TextStyle(
                                 color: TrailAppSettings.subHeadingColor, fontSize: 12.0),
