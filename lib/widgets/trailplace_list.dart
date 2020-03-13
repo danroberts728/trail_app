@@ -124,6 +124,7 @@ class TrailListViewState extends State<TrailListView> {
       return RefreshIndicator(
         onRefresh: _refreshPulled,
         child: Container(
+          color: Colors.black12,
           child: Column(
             children: <Widget>[
               // ListView

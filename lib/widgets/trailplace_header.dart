@@ -8,6 +8,7 @@ class TrialPlaceHeader extends StatelessWidget {
   final double titleFontSize;
   final double categoriesFontSize;
   final TextOverflow titleOverflow;
+  final int alphaValue;
 
 
   TrialPlaceHeader({
@@ -17,6 +18,7 @@ class TrialPlaceHeader extends StatelessWidget {
     this.titleFontSize = 16.0,   
     this.categoriesFontSize = 14.0,
     this.titleOverflow = TextOverflow.ellipsis,
+    this.alphaValue = 255,
   });
 
   @override
@@ -27,7 +29,7 @@ class TrialPlaceHeader extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 6.0),
       decoration: BoxDecoration(
         border: null,
-        color: Colors.white,
+        color: Color.fromARGB(this.alphaValue, 255, 255, 255),        
       ),
       child: Row(
         children: <Widget>[

@@ -25,6 +25,7 @@ class _TabScreenNews extends State<TabScreenNews>
     return RefreshIndicator(
       onRefresh: _refreshPulled,
       child: Container(
+        color: Colors.black12,
         margin: EdgeInsets.symmetric(
           horizontal: 0.0,
         ),
@@ -49,7 +50,7 @@ class _TabScreenNews extends State<TabScreenNews>
                   if (newsItems == null) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    return Container(
+                    return Container(                      
                       child: TrailNewsItem(newsItems[index]),
                     );
                   }

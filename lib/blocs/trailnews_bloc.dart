@@ -15,7 +15,7 @@ class TrailNewsBloc extends Bloc {
   }
 
   List<RssItem> newsItems = List<RssItem>();
-  final _trailNewsController = StreamController<List<RssItem>>();
+  final _trailNewsController = StreamController<List<RssItem>>.broadcast();
   Stream<List<RssItem>> get trailNewsStream => _trailNewsController.stream;
 
   Future<void> onReadTimer() {

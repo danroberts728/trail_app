@@ -15,6 +15,7 @@ class _TabScreenEvents extends State<TabScreenEvents> {
     return RefreshIndicator(
       onRefresh: _refreshPulled,
       child: Container(
+        color: Colors.black12,
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(

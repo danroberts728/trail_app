@@ -60,41 +60,45 @@ class _TrailListCard extends State<TrailListCard> {
     }, child: LayoutBuilder(builder: (context, constraints) {
       return Container(
         child: Card(
-          margin: EdgeInsets.only(bottom: 4.0, top: 2.0, left: 8.0, right: 8.0),
+          margin: EdgeInsets.only(bottom: 12.0, top: 2.0, left: 8.0, right: 8.0),
           elevation: 12.0,
           child: Column(
             children: <Widget>[
-              TrialPlaceHeader(
-                name: this.place.name,
-                categories: this.place.categories,
-                logo: CachedNetworkImage(
-                  imageUrl: this.place.logoUrl,
-                  placeholder: (context, url) => RefreshProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                  width: 40.0,
-                  height: 40.0,
-                ),
-              ),
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxWidth * (9/16), // Force 16:9 image ratio
+                height:
+                    constraints.maxWidth * (9 / 16), // Force 16:9 image ratio
                 padding: EdgeInsets.all(0.0),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: CachedNetworkImageProvider(
-                      this.place.featuredImgUrl,                    
+                      this.place.featuredImgUrl,
                     ),
-                    fit: BoxFit.cover,                    
+                    fit: BoxFit.cover,
                     repeat: ImageRepeat.noRepeat,
                     alignment: Alignment.center,
                   ),
                   color: Color(0xFFFFFFFF),
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,                  
                   children: <Widget>[
-                    SizedBox(
-                      // Space for featured photo
-                      height: constraints.maxWidth * (9/16) - 50,
+                    Container(
+                      color: Colors.transparent,
+                      child: TrialPlaceHeader(
+                        name: this.place.name,
+                        categories: this.place.categories,
+                        logo: CachedNetworkImage(
+                          imageUrl: this.place.logoUrl,
+                          placeholder: (context, url) =>
+                              RefreshProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                          width: 40.0,
+                          height: 40.0,
+                        ),
+                        alphaValue: 225,
+                      ),
                     ),
                     Container(
                       // Location and action buttons
@@ -124,10 +128,8 @@ class _TrailListCard extends State<TrailListCard> {
                                         this._distance) +
                                     " mi"
                                 : this.place.city ?? "",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.0
-                            ),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14.0),
                           ),
                           Spacer(),
                           TrailPlaceActionButtonWidget(
