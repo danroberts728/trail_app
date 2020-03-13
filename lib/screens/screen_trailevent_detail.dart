@@ -193,82 +193,70 @@ class TrailEventDetailScreen extends StatelessWidget {
                         margin: EdgeInsets.only(
                             bottom: 6.0, left: 10.0, right: 10.0),
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              event.locationName,
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(
-                                color: Color(0xFF666666),
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
+                            Icon(
+                              Icons.location_on,
+                              size: 32.0,
+                              color: Colors.black54,
+                            ),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    event.locationName,
+                                    overflow: TextOverflow.fade,
+                                    style: TextStyle(
+                                      color: Color(0xFF666666),
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    event.locationAddress,
+                                    style: TextStyle(
+                                      color: Color(0xFF666666),
+                                      fontSize: 18.0,
+                                    ),
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
                               ),
                             ),
-                            Stack(
-                              children: <Widget>[
-                                Row(
+                            Expanded(
+                              child: FlatButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: () {
+                                  AppLauncher().openDirections(
+                                      event.locationName +
+                                          ", " +
+                                          event.locationAddress);
+                                },
+                                child: Column(
                                   children: <Widget>[
                                     Icon(
-                                      Icons.location_on,
+                                      Icons.map,
+                                      color: TrailAppSettings.actionLinksColor,
                                       size: 32.0,
-                                      color: Colors.black54,
                                     ),
-                                    SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          event.locationAddress,
-                                          style: TextStyle(
-                                            color: Color(0xFF666666),
-                                            fontSize: 18.0,
-                                          ),
-                                        ),
-                                        Text(
-                                          event.locationCity +
-                                              ", " +
-                                              event.locationState,
-                                          style: TextStyle(
-                                            color: Color(0xFF666666),
-                                            fontSize: 18.0,
-                                          ),
-                                        ),
-                                      ],
+                                    Text("Open Map",
+                                      style: TextStyle(
+                                        color: TrailAppSettings.actionLinksColor,
+                                        fontSize: 12.0,
+                                      ) ,
                                     ),
                                   ],
                                 ),
-                                Positioned(
-                                  right: 10.0,
-                                  child: SizedBox(
-                                    width: 26.0,
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0),
-                                      onPressed: () {
-                                        AppLauncher().openDirections(
-                                            event.locationName +
-                                                ", " +
-                                                event.locationAddress +
-                                                ", " +
-                                                event.locationCity +
-                                                "," +
-                                                event.locationState);
-                                      },
-                                      child: Icon(
-                                        Icons.map,
-                                        color:
-                                            TrailAppSettings.actionLinksColor,
-                                        size: 32.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),

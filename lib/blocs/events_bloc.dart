@@ -36,10 +36,11 @@ class MonthlyEventsBloc extends Bloc {
 
     List<TrailEvent> newTrailEvents = List<TrailEvent>();
     newDocs.forEach((d) {
+      TrailEvent e = TrailEvent.buildFromFirebase(d);      
       try {
-        newTrailEvents.add(
-          TrailEvent.buildFromFirebase(d)
-        );
+        if(e != null) {
+          newTrailEvents.add(e);
+        }
       } catch (e) {
         print(e);
       }

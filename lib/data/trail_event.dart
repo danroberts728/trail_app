@@ -75,9 +75,14 @@ class TrailEvent {
         allDayEvent:
             d['all_day_event'] != null ? d['all_day_event'] == "yes" : false,
       );
+      // Return null if lat/lon or start time is not set correctly
+      if( trailEvent.locationLat == null || trailEvent.locationLon == null  
+        || trailEvent.start == DateTime(2000)) {
+        return null;
+      }
       return trailEvent;
     } catch (e) {
-      throw e;
+      return null;
     }
   }
 
