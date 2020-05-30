@@ -54,7 +54,7 @@ class AboutScreen extends StatelessWidget {
                           "that legalized beer with an alcohol by volume (ABV) of more than 6% and the " +
                           "Brewery Modernization Act that legalized brewery and distillery tasting rooms. " +
                           "We also supported the legalizion of homebrewing and serve as a watchdog for " +
-                          "craft beer consumers in Montgomery.",
+                          "craft beer consumers at the State House.",
                     ),
                     TextSpan(
                       text: "\n\n",
