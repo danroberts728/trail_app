@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
+import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -10,6 +11,7 @@ import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart'
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'check_in_count_widget.dart';
 
 import '../data/trail_place.dart';
 
@@ -26,8 +28,10 @@ class _TrailListCard extends State<TrailListCard> {
   final TrailPlace place;
   bool _locationEnabled = false;
   double _distance = double.infinity;
+  int _checkInsCount = 0;
 
   LocationBloc _locationBloc = LocationBloc();
+  UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
   StreamSubscription<Point> _streamSub;
 
   _TrailListCard(this.place);
@@ -36,6 +40,12 @@ class _TrailListCard extends State<TrailListCard> {
   void initState() {
     this._locationEnabled = _locationBloc.hasPermission;
     this._distance = _getDistance();
+    this._userCheckinsBloc.checkInStream.listen((data) {
+      setState(() {
+        this._checkInsCount =
+            data.where((element) => element.placeId == place.id).length;
+      });
+    });
 
     this._streamSub = _locationBloc.locationStream.listen((newUserLocation) {
       setState(() {
@@ -60,7 +70,8 @@ class _TrailListCard extends State<TrailListCard> {
     }, child: LayoutBuilder(builder: (context, constraints) {
       return Container(
         child: Card(
-          margin: EdgeInsets.only(bottom: 12.0, top: 2.0, left: 8.0, right: 8.0),
+          margin:
+              EdgeInsets.only(bottom: 12.0, top: 2.0, left: 8.0, right: 8.0),
           elevation: 12.0,
           child: Column(
             children: <Widget>[
@@ -81,7 +92,7 @@ class _TrailListCard extends State<TrailListCard> {
                   color: Color(0xFFFFFFFF),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,                  
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
                       color: Colors.transparent,
@@ -114,22 +125,42 @@ class _TrailListCard extends State<TrailListCard> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.white,
-                            size: 18.0,
-                          ),
-                          SizedBox(width: 4.0),
-                          Text(
-                            this._locationEnabled && this.place.city != null
-                                ? this.place.city +
-                                    " " +
-                                    GeoMethods.toFriendlyDistanceString(
-                                        this._distance) +
-                                    " mi"
-                                : this.place.city ?? "",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 14.0),
+                          Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Colors.white,
+                                      size: 18.0,
+                                    ),
+                                    SizedBox(width: 4.0),
+                                    Text(
+                                      this._locationEnabled &&
+                                              this.place.city != null
+                                          ? this.place.city +
+                                              " " +
+                                              GeoMethods
+                                                  .toFriendlyDistanceString(
+                                                      this._distance) +
+                                              " mi"
+                                          : this.place.city ?? "",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14.0),
+                                    ),
+                                  ],
+                                ),
+                                CheckInCountWidget(
+                                  count: _checkInsCount,
+                                  visible: _checkInsCount != 0,
+                                  iconColor: TrailAppSettings.attentionColor,
+                                  fontColor: Colors.white,
+                                ),
+                              ],
+                            ),
                           ),
                           Spacer(),
                           TrailPlaceActionButtonWidget(

@@ -40,7 +40,7 @@ class TrailApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: TrailAppSettings.themePrimarySwatch,
           hintColor: Colors.white,
-          textTheme: TextTheme(title: TextStyle(color: Colors.white))),
+          textTheme: TextTheme(headline6: TextStyle(color: Colors.white))),
       home: StreamBuilder<AppUser>(
         initialData: null,
         stream: AppAuth().onAuthChange,

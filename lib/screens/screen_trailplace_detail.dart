@@ -11,6 +11,9 @@ import 'package:alabama_beer_trail/widgets/trailplace_hours.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:alabama_beer_trail/widgets/check_in_count_widget.dart';
+import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../data/trail_place.dart';
 
@@ -27,8 +30,44 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
   final TrailPlace place;
 
   final LocationBloc _locationBloc = LocationBloc();
+  final UserCheckinsBloc _userCheckinBloc = UserCheckinsBloc();
 
-  _TrailPlaceDetailScreen(this.place);
+  int _checkInsCount;
+  String _overrideWording;
+
+  _TrailPlaceDetailScreen(this.place) {
+    _userCheckinBloc.checkInStream.listen((data) {
+      setState(() {
+        var sortedCheckIns = data
+            .where((element) => element.placeId == place.id)
+            .toList()
+            .map((e) => e.timestamp)
+            .toList()
+              ..sort((a, b) {
+                return b.compareTo(a);
+              });
+        this._checkInsCount = sortedCheckIns.length;
+        if (_checkInsCount == 0) {
+          _overrideWording = "You have never checked-in";
+        } else {
+          var lastCheckin = sortedCheckIns[0];
+          DateTime now = DateTime.now();
+          var formatter = DateFormat('MMMM d, yyyy');
+          if (now.difference(lastCheckin).inHours < 24) {
+            _overrideWording = "Your last check-in was today";
+          } else if (now.difference(lastCheckin).inDays == 1) {
+            _overrideWording = "Your last check-in was yesterday";
+          } else if (now.difference(lastCheckin).inDays < 7) {
+            _overrideWording = "Your last check-in was this week";
+          } else if (now.difference(lastCheckin).inDays < 14) {
+            _overrideWording = "Your last check-in was last week";
+          } else {
+            _overrideWording = "Your last check-in was " + formatter.format(lastCheckin);
+          }
+        }
+      });
+    });
+  }
 
   var _currentGalleryIndex = 0;
 
@@ -140,6 +179,29 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                   ),
                 ),
               ),
+              // Check-in Count
+              Container(
+                color: Colors.white,
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                  bottom: 0.0,
+                  top: 0.0,
+                ),
+                padding: EdgeInsets.only(
+                  bottom: 8.0,
+                ),
+                child: CheckInCountWidget(
+                  count: this._checkInsCount,
+                  visible: true,
+                  fontSize: 14.0,
+                  iconSize: 16.0,
+                  iconColor: TrailAppSettings.attentionColor,
+                  fontColor: Colors.black45,
+                  overrideTextNoCheckins: _overrideWording,
+                  overrideTextOneCheckins: _overrideWording,
+                  overrideTextManyCheckins: _overrideWording,
+                ),
+              ),
               // Description
               Container(
                 color: Colors.white,
@@ -163,7 +225,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                 color: Colors.white,
                 width: double.infinity,
                 margin: EdgeInsets.only(
-                  bottom: 6.0,
+                  bottom: 8.0,
                 ),
                 padding: EdgeInsets.only(
                   left: 16.0,
