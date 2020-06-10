@@ -20,7 +20,7 @@ class TrailTrophy {
       return TrailTrophy(
           id: d.documentID,
           image: d['image'],
-          requiredPlaces: d['req_places'],
+          requiredPlaces: List<String>.from(d['req_places']),
           name: d['name'],
           description: d['description']);
     } catch (e) {
