@@ -6,6 +6,7 @@ class UserData {
   final DateTime birthDay;
   final String displayName;
   final List<String> favorites;
+  final List<String> trophies;
   final String location;
   final String profilePhotoUrl;
 
@@ -15,6 +16,7 @@ class UserData {
       this.birthDay,
       this.displayName,
       this.favorites,
+      this.trophies,
       this.location,
       this.profilePhotoUrl});
 
@@ -25,7 +27,12 @@ class UserData {
           bannerImageUrl: d['bannerImageUrl'],
           birthDay: d['birthdate'].toDate(),
           displayName: d['displayName'],
-          favorites: List<String>.from(d['favorites']),
+          favorites: d['favorites'] != null
+            ? List<String>.from(d['favorites'])
+            : List<String>(),
+          trophies: d['trophies'] != null
+            ? List<String>.from(d['trophies'])
+            : List<String>(),
           location: d['location'],
           profilePhotoUrl: d['profilePhotoUrl']);
     } catch (e) {
@@ -36,6 +43,7 @@ class UserData {
         birthDay: DateTime.now(),
         displayName: null,
         favorites: List<String>(),
+        trophies: List<String>(),
         location: null,
         profilePhotoUrl: null);
 

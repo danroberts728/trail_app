@@ -11,7 +11,7 @@ import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 
 import '../blocs/appauth_bloc.dart';
-import 'tabscreen_profile.dart';
+import '../screens/tabscreen_profile/tabscreen_profile.dart';
 import 'tabscreen.dart';
 
 import 'tabscreen_trail.dart';

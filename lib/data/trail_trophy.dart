@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 
 class TrailTrophy {
   final String id;
-  final String image;
+  final String activeImage;
+  final String inactiveImage;
   final List<String> requiredPlaces;
   final String name;
   final String description;
 
   TrailTrophy(
       {@required this.id,
-      @required this.image,
+      @required this.activeImage,
+      @required this.inactiveImage,
       @required this.requiredPlaces,
       this.name,
       this.description});
@@ -19,7 +21,8 @@ class TrailTrophy {
     try {
       return TrailTrophy(
           id: d.documentID,
-          image: d['image'],
+          activeImage: d['active_image'],
+          inactiveImage: d['inactive_image'],
           requiredPlaces: List<String>.from(d['req_places']),
           name: d['name'],
           description: d['description']);
