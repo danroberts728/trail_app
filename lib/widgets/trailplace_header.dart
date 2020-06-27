@@ -9,6 +9,7 @@ class TrialPlaceHeader extends StatelessWidget {
   final double categoriesFontSize;
   final TextOverflow titleOverflow;
   final int alphaValue;
+  final double leadingSpace;
 
 
   TrialPlaceHeader({
@@ -18,7 +19,7 @@ class TrialPlaceHeader extends StatelessWidget {
     this.titleFontSize = 16.0,   
     this.categoriesFontSize = 14.0,
     this.titleOverflow = TextOverflow.ellipsis,
-    this.alphaValue = 255,
+    this.alphaValue = 255, this.leadingSpace = 0,
   });
 
   @override
@@ -34,7 +35,7 @@ class TrialPlaceHeader extends StatelessWidget {
       child: Row(
         children: <Widget>[
           SizedBox(
-            width: 12.0,
+            width: this.leadingSpace,
           ),
           logo,
           SizedBox(

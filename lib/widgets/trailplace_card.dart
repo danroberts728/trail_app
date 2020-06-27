@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplace_detail.dart';
+import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/button_check_in.dart';
@@ -173,11 +173,6 @@ class _TrailListCard extends State<TrailListCard> {
                   ],
                 ),
               ),
-              CheckinButton(
-                canCheckin: this._distance != null &&
-                    this._distance <= TrailAppSettings.minDistanceToCheckin,
-                place: this.place,
-              )
             ],
           ),
         ),

@@ -40,32 +40,41 @@ class _CheckinButton extends State<CheckinButton> {
                 DateTime(
                         e.timestamp.year, e.timestamp.month, e.timestamp.day) ==
                     today);
-            return SizedBox(
-              height: 50.0,
-              width: double.infinity,
+
+            return Container(
               child: RaisedButton(
-                elevation: 8.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.0),
+                  side: BorderSide(
+                    color: Colors.black,
+                  ),
+                ),
+                elevation: 4.0,
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-                color: TrailAppSettings.second.withAlpha(200),
+                color: TrailAppSettings.actionLinksColor,
                 disabledColor: TrailAppSettings.fourth,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Stack(
                   children: <Widget>[
-                    Icon(
-                        isCheckedIn
-                            ? Icons.check_box
-                            : Icons.check_box_outline_blank,
-                        color: Colors.white),
-                    SizedBox(
-                      width: 12.0,
+                    Center(
+                      child: Text(
+                        isCheckedIn ? "CHECKED IN" : "CHECK IN",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
                     ),
-                    Text(
-                      isCheckedIn
-                          ? "You have checked in today!"
-                          : "Tap to Check In!",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    Positioned(
+                      right: 0,
+                      child: Center(
+                        child: Icon(
+                          isCheckedIn
+                              ? Icons.check
+                              : Icons.check_box,
+                          color: Colors.white,
+                          size: 20.0,
+                        ),
                       ),
                     ),
                   ],

@@ -43,6 +43,7 @@ class _ExpandableText extends State<ExpandableText>
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 8.0),
       child: _secondHalf.isEmpty
           ? Text(
               _firstHalf ?? ',',
