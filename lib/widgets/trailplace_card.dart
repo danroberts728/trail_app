@@ -6,7 +6,6 @@ import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/button_check_in.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
 import 'package:flutter/material.dart';
