@@ -118,7 +118,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     TrailPlaceArea(
                       isVisible: place.description != null,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 4.0, vertical: 4.0),
                         child: ExpandableText(
                           fontSize: 16.0,
                           isExpanded: false,
@@ -169,18 +170,18 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     ),
                     // Phone
                     TrailPlaceArea(
-                        isVisible:
-                            place.phones != null && place.phones.length > 0,
-                        child: TrailPlaceExternalLinkArea(
-                          leadingIconData: Icons.phone,
-                          content:
-                              place.phones != null && place.phones.length > 0
-                                  ? Text(place.phones.values.first)
-                                  : Text(""),
-                          onPress: () {
-                            AppLauncher().call(place.phones.values.first);
-                          },
-                        )),
+                      isVisible:
+                          place.phones != null && place.phones.length > 0,
+                      child: TrailPlaceExternalLinkArea(
+                        leadingIconData: Icons.phone,
+                        content: place.phones != null && place.phones.length > 0
+                            ? Text(place.phones.values.first)
+                            : Text(""),
+                        onPress: () {
+                          AppLauncher().call(place.phones.values.first);
+                        },
+                      ),
+                    ),
                     // URL Link
                     TrailPlaceArea(
                       isVisible: place.connections['website'] != null &&
@@ -189,16 +190,11 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                         leadingIconData: FontAwesomeIcons.link,
                         leadingIconSize: 22.0,
                         content: Text(
-                          place.connections['website'] ??
-                              ""
-                                  .replaceAll("http://", "")
-                                  .replaceAll("https://", "")
-                                  .replaceAllMapped(
-                                RegExp(r"/$"),
-                                (m) {
-                                  return "";
-                                },
-                              ),
+                          (place.connections['website'] ?? "")
+                              .replaceAll("http://", "")
+                              .replaceAll("https://", "")
+                              .replaceAll(RegExp(r"/$"), ""),
+                          overflow: TextOverflow.fade,
                         ),
                         onPress: () {
                           AppLauncher()

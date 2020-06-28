@@ -48,7 +48,9 @@ class TrailNewsItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 8.0,),
+                      SizedBox(
+                        height: 8.0,
+                      ),
                       Text(_item.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -70,7 +72,9 @@ class TrailNewsItem extends StatelessWidget {
                           maxLines: 3,
                         ),
                       ),
-                      SizedBox(height: 8.0,),
+                      SizedBox(
+                        height: 8.0,
+                      ),
                       // Date and Author
                       Row(
                         children: <Widget>[
@@ -80,16 +84,17 @@ class TrailNewsItem extends StatelessWidget {
                             size: 12.0,
                           ),
                           SizedBox(
-                            width: 4.0,
+                            width: 2.0,
                           ),
                           Text(
                             DateFormat("MMM d y").format(pubDate),
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                color: TrailAppSettings.subHeadingColor, fontSize: 12.0),
+                                color: TrailAppSettings.subHeadingColor,
+                                fontSize: 12.0),
                           ),
                           SizedBox(
-                            width: 8.0,
+                            width: 6.0,
                           ),
                           Icon(
                             Icons.person,
@@ -97,13 +102,16 @@ class TrailNewsItem extends StatelessWidget {
                             size: 12.0,
                           ),
                           SizedBox(
-                            width: 4.0,
+                            width: 2.0,
                           ),
-                          Text(
-                            _item.dc.creator.toUpperCase(),
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: TrailAppSettings.subHeadingColor, fontSize: 12.0),
+                          Expanded(
+                            child: Text(
+                              _item.dc.creator.toUpperCase(),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: TrailAppSettings.subHeadingColor,
+                                  fontSize: 12.0),
+                            ),
                           ),
                         ],
                       ),

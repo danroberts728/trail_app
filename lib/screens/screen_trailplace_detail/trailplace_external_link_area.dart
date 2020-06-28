@@ -26,6 +26,7 @@ class TrailPlaceExternalLinkArea extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: <Widget>[
             Icon(
@@ -36,18 +37,26 @@ class TrailPlaceExternalLinkArea extends StatelessWidget {
             SizedBox(
               width: 14.0 + (_defaultIconSize - leadingIconSize),
             ),
-            content,
-            Spacer(),
-            IconButton(
-              icon: Icon(
-                trailingIconData,
-                size: trailingIconSize,
-                color: TrailAppSettings.actionLinksColor,
+            Flexible(
+              child: content,
+            ),
+            Visibility(
+              child: Spacer(),
+              visible: trailingIconData != null,
+            ),
+            Visibility(
+              child: IconButton(
+                icon: Icon(
+                  trailingIconData,
+                  size: trailingIconSize,
+                  color: TrailAppSettings.actionLinksColor,
+                ),
+                onPressed: () {
+                  onPress();
+                },
               ),
-              onPressed: () {
-                onPress();
-              },
-            )
+              visible: trailingIconData != null,
+            ),
           ],
         ),
       ),

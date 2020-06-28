@@ -15,7 +15,7 @@ class TrailPlaceArea extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 4.0),
         padding: EdgeInsets.only(bottom: 0.0,),
         decoration: BoxDecoration(
-          border: Border(
+          border: Border(            
             bottom: BorderSide(width: 0.5, color: Colors.black45),
           ),
         ),
