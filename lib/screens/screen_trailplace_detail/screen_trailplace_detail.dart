@@ -129,12 +129,18 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                         ),
                       ),
                     ),
+                    // Hours Area
+                    TrailPlaceArea(
+                      isVisible: place.hours != null && place.hours.length > 0,
+                      child: TrailPlaceHoursArea(
+                        place: place,
+                      ),
+                    ),
                     // Address Area
                     TrailPlaceArea(
                       isVisible: place.address != null,
                       child: TrailPlaceExternalLinkArea(
-                        leadingIconData: Icons.location_on,
-                        trailingIconData: Icons.map,
+                        leadingIconData: Icons.map,
                         onPress: () {
                           String address =
                               '${place.name}, ${place.address}, ${place.city}, ${place.state} ${place.zip}';
@@ -159,13 +165,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    // Hours Area
-                    TrailPlaceArea(
-                      isVisible: place.hours != null && place.hours.length > 0,
-                      child: TrailPlaceHoursArea(
-                        place: place,
                       ),
                     ),
                     // Phone

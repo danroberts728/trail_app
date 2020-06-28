@@ -6,20 +6,16 @@ const double _defaultIconSize = 26.0;
 class TrailPlaceExternalLinkArea extends StatelessWidget {
   final IconData leadingIconData;
   final double leadingIconSize;
-  final IconData trailingIconData;
-  final double trailingIconSize;
   final Widget content;
   final Function onPress;
 
-  const TrailPlaceExternalLinkArea(
-      {Key key,
-      this.leadingIconData,
-      this.content,
-      this.onPress,
-      this.leadingIconSize = _defaultIconSize,
-      this.trailingIconData,
-      this.trailingIconSize = _defaultIconSize})
-      : super(key: key);
+  const TrailPlaceExternalLinkArea({
+    Key key,
+    this.leadingIconData,
+    this.content,
+    this.onPress,
+    this.leadingIconSize = _defaultIconSize,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,24 +34,8 @@ class TrailPlaceExternalLinkArea extends StatelessWidget {
               width: 14.0 + (_defaultIconSize - leadingIconSize),
             ),
             Flexible(
+              fit: FlexFit.loose,
               child: content,
-            ),
-            Visibility(
-              child: Spacer(),
-              visible: trailingIconData != null,
-            ),
-            Visibility(
-              child: IconButton(
-                icon: Icon(
-                  trailingIconData,
-                  size: trailingIconSize,
-                  color: TrailAppSettings.actionLinksColor,
-                ),
-                onPressed: () {
-                  onPress();
-                },
-              ),
-              visible: trailingIconData != null,
             ),
           ],
         ),
