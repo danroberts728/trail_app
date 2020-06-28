@@ -132,7 +132,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     TrailPlaceArea(
                       isVisible: place.address != null,
                       child: TrailPlaceExternalLinkArea(
-                        iconData: Icons.location_on,
+                        leadingIconData: Icons.location_on,
+                        trailingIconData: Icons.map,
                         onPress: () {
                           String address =
                               '${place.name}, ${place.address}, ${place.city}, ${place.state} ${place.zip}';
@@ -171,7 +172,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                         isVisible:
                             place.phones != null && place.phones.length > 0,
                         child: TrailPlaceExternalLinkArea(
-                          iconData: Icons.phone,
+                          leadingIconData: Icons.phone,
                           content:
                               place.phones != null && place.phones.length > 0
                                   ? Text(place.phones.values.first)
@@ -185,8 +186,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       isVisible: place.connections['website'] != null &&
                           "" != place.connections['website'],
                       child: TrailPlaceExternalLinkArea(
-                        iconData: FontAwesomeIcons.link,
-                        iconSize: 22.0,
+                        leadingIconData: FontAwesomeIcons.link,
+                        leadingIconSize: 22.0,
                         content: Text(
                           place.connections['website'] ??
                               ""
@@ -210,8 +211,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       isVisible: place.connections['facebook'] != null &&
                           "" != place.connections['facebook'],
                       child: TrailPlaceExternalLinkArea(
-                        iconData: FontAwesomeIcons.facebookF,
-                        iconSize: 22.0,
+                        leadingIconData: FontAwesomeIcons.facebookF,
+                        leadingIconSize: 22.0,
                         content: Text(place.name) ?? "",
                         onPress: () {
                           AppLauncher()
@@ -224,8 +225,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       isVisible:
                           _getUsername(place.connections['twitter']) != null,
                       child: TrailPlaceExternalLinkArea(
-                          iconData: FontAwesomeIcons.twitter,
-                          iconSize: 22.0,
+                          leadingIconData: FontAwesomeIcons.twitter,
+                          leadingIconSize: 22.0,
                           content: _getUsername(place.connections['twitter']) ==
                                   null
                               ? Container()
@@ -241,8 +242,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       isVisible:
                           _getUsername(place.connections['instagram']) != null,
                       child: TrailPlaceExternalLinkArea(
-                          iconData: FontAwesomeIcons.instagram,
-                          iconSize: 20.0,
+                          leadingIconData: FontAwesomeIcons.instagram,
+                          leadingIconSize: 20.0,
                           content: _getUsername(
                                       place.connections['instagram']) ==
                                   null
@@ -259,8 +260,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       isVisible: place.connections['untappd'] != null &&
                           "" != place.connections['untappd'],
                       child: TrailPlaceExternalLinkArea(
-                          iconData: FontAwesomeIcons.untappd,
-                          iconSize: 20.0,
+                          leadingIconData: FontAwesomeIcons.untappd,
+                          leadingIconSize: 20.0,
                           content: Text(place.name) ?? "",
                           onPress: () {
                             AppLauncher()
@@ -272,8 +273,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       isVisible: place.connections['youtube'] != null &&
                           "" != place.connections['youtube'],
                       child: TrailPlaceExternalLinkArea(
-                          iconData: FontAwesomeIcons.youtube,
-                          iconSize: 20.0,
+                          leadingIconData: FontAwesomeIcons.youtube,
+                          leadingIconSize: 20.0,
                           content: Text(place.connections['youtube'] ?? ""),
                           onPress: () {
                             AppLauncher()
@@ -285,7 +286,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                         isVisible:
                             place.emails != null && place.emails.length > 0,
                         child: TrailPlaceExternalLinkArea(
-                          iconData: Icons.email,
+                          leadingIconData: Icons.email,
                           content:
                               place.emails != null && place.emails.length > 0
                                   ? Text(place.emails.values.first)

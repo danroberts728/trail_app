@@ -84,6 +84,7 @@ class TrailNewsItem extends StatelessWidget {
                           ),
                           Text(
                             DateFormat("MMM d y").format(pubDate),
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: TrailAppSettings.subHeadingColor, fontSize: 12.0),
                           ),
@@ -100,7 +101,7 @@ class TrailNewsItem extends StatelessWidget {
                           ),
                           Text(
                             _item.dc.creator.toUpperCase(),
-                            overflow: TextOverflow.fade,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: TrailAppSettings.subHeadingColor, fontSize: 12.0),
                           ),
