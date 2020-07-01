@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/blocs/newtrophies_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/data/check_in.dart';
@@ -22,6 +23,17 @@ class _CheckinButton extends State<CheckinButton> {
 
   @override
   Widget build(BuildContext context) {
+    NewTrophyBloc _newTrophyBloc = NewTrophyBloc();
+
+    _newTrophyBloc.newTrophiesStream.listen((newTrophies) {
+      newTrophies.forEach((t) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "You won a new trophy - " + t.name,
+          ),
+        ));
+      });
+    });
     return Visibility(
       // Check in button
       visible: widget.canCheckin || widget.showAlways,
@@ -69,9 +81,7 @@ class _CheckinButton extends State<CheckinButton> {
                       right: 0,
                       child: Center(
                         child: Icon(
-                          isCheckedIn
-                              ? Icons.check
-                              : Icons.check_box,
+                          isCheckedIn ? Icons.check : Icons.check_box,
                           color: Colors.white,
                           size: 20.0,
                         ),
@@ -147,7 +157,8 @@ class _CheckinButton extends State<CheckinButton> {
                               });
                           return null;
                         } else {
-                          return _userCheckinsBloc.checkIn(widget.place.id);
+                          // Check In
+                          _userCheckinsBloc.checkIn(widget.place.id);
                         }
                       },
               ),

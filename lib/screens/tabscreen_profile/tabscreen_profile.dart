@@ -104,7 +104,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                               ),
                               // Spacer
                               SliverToBoxAdapter(
-                                child: SizedBox(height: 16.0,),
+                                child: SizedBox(height: 80.0,),
                               ),
                             ],
                           ),

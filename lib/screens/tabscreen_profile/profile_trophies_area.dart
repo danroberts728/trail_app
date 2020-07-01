@@ -1,6 +1,6 @@
 import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
-import 'package:alabama_beer_trail/screens/screen_trailtrophydetail.dart';
+import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/screen_trailtrophy_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
