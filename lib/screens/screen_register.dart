@@ -1,5 +1,4 @@
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../blocs//appauth_bloc.dart';
 

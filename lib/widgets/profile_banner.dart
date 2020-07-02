@@ -52,30 +52,29 @@ class _ProfileBanner extends State<ProfileBanner> {
     Widget imageProvider = LayoutBuilder(
       builder: (context, constraints) {
         return this.imageUrl != null
-        ? CachedNetworkImage(
-          imageUrl: this.imageUrl,
-          imageBuilder: (context, imageProvider) => Container(
-            width: double.infinity,
-            height: constraints.maxWidth * (9 / 16),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover),
-            ),
-          ),
-          placeholder: (context, url) => this.placeholder,
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        )
-        : Container(
-          width: double.infinity,
-          height: constraints.maxWidth * (9/16),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: this.backupImage,
-              fit: BoxFit.cover,
-            )
-          ),
-        );
+            ? CachedNetworkImage(
+                imageUrl: this.imageUrl,
+                imageBuilder: (context, imageProvider) => Container(
+                  width: double.infinity,
+                  height: constraints.maxWidth * (9 / 16),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover),
+                  ),
+                ),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              )
+            : Container(
+                width: double.infinity,
+                height: constraints.maxWidth * (9 / 16),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: this.backupImage,
+                  fit: BoxFit.cover,
+                )),
+              );
       },
     );
 
@@ -89,7 +88,7 @@ class _ProfileBanner extends State<ProfileBanner> {
     );
   }
 
-  void saveImage(File file) {
+  void saveImage(PickedFile file) {
     Navigator.pop(context);
 
     ImageCropper.cropImage(
@@ -135,9 +134,10 @@ class _ProfileBanner extends State<ProfileBanner> {
                     minWidth: double.infinity,
                     child: Text("Camera"),
                     onPressed: () {
-                      ImagePicker.pickImage(
+                      var picker = ImagePicker();
+                      picker.getImage(
                         source: ImageSource.camera,
-                        maxHeight: this._maxHeight,
+                        maxHeight: _maxHeight
                       ).then((file) {
                         this.saveImage(file);
                       });
@@ -147,7 +147,8 @@ class _ProfileBanner extends State<ProfileBanner> {
                     minWidth: double.infinity,
                     child: Text("Photo Gallery"),
                     onPressed: () {
-                      ImagePicker.pickImage(
+                      var picker = ImagePicker();
+                      picker.getImage(
                         source: ImageSource.gallery,
                         maxHeight: this._maxHeight,
                       ).then((file) {

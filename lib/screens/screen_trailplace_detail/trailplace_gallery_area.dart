@@ -27,15 +27,17 @@ class _TrailPlaceGallery extends State<TrailPlaceGallery> {
               var mainImageHeight = mainImageWidth * (9 / 16);
 
               return CarouselSlider(
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentGalleryIndex = index;
-                  });
-                },
-                viewportFraction: 1.0,
-                height: mainImageHeight,
-                enableInfiniteScroll: false,
-                enlargeCenterPage: false,
+                options: CarouselOptions(
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentGalleryIndex = index;
+                    });
+                  },
+                  viewportFraction: 1.0,
+                  height: mainImageHeight,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: false,
+                ),
                 items: widget.galleryImageUrls.map(
                   (imgUrl) {
                     return Builder(

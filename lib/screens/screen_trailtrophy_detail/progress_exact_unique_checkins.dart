@@ -28,7 +28,8 @@ class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {
           shrinkWrap: true,
           itemCount: trophy.requiredCheckins.length,
           itemBuilder: (context, index) {
-            if(trailPlacesSnapshot.connectionState == ConnectionState.waiting) {
+            if (trailPlacesSnapshot.connectionState ==
+                ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             }
             var trophyPlaces = trophy.requiredCheckins..sort();
@@ -81,8 +82,10 @@ class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {
                           alphaValue: 0,
                           logo: CachedNetworkImage(
                             imageUrl: place.logoUrl,
-                            placeholder: (context, url) =>
-                                RefreshProgressIndicator(),
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                             width: 25.0,

@@ -101,8 +101,10 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       titleOverflow: TextOverflow.visible,
                       logo: CachedNetworkImage(
                         imageUrl: this.place.logoUrl,
-                        placeholder: (context, url) =>
-                            RefreshProgressIndicator(),
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         width: 60.0,
                         height: 60.0,

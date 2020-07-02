@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysUsageDescription</key>	
+	<string>Determine nearby locations</string>	
+	<key>NSLocationWhenInUseUsageDescription</key>	
+	<string>Determine nearby locations</string>	
+	<key>NSPhotoLibraryUsageDescription </key>
+	<string>Profile photos</string>
+	<key>NSCameraUsageDescription  </key>
+	<string>Profile photos</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -43,5 +51,20 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>Yes</string>
+	<!-- Google Sign-in Section -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- TODO Replace this value: -->
+				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+				<string>com.googleusercontent.apps.861823949799-vc35cprkp249096uujjn0vvnmcvjppkn</string>
+			</array>
+		</dict>
+	</array>
+<!-- End of the Google Sign-in Section -->	
 </dict>
 </plist>

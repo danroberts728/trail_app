@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:alabama_beer_trail/screens/screen_forgot_password.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
@@ -20,7 +18,6 @@ class _SigninScreen extends State<SigninScreen> {
   String _formError;
   SubmitButtonState _submitButtonState = SubmitButtonState.Waiting;
   GlobalKey _scaffoldKey = GlobalKey();
-  StreamSubscription _authChangeSubscription;
 
   String get formError {
     String tmp = _formError;
@@ -35,7 +32,6 @@ class _SigninScreen extends State<SigninScreen> {
 
   @override
   void dispose() {
-    _authChangeSubscription.cancel();
     super.dispose();
   }
 

@@ -90,7 +90,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
     );
   }
 
-  void saveImage(File file) {
+  void saveImage(PickedFile file) {
     Navigator.pop(context);
     ImageCropper.cropImage(
       sourcePath: file.path,
@@ -135,7 +135,8 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                     minWidth: double.infinity,
                     child: Text("Camera"),
                     onPressed: () {
-                      ImagePicker.pickImage(
+                      var picker = ImagePicker();
+                      picker.getImage(
                         source: ImageSource.camera,
                         maxHeight: this._maxHeight,
                       ).then((file) {
@@ -147,7 +148,8 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                     minWidth: double.infinity,
                     child: Text("Photo Gallery"),
                     onPressed: () {
-                      ImagePicker.pickImage(
+                      var picker = ImagePicker();
+                      picker.getImage(
                         source: ImageSource.gallery,
                         maxHeight: this._maxHeight,
                       ).then((file) {

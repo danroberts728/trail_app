@@ -104,8 +104,10 @@ class _TrailListCard extends State<TrailListCard> {
                         categories: this.place.categories,
                         logo: CachedNetworkImage(
                           imageUrl: this.place.logoUrl,
-                          placeholder: (context, url) =>
-                              RefreshProgressIndicator(),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                                      value: downloadProgress.progress),
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error),
                           width: 40.0,

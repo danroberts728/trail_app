@@ -1,7 +1,6 @@
 import 'package:alabama_beer_trail/screens/tabscreen_trail_list.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_trail_map.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// The tab screen for the Trail

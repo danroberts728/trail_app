@@ -15,12 +15,12 @@ class LocationBloc extends Bloc {
 
   LocationBloc._internal() {
     _location.hasPermission().then((result) {
-      this.hasPermission = result;
-      if (result) {
+      this.hasPermission = result == PermissionStatus.granted;
+      if (result == PermissionStatus.granted) {
         this._location.changeSettings(
             interval: TrailAppSettings.locationUpdatesIntervalMs,
         );
-        this._location.onLocationChanged().listen((data) {
+        this._location.onLocationChanged.listen((data) {
           this.lastLocation = Point(data.latitude, data.longitude);
           _locationStreamController.sink.add(this.lastLocation);
         });
@@ -41,7 +41,7 @@ class LocationBloc extends Bloc {
 
   Future<void> refreshLocation() async {
     _location.hasPermission().then((result) {
-      this.hasPermission = result;
+      this.hasPermission = result == PermissionStatus.granted;
       if (hasPermission) {
         _location.getLocation().then((result) {
           this.lastLocation = Point(result.latitude, result.longitude);
@@ -49,7 +49,7 @@ class LocationBloc extends Bloc {
         });
       } else {
         _location.requestPermission().then((result) {
-          if (result) {
+          if (result == PermissionStatus.granted) {
            _location.getLocation();
           }
         });

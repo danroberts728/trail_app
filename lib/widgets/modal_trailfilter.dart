@@ -1,6 +1,5 @@
 import '../util/filter_options.dart';
 import '../data/trail_place_category.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ModalTrailFilter extends StatefulWidget {

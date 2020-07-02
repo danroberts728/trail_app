@@ -2,7 +2,6 @@ import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/screen_trailtrophy_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTrophiesArea extends StatefulWidget {
@@ -43,6 +42,8 @@ class _ProfileTrophiesArea extends State<ProfileTrophiesArea> {
               color: index % 2 == 0 ? Colors.red : Colors.blue,
             ),
             child: CachedNetworkImage(
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                        CircularProgressIndicator(value: downloadProgress.progress),
               fit: BoxFit.scaleDown,
               imageUrl: widget.userData.trophies.keys
                       .contains(widget.trailTrophies[index].id)

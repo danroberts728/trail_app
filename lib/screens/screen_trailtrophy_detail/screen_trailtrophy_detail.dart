@@ -5,7 +5,6 @@ import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_ex
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_pct_unique_of_total.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TrophyDetailScreen extends StatelessWidget {
@@ -31,6 +30,8 @@ class TrophyDetailScreen extends StatelessWidget {
               ),
               Center(
                 child: CachedNetworkImage(
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                        CircularProgressIndicator(value: downloadProgress.progress),
                   fit: BoxFit.contain,
                   imageUrl: trophy.activeImage,
                 ),
