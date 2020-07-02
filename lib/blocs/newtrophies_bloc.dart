@@ -29,29 +29,40 @@ class NewTrophyBloc extends Bloc {
       _newTrophiesController.stream;
 
   void _onCheckinUpdate(QuerySnapshot querySnapshot) {
-    List<CheckIn> allCheckIns = List<CheckIn>();
-    var newDocs = querySnapshot.documents;
-    newDocs.forEach((e) {
-      allCheckIns.add(CheckIn(e.data['place_id'], (e.data['timestamp'] as Timestamp).toDate() ));
-    });
-    
+    Future.microtask(() {
+      List<CheckIn> allCheckIns = List<CheckIn>();
+      var newDocs = querySnapshot.documents;
+      newDocs.forEach((e) {
+        allCheckIns.add(CheckIn(e.data['place_id'], (e.data['timestamp'] as Timestamp).toDate() ));
+      });
+      return allCheckIns;
+    }).then((allCheckIns) {
+      var trailPlaces = _trailPlacesBloc.trailPlaces;
+      var currentTrophies = _userDataBloc.userData.trophies;
 
-    var trailPlaces = _trailPlacesBloc.trailPlaces;
+      var newTrophies = _trailTrophyBloc.getNewTrophies(allCheckIns, trailPlaces, currentTrophies);
 
-    var currentTrophies = _userDataBloc.userData.trophies;
+      for(var trophy in newTrophies) {
+        currentTrophies.add(trophy.id);
+      }
 
-    List<TrailTrophy> newTrophies = _trailTrophyBloc.getNewTrophies(allCheckIns, trailPlaces, currentTrophies);
-
-    for(var trophy in newTrophies) {
-      currentTrophies.add(trophy.id);
-    }
-
-    Firestore.instance
+      Firestore.instance
         .collection('user_data')
         .document(AppAuth().user.uid)
-        .updateData({'trophies': currentTrophies});    
+        .updateData({'trophies': currentTrophies});   
+         
+      return newTrophies;
+    }).then((newTrophies) {
+       _newTrophiesController.sink.add(newTrophies);   
+    });
+    
+    
 
-    _newTrophiesController.sink.add(newTrophies);
+    
+
+    
+
+    
 
   }
 

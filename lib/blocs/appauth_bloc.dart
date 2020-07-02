@@ -6,23 +6,28 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'bloc.dart';
 
+/// A BLoC for user/authentication.
 class AppAuth extends Bloc {
+  /// Singleton Pattern
   static final AppAuth _singleton = AppAuth._internal();
 
+  /// Singleton constructor.
   factory AppAuth() {
     return _singleton;
   }
 
+  /// Singleton pattern private constructor.
   AppAuth._internal() {
     this._auth.onAuthStateChanged.listen(this._handleAuthStatusChanged);
   }
 
+  /// The authenticated user, null if not signed in.
   AppUser user;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _authStreamController = StreamController<AppUser>();
   Stream<AppUser> get onAuthChange => this._authStreamController.stream;
-
 
   void dispose() {
     _authStreamController.close();
@@ -46,8 +51,7 @@ class AppAuth extends Bloc {
     _authStreamController.add(user);
   }
 
-  /* Public Methods */
-
+  /// Sign in user using email and password.
   Future<AppAuthReturn> signInWithEmailAndPassword(String email, String password) async {
     FirebaseUser fbUser;
     String errorMessage;
@@ -82,6 +86,7 @@ class AppAuth extends Bloc {
     }
   }
 
+  /// Sign in user with Google authentication.
   Future<AppUser> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await this._googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
@@ -104,10 +109,12 @@ class AppAuth extends Bloc {
     return this.user;
   }
 
+  /// Sign out the user.
   Future<void> logout() {
     return this._auth.signOut();
   }
 
+  /// Register a new user using email and password.
   Future<AppUser> register(String email, String password) async {
     FirebaseUser user;
     try {
