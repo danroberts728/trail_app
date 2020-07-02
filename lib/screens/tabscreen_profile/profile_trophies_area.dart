@@ -44,7 +44,7 @@ class _ProfileTrophiesArea extends State<ProfileTrophiesArea> {
             ),
             child: CachedNetworkImage(
               fit: BoxFit.scaleDown,
-              imageUrl: widget.userData.trophies
+              imageUrl: widget.userData.trophies.keys
                       .contains(widget.trailTrophies[index].id)
                   ? widget.trailTrophies[index].activeImage
                   : widget.trailTrophies[index].inactiveImage,

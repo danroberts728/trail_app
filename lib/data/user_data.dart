@@ -6,7 +6,7 @@ class UserData {
   final DateTime birthDay;
   final String displayName;
   final List<String> favorites;
-  final List<String> trophies;
+  final Map<String,DateTime> trophies;
   final String location;
   final String profilePhotoUrl;
 
@@ -31,8 +31,8 @@ class UserData {
             ? List<String>.from(d['favorites'])
             : List<String>(),
           trophies: d['trophies'] != null
-            ? List<String>.from(d['trophies'])
-            : List<String>(),
+            ? Map<String,Timestamp>.from(d['trophies']).map((key, value) => MapEntry(key, value.toDate()))
+            : Map<String,DateTime>(),
           location: d['location'],
           profilePhotoUrl: d['profilePhotoUrl']);
     } catch (e) {
@@ -43,7 +43,7 @@ class UserData {
         birthDay: DateTime.now(),
         displayName: null,
         favorites: List<String>(),
-        trophies: List<String>(),
+        trophies: Map<String,DateTime>(),
         location: null,
         profilePhotoUrl: null);
 

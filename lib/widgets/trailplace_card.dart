@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
+import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -33,6 +34,7 @@ class _TrailListCard extends State<TrailListCard> {
   LocationBloc _locationBloc = LocationBloc();
   UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
   StreamSubscription<Point> _streamSub;
+  StreamSubscription<List<CheckIn>> _checkInSubscription;
 
   _TrailListCard(this.place);
 
@@ -40,7 +42,7 @@ class _TrailListCard extends State<TrailListCard> {
   void initState() {
     this._locationEnabled = _locationBloc.hasPermission;
     this._distance = _getDistance();
-    this._userCheckinsBloc.checkInStream.listen((data) {
+    _checkInSubscription = this._userCheckinsBloc.checkInStream.listen((data) {
       setState(() {
         this._checkInsCount =
             data.where((element) => element.placeId == place.id).length;
@@ -193,6 +195,7 @@ class _TrailListCard extends State<TrailListCard> {
   @override
   void dispose() {
     _streamSub.cancel();
+    _checkInSubscription.cancel();
     super.dispose();
   }
 

@@ -1,6 +1,7 @@
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_trophy_pct_unique_of_total.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 class TrailTrophyProgressPctUniqueOfTotal extends StatelessWidget {
@@ -48,24 +49,50 @@ class TrailTrophyProgressPctUniqueOfTotal extends StatelessWidget {
                         fontSize: 18.0,
                       ),
                     ),
-                    Text(userPercentage.toStringAsFixed(
-                            100 * userPercentage.truncateToDouble() ==
-                                    userPercentage
-                                ? 0
-                                : 2) +
-                        "%",
-                        style: TextStyle(
-
-                        ),),
-                    Text("of all places."),
+                    Text(
+                      userPercentage.toStringAsFixed(
+                              100 * userPercentage.truncateToDouble() ==
+                                      userPercentage
+                                  ? 0
+                                  : 1) +
+                          "%",
+                      style: TextStyle(
+                        fontSize: 26.0,
+                        color: TrailAppSettings.attentionColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "of the trail",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    SizedBox(height: 18.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("Reach "),
-                        Text(requiredPercentage.toString() + "%")
+                        Text(
+                          "Reach ",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        Text(
+                          requiredPercentage.toString() + "%",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
                       ],
                     ),
-                    Text("to win this trophy.")
+                    Text(
+                      "to win this trophy",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    )
                   ],
                 );
               });

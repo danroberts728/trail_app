@@ -20,11 +20,12 @@ class NewTrophyBloc extends Bloc {
 
   TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
 
-  TrailTrophyBloc _trailTrophyBloc = TrailTrophyBloc();  
+  TrailTrophyBloc _trailTrophyBloc = TrailTrophyBloc();
 
   UserDataBloc _userDataBloc = UserDataBloc();
 
-  final _newTrophiesController = StreamController<List<TrailTrophy>>.broadcast();
+  final _newTrophiesController =
+      StreamController<List<TrailTrophy>>.broadcast();
   Stream<List<TrailTrophy>> get newTrophiesStream =>
       _newTrophiesController.stream;
 
@@ -33,41 +34,34 @@ class NewTrophyBloc extends Bloc {
       List<CheckIn> allCheckIns = List<CheckIn>();
       var newDocs = querySnapshot.documents;
       newDocs.forEach((e) {
-        allCheckIns.add(CheckIn(e.data['place_id'], (e.data['timestamp'] as Timestamp).toDate() ));
+        allCheckIns.add(CheckIn(
+            e.data['place_id'], (e.data['timestamp'] as Timestamp).toDate()));
       });
       return allCheckIns;
     }).then((allCheckIns) {
       var trailPlaces = _trailPlacesBloc.trailPlaces;
       var currentTrophies = _userDataBloc.userData.trophies;
 
-      var newTrophies = _trailTrophyBloc.getNewTrophies(allCheckIns, trailPlaces, currentTrophies);
+      var newTrophies = _trailTrophyBloc.getNewTrophies(
+          allCheckIns, trailPlaces, currentTrophies.keys.toList());
 
-      for(var trophy in newTrophies) {
-        currentTrophies.add(trophy.id);
+      for (var trophy in newTrophies) {
+        currentTrophies[trophy.id] = DateTime.now();
       }
 
       Firestore.instance
-        .collection('user_data')
-        .document(AppAuth().user.uid)
-        .updateData({'trophies': currentTrophies});   
-         
+          .collection('user_data')
+          .document(AppAuth().user.uid)
+          .updateData({'trophies': currentTrophies});
+
       return newTrophies;
     }).then((newTrophies) {
-       _newTrophiesController.sink.add(newTrophies);   
+      _newTrophiesController.sink.add(newTrophies);
     });
-    
-    
-
-    
-
-    
-
-    
-
   }
 
   @override
   void dispose() {
     _newTrophiesController.close();
-  }  
+  }
 }
