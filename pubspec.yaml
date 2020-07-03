@@ -27,11 +27,12 @@ dependencies:
   firebase_storage: ^3.1.6
   image: ^2.1.13
   image_cropper: ^1.2.3
-  font_awesome_flutter: ^8.8.1
-  firebase_analytics: ^5.0.16
+  font_awesome_flutter: ^8.8.1  
   google_maps_flutter: ^0.5.21+3
   clustering_google_maps: ^0.1.2
   firebase_crashlytics: ^0.1.3+3
+  firebase_performance: ^0.3.2
+  firebase_analytics: ^5.0.16
   flutter_html: ^1.0.0
   html_unescape: ^1.0.1+3
 
