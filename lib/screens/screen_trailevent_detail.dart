@@ -4,8 +4,6 @@ import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
 
@@ -43,8 +41,10 @@ class TrailEventDetailScreen extends StatelessWidget {
                   builder: (context, constraints) {
                     return CachedNetworkImage(
                       height: constraints.maxWidth * (9 / 16),
-                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        CircularProgressIndicator(value: downloadProgress.progress),
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
                       width: double.infinity,
                       fit: BoxFit.cover,
                       alignment: Alignment.center,
@@ -75,13 +75,11 @@ class TrailEventDetailScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Column(
                           children: <Widget>[
-                            Html(
-                              data: this.event.details,
-                              style: {
-                                "html": Style.fromTextStyle(
-                                  TextStyle(fontSize: 16.0)
-                                )
-                              },
+                            RichText(
+                              text: TextSpan(
+                                text: this.event.details,
+                                style: TextStyle(fontSize: 16.0),
+                              ),
                             ),
                             Visibility(
                               visible: event.learnMoreLink != null,
@@ -253,11 +251,13 @@ class TrailEventDetailScreen extends StatelessWidget {
                                       color: TrailAppSettings.actionLinksColor,
                                       size: 32.0,
                                     ),
-                                    Text("Open Map",
+                                    Text(
+                                      "Open Map",
                                       style: TextStyle(
-                                        color: TrailAppSettings.actionLinksColor,
+                                        color:
+                                            TrailAppSettings.actionLinksColor,
                                         fontSize: 12.0,
-                                      ) ,
+                                      ),
                                     ),
                                   ],
                                 ),
