@@ -1,13 +1,15 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:clustering_google_maps/clustering_google_maps.dart';
+import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 
 /// The trail map screen
 ///
@@ -21,21 +23,18 @@ class TabScreenTrailMap extends StatefulWidget {
 ///
 class _TabScreenTrailMap extends State<TabScreenTrailMap>
     with AutomaticKeepAliveClientMixin<TabScreenTrailMap> {
-  
   @override
   bool get wantKeepAlive => true;
-  
-  /// The Google Map controller
+
+  ClusterManager<TrailPlace> _manager;
+
   Completer<GoogleMapController> _controller = Completer();
 
-  /// Clustering Helper
-  ClusteringHelper _clusteringHelper;
+  Set<Marker> _markers = Set();
 
-  /// The BloC for the trail places
   TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
 
-  /// The markers to show on the map
-  Set<Marker> _markers = Set<Marker>();
+  List<ClusterItem<TrailPlace>> items = List<ClusterItem<TrailPlace>>();
 
   /// The initial camera position
   static final CameraPosition _geoCenterAlabama = CameraPosition(
@@ -43,34 +42,26 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
     zoom: 6.8,
   );
 
-  /// The current camera position.
-  ///
-  /// Defaults to [_geoCenterAlabama] const
-  var _currentPosition = _geoCenterAlabama;
-
   @override
   void initState() {
-    super.initState();
     _trailPlacesBloc.trailPlaceStream.listen(_onPlaceUpdate);
-    _clusteringHelper = ClusteringHelper.forMemory(
-      list: _convertMarkersForCluster(_markers),
-      maxZoomForAggregatePoints: 13.5,
-      updateMarkers: _updateMarkers,
-      aggregationSetup: AggregationSetup(
-        markerSize: 175,
-        colors: const [
-          Colors.lightBlue,
-          Colors.lightBlue,
-          Colors.lightBlue,
-          Colors.lightBlue,
-          Colors.lightBlue,
-          Colors.lightBlue,
-          Colors.lightBlue,
-        ],
-      ),
+    _manager = _initClusterManager();
+    super.initState();
+  }
+
+  ClusterManager _initClusterManager() {
+    return ClusterManager<TrailPlace>(items, _updateMarkers,
+      markerBuilder: _markerBuilder, 
+      initialZoom: _geoCenterAlabama.zoom,
+      levels: [1, 3.2, 3.5, 5, 8.25, 11.5, 14.5, 16, 16.5, 20],
+      extraPercent: 0.5
     );
-    _clusteringHelper.showSinglePoint =
-        _updatePointsPastMaxZoomForAggregatePoints;
+  }
+
+  void _updateMarkers(Set<Marker> markers) {
+    setState(() {
+      this._markers = markers;
+    });
   }
 
   @override
@@ -83,18 +74,14 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
       mapToolbarEnabled: true,
       myLocationEnabled: true,
       indoorViewEnabled: false,
-      initialCameraPosition: _currentPosition,
+      initialCameraPosition: _geoCenterAlabama,
       markers: _markers,
       onMapCreated: (GoogleMapController controller) {
-        _onMapCreated(controller);
+        _controller.complete(controller);
+        _manager.setMapController(controller);
       },
-      onCameraMove: (newPosition) {
-        _currentPosition = newPosition;
-        _clusteringHelper.onCameraMove(newPosition, forceUpdate: false);
-      },
-      onCameraIdle: () {
-        _clusteringHelper.onMapIdle();
-      },
+      onCameraMove: _manager.onCameraMove,
+      onCameraIdle: _manager.updateMap,
       gestureRecognizers: [
         Factory<OneSequenceGestureRecognizer>(
           () => EagerGestureRecognizer(),
@@ -103,43 +90,62 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
     );
   }
 
-  /// Called when the Google Map is created
-  ///
-  void _onMapCreated(GoogleMapController mapController) {
-    _controller.complete(mapController);
-    _clusteringHelper.mapController = mapController;
-  }
-
-  /// Called on an update to the trail places
-  ///
-  /// Draws the markers on the map, including any
-  /// clusters
-  void _onPlaceUpdate(List<TrailPlace> places) {
-    _markers.clear();
-    setState(() {
-      places.forEach((p) {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(p.id),
-            position: LatLng(
-              p.location.x,
-              p.location.y,
-            ),
-          ),
+  Future<Marker> Function(Cluster<TrailPlace>) get _markerBuilder =>
+      (cluster) async {
+        return Marker(
+          markerId: MarkerId(cluster.getId()),
+          position: cluster.location,
+          onTap: () {},
+          icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
+              text: cluster.isMultiple ? cluster.count.toString() : null),
+          infoWindow: cluster.isMultiple
+              ? _getMultipleInfoWindow(
+                cluster)
+              : _getSingleInfoWindow(
+                  cluster.location.latitude, cluster.location.longitude),
         );
-      });
-    });
-    _clusteringHelper.updateData(_convertMarkersForCluster(_markers));
-    _clusteringHelper.onCameraMove(_currentPosition, forceUpdate: false);
-  }
+      };
 
-  /// Converts markers to a LatLngAndGeoHash object for clustering
-  ///
-  List<LatLngAndGeohash> _convertMarkersForCluster(Set<Marker> markers) {
-    return _markers
-        .map((m) =>
-            LatLngAndGeohash(LatLng(m.position.latitude, m.position.longitude)))
-        .toList();
+  Future<BitmapDescriptor> _getMarkerBitmap(int size, {String text}) async {
+    assert(size != null);
+
+    final PictureRecorder pictureRecorder = PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+    final Paint paint1 = Paint()..color = TrailAppSettings.actionLinksColor;
+    final Paint multiPaint1 = Paint()..color = TrailAppSettings.subHeadingColor;
+    final Paint paint2 = Paint()..color = Colors.white;
+    
+    if(text == null) {
+      // Null means not multiple
+      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
+      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
+      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, paint1);
+    } else {
+      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, multiPaint1);
+      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
+      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, multiPaint1);
+    }
+
+    if (text != null) {
+      TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
+      painter.text = TextSpan(
+        text: text,
+        style: TextStyle(
+            fontSize: size / 3,
+            color: Colors.white,
+            fontWeight: FontWeight.normal),
+      );
+      painter.layout();
+      painter.paint(
+        canvas,
+        Offset(size / 2 - painter.width / 2, size / 2 - painter.height / 2),
+      );
+    }
+
+    final img = await pictureRecorder.endRecording().toImage(size, size);
+    final data = await img.toByteData(format: ImageByteFormat.png);
+
+    return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
   }
 
   /// Returns an appropriate info window for a single marker
@@ -164,73 +170,28 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
         });
   }
 
-  /// Returns an appropriate info window for a cluster
+  /// Returns an appropriate info window for a multiple marker
   ///
-  /// The default for clustering is for the title to
-  /// simply be the number of objects in the cluster.
-  /// This method gives more information.
-  InfoWindow _getClusterInfoWindow(Marker item) {
-    var clusterCount = item.infoWindow.title;
+  /// Compares to the [lat] and [lng] because clustering
+  /// hides the actual place object.
+  InfoWindow _getMultipleInfoWindow(Cluster<TrailPlace> cluster) {
+    var clusterCount = cluster.items.length;
     return InfoWindow(
-        title: "Multiple Locations ($clusterCount)",
-        snippet: "Zoom in to see more.",
-        onTap: () {
-          _clusteringHelper.mapController.animateCamera(CameraUpdate.zoomIn());
-        });
+        title: "$clusterCount locations",
+        snippet: "Zoom in to see more...",
+    );
   }
 
-  /// Update the points when the map is zoomed beyond
-  /// maxZoomForAggregatePoints
-  ///
-  /// This overrides the clustering helper's draw of
-  /// points because it is buggy and closes the info
-  /// window after the user opens it up.
-  _updatePointsPastMaxZoomForAggregatePoints() async {
-    _markers.clear();
-    var places = _trailPlacesBloc.trailPlaces;
+  void _onPlaceUpdate(List<TrailPlace> places) {
+    items.clear();
     setState(() {
-      places.forEach((p) {
-        _markers.add(
-          Marker(
-              markerId: MarkerId(p.id),
-              position: LatLng(
-                p.location.x,
-                p.location.y,
-              ),
-              icon: BitmapDescriptor.defaultMarker,
-              infoWindow: _getSingleInfoWindow(p.location.x, p.location.y)),
+      items = places.map((place) {
+        return ClusterItem(
+          LatLng(place.location.x, place.location.y),
+          item: place,
         );
-      });
-    });
-  }
-
-  /// Update the markers to show the info Window
-  ///
-  /// This is called after the clustering helper redraws the
-  /// markers to show clusters. The main function is to redraw
-  /// the info window to show better information.
-  ///
-  /// Note that this is not called when the map is zoomed-in
-  /// beyond the maxZoomForAggregatePoints
-  void _updateMarkers(Set<Marker> markers) {
-    setState(() {
-      this._markers = markers.map((item) {
-        if (int.tryParse(item.infoWindow.title) == null) {
-          return item.copyWith(
-            infoWindowParam: _getSingleInfoWindow(
-                item.position.latitude, item.position.longitude),
-          );
-        } else if (item.infoWindow.title == "1") {
-          return item.copyWith(
-            infoWindowParam: _getSingleInfoWindow(
-                item.position.latitude, item.position.longitude),
-          );
-        } else {
-          return item.copyWith(
-            infoWindowParam: _getClusterInfoWindow(item),
-          );
-        }
-      }).toSet();
+      }).toList();
+      _manager.setItems(items);
     });
   }
 }

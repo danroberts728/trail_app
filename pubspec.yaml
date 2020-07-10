@@ -28,8 +28,8 @@ dependencies:
   image: ^2.1.13
   image_cropper: ^1.2.3
   font_awesome_flutter: ^8.8.1  
-  google_maps_flutter: ^0.5.21+3
-  clustering_google_maps: ^0.1.2
+  google_maps_flutter: ^0.5.28+1
+  google_maps_cluster_manager: ^0.1.0
   firebase_crashlytics: ^0.1.3+3
   firebase_performance: ^0.3.2
   firebase_analytics: ^5.0.16
