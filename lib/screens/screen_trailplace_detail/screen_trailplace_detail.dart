@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_area.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_checkin_area.dart';
@@ -27,11 +29,13 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
 
   final UserCheckinsBloc _userCheckinBloc = UserCheckinsBloc();
 
+  StreamSubscription _checkinStreamSubscription;
+
   int _checkInsCount;
   String _overrideWording;
 
   _TrailPlaceDetailScreen(this.place) {
-    _userCheckinBloc.checkInStream.listen((data) {
+    _checkinStreamSubscription = _userCheckinBloc.checkInStream.listen((data) {
       setState(() {
         var sortedCheckIns = data
             .where((element) => element.placeId == place.id)
@@ -304,6 +308,13 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _checkinStreamSubscription.cancel();
+    super.dispose();
+
   }
 }
 
