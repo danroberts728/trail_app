@@ -4,6 +4,7 @@ import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/event_filter_fab.dart';
 import 'package:alabama_beer_trail/widgets/event_filter_widget.dart';
@@ -135,6 +136,26 @@ class _HomeState extends State<Home>
                     },
                   ),
                   child: Container(child: Text("About")),
+                ),
+                PopupMenuItem<PopMenuChoice>(
+                  value: PopMenuChoice(
+                    title: "Submit Feedback",
+                    icon: Icons.email,
+                    action: () {
+                      AppLauncher().openWebsite(TrailAppSettings.submitFeedbackUrl);
+                    },
+                  ),
+                  child: Container(child: Text("Submit Feedback")),
+                ),
+                PopupMenuItem<PopMenuChoice>(
+                  value: PopMenuChoice(
+                    title: "Privacy Policy",
+                    icon: Icons.info,
+                    action: () {
+                      AppLauncher().openWebsite(TrailAppSettings.privacyPolicyUrl);
+                    },
+                  ),
+                  child: Container(child: Text("Privacy Policy")),
                 ),
                 PopupMenuItem<PopMenuChoice>(
                     value: PopMenuChoice(

@@ -83,4 +83,7 @@ class TrailAppSettings {
   static final String defaultDisplayName = "";
   static final String defaultProfilePhotoAssetLocation =
       'assets/images/defaultprofilephoto.png';
+
+  static final String privacyPolicyUrl = "https://freethehops.org/apps/alabama-beer-trail-privacy-policy/";
+  static final String submitFeedbackUrl = "https://freethehops.org/apps/submit-feedback/";
 }

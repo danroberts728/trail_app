@@ -75,7 +75,7 @@ class AboutScreen extends StatelessWidget {
               ),
               Divider(
                 color: Colors.grey,
-              ),
+              ),              
               Text("Developed by Fermented Software"),
             ],
           ),
