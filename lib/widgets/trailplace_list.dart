@@ -26,6 +26,12 @@ class TrailListViewState extends State<TrailListView> {
   FilterOptions _filter;
   bool _showUpdate;
 
+  final ScrollController _controller = ScrollController();
+
+  void scrollToTop() {
+    _controller.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+  }
+
   var _locationBloc = LocationBloc();
 
   void showFilterModal() {
@@ -132,7 +138,8 @@ class TrailListViewState extends State<TrailListView> {
                 child: Container(
                   margin: EdgeInsets.all(0),
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0.0),
-                  child: ListView.builder(                    
+                  child: ListView.builder(
+                    controller: _controller,
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: widget.places.length,
                     itemBuilder: (BuildContext context, int index) {
