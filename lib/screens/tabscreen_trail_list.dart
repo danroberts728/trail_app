@@ -20,7 +20,7 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
 
   _TabScreenTrailList() {
     _tabSelectionBloc.tabSelectionStream.listen((newTab) {
-        if (newTab == 0) {
+        if (newTab == 0 && _tabSelectionBloc.lastTapSame) {
           _trailListViewKey.currentState.scrollToTop();
         }
     });

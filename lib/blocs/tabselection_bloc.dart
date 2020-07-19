@@ -12,12 +12,18 @@ class TabSelectionBloc extends Bloc {
   TabSelectionBloc._internal();
 
   int currentSelectedTab;
+  bool lastTapSame;
   final _tabSelectionController = StreamController<int>.broadcast();
 
   Stream<int> get tabSelectionStream =>
       _tabSelectionController.stream;
 
   void updateTabSelection(int tabIndex) {
+    if(this.currentSelectedTab == tabIndex) {
+      lastTapSame = true;
+    } else {
+      lastTapSame = false;
+    }
     this.currentSelectedTab = tabIndex;
     _tabSelectionController.add(currentSelectedTab);
   }
