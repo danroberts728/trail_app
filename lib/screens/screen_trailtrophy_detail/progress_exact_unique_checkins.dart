@@ -34,8 +34,35 @@ class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {
             }
             var trophyPlaces = trophy.requiredCheckins..sort();
 
-            TrailPlace place =
-                trailPlaces.firstWhere((p) => p.id == trophyPlaces[index]);
+            TrailPlace place = trailPlaces.firstWhere(
+              (p) => p.id == trophyPlaces[index],
+              orElse: () {
+                return null;
+              },
+            );
+
+            if (place == null) {
+              return Container(
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.warning,
+                      color: Colors.red,
+                    ),
+                    SizedBox(
+                      width: 6.0,
+                    ),
+                    Text(
+                      "Error - Place doesn't exist",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
 
             var uniqueCheckIns = _userCheckinsBloc.checkIns
                 .map((f) {
