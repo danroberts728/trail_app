@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
@@ -75,11 +76,9 @@ class TrailEventDetailScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Column(
                           children: <Widget>[
-                            RichText(
-                              text: TextSpan(
-                                text: this.event.details,
-                                style: TextStyle(fontSize: 16.0),
-                              ),
+                            HtmlWidget(
+                              this.event.details,
+                              onTapUrl: (url) => AppLauncher().openWebsite(url),
                             ),
                             Visibility(
                               visible: event.learnMoreLink != null,
@@ -87,7 +86,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                 width: double.infinity,
                                 child: RaisedButton(
                                   color: TrailAppSettings.actionLinksColor,
-                                  textColor: Colors.white70,
+                                  textColor: Colors.white,
                                   onPressed: () {
                                     AppLauncher()
                                         .openWebsite(event.learnMoreLink);
