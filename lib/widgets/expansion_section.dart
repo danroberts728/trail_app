@@ -118,16 +118,23 @@ class _ExpansionSection extends State<ExpansionSection>
                 SizedBox(
                   width: 14.0,
                 ),
-                widget.title,
-                Spacer(),
-                IconButton(
-                  icon: Icon(
-                    this._isExpanded
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: TrailAppSettings.actionLinksColor,
+                Flexible(
+                  flex: 8,
+                  fit: FlexFit.tight,
+                  child: widget.title,
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: IconButton(
+                    alignment: Alignment.centerRight,
+                    icon: Icon(
+                      this._isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      color: TrailAppSettings.actionLinksColor,
+                    ),
+                    onPressed: () => _handleTap(),
                   ),
-                  onPressed: () => _handleTap(),
                 ),
               ],
             ),

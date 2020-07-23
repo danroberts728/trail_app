@@ -72,9 +72,7 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
                   style: TextStyle(
                     fontSize: 16.0,
                     height: 1.5,
-                    color: key == _nowDay
-                      ? Colors.green
-                      : Colors.black,
+                    color: key == _nowDay ? Colors.green : Colors.black,
                   ),
                 ),
                 Spacer(),
@@ -83,9 +81,7 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
                   style: TextStyle(
                     fontSize: 16.0,
                     height: 1.5,
-                    color: key == _nowDay
-                      ? Colors.green
-                      : Colors.black,
+                    color: key == _nowDay ? Colors.green : Colors.black,
                   ),
                 ),
               ],
@@ -115,5 +111,6 @@ Text _getStatusString(Map<String, String> hours) {
       fontSize: 14.0,
       color: statusColor,
     ),
+    overflow: TextOverflow.fade,
   );
 }
