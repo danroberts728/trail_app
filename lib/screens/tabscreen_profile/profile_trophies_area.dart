@@ -45,7 +45,8 @@ class _ProfileTrophiesArea extends State<ProfileTrophiesArea> {
               progressIndicatorBuilder: (context, url, downloadProgress) =>
                         CircularProgressIndicator(value: downloadProgress.progress),
               fit: BoxFit.scaleDown,
-              imageUrl: widget.userData.trophies.keys
+              imageUrl: widget.userData.trophies != null 
+                      && widget.userData.trophies.keys
                       .contains(widget.trailTrophies[index].id)
                   ? widget.trailTrophies[index].activeImage
                   : widget.trailTrophies[index].inactiveImage,

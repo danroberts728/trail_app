@@ -84,10 +84,10 @@ class _TabScreenProfile extends State<TabScreenProfile> {
                               // Trophy header
                               SliverToBoxAdapter(
                                 child: Text(
-                                  "Trophies",                                  
+                                  "Achievements",                                  
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: TrailAppSettings.subHeadingColor,
+                                    color: TrailAppSettings.mainHeadingColor,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
                                   ),

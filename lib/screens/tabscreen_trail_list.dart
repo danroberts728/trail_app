@@ -1,5 +1,6 @@
 import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
+import 'package:alabama_beer_trail/blocs/tabselection_bloc.dart';
 
 import 'package:flutter/material.dart';
 import '../data/trail_place.dart';
@@ -16,8 +17,20 @@ class TabScreenTrailList extends StatefulWidget {
 ///
 class _TabScreenTrailList extends State<TabScreenTrailList>
     with AutomaticKeepAliveClientMixin<TabScreenTrailList> {
+
+  _TabScreenTrailList() {
+    _tabSelectionBloc.tabSelectionStream.listen((newTab) {
+        if (newTab == 0 && _tabSelectionBloc.lastTapSame) {
+          _trailListViewKey.currentState.scrollToTop();
+        }
+    });
+  }
+
   /// The global key for the list view state
   var _trailListViewKey = GlobalKey<TrailListViewState>();
+
+  /// The BLoC for the app tab selection
+  TabSelectionBloc _tabSelectionBloc = TabSelectionBloc();
 
   /// The BloC for the trail places
   var _trailPlacesBloc = TrailPlacesBloc();

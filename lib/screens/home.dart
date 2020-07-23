@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/blocs/tabselection_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
@@ -38,6 +39,9 @@ class Home extends StatefulWidget {
 ///
 class _HomeState extends State<Home>
     with SingleTickerProviderStateMixin, RouteAware {
+
+  TabSelectionBloc _tabSelectionBloc = TabSelectionBloc();
+
   /// The currently-selected tab index
   int _currentIndex = 0;
 
@@ -142,7 +146,8 @@ class _HomeState extends State<Home>
                     title: "Submit Feedback",
                     icon: Icons.email,
                     action: () {
-                      AppLauncher().openWebsite(TrailAppSettings.submitFeedbackUrl);
+                      AppLauncher()
+                          .openWebsite(TrailAppSettings.submitFeedbackUrl);
                     },
                   ),
                   child: Container(child: Text("Submit Feedback")),
@@ -152,7 +157,8 @@ class _HomeState extends State<Home>
                     title: "Privacy Policy",
                     icon: Icons.info,
                     action: () {
-                      AppLauncher().openWebsite(TrailAppSettings.privacyPolicyUrl);
+                      AppLauncher()
+                          .openWebsite(TrailAppSettings.privacyPolicyUrl);
                     },
                   ),
                   child: Container(child: Text("Privacy Policy")),
@@ -212,10 +218,13 @@ class _HomeState extends State<Home>
   /// Called when user taps a tab on the bottom
   void _onTabTapped(int index) {
     setState(() {
-      _currentIndex = index;
-      _appBarTitle = Text(_appTabs[index].appBarTitle);
-      _sendCurrentTabToAnalytics();
-      _setFloatingActionButton();
+      if (index != _currentIndex) {
+        _currentIndex = index;
+        _appBarTitle = Text(_appTabs[index].appBarTitle);
+        _sendCurrentTabToAnalytics();
+        _setFloatingActionButton();
+      }
+      _tabSelectionBloc.updateTabSelection(index);
     });
   }
 
