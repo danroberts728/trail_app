@@ -35,6 +35,20 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Used to determine nearby places</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Required usage description for a Flutter dependency</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Required usage description for a Flutter dependency</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to select an optional profile and user photos</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Required usage description for a Flutter dependency</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Required usage description for a Flutter dependency</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Required usage description for a Flutter dependency</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Required usage description for a Flutter dependency</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
