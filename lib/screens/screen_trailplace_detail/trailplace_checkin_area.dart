@@ -16,7 +16,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
   TrailPlaceCheckinArea(
       {Key key, this.checkinsCount, this.overrideWording, this.place})
       : super(key: key);
-      
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,28 +32,27 @@ class TrailPlaceCheckinArea extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-                margin: EdgeInsets.only(
-                  bottom: 6.0,
-                ),
-                child: CheckinButton(
-                  showAlways: true,
-                  place: this.place,
-                  canCheckin:
-                      _getDistance() < TrailAppSettings.minDistanceToCheckin,
-                ),
-              ),
-
-        CheckInCountWidget(
-        count: this.checkinsCount,
-        visible: true,
-        fontSize: 14.0,
-        iconSize: 16.0,
-        iconColor: TrailAppSettings.attentionColor,
-        fontColor: Colors.black45,
-        overrideTextNoCheckins: overrideWording,
-        overrideTextOneCheckins: overrideWording,
-        overrideTextManyCheckins: overrideWording,
-      ),
+            margin: EdgeInsets.only(
+              bottom: 6.0,
+            ),
+            child: CheckinButton(
+              showAlways: true,
+              place: this.place,
+              canCheckin:
+                  _getDistance() < TrailAppSettings.minDistanceToCheckin,
+            ),
+          ),
+          CheckInCountWidget(
+            count: this.checkinsCount,
+            visible: true,
+            fontSize: 14.0,
+            iconSize: 16.0,
+            iconColor: TrailAppSettings.attentionColor,
+            fontColor: Colors.black45,
+            overrideTextNoCheckins: overrideWording,
+            overrideTextOneCheckins: overrideWording,
+            overrideTextManyCheckins: overrideWording,
+          ),
         ],
       ),
     );

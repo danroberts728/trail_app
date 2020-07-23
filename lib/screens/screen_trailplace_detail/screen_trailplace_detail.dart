@@ -51,7 +51,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
         } else {
           var lastCheckin = sortedCheckIns[0];
           DateTime now = DateTime.now();
-          var formatter = DateFormat('MMMM d, yyyy');
+          var formatter = DateFormat('MMM d, yyyy');
           if (now.difference(lastCheckin).inHours < 24) {
             _overrideWording = "Your last check-in was today";
           } else if (now.difference(lastCheckin).inDays == 1) {
@@ -62,7 +62,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
             _overrideWording = "Your last check-in was last week";
           } else {
             _overrideWording =
-                "Your last check-in was " + formatter.format(lastCheckin);
+                "Last check-in was " + formatter.format(lastCheckin);
           }
         }
       });
@@ -314,7 +314,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
   void dispose() {
     _checkinStreamSubscription.cancel();
     super.dispose();
-
   }
 }
 

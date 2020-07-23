@@ -35,34 +35,39 @@ class CheckInCountWidget extends StatelessWidget {
       wording = overrideTextOneCheckins.replaceAll("<count>", count.toString());
     }
     if (this.overrideTextManyCheckins != null && this.count > 1) {
-      wording = overrideTextManyCheckins.replaceAll("<count>", count.toString());
+      wording =
+          overrideTextManyCheckins.replaceAll("<count>", count.toString());
     }
-    
 
     return Visibility(
       visible: this.visible,
       child: Container(
-          padding: EdgeInsets.only(
-            left: 14.0,
-            top: 4.0,
-          ),
-          child: Row(
-            children: <Widget>[
-              Icon(
-                Icons.beenhere,
-                size: this.iconSize,
-                color: this.iconColor,
+        padding: EdgeInsets.only(
+          left: 10.0,
+          top: 4.0,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              Icons.beenhere,
+              size: this.iconSize,
+              color: this.iconColor,
+            ),
+            SizedBox(width: 4.0),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Text(
+                wording,
+                style: TextStyle(
+                  fontSize: this.fontSize,
+                  color: this.fontColor,
+                ),
               ),
-              SizedBox(
-                width: 4.0,
-              ),
-              Text(wording,
-                  style: TextStyle(
-                    fontSize: this.fontSize,
-                    color: this.fontColor,
-                  ))
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
