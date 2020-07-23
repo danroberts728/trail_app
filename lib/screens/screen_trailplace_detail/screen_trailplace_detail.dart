@@ -159,14 +159,12 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                               place.address ?? "",
                               style: TextStyle(
                                 fontSize: 14.0,
-                                color: Colors.black54,
                               ),
                             ),
                             Text(
                               place.city + ", " + (place.state ?? ""),
                               style: TextStyle(
                                 fontSize: 14.0,
-                                color: Colors.black54,
                               ),
                             ),
                           ],

@@ -136,6 +136,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                           EdgeInsets.only(bottom: 6.0, left: 10.0, right: 10.0),
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Icon(
                             Icons.calendar_today,
@@ -145,27 +146,31 @@ class TrailEventDetailScreen extends StatelessWidget {
                           SizedBox(
                             width: 8.0,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                DateFormat("EEEEE, MMMM dd, yyyy")
-                                    .format(this.event.start),
-                                style: TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  DateFormat("EEEEE, MMMM dd, yyyy")
+                                      .format(this.event.start),
+                                  style: TextStyle(
+                                    color: Color(0xFF666666),
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.fade,
                                 ),
-                              ),
-                              Text(
-                                event.getTimeString(),
-                                style: TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontSize: 18.0,
+                                Text(
+                                  event.getTimeString(),
+                                  style: TextStyle(
+                                    color: Color(0xFF666666),
+                                    fontSize: 18.0,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),

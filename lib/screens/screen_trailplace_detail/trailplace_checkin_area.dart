@@ -30,6 +30,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
         bottom: 8.0,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(
