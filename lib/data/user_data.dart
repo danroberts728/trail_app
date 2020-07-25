@@ -20,6 +20,34 @@ class UserData {
       this.location,
       this.profilePhotoUrl});
 
+  static UserData createBlank() {
+    return UserData(
+      aboutYou: "",
+      bannerImageUrl: "",
+      birthDay: null,
+      displayName: "",
+      favorites: List<String>(),
+      location: "",
+      profilePhotoUrl: "",
+      trophies: Map<String, DateTime>()
+    );
+  }
+
+  Map<String,dynamic> toMap() {
+    return Map<String, dynamic>.from(
+      {
+        'aboutYou': aboutYou,
+        'bannerImageUrl': bannerImageUrl,
+        'birthDay': birthDay,
+        'displayName': displayName,
+        'favorites': favorites,
+        'location': location,
+        'profilePhotoUrl': profilePhotoUrl,
+        'trophies': trophies
+      }
+    );
+  }
+
   static UserData fromFirebase(DocumentSnapshot d) {
     try {
       return UserData(

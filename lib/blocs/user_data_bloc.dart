@@ -18,10 +18,30 @@ class UserDataBloc implements Bloc {
   }
 
   UserDataBloc._internal() {
-    Firestore.instance
-        .document('user_data/${AppAuth().user.uid}')
-        .snapshots()
-        .listen(_onDataUpdate);
+    var fs = Firestore.instance;
+    fs
+        .collection('user_data')
+        .document(AppAuth().user.uid)
+        .get()
+        .then((snapshot) {
+      if (!snapshot.exists) {
+        fs
+            .collection('user_data')
+            .document(AppAuth().user.uid)
+            .setData(UserData.createBlank().toMap())
+            .then((value) {
+          fs
+              .document('user_data/${AppAuth().user.uid}')
+              .snapshots()
+              .listen(_onDataUpdate);
+        });
+      } else {
+        fs
+            .document('user_data/${AppAuth().user.uid}')
+            .snapshots()
+            .listen(_onDataUpdate);
+      }
+    });
   }
 
   UserData userData = UserData(

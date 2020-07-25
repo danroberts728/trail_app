@@ -43,7 +43,9 @@ class NewTrophyBloc extends Bloc {
       var currentTrophies = _userDataBloc.userData.trophies;
 
       var newTrophies = _trailTrophyBloc.getNewTrophies(
-          allCheckIns, trailPlaces, currentTrophies.keys.toList());
+          allCheckIns, trailPlaces, currentTrophies == null
+            ? List<String>()
+            : currentTrophies.keys.toList());
 
       for (var trophy in newTrophies) {
         currentTrophies[trophy.id] = DateTime.now();
