@@ -48,7 +48,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                           children: <Widget>[
                             Text('CREATE ACCOUNT',
                               style: TextStyle(
-                                fontSize: 32.0,
+                                fontSize: 22.0,
                                 fontWeight: FontWeight.bold,
                                 color: TrailAppSettings.first,
                               )
@@ -61,7 +61,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             TextFormField(
                               controller: _emailController,
                               decoration: const InputDecoration(
-                                icon: Icon(Icons.email),
+                                icon: Icon(Icons.email),                                
                                 hintText: "user@mydomain.com",
                                 labelText: "Email Address",
                               ),

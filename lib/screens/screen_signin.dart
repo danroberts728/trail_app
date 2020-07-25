@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/screens/screen_forgot_password.dart';
+import 'package:alabama_beer_trail/screens/screen_register.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
 import '../blocs/appauth_bloc.dart';
@@ -27,7 +28,7 @@ class _SigninScreen extends State<SigninScreen> {
 
   @override
   void initState() {
-    super.initState();  
+    super.initState();
   }
 
   @override
@@ -165,7 +166,8 @@ class _SigninScreen extends State<SigninScreen> {
                                   child: Text(
                                     "Forgot your password?",
                                     style: TextStyle(
-                                        color: TrailAppSettings.signInForgotPwdColor),
+                                        color: TrailAppSettings
+                                            .signInForgotPwdColor),
                                   ),
                                   onTap: () {
                                     Navigator.push(
@@ -177,11 +179,13 @@ class _SigninScreen extends State<SigninScreen> {
                                                 builder: (context) =>
                                                     PasswordResetScreen()))
                                         .then((emailAddress) {
-                                      Scaffold.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text(
-                                            "Password reset sent to $emailAddress"),
-                                      ));
+                                      if (emailAddress != null) {
+                                        Scaffold.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                              "Password reset sent to $emailAddress"),
+                                        ));
+                                      }
                                     });
                                   },
                                 );
@@ -192,7 +196,8 @@ class _SigninScreen extends State<SigninScreen> {
                               alignment: Alignment.center,
                               child: Text(_formError == null ? '' : formError,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(color: TrailAppSettings.errorColor)),
+                                  style: TextStyle(
+                                      color: TrailAppSettings.errorColor)),
                             ),
                             SizedBox(height: 6.0),
                             Divider(
@@ -208,7 +213,13 @@ class _SigninScreen extends State<SigninScreen> {
                             ),
                             FlatButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/register');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      settings: RouteSettings(
+                                          name: 'Register with Email/Password'),
+                                      builder: (context) => RegisterScreen(),
+                                    ));
                               },
                               child: Text(
                                 "Register with Email/Password",
