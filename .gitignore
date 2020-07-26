@@ -10,6 +10,8 @@
 .svn/
 google-services.json
 key.properties
+keystore.jks
+upload_certificate.pem
 
 # IntelliJ related
 *.iml
