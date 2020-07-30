@@ -3,6 +3,8 @@ import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/completed_trophy.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_exact_unique_checkins.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_pct_unique_of_total.dart';
+import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_total_checkins_any_place.dart';
+import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_total_unique_checkins.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,8 @@ class TrophyDetailScreen extends StatelessWidget {
               Center(
                 child: CachedNetworkImage(
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        CircularProgressIndicator(value: downloadProgress.progress),
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
                   fit: BoxFit.contain,
                   imageUrl: trophy.activeImage,
                 ),
@@ -65,9 +68,7 @@ class TrophyDetailScreen extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  hasTrophy
-                    ? "You have this trophy!"
-                    : "Your Progress",
+                  hasTrophy ? "You have this trophy!" : "Your Progress",
                   style: TextStyle(
                     color: TrailAppSettings.subHeadingColor,
                     fontSize: 18.0,
@@ -80,16 +81,28 @@ class TrophyDetailScreen extends StatelessWidget {
               ),
               Builder(
                 builder: (context) {
-                  if(hasTrophy) {
-                    var completedDate = _userDataBloc.userData.trophies[trophy.id];
+                  if (hasTrophy) {
+                    var completedDate =
+                        _userDataBloc.userData.trophies[trophy.id];
                     return CompletedTrophy(completedDate: completedDate);
-                  } else if (trophy.trophyType == TrophyType.ExactUniqueCheckins) {
+                  } else if (trophy.trophyType ==
+                      TrophyType.ExactUniqueCheckins) {
                     return TrailTrophyProgressExactUniqueCheckins(
                       trophy: trophy,
                     );
                   } else if (trophy.trophyType ==
                       TrophyType.PercentUniqueOfTotal) {
                     return TrailTrophyProgressPctUniqueOfTotal(
+                      trophy: trophy,
+                    );
+                  } else if (trophy.trophyType ==
+                      TrophyType.TotalCheckinsAtAnyPlace) {
+                    return TrailTrophyProgressTotalCheckinsAnyPlace(
+                      trophy: trophy,
+                    );
+                  } else if (trophy.trophyType ==
+                      TrophyType.TotalUniqueCheckins) {
+                    return TrailTrophyProgressTotalUniqueCheckins(
                       trophy: trophy,
                     );
                   } else {

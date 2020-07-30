@@ -27,13 +27,16 @@ class TrailTrophyBloc extends Bloc {
     List<TrailTrophy> newTrailTrophies = List<TrailTrophy>();
     newDocs.forEach((d) {
       try {
-        newTrailTrophies.add(TrailTrophy.createFromFirebase(d));
+        var trophy = TrailTrophy.createFromFirebase(d);
+        if(trophy != null) {
+          newTrailTrophies.add(TrailTrophy.createFromFirebase(d));
+          this.trailTrophies = newTrailTrophies;
+          this._trailTrophiesController.sink.add(this.trailTrophies);
+        }        
       } catch (e) {
         print(e);
       }
     });
-    this.trailTrophies = newTrailTrophies;
-    this._trailTrophiesController.sink.add(this.trailTrophies);
   }
 
   List<TrailTrophy> getNewTrophies(List<CheckIn> allCheckIns,

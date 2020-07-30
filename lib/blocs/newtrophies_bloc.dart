@@ -48,7 +48,9 @@ class NewTrophyBloc extends Bloc {
             : currentTrophies.keys.toList());
 
       for (var trophy in newTrophies) {
-        currentTrophies[trophy.id] = DateTime.now();
+        if(trophy != null) {
+          currentTrophies[trophy.id] = DateTime.now();
+        }        
       }
 
       Firestore.instance
