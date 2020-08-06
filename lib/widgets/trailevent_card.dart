@@ -51,8 +51,9 @@ class _TrailEventCard extends State<TrailEventCard> {
           margin: EdgeInsets.all(0.0),
           child: Container(
             decoration: BoxDecoration(
-              color: widget.event.featured ? Color(0xfffff6e2) : Color(0x00025c6e),
-              border: BorderDirectional(                
+              color:
+                  widget.event.featured ? Color(0xfffff6e2) : Color(0x00025c6e),
+              border: BorderDirectional(
                 start: BorderSide(
                   color: widget.event.color,
                   width: widget.colorBarWidth,
@@ -124,7 +125,8 @@ class _TrailEventCard extends State<TrailEventCard> {
                       Visibility(
                         visible: widget.event.featured,
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 9.0),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 3.0, horizontal: 9.0),
                           margin: EdgeInsets.symmetric(vertical: 4.0),
                           decoration: BoxDecoration(
                               borderRadius:
@@ -192,13 +194,16 @@ class _TrailEventCard extends State<TrailEventCard> {
                             SizedBox(
                               width: 8.0,
                             ),
-                            Text(
-                              widget.event.locationName != null
-                                  ? widget.event.locationName
-                                  : " ",
-                              style: TextStyle(
-                                color: Color(0xFF666666),
-                                fontSize: 14.0,
+                            Expanded(
+                              child: Text(
+                                widget.event.locationName != null
+                                    ? widget.event.locationName
+                                    : " ",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontSize: 14.0,
+                                ),
                               ),
                             ),
                           ],
