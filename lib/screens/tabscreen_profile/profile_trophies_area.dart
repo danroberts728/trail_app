@@ -38,9 +38,6 @@ class _ProfileTrophiesArea extends State<ProfileTrophiesArea> {
                         trophy: widget.trailTrophies[index])));
           },
           child: Container(
-            decoration: BoxDecoration(
-              color: index % 2 == 0 ? Colors.red : Colors.blue,
-            ),
             child: CachedNetworkImage(
               progressIndicatorBuilder: (context, url, downloadProgress) =>
                         CircularProgressIndicator(value: downloadProgress.progress),
