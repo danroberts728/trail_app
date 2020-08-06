@@ -30,38 +30,43 @@ class NewTrophyBloc extends Bloc {
       _newTrophiesController.stream;
 
   void _onCheckinUpdate(QuerySnapshot querySnapshot) {
-    Future.microtask(() {
-      List<CheckIn> allCheckIns = List<CheckIn>();
-      var newDocs = querySnapshot.documents;
-      newDocs.forEach((e) {
-        allCheckIns.add(CheckIn(
-            e.data['place_id'], (e.data['timestamp'] as Timestamp).toDate()));
+    var subscription = _userDataBloc.userDataStream.listen((userData) {
+      Future.microtask(() {
+        List<CheckIn> allCheckIns = List<CheckIn>();
+        var newDocs = querySnapshot.documents;
+        newDocs.forEach((e) {
+          allCheckIns.add(CheckIn(
+              e.data['place_id'], (e.data['timestamp'] as Timestamp).toDate()));
+        });
+        return allCheckIns;
+      }).then((allCheckIns) {
+        var trailPlaces = _trailPlacesBloc.trailPlaces;
+        var currentTrophies = _userDataBloc.userData.trophies;
+
+        var newTrophies = _trailTrophyBloc.getNewTrophies(
+            allCheckIns,
+            trailPlaces,
+            currentTrophies == null
+                ? List<String>()
+                : currentTrophies.keys.toList());
+
+        for (var trophy in newTrophies) {
+          if (trophy != null) {
+            currentTrophies[trophy.id] = DateTime.now();
+          }
+        }
+
+        Firestore.instance
+            .collection('user_data')
+            .document(AppAuth().user.uid)
+            .updateData({'trophies': currentTrophies});
+
+        return newTrophies;
+      }).then((newTrophies) {
+        _newTrophiesController.sink.add(newTrophies);
       });
-      return allCheckIns;
-    }).then((allCheckIns) {
-      var trailPlaces = _trailPlacesBloc.trailPlaces;
-      var currentTrophies = _userDataBloc.userData.trophies;
-
-      var newTrophies = _trailTrophyBloc.getNewTrophies(
-          allCheckIns, trailPlaces, currentTrophies == null
-            ? List<String>()
-            : currentTrophies.keys.toList());
-
-      for (var trophy in newTrophies) {
-        if(trophy != null) {
-          currentTrophies[trophy.id] = DateTime.now();
-        }        
-      }
-
-      Firestore.instance
-          .collection('user_data')
-          .document(AppAuth().user.uid)
-          .updateData({'trophies': currentTrophies});
-
-      return newTrophies;
-    }).then((newTrophies) {
-      _newTrophiesController.sink.add(newTrophies);
     });
+    subscription.cancel();
   }
 
   @override
