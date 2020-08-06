@@ -42,6 +42,7 @@ class TrophyDetailScreen extends StatelessWidget {
               Center(
                 child: Text(
                   trophy.name,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 22.0,
                     color: TrailAppSettings.mainHeadingColor,
