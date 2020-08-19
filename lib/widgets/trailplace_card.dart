@@ -113,6 +113,7 @@ class _TrailListCard extends State<TrailListCard> {
                           width: 40.0,
                           height: 40.0,
                         ),
+                        backgroundColor: Colors.white,
                         alphaValue: 225,
                       ),
                     ),
@@ -124,7 +125,7 @@ class _TrailListCard extends State<TrailListCard> {
                         vertical: 0.0,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black54,
+                        color: Colors.black38,
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,8 +162,9 @@ class _TrailListCard extends State<TrailListCard> {
                                 CheckInCountWidget(
                                   count: _checkInsCount,
                                   visible: _checkInsCount != 0,
-                                  iconColor: TrailAppSettings.attentionColor,
-                                  fontColor: Colors.white,
+                                  icon: Icons.check,
+                                  iconColor: Colors.white.withAlpha(200),
+                                  fontColor: Colors.white.withAlpha(200),
                                 ),
                               ],
                             ),
@@ -170,7 +172,7 @@ class _TrailListCard extends State<TrailListCard> {
                           Spacer(),
                           TrailPlaceActionButtonWidget(
                             place: this.place,
-                            mapIconColor: TrailAppSettings.actionLinksColor,
+                            mapIconColor: TrailAppSettings.subHeadingColor,
                           ),
                         ],
                       ),

@@ -146,7 +146,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     TrailPlaceArea(
                       isVisible: place.address != null,
                       child: TrailPlaceExternalLinkArea(
-                        leadingIconData: Icons.map,
+                        leadingIconData: Icons.directions,
                         onPress: () {
                           String address =
                               '${place.name}, ${place.address}, ${place.city}, ${place.state} ${place.zip}';
