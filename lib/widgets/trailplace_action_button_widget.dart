@@ -26,25 +26,13 @@ class TrailPlaceActionButtonWidget extends StatefulWidget {
 class _TrailPlaceActionButtonWidget
     extends State<TrailPlaceActionButtonWidget> {
   var userDataBloc = UserDataBloc();
-  var isFavorite = false;
-
-  @override
-  void initState() {
-    userDataBloc.userDataStream.listen((userData) {
-      if (userData.favorites != null &&
-          userData.favorites.contains(widget.place.id)) {
-        isFavorite = true;
-      }
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return ButtonBarTheme(
       data: ButtonBarThemeData(buttonHeight: 50.0),
       child: ButtonBar(
-        alignment: MainAxisAlignment.end,        
+        alignment: MainAxisAlignment.end,
         children: <Widget>[
           // Info
           Container(
@@ -55,7 +43,7 @@ class _TrailPlaceActionButtonWidget
                 side: BorderSide(
                   color: TrailAppSettings.actionLinksColor,
                   width: 2.0,
-                ),                
+                ),
               ),
               padding: EdgeInsets.all(0),
               onPressed: () {
@@ -82,11 +70,11 @@ class _TrailPlaceActionButtonWidget
             child: RaisedButton(
               elevation: 6.0,
               shape: BeveledRectangleBorder(
-                borderRadius: BorderRadius.circular(double.infinity),                
+                borderRadius: BorderRadius.circular(double.infinity),
                 side: BorderSide(
                   color: TrailAppSettings.actionLinksColor,
                   width: 2.0,
-                ),  
+                ),
               ),
               padding: EdgeInsets.all(0),
               onPressed: () {
@@ -94,37 +82,48 @@ class _TrailPlaceActionButtonWidget
                     '${widget.place.name}, ${widget.place.address}, ${widget.place.city}, ${widget.place.state} ${widget.place.zip}';
                 AppLauncher().openDirections(address);
               },
-              child: Icon(                
-                Icons.directions,                
+              child: Icon(
+                Icons.directions,
                 color: widget.mapIconColor,
                 size: widget.iconSize,
               ),
             ),
           ),
           // Favorite
-          Container(
-            width: 32.0,            
-            child: FlatButton(
-              color: Colors.transparent,
-              padding: EdgeInsets.all(0),
-              child: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: Colors.red,
-                size: widget.iconSize,
-              ),
-              onPressed: () {
-                setState(() {
-                  isFavorite = !isFavorite;
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                      content: isFavorite
-                          ? Text("${widget.place.name} added to favorites")
-                          : Text(
-                              "${widget.place.name} removed from favorites")));
-                });
-                userDataBloc.toggleFavorite(widget.place.id);
-              },
-            ),
-          ),
+          StreamBuilder(
+            stream: userDataBloc.userDataStream,
+            builder: (context, snapshot) {
+              List<String> favorites =
+                  (snapshot.connectionState == ConnectionState.waiting)
+                      ? List<String>.from(userDataBloc.userData.favorites)
+                      : List<String>.from(snapshot.data.favorites);
+              bool isFavorite =
+                  favorites != null && favorites.contains(widget.place.id);
+              return Container(
+                width: 32.0,
+                child: FlatButton(
+                  color: Colors.transparent,
+                  padding: EdgeInsets.all(0),
+                  child: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: Colors.red,
+                    size: widget.iconSize,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isFavorite = !isFavorite;
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                          content: isFavorite
+                              ? Text("${widget.place.name} added to favorites")
+                              : Text(
+                                  "${widget.place.name} removed from favorites")));
+                    });
+                    userDataBloc.toggleFavorite(widget.place.id);
+                  },
+                ),
+              );
+            },
+          )
         ],
       ),
     );
