@@ -45,6 +45,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
           ),
           CheckInCountWidget(
             count: this.checkinsCount,
+            icon: Icons.check,
             visible: true,
             fontSize: 14.0,
             iconSize: 16.0,
