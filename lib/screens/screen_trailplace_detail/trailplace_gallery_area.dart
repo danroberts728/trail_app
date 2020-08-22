@@ -35,7 +35,7 @@ class _TrailPlaceGallery extends State<TrailPlaceGallery> {
                   },
                   viewportFraction: 1.0,
                   height: mainImageHeight,
-                  enableInfiniteScroll: false,
+                  enableInfiniteScroll: true,
                   enlargeCenterPage: false,
                 ),
                 items: widget.galleryImageUrls.map(
