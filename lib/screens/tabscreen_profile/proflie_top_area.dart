@@ -39,7 +39,7 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                         placeholder: CircularProgressIndicator(),
                       ),
                       SizedBox(
-                        height: 70,
+                        height: 74,
                       ),
                     ],
                   ),
