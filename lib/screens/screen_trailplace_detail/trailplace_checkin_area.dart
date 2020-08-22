@@ -34,7 +34,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(
-              bottom: 6.0,
+              bottom: 0,
             ),
             child: CheckinButton(
               showAlways: true,

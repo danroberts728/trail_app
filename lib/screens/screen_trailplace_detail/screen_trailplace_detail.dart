@@ -7,11 +7,13 @@ import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_e
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_gallery_area.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_hours_area.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
-import 'package:alabama_beer_trail/widgets/expandable_text.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/favorite_button.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -86,9 +88,21 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              // Carousel
-              TrailPlaceGallery(
-                galleryImageUrls: galleryImageUrls,
+              // Carousel and Favorite Button
+              Stack(
+                children: <Widget>[
+                  TrailPlaceGallery(
+                    galleryImageUrls: galleryImageUrls,
+                  ),
+                  Positioned(
+                    bottom: 8.0,
+                    right: 16.0,
+                    child: FavoriteButton(
+                      place: widget.place,
+                      iconSize: 36.0,
+                    ),
+                  ),
+                ],
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -121,19 +135,22 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       overrideWording: _overrideWording,
                     ),
                     // Description
+                    Divider(
+                      color: TrailAppSettings.attentionColor,
+                    ),
                     TrailPlaceArea(
                       isVisible: place.description != null,
                       child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: 4.0, vertical: 4.0),
-                        child: ExpandableText(
-                          fontSize: 16.0,
-                          isExpanded: false,
-                          minCharacterCountToExpand: 140,
-                          previewCharacterCount: 120,
-                          text: place.description,
+                        child: HtmlWidget(
+                          place.description,
+                          onTapUrl: (url) => AppLauncher().openWebsite(url),
                         ),
                       ),
+                    ),
+                    Divider(
+                      color: TrailAppSettings.attentionColor,
                     ),
                     // Hours Area
                     TrailPlaceArea(
