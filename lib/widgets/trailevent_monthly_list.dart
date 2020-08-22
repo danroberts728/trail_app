@@ -91,6 +91,10 @@ class _MonthlyEventsList extends State<MonthlyEventsList> {
             retval.forEach((e) {
               _columnList.add(
                 TrailEventCard(
+                  startMargin: 4.0,
+                  endMargin: 4.0,
+                  showImage: true,
+                  elevation: 8.0,
                   event: e,
                 ),
               );
