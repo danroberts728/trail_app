@@ -139,11 +139,13 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       color: TrailAppSettings.attentionColor,
                     ),
                     TrailPlaceArea(
-                      isVisible: place.description != null,
+                      isVisible: place.description != null && place.description.isNotEmpty,
                       child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: 4.0, vertical: 4.0),
-                        child: HtmlWidget(
+                        child: place.description == null
+                          ? SizedBox()
+                          : HtmlWidget(
                           place.description,
                           onTapUrl: (url) => AppLauncher().openWebsite(url),
                         ),
