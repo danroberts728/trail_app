@@ -71,6 +71,7 @@ upload_certificate.pem
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
 .last_build_id
+**/ios/Flutter/
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
@@ -80,3 +81,5 @@ upload_certificate.pem
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 ios/Flutter/flutter_export_environment.sh
 .flutter-plugins-dependencies
+ios/Flutter/Flutter 3.framework/Flutter
+ios/Flutter/Flutter 3.framework/icudtl.dat
