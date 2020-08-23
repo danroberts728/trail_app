@@ -34,7 +34,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(
-              bottom: 6.0,
+              bottom: 0,
             ),
             child: CheckinButton(
               showAlways: true,
@@ -45,6 +45,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
           ),
           CheckInCountWidget(
             count: this.checkinsCount,
+            icon: Icons.check,
             visible: true,
             fontSize: 14.0,
             iconSize: 16.0,

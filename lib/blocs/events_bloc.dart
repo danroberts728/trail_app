@@ -5,40 +5,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'bloc.dart';
 
-class MonthlyEventsBloc extends Bloc {
-  MonthlyEventsBloc(DateTime month) {
-    Timestamp startOfMonth = Timestamp.fromDate(DateTime(month.year, month.month, 1, 0, 0, 0, 0, 0));
-    DateTime startOfMonthDate = startOfMonth.toDate();
-    Timestamp endOfMonth = Timestamp.fromDate( DateTime(startOfMonthDate.year, startOfMonthDate.month + 1) );
-
-    DateTime now = DateTime.now();
-
-    // Starting date is either the beginning of today or the beginning of the month, whichever is later.
-    // This prevents old events from showing up but still lists events tha happened today
-    Timestamp startTimestamp = Timestamp.now().millisecondsSinceEpoch > startOfMonth.millisecondsSinceEpoch
-      ? Timestamp.fromDate(DateTime(now.year, now.month, now.day, 0, 0, 0, 0, 0))
-      : startOfMonth;
-
-    Firestore.instance.collection('events/')
-      .where('start_timestamp_seconds', isGreaterThanOrEqualTo: startTimestamp.seconds)
-      .orderBy('start_timestamp_seconds')
-      .endBefore([endOfMonth.seconds])
-      .snapshots().listen(_onDataUpdate);
+class EventsBloc extends Bloc {
+  EventsBloc() {
+    _restartSubscription();
   }
 
+  void _restartSubscription() {
+    if (_subscription != null) {
+      _subscription.cancel();
+    }
+    Timestamp now = Timestamp.fromDate(DateTime.now());
+    _subscription = Firestore.instance
+        .collection('events/')
+        .where('start_timestamp_seconds', isGreaterThanOrEqualTo: now.seconds)
+        .orderBy('start_timestamp_seconds')
+        .snapshots()
+        .listen(_onDataUpdate);
+  }
+
+  StreamSubscription _subscription;
   List<TrailEvent> trailEvents = List<TrailEvent>();
   final _trailEventsController = StreamController<List<TrailEvent>>();
-  Stream<List<TrailEvent>> get trailEventsStream => _trailEventsController.stream;
-
+  Stream<List<TrailEvent>> get trailEventsStream =>
+      _trailEventsController.stream;
 
   void _onDataUpdate(QuerySnapshot querySnapshot) {
     var newDocs = querySnapshot.documents;
 
     List<TrailEvent> newTrailEvents = List<TrailEvent>();
     newDocs.forEach((d) {
-      TrailEvent e = TrailEvent.buildFromFirebase(d);      
+      TrailEvent e = TrailEvent.buildFromFirebase(d);
       try {
-        if(e != null) {
+        if (e != null) {
           newTrailEvents.add(e);
         }
       } catch (e) {
@@ -47,6 +45,10 @@ class MonthlyEventsBloc extends Bloc {
     });
     this.trailEvents = newTrailEvents;
     this._trailEventsController.sink.add(this.trailEvents);
+  }
+
+  void forceUpdate() {
+    _restartSubscription();
   }
 
   @override

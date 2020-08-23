@@ -1,17 +1,39 @@
-import 'package:alabama_beer_trail/widgets/trailevent_monthly_list.dart';
+import 'dart:math';
+
+import 'package:alabama_beer_trail/blocs/event_filter_bloc.dart';
+import 'package:alabama_beer_trail/blocs/events_bloc.dart';
+import 'package:alabama_beer_trail/blocs/location_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
+import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
 class TabScreenEvents extends StatefulWidget {
-  final _TabScreenEvents _state = _TabScreenEvents();
   @override
-  State<StatefulWidget> createState() => _state;
+  State<StatefulWidget> createState() => _TabScreenEvents();
 }
 
 class _TabScreenEvents extends State<TabScreenEvents> {
-  var _now = DateTime.now();
+  EventsBloc _eventsBloc = EventsBloc();
+  EventFilterBloc _eventFilterBloc = EventFilterBloc();
+  LocationBloc _locationBloc = LocationBloc();
+
+  Point _userLocation;
+  double _filterDistance;
+
+  _TabScreenEvents();
+
+  @override
+  initState() {
+    super.initState();
+    _locationBloc.locationStream.listen(_onLocationUpdate);
+    _eventFilterBloc.eventFilterStream.listen(_onFilterUpdate);
+    _filterDistance = _eventFilterBloc.distance;
+  }
 
   @override
   Widget build(BuildContext context) {
+    _userLocation = _locationBloc.lastLocation;
     return RefreshIndicator(
       onRefresh: _refreshPulled,
       child: Container(
@@ -19,71 +41,91 @@ class _TabScreenEvents extends State<TabScreenEvents> {
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              MonthlyEventsList(
-                month: _now,
-                onEmpty: _onCurrentMonthEmpty,
-              ),
-              MonthlyEventsList(
-                month: DateTime(_now.year, _now.month + 1),
-                onEmpty: _onNextMonthEmpty,
-              ),
-              MonthlyEventsList(
-                month: DateTime(_now.year, _now.month + 2),
-                onEmpty: _onNextNextMonthEmpty,
-              ),
-              Visibility(
-                visible: _isCurrentMonthEmpty &&
-                    _isNextMonthEmpty &&
-                    _isNextNextMonthEmpty,
-                child: Center(
-                  child: Container(
-                    margin: EdgeInsets.all(50.0),
-                    child: Text(
-                      "There are currently no upcoming events scheduled",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontStyle: FontStyle.italic,
+          child: StreamBuilder(
+            stream: _eventsBloc.trailEventsStream,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                var upcomingEventsInFilter =
+                    snapshot.data.where((TrailEvent e) {
+                  Point eventLocation = Point(e.locationLat, e.locationLon);
+                  double distance =
+                      GeoMethods.calculateDistance(_userLocation, eventLocation);
+                  if (distance == null) {
+                    return true;
+                  } else if (e.featured) {
+                    return true;
+                  } else {
+                    return distance <= _filterDistance;
+                  }
+                }).toList();
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: upcomingEventsInFilter.length,
+                      itemBuilder: (context, index) {
+                        TrailEvent event = upcomingEventsInFilter[index];
+                        return TrailEventCard(
+                          startMargin: 4.0,
+                          endMargin: 4.0,
+                          showImage: true,
+                          elevation: 8.0,
+                          event: event,
+                        );
+                      },
+                    ),
+                    Visibility(
+                      visible: upcomingEventsInFilter == null ||
+                          upcomingEventsInFilter.length == 0,
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.all(50.0),
+                          child: Text(
+                            "There are currently no upcoming events scheduled",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.0),
-            ],
+                    SizedBox(height: 16.0),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),
     );
   }
 
+  void _onLocationUpdate(event) {
+    setState(() {
+      _userLocation = event;
+    });
+  }
+
   Future<void> _refreshPulled() {
     return Future.delayed(Duration(seconds: 1), () {
+      _locationBloc.refreshLocation();
       setState(() {
-        _now = DateTime.now();
         Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text("Events list updated.")));
       });
     });
   }
 
-  bool _isCurrentMonthEmpty = false;
-  bool _isNextMonthEmpty = false;
-  bool _isNextNextMonthEmpty = false;
-
-  void _onCurrentMonthEmpty() {
-    _isCurrentMonthEmpty = true;
-  }
-
-  void _onNextMonthEmpty() {
-    _isNextMonthEmpty = true;
-  }
-
-  void _onNextNextMonthEmpty() {
-    _isNextNextMonthEmpty = true;
+  void _onFilterUpdate(double filterDistance) {
+    setState(() {
+      _filterDistance = filterDistance;
+    });
   }
 }

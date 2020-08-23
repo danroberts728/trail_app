@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CheckInCountWidget extends StatelessWidget {
   final int count;
   final bool visible;
+  final IconData icon;
   final double fontSize;
   final double iconSize;
   final Color iconColor;
@@ -15,6 +16,7 @@ class CheckInCountWidget extends StatelessWidget {
       {Key key,
       @required this.count,
       @required this.visible,
+      this.icon = Icons.beenhere,
       this.fontSize = 12.0,
       this.iconSize = 14.0,
       this.iconColor,
@@ -50,7 +52,7 @@ class CheckInCountWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Icon(
-              Icons.beenhere,
+              this.icon,
               size: this.iconSize,
               color: this.iconColor,
             ),

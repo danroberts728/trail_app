@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:alabama_beer_trail/blocs/event_filter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +12,11 @@ class _EventFilterFab extends State<EventFilterFab>
     with SingleTickerProviderStateMixin {
   EventFilterBloc _eventFilterBloc = EventFilterBloc();
   double _filterDistance;
+  StreamSubscription _eventFilterSubscription;
 
   _EventFilterFab() {
     _filterDistance = _eventFilterBloc.distance;
-    _eventFilterBloc.eventFilterStream.listen((distance) {
+    _eventFilterSubscription = _eventFilterBloc.eventFilterStream.listen((distance) {
       setState(() {
         _filterDistance = distance;
       });
@@ -34,5 +37,11 @@ class _EventFilterFab extends State<EventFilterFab>
               ),
             ),
     );
+  }
+
+  @override
+  void dispose() {
+    _eventFilterSubscription.cancel();
+    super.dispose();
   }
 }

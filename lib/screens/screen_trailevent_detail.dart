@@ -3,7 +3,6 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
@@ -29,30 +28,9 @@ class TrailEventDetailScreen extends StatelessWidget {
               TrailEventCard(
                 event: this.event,
                 startMargin: 0.0,
-                endMargin: 0.0,
+                endMargin: 0.0,                
                 titleOverflow: TextOverflow.visible,
-                colorBarWidth: 6.0,
-                elevation: 1.0,
-              ),
-              // Event Image
-              Visibility(
-                visible:
-                    this.event.imageUrl != null && this.event.imageUrl != '',
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return CachedNetworkImage(
-                      height: constraints.maxWidth * (9 / 16),
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      alignment: Alignment.center,
-                      imageUrl: this.event.imageUrl ?? '',
-                    );
-                  },
-                ),
+                elevation: 0.0,
               ),
               // Event Details
               Visibility(
@@ -65,7 +43,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                     title: Text(
                       "Details",
                       style: TextStyle(
-                        fontSize: 22.0,
+                        fontSize: 18.0,
                         color: TrailAppSettings.mainHeadingColor,
                         fontWeight: FontWeight.bold,
                       ),
@@ -125,7 +103,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                   title: Text(
                     "When",
                     style: TextStyle(
-                      fontSize: 22.0,
+                      fontSize: 18.0,
                       color: TrailAppSettings.mainHeadingColor,
                       fontWeight: FontWeight.bold,
                     ),
@@ -140,14 +118,14 @@ class TrailEventDetailScreen extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             Icons.calendar_today,
-                            size: 32.0,
+                            size: 26.0,
                             color: Colors.black54,
                           ),
                           SizedBox(
                             width: 8.0,
                           ),
-                          Flexible(
-                            fit: FlexFit.loose,
+                          Expanded(
+                            flex: 2,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +135,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                       .format(this.event.start),
                                   style: TextStyle(
                                     color: Color(0xFF666666),
-                                    fontSize: 18.0,
+                                    fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   overflow: TextOverflow.fade,
@@ -166,7 +144,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                   event.getTimeString(),
                                   style: TextStyle(
                                     color: Color(0xFF666666),
-                                    fontSize: 18.0,
+                                    fontSize: 14.0,
                                   ),
                                 ),
                               ],
@@ -190,7 +168,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                     title: Text(
                       "Where",
                       style: TextStyle(
-                        fontSize: 22.0,
+                        fontSize: 18.0,
                         color: TrailAppSettings.mainHeadingColor,
                         fontWeight: FontWeight.bold,
                       ),
@@ -201,12 +179,11 @@ class TrailEventDetailScreen extends StatelessWidget {
                             bottom: 6.0, left: 10.0, right: 10.0),
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Icon(
                               Icons.location_on,
-                              size: 32.0,
+                              size: 26.0,
                               color: Colors.black54,
                             ),
                             SizedBox(
@@ -223,7 +200,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                     overflow: TextOverflow.fade,
                                     style: TextStyle(
                                       color: Color(0xFF666666),
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -231,7 +208,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                     event.locationAddress,
                                     style: TextStyle(
                                       color: Color(0xFF666666),
-                                      fontSize: 18.0,
+                                      fontSize: 14.0,
                                     ),
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
@@ -251,12 +228,12 @@ class TrailEventDetailScreen extends StatelessWidget {
                                 child: Column(
                                   children: <Widget>[
                                     Icon(
-                                      Icons.map,
+                                      Icons.directions,
                                       color: TrailAppSettings.actionLinksColor,
                                       size: 32.0,
                                     ),
                                     Text(
-                                      "Open Map",
+                                      "Directions",
                                       style: TextStyle(
                                         color:
                                             TrailAppSettings.actionLinksColor,
