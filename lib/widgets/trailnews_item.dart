@@ -23,7 +23,7 @@ class TrailNewsItem extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
         color: Colors.grey[100],
         child: Card(
-          margin: EdgeInsets.all(0.0),
+          margin: EdgeInsets.symmetric(horizontal: 8.0),
           elevation: 4.0,
           child: Container(
             height: 150.0,
