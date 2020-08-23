@@ -1,17 +1,18 @@
-import 'package:alabama_beer_trail/widgets/trailevent_monthly_list.dart';
+import 'package:alabama_beer_trail/blocs/events_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
 class TabScreenEvents extends StatefulWidget {
-  final _TabScreenEvents _state = _TabScreenEvents();
   @override
-  State<StatefulWidget> createState() => _state;
+  State<StatefulWidget> createState() => _TabScreenEvents();
 }
 
 class _TabScreenEvents extends State<TabScreenEvents> {
-  var _now = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
+    EventsBloc eventsBloc = EventsBloc();
+
     return RefreshIndicator(
       onRefresh: _refreshPulled,
       child: Container(
@@ -19,42 +20,52 @@ class _TabScreenEvents extends State<TabScreenEvents> {
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              MonthlyEventsList(
-                month: _now,
-                onEmpty: _onCurrentMonthEmpty,
-              ),
-              MonthlyEventsList(
-                month: DateTime(_now.year, _now.month + 1),
-                onEmpty: _onNextMonthEmpty,
-              ),
-              MonthlyEventsList(
-                month: DateTime(_now.year, _now.month + 2),
-                onEmpty: _onNextNextMonthEmpty,
-              ),
-              Visibility(
-                visible: _isCurrentMonthEmpty &&
-                    _isNextMonthEmpty &&
-                    _isNextNextMonthEmpty,
-                child: Center(
-                  child: Container(
-                    margin: EdgeInsets.all(50.0),
-                    child: Text(
-                      "There are currently no upcoming events scheduled",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontStyle: FontStyle.italic,
+          child: StreamBuilder(
+            stream: eventsBloc.trailEventsStream,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        TrailEvent event = snapshot.data[index];
+                        return TrailEventCard(
+                          startMargin: 4.0,
+                          endMargin: 4.0,
+                          showImage: true,
+                          elevation: 8.0,
+                          event: event,
+                        );
+                      },
+                    ),
+                    Visibility(
+                      visible:
+                          snapshot.data == null || snapshot.data.length == 0,
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.all(50.0),
+                          child: Text(
+                            "There are currently no upcoming events scheduled",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.0),
-            ],
+                    SizedBox(height: 16.0),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),
@@ -64,26 +75,9 @@ class _TabScreenEvents extends State<TabScreenEvents> {
   Future<void> _refreshPulled() {
     return Future.delayed(Duration(seconds: 1), () {
       setState(() {
-        _now = DateTime.now();
         Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text("Events list updated.")));
       });
     });
-  }
-
-  bool _isCurrentMonthEmpty = false;
-  bool _isNextMonthEmpty = false;
-  bool _isNextNextMonthEmpty = false;
-
-  void _onCurrentMonthEmpty() {
-    _isCurrentMonthEmpty = true;
-  }
-
-  void _onNextMonthEmpty() {
-    _isNextMonthEmpty = true;
-  }
-
-  void _onNextNextMonthEmpty() {
-    _isNextNextMonthEmpty = true;
   }
 }
