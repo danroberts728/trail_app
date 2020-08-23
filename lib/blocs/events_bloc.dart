@@ -11,29 +11,32 @@ class EventsBloc extends Bloc {
   }
 
   void _restartSubscription() {
-    if(_subscription != null) {
+    if (_subscription != null) {
       _subscription.cancel();
     }
     Timestamp now = Timestamp.fromDate(DateTime.now());
-    _subscription = Firestore.instance.collection('events/')
-      .where('start_timestamp_seconds', isGreaterThanOrEqualTo: now.seconds)
-      .orderBy('start_timestamp_seconds')
-      .snapshots().listen(_onDataUpdate);
+    _subscription = Firestore.instance
+        .collection('events/')
+        .where('start_timestamp_seconds', isGreaterThanOrEqualTo: now.seconds)
+        .orderBy('start_timestamp_seconds')
+        .snapshots()
+        .listen(_onDataUpdate);
   }
 
   StreamSubscription _subscription;
   List<TrailEvent> trailEvents = List<TrailEvent>();
   final _trailEventsController = StreamController<List<TrailEvent>>();
-  Stream<List<TrailEvent>> get trailEventsStream => _trailEventsController.stream;
+  Stream<List<TrailEvent>> get trailEventsStream =>
+      _trailEventsController.stream;
 
   void _onDataUpdate(QuerySnapshot querySnapshot) {
     var newDocs = querySnapshot.documents;
 
     List<TrailEvent> newTrailEvents = List<TrailEvent>();
     newDocs.forEach((d) {
-      TrailEvent e = TrailEvent.buildFromFirebase(d);      
+      TrailEvent e = TrailEvent.buildFromFirebase(d);
       try {
-        if(e != null) {
+        if (e != null) {
           newTrailEvents.add(e);
         }
       } catch (e) {

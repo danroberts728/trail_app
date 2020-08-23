@@ -1,5 +1,10 @@
+import 'dart:math';
+
+import 'package:alabama_beer_trail/blocs/event_filter_bloc.dart';
 import 'package:alabama_beer_trail/blocs/events_bloc.dart';
+import 'package:alabama_beer_trail/blocs/location_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
@@ -9,10 +14,26 @@ class TabScreenEvents extends StatefulWidget {
 }
 
 class _TabScreenEvents extends State<TabScreenEvents> {
+  EventsBloc _eventsBloc = EventsBloc();
+  EventFilterBloc _eventFilterBloc = EventFilterBloc();
+  LocationBloc _locationBloc = LocationBloc();
+
+  Point _userLocation;
+  double _filterDistance;
+
+  _TabScreenEvents();
+
+  @override
+  initState() {
+    super.initState();
+    _locationBloc.locationStream.listen(_onLocationUpdate);
+    _eventFilterBloc.eventFilterStream.listen(_onFilterUpdate);
+    _filterDistance = _eventFilterBloc.distance;
+  }
+
   @override
   Widget build(BuildContext context) {
-    EventsBloc eventsBloc = EventsBloc();
-
+    _userLocation = _locationBloc.lastLocation;
     return RefreshIndicator(
       onRefresh: _refreshPulled,
       child: Container(
@@ -21,20 +42,34 @@ class _TabScreenEvents extends State<TabScreenEvents> {
         height: double.infinity,
         child: SingleChildScrollView(
           child: StreamBuilder(
-            stream: eventsBloc.trailEventsStream,
+            stream: _eventsBloc.trailEventsStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else {
+                var upcomingEventsInFilter =
+                    snapshot.data.where((TrailEvent e) {
+                  Point eventLocation = Point(e.locationLat, e.locationLon);
+                  double distance =
+                      GeoMethods.calculateDistance(_userLocation, eventLocation);
+                  if (distance == null) {
+                    return true;
+                  } else if (e.featured) {
+                    return true;
+                  } else {
+                    return distance <= _filterDistance;
+                  }
+                }).toList();
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: snapshot.data.length,
+                      itemCount: upcomingEventsInFilter.length,
                       itemBuilder: (context, index) {
-                        TrailEvent event = snapshot.data[index];
+                        TrailEvent event = upcomingEventsInFilter[index];
                         return TrailEventCard(
                           startMargin: 4.0,
                           endMargin: 4.0,
@@ -45,8 +80,8 @@ class _TabScreenEvents extends State<TabScreenEvents> {
                       },
                     ),
                     Visibility(
-                      visible:
-                          snapshot.data == null || snapshot.data.length == 0,
+                      visible: upcomingEventsInFilter == null ||
+                          upcomingEventsInFilter.length == 0,
                       child: Center(
                         child: Container(
                           margin: EdgeInsets.all(50.0),
@@ -72,12 +107,25 @@ class _TabScreenEvents extends State<TabScreenEvents> {
     );
   }
 
+  void _onLocationUpdate(event) {
+    setState(() {
+      _userLocation = event;
+    });
+  }
+
   Future<void> _refreshPulled() {
     return Future.delayed(Duration(seconds: 1), () {
+      _locationBloc.refreshLocation();
       setState(() {
         Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text("Events list updated.")));
       });
+    });
+  }
+
+  void _onFilterUpdate(double filterDistance) {
+    setState(() {
+      _filterDistance = filterDistance;
     });
   }
 }
