@@ -1,6 +1,7 @@
 import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:html_unescape/html_unescape.dart';
@@ -73,15 +74,19 @@ class _TrailEventCard extends State<TrailEventCard> {
                           height: constraints.maxWidth *
                               (9 / 16), // Force 16:9 image ratio
                           padding: EdgeInsets.all(0.0),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                widget.event.imageUrl ?? '',
+                          child: CachedNetworkImage(
+                            imageUrl: widget.event.imageUrl ?? '',
+                            progressIndicatorBuilder:
+                                (context, url, progress) => Center(
+                              child: CircularProgressIndicator(
+                                value: progress.progress,
                               ),
-                              fit: BoxFit.cover,
-                              repeat: ImageRepeat.noRepeat,
-                              alignment: Alignment.center,
                             ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            fit: BoxFit.cover,
+                            repeat: ImageRepeat.noRepeat,
+                            alignment: Alignment.center,
                           ),
                         ),
                       );
@@ -89,9 +94,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(
-                      vertical: widget.event.imageUrl == null
-                        ? 16.0
-                        : 4.0,
+                      vertical: widget.event.imageUrl == null ? 16.0 : 4.0,
                       horizontal: 8.0,
                     ),
                     child: Row(

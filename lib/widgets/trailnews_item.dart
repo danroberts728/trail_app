@@ -20,10 +20,10 @@ class TrailNewsItem extends StatelessWidget {
         AppLauncher().openWebsite(_item.link);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
         color: Colors.grey[100],
         child: Card(
-          margin: EdgeInsets.all(8.0),
+          margin: EdgeInsets.all(0.0),
           elevation: 4.0,
           child: Container(
             height: 150.0,

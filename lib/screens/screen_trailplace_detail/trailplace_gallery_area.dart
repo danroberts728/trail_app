@@ -44,11 +44,17 @@ class _TrailPlaceGallery extends State<TrailPlaceGallery> {
                       builder: (context) {
                         return Container(
                           margin: EdgeInsets.symmetric(horizontal: 3.0),
-                          child: Image(
+                          child: CachedNetworkImage(
+                            imageUrl: imgUrl,
                             fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(imgUrl),
                             width: mainImageWidth,
                             height: mainImageHeight,
+                            progressIndicatorBuilder:
+                                (context, url, progress) => Center(
+                              child: CircularProgressIndicator(
+                                value: progress.progress,
+                              ),
+                            ),
                           ),
                         );
                       },
