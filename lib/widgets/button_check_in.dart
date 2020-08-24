@@ -158,7 +158,8 @@ class _CheckinButton extends State<CheckinButton> {
                           return null;
                         } else {
                           // Check In
-                          _userCheckinsBloc.checkIn(widget.place.id);
+                          Future.microtask(() => _userCheckinsBloc.checkIn(widget.place.id));
+                          
                         }
                       },
               ),

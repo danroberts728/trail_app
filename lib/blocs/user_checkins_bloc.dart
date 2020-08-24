@@ -29,7 +29,7 @@ class UserCheckinsBloc implements Bloc {
     _checkInsController.sink.add(this.checkIns);
   }
 
-  void checkIn(String placeId) {
+  bool checkIn(String placeId) {
     var now = DateTime.now();
     var today = DateTime(now.year, now.month, now.day);
 
@@ -49,6 +49,9 @@ class UserCheckinsBloc implements Bloc {
         'place_id': placeId,
         'timestamp': DateTime.now(),
       });
+      return true;
+    } else {
+      return false;
     }
   }
 
