@@ -24,6 +24,24 @@ class AppLauncher {
     }
   }
 
+  void openUntappd(String untappdId) async {
+    String launchUrl;
+    String fallbackUrl = "https://untappd.com/brewery/$untappdId";
+    launchUrl = "untappd://brewery/$untappdId";
+
+    try {
+      canLaunch(launchUrl).then((bool yes) {
+        if (yes) {
+          launch(launchUrl);
+        } else {
+          launch(fallbackUrl);
+        }
+      });
+    } catch (e) {
+      await launch(fallbackUrl);
+    }
+  }
+
   void openFacebook(String pageId) async {
     String fbProtocolUrl;
     String fallbackUrl = "https://www.facebook.com/$pageId";

@@ -283,7 +283,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                           content: Text(place.name) ?? "",
                           onPress: () {
                             AppLauncher()
-                                .openWebsite(place.connections['untappd']);
+                                .openUntappd(place.connections['untappd']);
                           }),
                     ),
                     // Youtube
