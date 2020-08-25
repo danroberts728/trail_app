@@ -11,6 +11,7 @@ import 'package:alabama_beer_trail/widgets/event_filter_fab.dart';
 import 'package:alabama_beer_trail/widgets/event_filter_widget.dart';
 import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../blocs/appauth_bloc.dart';
 import '../screens/tabscreen_profile/tabscreen_profile.dart';
@@ -30,17 +31,20 @@ class Home extends StatefulWidget {
   final FirebaseAnalyticsObserver observer;
 
   @override
-  State<StatefulWidget> createState() {
-    return _HomeState();
-  }
+  State<StatefulWidget> createState() => _HomeState();
 }
 
 /// The state for the home screen
 ///
 class _HomeState extends State<Home>
     with SingleTickerProviderStateMixin, RouteAware {
-
   TabSelectionBloc _tabSelectionBloc = TabSelectionBloc();
+
+  /// Firebase Messaging
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  /// FCM Token
+  String _fcmToken;
 
   /// The currently-selected tab index
   int _currentIndex = 0;
@@ -55,9 +59,6 @@ class _HomeState extends State<Home>
 
   /// The key for the scaffold
   GlobalKey _scaffoldKey = GlobalKey();
-
-  /// A stream that sends updates to the user's auth/sign-in status
-  StreamSubscription _authChangeSubscription;
 
   @override
   void didChangeDependencies() {
@@ -79,6 +80,23 @@ class _HomeState extends State<Home>
   void initState() {
     super.initState();
     _appBarTitle = Text(_appTabs[_currentIndex].appBarTitle);
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(
+        sound: true,
+        badge: true,
+        alert: true,
+        provisional: true,
+      ),
+    );
+    _firebaseMessaging.configure(
+      onMessage: _handleNotificationMessage,
+      onLaunch: _handleNotificationLaunch,
+      onResume: _handleNotificationResume,
+    );
+    _firebaseMessaging.getToken().then((token) {
+      _fcmToken = token;
+      print(_fcmToken);
+    });
   }
 
   /// A list of the tabs.
@@ -210,7 +228,6 @@ class _HomeState extends State<Home>
 
   @override
   void dispose() {
-    _authChangeSubscription.cancel();
     widget.observer.unsubscribe(this);
     super.dispose();
   }
@@ -272,6 +289,30 @@ class _HomeState extends State<Home>
     widget.observer.analytics.setCurrentScreen(
       screenName: 'tab/$_currentIndex',
     );
+  }
+
+  Future _handleNotificationLaunch(Map<String, dynamic> message) {
+    return _navigateNotificationRoute(message);
+  }
+
+  Future _handleNotificationMessage(Map<String, dynamic> message) {
+    return null;
+  }
+
+  Future _handleNotificationResume(Map<String, dynamic> message) {
+    return _navigateNotificationRoute(message);
+  }
+
+  Future<void> _navigateNotificationRoute(Map<dynamic, dynamic> message) async {
+    var data = message['data'] ?? message;
+    String gotoTab = data['gotoTab'];
+
+    if (gotoTab != null) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      setState(() {
+        _currentIndex = int.parse(gotoTab);
+      });
+    }
   }
 }
 

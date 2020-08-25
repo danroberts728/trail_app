@@ -21,6 +21,8 @@ void main() {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
+    return Firebase.initializeApp();
+  }).then((fbApp) {
     runApp(TrailApp());
   });
 }
@@ -34,23 +36,6 @@ class TrailApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Firebase.initializeApp(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return _getApp();           
-        } else if (snapshot.hasError) {
-          return null;
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      }
-    );
-
-    
-  }
-
-  dynamic _getApp() {
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
       navigatorKey: navigatorKey,

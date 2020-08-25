@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/event_filter_bloc.dart';
@@ -21,13 +22,16 @@ class _TabScreenEvents extends State<TabScreenEvents> {
   Point _userLocation;
   double _filterDistance;
 
+  StreamSubscription _locationSubscription;
+  StreamSubscription _eventFilterSubscription;
+
   _TabScreenEvents();
 
   @override
   initState() {
     super.initState();
-    _locationBloc.locationStream.listen(_onLocationUpdate);
-    _eventFilterBloc.eventFilterStream.listen(_onFilterUpdate);
+    _locationSubscription = _locationBloc.locationStream.listen(_onLocationUpdate);
+    _eventFilterSubscription = _eventFilterBloc.eventFilterStream.listen(_onFilterUpdate);
     _filterDistance = _eventFilterBloc.distance;
   }
 
@@ -127,5 +131,12 @@ class _TabScreenEvents extends State<TabScreenEvents> {
     setState(() {
       _filterDistance = filterDistance;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _locationSubscription.cancel();
+    _eventFilterSubscription.cancel();
   }
 }
