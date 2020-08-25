@@ -11,9 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NewTrophyBloc extends Bloc {
   NewTrophyBloc() {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('user_data/${AppAuth().user.uid}/check_ins')
-        .reference()
         .snapshots()
         .listen(_onCheckinUpdate);
   }
@@ -33,10 +32,11 @@ class NewTrophyBloc extends Bloc {
     var subscription = _userDataBloc.userDataStream.listen((userData) {
       Future.microtask(() {
         List<CheckIn> allCheckIns = List<CheckIn>();
-        var newDocs = querySnapshot.documents;
+        var newDocs = querySnapshot.docs;
         newDocs.forEach((e) {
+          var data  = e.data();
           allCheckIns.add(CheckIn(
-              e.data['place_id'], (e.data['timestamp'] as Timestamp).toDate()));
+              data['place_id'], (data['timestamp'] as Timestamp).toDate()));
         });
         return allCheckIns;
       }).then((allCheckIns) {
@@ -56,10 +56,10 @@ class NewTrophyBloc extends Bloc {
           }
         }
 
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('user_data')
-            .document(AppAuth().user.uid)
-            .updateData({'trophies': currentTrophies});
+            .doc(AppAuth().user.uid)
+            .update({'trophies': currentTrophies});
 
         return newTrophies;
       }).then((newTrophies) {

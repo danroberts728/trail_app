@@ -18,26 +18,26 @@ class UserDataBloc implements Bloc {
   }
 
   UserDataBloc._internal() {
-    var fs = Firestore.instance;
+    var fs = FirebaseFirestore.instance;
     fs
         .collection('user_data')
-        .document(AppAuth().user.uid)
+        .doc(AppAuth().user.uid)
         .get()
         .then((snapshot) {
       if (!snapshot.exists) {
         fs
             .collection('user_data')
-            .document(AppAuth().user.uid)
-            .setData(UserData.createBlank().toMap())
+            .doc(AppAuth().user.uid)
+            .set(UserData.createBlank().toMap())
             .then((value) {
           fs
-              .document('user_data/${AppAuth().user.uid}')
+              .doc('user_data/${AppAuth().user.uid}')
               .snapshots()
               .listen(_onDataUpdate);
         });
       } else {
         fs
-            .document('user_data/${AppAuth().user.uid}')
+            .doc('user_data/${AppAuth().user.uid}')
             .snapshots()
             .listen(_onDataUpdate);
       }
@@ -71,10 +71,10 @@ class UserDataBloc implements Bloc {
     } else {
       favorites.add(placeId);
     }
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('user_data')
-        .document(AppAuth().user.uid)
-        .updateData({'favorites': favorites});
+        .doc(AppAuth().user.uid)
+        .update({'favorites': favorites});
   }
 
   Future<String> updateBannerImage(File file) async {
@@ -90,9 +90,9 @@ class UserDataBloc implements Bloc {
     );
     StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     String url = (await downloadUrl.ref.getDownloadURL());
-    Firestore.instance
-        .document('user_data/${AppAuth().user.uid}')
-        .updateData({'bannerImageUrl': url});
+    FirebaseFirestore.instance
+        .doc('user_data/${AppAuth().user.uid}')
+        .update({'bannerImageUrl': url});
     return Future.value(url);
   }
 
@@ -109,40 +109,40 @@ class UserDataBloc implements Bloc {
     );
     StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     String url = (await downloadUrl.ref.getDownloadURL());
-    Firestore.instance
-        .document('user_data/${AppAuth().user.uid}')
-        .updateData({'profilePhotoUrl': url});
+    FirebaseFirestore.instance
+        .doc('user_data/${AppAuth().user.uid}')
+        .update({'profilePhotoUrl': url});
   }
 
   Future<void> updateDisplayName(String value) async {
-    Firestore.instance
-        .document('user_data/${AppAuth().user.uid}')
-        .updateData({'displayName': value});
+    FirebaseFirestore.instance
+        .doc('user_data/${AppAuth().user.uid}')
+        .update({'displayName': value});
   }
 
   Future<void> updateLocation(String value) async {
-    Firestore.instance
-        .document('user_data/${AppAuth().user.uid}')
-        .updateData({'location': value});
+    FirebaseFirestore.instance
+        .doc('user_data/${AppAuth().user.uid}')
+        .update({'location': value});
   }
 
   Future<void> updateDob(String value) async {
-    Firestore.instance
-        .document('user_data/${AppAuth().user.uid}')
-        .updateData({'birthdate': DateFormat("MMM d y").parse(value)});
+    FirebaseFirestore.instance
+        .doc('user_data/${AppAuth().user.uid}')
+        .update({'birthdate': DateFormat("MMM d y").parse(value)});
   }
 
   Future<void> updateAboutYou(String value) async {
-    Firestore.instance
-        .document('user_data/${AppAuth().user.uid}')
-        .updateData({'aboutYou': value});
+    FirebaseFirestore.instance
+        .doc('user_data/${AppAuth().user.uid}')
+        .update({'aboutYou': value});
   }
 
   void _buildNewUserData() {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('user_data')
-        .document(AppAuth().user.uid)
-        .setData({'favorites': List<String>()});
+        .doc(AppAuth().user.uid)
+        .set({'favorites': List<String>()});
   }
 
   @override

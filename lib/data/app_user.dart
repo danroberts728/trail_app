@@ -5,11 +5,11 @@ class AppUser {
   String uid;
   String email;
   bool isAnonymous;
-  FirebaseUser _fbUser;
+  User _fbUser;
 
   AppUser({this.uid, this.email});
 
-  AppUser.fromFirebaseUser(FirebaseUser user) {
+  AppUser.fromFirebaseUser(User user) {
     if(user == null) {
       return;
     }

@@ -7,9 +7,8 @@ import 'bloc.dart';
 
 class UserCheckinsBloc implements Bloc {
   UserCheckinsBloc() {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('user_data/${AppAuth().user.uid}/check_ins')
-        .reference()
         .snapshots()
         .listen(_onCheckinUpdate);
   }
@@ -20,11 +19,11 @@ class UserCheckinsBloc implements Bloc {
       _checkInsController.stream;
 
   void _onCheckinUpdate(QuerySnapshot querySnapshot) {
-    var newDocs = querySnapshot.documents;
+    var newDocs = querySnapshot.docs;
 
     List<CheckIn> newCheckIns = List<CheckIn>();
     newDocs.forEach((e) => newCheckIns.add(CheckIn(
-        e.data['place_id'], (e.data['timestamp'] as Timestamp).toDate())));
+        e.data()['place_id'], (e.data()['timestamp'] as Timestamp).toDate())));
     this.checkIns = newCheckIns;
     _checkInsController.sink.add(this.checkIns);
   }
@@ -43,7 +42,7 @@ class UserCheckinsBloc implements Bloc {
 
     // Only update if user has not checked in today already
     if (todaysCheckins.where((e) => e.placeId == placeId).length == 0) {
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection('user_data/${AppAuth().user.uid}/check_ins')
           .add({
         'place_id': placeId,

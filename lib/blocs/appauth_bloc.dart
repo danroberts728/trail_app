@@ -18,7 +18,7 @@ class AppAuth extends Bloc {
 
   /// Singleton pattern private constructor.
   AppAuth._internal() {
-    this._auth.onAuthStateChanged.listen(this._handleAuthStatusChanged);
+    this._auth.authStateChanges().listen(this._handleAuthStatusChanged);
   }
 
   /// The authenticated user, null if not signed in.
@@ -40,7 +40,7 @@ class AppAuth extends Bloc {
       : SigninStatus.SIGNED_IN;
   }
 
-  void _handleAuthStatusChanged(FirebaseUser fbUser) {
+  void _handleAuthStatusChanged(User fbUser) {
     if(fbUser == null) {
       this.user = null;
     }
@@ -53,7 +53,7 @@ class AppAuth extends Bloc {
 
   /// Sign in user using email and password.
   Future<AppAuthReturn> signInWithEmailAndPassword(String email, String password) async {
-    FirebaseUser fbUser;
+    User fbUser;
     String errorMessage;
 
     try {
@@ -91,11 +91,11 @@ class AppAuth extends Bloc {
     final GoogleSignInAccount googleUser = await this._googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
+    final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    FirebaseUser user = await this._auth.currentUser();
+    User user = _auth.currentUser;
 
     user = (await this._auth.signInWithCredential(credential)).user;
     assert(user.email != null);
@@ -116,7 +116,7 @@ class AppAuth extends Bloc {
 
   /// Register a new user using email and password.
   Future<AppUser> register(String email, String password) async {
-    FirebaseUser user;
+    User user;
     try {
       user = (await _auth.createUserWithEmailAndPassword(
       email: email, 

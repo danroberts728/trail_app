@@ -27,11 +27,12 @@ abstract class TrailTrophy {
 
   bool conditionsMet(List<CheckIn> checkins, List<TrailPlace> allPlaces);
 
-  static TrailTrophy createFromFirebase(DocumentSnapshot d) {
+  static TrailTrophy createFromFirebase(QueryDocumentSnapshot snapshot) {
     try {
+      var d = snapshot.data();
       bool published = d['published'];
       String trophyType = d['type'];
-      String docId = d.documentID;
+      String docId = snapshot.id;
       String activeImage = d['active_image'];
       String inactiveimage = d['inactive_image'];
       String name = d['name'];

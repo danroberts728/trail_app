@@ -15,7 +15,7 @@ class EventsBloc extends Bloc {
       _subscription.cancel();
     }
     Timestamp now = Timestamp.fromDate(DateTime.now());
-    _subscription = Firestore.instance
+    _subscription = FirebaseFirestore.instance
         .collection('events/')
         .where('start_timestamp_seconds', isGreaterThanOrEqualTo: now.seconds)
         .orderBy('start_timestamp_seconds')
@@ -30,7 +30,7 @@ class EventsBloc extends Bloc {
       _trailEventsController.stream;
 
   void _onDataUpdate(QuerySnapshot querySnapshot) {
-    var newDocs = querySnapshot.documents;
+    var newDocs = querySnapshot.docs;
 
     List<TrailEvent> newTrailEvents = List<TrailEvent>();
     newDocs.forEach((d) {

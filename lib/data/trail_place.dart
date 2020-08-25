@@ -40,10 +40,11 @@ class TrailPlace {
     @required this.phones,
   });
 
-  static TrailPlace createFromFirebase(DocumentSnapshot d) {
+  static TrailPlace createFromFirebase(QueryDocumentSnapshot snapshot) {
     try {
+      var d = snapshot.data();
       return TrailPlace(
-        id: d.documentID,
+        id: snapshot.id,
         name: d['name'],
         address: d['address'],
         city: d['city'],

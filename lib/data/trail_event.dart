@@ -44,8 +44,9 @@ class TrailEvent {
       this.eventTimeZone,
       this.allDayEvent});
 
-  static TrailEvent buildFromFirebase(DocumentSnapshot d) {
+  static TrailEvent buildFromFirebase(QueryDocumentSnapshot snapshot) {
     try {
+      var d = snapshot.data();
       var trailEvent = TrailEvent(
         name: d['name'] ?? '<Unnamed>',
         details: d['details'] ?? '',

@@ -7,7 +7,7 @@ import 'bloc.dart';
 
 class TrailPlacesBloc extends Bloc {
   TrailPlacesBloc() {
-    Firestore.instance.collection('places/')
+    FirebaseFirestore.instance.collection('places/')
       .where('published', isEqualTo: true)
       .snapshots()
       .listen(_onDataUpdate);
@@ -19,7 +19,7 @@ class TrailPlacesBloc extends Bloc {
       _trailPlacesController.stream;
 
   void _onDataUpdate(QuerySnapshot querySnapshot) {
-    var newDocs = querySnapshot.documents;
+    var newDocs = querySnapshot.docs;
 
     List<TrailPlace> newTrailPlaces = List<TrailPlace>();
     newDocs.forEach((d) {

@@ -9,7 +9,7 @@ import 'bloc.dart';
 
 class TrailTrophyBloc extends Bloc {
   TrailTrophyBloc() {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('trophies/')
         .where('published', isEqualTo: true)
         .snapshots()
@@ -22,7 +22,7 @@ class TrailTrophyBloc extends Bloc {
       _trailTrophiesController.stream;
 
   void _onDataUpdate(QuerySnapshot querySnapshot) {
-    var newDocs = querySnapshot.documents;
+    var newDocs = querySnapshot.docs;
 
     List<TrailTrophy> newTrailTrophies = List<TrailTrophy>();
     newDocs.forEach((d) {

@@ -48,9 +48,10 @@ class UserData {
     );
   }
 
-  static UserData fromFirebase(DocumentSnapshot d) {
+  static UserData fromFirebase(DocumentSnapshot snapshot) {
     try {
-      return UserData(
+      var d = snapshot.data();
+      return UserData(        
           aboutYou: d['aboutYou'],
           bannerImageUrl: d['bannerImageUrl'],
           birthDay: d['birthdate'].toDate(),

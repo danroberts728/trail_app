@@ -2,6 +2,7 @@ import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'blocs/appauth_bloc.dart';
@@ -33,6 +34,23 @@ class TrailApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return _getApp();           
+        } else if (snapshot.hasError) {
+          return null;
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      }
+    );
+
+    
+  }
+
+  dynamic _getApp() {
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
       navigatorKey: navigatorKey,
