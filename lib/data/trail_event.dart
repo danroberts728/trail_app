@@ -44,6 +44,49 @@ class TrailEvent {
       this.eventTimeZone,
       this.allDayEvent});
 
+  static TrailEvent buildFromFirebaseDocument(DocumentSnapshot snapshot) {
+    try {
+      var d = snapshot.data();
+      var trailEvent = TrailEvent(
+        name: d['name'] ?? '<Unnamed>',
+        details: d['details'] ?? '',
+        color: d['color'] != null ? _fromHex(d['color']) : Colors.black,
+        featured: d['featured'] != null ? d['featured'] == 'yes' : false,
+        imageUrl: d['image_url'] != null ? d['image_url'] : null,
+        learnMoreLink: d['learnmore_link'] != null ? d['learnmore_link'] : '',
+        locationName: d['location_name'] != null ? d['location_name'] : '',
+        locationAddress:
+            d['location_address'] != null ? d['location_address'] : '',
+        locationCity: d['location_city'] != null ? d['location_city'] : '',
+        locationState: d['location_state'] != null ? d['location_state'] : '',
+        locationLat: d['location_lat'] != null ? double.tryParse(d['location_lat']) : null,
+        locationLon: d['location_lon'] != null ? double.tryParse(d['location_lon']) : null,
+        start: d['start_timestamp_seconds'] != null
+            ? Timestamp(d['start_timestamp_seconds'], 0)
+                .toDate()
+                .subtract(DateTime.now().timeZoneOffset)
+            : DateTime(2000),
+        end: d['end_timestamp_seconds'] != null
+            ? Timestamp(d['end_timestamp_seconds'], 0)
+                .toDate()
+                .subtract(DateTime.now().timeZoneOffset)
+            : null,
+        hideEndTime:
+            d['hide_endtime'] != null ? d['hide_endtime'] == 'yes' : false,
+        allDayEvent:
+            d['all_day_event'] != null ? d['all_day_event'] == "yes" : false,
+      );
+      // Return null if lat/lon or start time is not set correctly
+      if( trailEvent.locationLat == null || trailEvent.locationLon == null  
+        || trailEvent.start == DateTime(2000)) {
+        return null;
+      }
+      return trailEvent;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static TrailEvent buildFromFirebase(QueryDocumentSnapshot snapshot) {
     try {
       var d = snapshot.data();

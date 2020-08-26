@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
+import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
 import 'package:alabama_beer_trail/blocs/tabselection_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
+import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
+import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
@@ -43,6 +47,8 @@ class _HomeState extends State<Home>
   /// Firebase Messaging
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
+  GlobalKey _stackKey = GlobalKey();
+
   /// FCM Token
   String _fcmToken;
 
@@ -56,9 +62,6 @@ class _HomeState extends State<Home>
   ///
   /// This is updated when the [_currentIndex] is changed
   Text _appBarTitle;
-
-  /// The key for the scaffold
-  GlobalKey _scaffoldKey = GlobalKey();
 
   @override
   void didChangeDependencies() {
@@ -123,7 +126,6 @@ class _HomeState extends State<Home>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      key: _scaffoldKey,
       floatingActionButton: _floatingActionButton,
       appBar: AppBar(
         title: _appBarTitle,
@@ -194,6 +196,7 @@ class _HomeState extends State<Home>
         ],
       ),
       body: IndexedStack(
+        key: _stackKey,
         index: _currentIndex,
         children: _appTabs,
       ),
@@ -296,22 +299,114 @@ class _HomeState extends State<Home>
   }
 
   Future _handleNotificationMessage(Map<String, dynamic> message) {
-    return null;
+    return _showNotificationSnackBar(message);
   }
 
   Future _handleNotificationResume(Map<String, dynamic> message) {
     return _navigateNotificationRoute(message);
   }
 
-  Future<void> _navigateNotificationRoute(Map<dynamic, dynamic> message) async {
+  Future<void> _showNotificationSnackBar(Map<dynamic, dynamic> message) async {
     var data = message['data'] ?? message;
-    String gotoTab = data['gotoTab'];
+    String gotoPlace = data['gotoPlace'];
+    String gotoEvent = data['gotoEvent'];
+    String gotoLink = data['gotoLink'];
+    String title = message['notification']['title'];
 
-    if (gotoTab != null) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      setState(() {
-        _currentIndex = int.parse(gotoTab);
+    if (gotoPlace != null) {
+      SingleTrailPlaceBloc trailPlaceBloc = SingleTrailPlaceBloc(gotoPlace);
+      trailPlaceBloc.trailPlaceStream.listen((place) {
+        Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
+          content: Text(title),
+          duration: Duration(seconds: 5),
+          action: SnackBarAction(
+            label: 'Go',
+            textColor: TrailAppSettings.actionLinksColor,
+            onPressed: () {
+              Navigator.of(_stackKey.currentContext).popUntil((route) => route.isFirst);
+              Navigator.push(
+                  _stackKey.currentContext,
+                  MaterialPageRoute(
+                      settings: RouteSettings(
+                        name: '/place/$gotoPlace',
+                      ),
+                      builder: (context) =>
+                          TrailPlaceDetailScreen(place: place)));
+            },
+          ),
+        ));
       });
+    } else if (gotoEvent != null) {
+      SingleTrailEventBloc trailEventBloc = SingleTrailEventBloc(gotoEvent);
+      trailEventBloc.trailEventStream.listen((event) {
+        Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
+          content: Text(title),
+          duration: Duration(seconds: 5),
+          action: SnackBarAction(
+            label: 'Go',
+            textColor: TrailAppSettings.actionLinksColor,
+            onPressed: () {
+              Navigator.of(_stackKey.currentContext).popUntil((route) => route.isFirst);
+              Navigator.push(
+                  _stackKey.currentContext,
+                  MaterialPageRoute(
+                      settings: RouteSettings(
+                        name: '/event/$gotoEvent',
+                      ),
+                      builder: (context) =>
+                          TrailEventDetailScreen(event: event)));
+            },
+          ),
+        ));
+      });
+    } else if (gotoLink != null) {
+      Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
+        content: Text(title),
+        duration: Duration(seconds: 5),
+        action: SnackBarAction(
+          label: 'Go',
+          textColor: TrailAppSettings.actionLinksColor,
+          onPressed: () {
+            AppLauncher().openWebsite(gotoLink);
+          },
+        ),
+      ));
+    }
+  }
+
+  Future<void> _navigateNotificationRoute(
+      Map<dynamic, dynamic> message) async {
+    var data = message['data'] ?? message;
+    String gotoPlace = data['gotoPlace'];
+    String gotoEvent = data['gotoEvent'];
+    String gotoLink = data['gotoLink'];
+
+    if (gotoPlace != null) {
+      SingleTrailPlaceBloc trailPlaceBloc = SingleTrailPlaceBloc(gotoPlace);
+      trailPlaceBloc.trailPlaceStream.listen((place) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                settings: RouteSettings(
+                  name: '/place/$gotoPlace',
+                ),
+                builder: (context) => TrailPlaceDetailScreen(place: place)));
+      });
+    } else if (gotoEvent != null) {
+      SingleTrailEventBloc trailEventBloc = SingleTrailEventBloc(gotoEvent);
+      trailEventBloc.trailEventStream.listen((event) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                settings: RouteSettings(
+                  name: '/event/$gotoEvent',
+                ),
+                builder: (context) => TrailEventDetailScreen(event: event)));
+      });
+    } else if (gotoLink != null) {
+      AppLauncher().openWebsite(gotoLink);
     }
   }
 }
