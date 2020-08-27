@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Alabama&#x2007;Beer&#x2007;Trail</string>
+	<string>Alabama Beer Trail</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -33,22 +33,27 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used to determine nearby places</string>
-	<key>NSContactsUsageDescription</key>
+	<key>NSAppleMusicUsageDescription</key>
 	<string>Required usage description for a Flutter dependency</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Required usage description for a Flutter dependency</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Used to select an optional profile and user photos</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Required usage description for a Flutter dependency</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Required usage description for a Flutter dependency</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
+	<key>NSContactsUsageDescription</key>
 	<string>Required usage description for a Flutter dependency</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Required usage description for a Flutter dependency</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Used to determine nearby places</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Required usage description for a Flutter dependency</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to select an optional profile and user photos</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Required usage description for a Flutter dependency</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
