@@ -31,6 +31,14 @@
             </intent-filter>
         </activity>
 
+        <!-- Notification Icon and color -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_stat_ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/notification_color" />
+
         <!-- Google Maps API -->
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC6SCgVDgMC2wAUYMaVcCy1fHF2AiDzd-g"/>
