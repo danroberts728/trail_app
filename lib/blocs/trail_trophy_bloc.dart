@@ -29,7 +29,7 @@ class TrailTrophyBloc extends Bloc {
       try {
         var trophy = TrailTrophy.createFromFirebase(d);
         if(trophy != null) {
-          newTrailTrophies.add(TrailTrophy.createFromFirebase(d));
+          newTrailTrophies.add(trophy);
           this.trailTrophies = newTrailTrophies;
           this._trailTrophiesController.sink.add(this.trailTrophies);
         }        

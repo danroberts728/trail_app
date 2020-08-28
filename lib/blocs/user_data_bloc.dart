@@ -53,9 +53,6 @@ class UserDataBloc implements Bloc {
 
   void _onDataUpdate(DocumentSnapshot documentSnapshot) {
     var newData = documentSnapshot;
-    if (!newData.exists) {
-      _buildNewUserData();
-    }
     try {
       this.userData = UserData.fromFirebase(newData);
       this._userDataController.sink.add(this.userData);
@@ -138,11 +135,11 @@ class UserDataBloc implements Bloc {
         .update({'aboutYou': value});
   }
 
-  void _buildNewUserData() {
+  void saveFcmToken(String token) {
     FirebaseFirestore.instance
-        .collection('user_data')
-        .doc(AppAuth().user.uid)
-        .set({'favorites': List<String>()});
+      .collection('user_data')
+      .doc(AppAuth().user.uid)
+      .update({'fcm_token': token});
   }
 
   @override

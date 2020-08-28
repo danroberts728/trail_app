@@ -7,7 +7,12 @@ import 'package:alabama_beer_trail/data/trail_trophy_total_unique_checkins.dart'
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-enum TrophyType { PercentUniqueOfTotal, ExactUniqueCheckins, TotalUniqueCheckins, TotalCheckinsAtAnyPlace }
+enum TrophyType {
+  PercentUniqueOfTotal,
+  ExactUniqueCheckins,
+  TotalUniqueCheckins,
+  TotalCheckinsAtAnyPlace
+}
 
 abstract class TrailTrophy {
   final String id;
@@ -38,7 +43,10 @@ abstract class TrailTrophy {
       String name = d['name'];
       String description = d['description'];
 
-      if(!published) {
+      if (!published ||
+          activeImage.isEmpty ||
+          inactiveimage.isEmpty ||
+          name.isEmpty) {
         return null;
       } else if (trophyType == "exact_unique_checkins") {
         return TrailTrophyExactUniqueCheckins(

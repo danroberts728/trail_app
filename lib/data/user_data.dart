@@ -9,6 +9,7 @@ class UserData {
   final Map<String,DateTime> trophies;
   final String location;
   final String profilePhotoUrl;
+  final String fcmToken;
 
   UserData(
       {this.bannerImageUrl,
@@ -18,7 +19,8 @@ class UserData {
       this.favorites,
       this.trophies,
       this.location,
-      this.profilePhotoUrl});
+      this.profilePhotoUrl,
+      this.fcmToken});
 
   static UserData createBlank() {
     return UserData(
@@ -29,7 +31,8 @@ class UserData {
       favorites: List<String>(),
       location: "",
       profilePhotoUrl: "",
-      trophies: Map<String, DateTime>()
+      trophies: Map<String, DateTime>(),
+      fcmToken: ""
     );
   }
 
@@ -43,7 +46,8 @@ class UserData {
         'favorites': favorites,
         'location': location,
         'profilePhotoUrl': profilePhotoUrl,
-        'trophies': trophies
+        'trophies': trophies,
+        'fcmToken': fcmToken
       }
     );
   }

@@ -29,6 +29,12 @@ class TrailTrophyPctUniqueOfTotal extends TrailTrophy {
       return f.placeId;
     }).toSet().length;
 
-    return (uniqueCheckinsCount / allPlaces.length)*100 >= percentRequired;
+    if (uniqueCheckinsCount == 0) {
+      // Weird error that happens sometimes. 
+      // We're assuming that this never an actual condition
+      return false;
+    }
+
+    return uniqueCheckinsCount != 0 && (uniqueCheckinsCount / allPlaces.length)*100 >= percentRequired;
   }
 }

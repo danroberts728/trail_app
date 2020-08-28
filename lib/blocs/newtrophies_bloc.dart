@@ -34,21 +34,18 @@ class NewTrophyBloc extends Bloc {
         List<CheckIn> allCheckIns = List<CheckIn>();
         var newDocs = querySnapshot.docs;
         newDocs.forEach((e) {
-          var data  = e.data();
+          var data = e.data();
           allCheckIns.add(CheckIn(
               data['place_id'], (data['timestamp'] as Timestamp).toDate()));
         });
         return allCheckIns;
       }).then((allCheckIns) {
         var trailPlaces = _trailPlacesBloc.trailPlaces;
-        var currentTrophies = _userDataBloc.userData.trophies;
+        var currentTrophies =
+            _userDataBloc.userData.trophies ?? Map<String, DateTime>();
 
         var newTrophies = _trailTrophyBloc.getNewTrophies(
-            allCheckIns,
-            trailPlaces,
-            currentTrophies == null
-                ? List<String>()
-                : currentTrophies.keys.toList());
+            allCheckIns, trailPlaces, currentTrophies.keys.toList());
 
         for (var trophy in newTrophies) {
           if (trophy != null) {

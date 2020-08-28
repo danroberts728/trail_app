@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
 import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
 import 'package:alabama_beer_trail/blocs/tabselection_bloc.dart';
+import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
@@ -49,9 +50,6 @@ class _HomeState extends State<Home>
 
   GlobalKey _stackKey = GlobalKey();
 
-  /// FCM Token
-  String _fcmToken;
-
   /// The currently-selected tab index
   int _currentIndex = 0;
 
@@ -97,8 +95,7 @@ class _HomeState extends State<Home>
       onResume: _handleNotificationResume,
     );
     _firebaseMessaging.getToken().then((token) {
-      _fcmToken = token;
-      print(_fcmToken);
+      UserDataBloc().saveFcmToken(token);
     });
   }
 
