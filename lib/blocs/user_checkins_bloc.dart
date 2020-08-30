@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:alabama_beer_trail/blocs/appauth_bloc.dart';
+import 'package:alabama_beer_trail/util/appauth.dart';
 import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

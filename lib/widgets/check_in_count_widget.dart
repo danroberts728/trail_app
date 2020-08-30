@@ -8,9 +8,6 @@ class CheckInCountWidget extends StatelessWidget {
   final double iconSize;
   final Color iconColor;
   final Color fontColor;
-  final String overrideTextNoCheckins;
-  final String overrideTextOneCheckins;
-  final String overrideTextManyCheckins;
 
   const CheckInCountWidget(
       {Key key,
@@ -20,26 +17,17 @@ class CheckInCountWidget extends StatelessWidget {
       this.fontSize = 12.0,
       this.iconSize = 14.0,
       this.iconColor,
-      this.fontColor,
-      this.overrideTextNoCheckins,
-      this.overrideTextOneCheckins,
-      this.overrideTextManyCheckins})
+      this.fontColor})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String wording =
-        this.count == 1 ? "${this.count} check-in" : "${this.count} check-ins";
-    if (this.overrideTextNoCheckins != null && this.count == 0) {
-      wording = overrideTextNoCheckins;
-    }
-    if (this.overrideTextOneCheckins != null && this.count == 1) {
-      wording = overrideTextOneCheckins.replaceAll("<count>", count.toString());
-    }
-    if (this.overrideTextManyCheckins != null && this.count > 1) {
-      wording =
-          overrideTextManyCheckins.replaceAll("<count>", count.toString());
-    }
+    String wording = "You have no check-ins";
+    if(count == 1) {
+      wording = "You have $count check-in";
+    } else if (count > 1) {
+      wording = "You have $count check-ins"; 
+    }    
 
     return Visibility(
       visible: this.visible,

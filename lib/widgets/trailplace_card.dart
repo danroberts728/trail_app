@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alabama_beer_trail/blocs/location_bloc.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
@@ -31,8 +31,8 @@ class _TrailListCard extends State<TrailListCard> {
   double _distance = double.infinity;
   int _checkInsCount = 0;
 
-  LocationBloc _locationBloc = LocationBloc();
-  UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
+  final _locationBloc = LocationService();
+  final _userCheckinsBloc = UserCheckinsBloc();
   StreamSubscription<Point> _streamSub;
   StreamSubscription<List<CheckIn>> _checkInSubscription;
 

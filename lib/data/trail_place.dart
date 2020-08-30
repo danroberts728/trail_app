@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class TrailPlace {
@@ -39,6 +40,49 @@ class TrailPlace {
     @required this.emails,
     @required this.phones,
   });
+
+  bool isEqual(TrailPlace other) {
+
+    return 
+      address == other.address &&
+      categories.length == other.categories.length &&
+      listEquals(categories, other.categories) &&
+      city == other.city &&
+      mapEquals(connections, other.connections) &&
+      description == other.description &&
+      mapEquals(emails, other.emails) &&
+      featuredImgUrl == other.featuredImgUrl &&
+      listEquals(galleryUrls, other.galleryUrls) &&
+      mapEquals(hours, other.hours) &&
+      location.x == other.location.x &&
+      location.y == other.location.y &&
+      logoUrl == other.logoUrl &&
+      name == other.name &&
+      mapEquals(phones, other.phones) &&
+      state == other.state &&
+      zip == other.zip;
+  }
+
+  static TrailPlace createBlank() {
+    return TrailPlace(
+      address: '',
+      categories: List<String>(),
+      city: '',
+      connections: Map<String, String>(),
+      description: '',
+      emails: Map<String, String>(),
+      featuredImgUrl: '',
+      galleryUrls: List<String>(),
+      hours: Map<String, String>(),
+      id: '',
+      location: Point(0, 0),
+      logoUrl: '',
+      name: '',
+      phones: Map<String, String>(),
+      state: '',
+      zip: ''
+    );
+  }
 
   static TrailPlace createFromFirebaseDocument(DocumentSnapshot snapshot) {
     try {

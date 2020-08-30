@@ -1,43 +1,35 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alabama_beer_trail/blocs/event_filter_bloc.dart';
-import 'package:alabama_beer_trail/blocs/events_bloc.dart';
-import 'package:alabama_beer_trail/blocs/location_bloc.dart';
+import 'package:alabama_beer_trail/blocs/tabscreen_trail_events_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/util/event_filter_service.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
-class TabScreenEvents extends StatefulWidget {
+class TabScreenTrailEvents extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _TabScreenEvents();
+  State<StatefulWidget> createState() => _TabScreenTrailEvents();
 }
 
-class _TabScreenEvents extends State<TabScreenEvents> {
-  EventsBloc _eventsBloc = EventsBloc();
-  EventFilterBloc _eventFilterBloc = EventFilterBloc();
-  LocationBloc _locationBloc = LocationBloc();
+class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
+  TabScreenTrailEventsBloc _tabScreenTrailEventsBloc =
+      TabScreenTrailEventsBloc();
 
   Point _userLocation;
-  double _filterDistance;
 
-  StreamSubscription _locationSubscription;
-  StreamSubscription _eventFilterSubscription;
-
-  _TabScreenEvents();
+  EventFilter _eventFilter = EventFilter();
 
   @override
-  initState() {
+  void initState() {
     super.initState();
-    _locationSubscription = _locationBloc.locationStream.listen(_onLocationUpdate);
-    _eventFilterSubscription = _eventFilterBloc.eventFilterStream.listen(_onFilterUpdate);
-    _filterDistance = _eventFilterBloc.distance;
+    _tabScreenTrailEventsBloc.filterStream.listen(_onFilterUpdate);
+    _tabScreenTrailEventsBloc.locationStream.listen(_onLocationUpdate);
   }
 
   @override
   Widget build(BuildContext context) {
-    _userLocation = _locationBloc.lastLocation;
     return RefreshIndicator(
       onRefresh: _refreshPulled,
       child: Container(
@@ -46,7 +38,7 @@ class _TabScreenEvents extends State<TabScreenEvents> {
         height: double.infinity,
         child: SingleChildScrollView(
           child: StreamBuilder(
-            stream: _eventsBloc.trailEventsStream,
+            stream: _tabScreenTrailEventsBloc.trailEventsStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -54,15 +46,12 @@ class _TabScreenEvents extends State<TabScreenEvents> {
                 var upcomingEventsInFilter =
                     snapshot.data.where((TrailEvent e) {
                   Point eventLocation = Point(e.locationLat, e.locationLon);
-                  double distance =
-                      GeoMethods.calculateDistance(_userLocation, eventLocation);
-                  if (distance == null) {
-                    return true;
-                  } else if (e.featured) {
-                    return true;
-                  } else {
-                    return distance <= _filterDistance;
-                  }
+                  double distance = GeoMethods.calculateDistance(
+                      _userLocation, eventLocation);
+                  // Show if distance is unkown, it's a featured event, or its within filter
+                  return distance == null ||
+                      e.featured ||
+                      distance <= _eventFilter.distance;
                 }).toList();
 
                 return Column(
@@ -111,15 +100,9 @@ class _TabScreenEvents extends State<TabScreenEvents> {
     );
   }
 
-  void _onLocationUpdate(event) {
-    setState(() {
-      _userLocation = event;
-    });
-  }
-
   Future<void> _refreshPulled() {
     return Future.delayed(Duration(seconds: 1), () {
-      _locationBloc.refreshLocation();
+      _tabScreenTrailEventsBloc.refreshLocation();
       setState(() {
         Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text("Events list updated.")));
@@ -127,16 +110,15 @@ class _TabScreenEvents extends State<TabScreenEvents> {
     });
   }
 
-  void _onFilterUpdate(double filterDistance) {
+  void _onFilterUpdate(EventFilter filter) {
     setState(() {
-      _filterDistance = filterDistance;
+      _eventFilter = filter;
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _locationSubscription.cancel();
-    _eventFilterSubscription.cancel();
+  void _onLocationUpdate(event) {
+    setState(() {
+      _userLocation = event;
+    });
   }
 }

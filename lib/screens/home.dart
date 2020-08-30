@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
 import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
-import 'package:alabama_beer_trail/blocs/tabselection_bloc.dart';
+import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
@@ -18,7 +18,7 @@ import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../blocs/appauth_bloc.dart';
+import '../util/appauth.dart';
 import '../screens/tabscreen_profile/tabscreen_profile.dart';
 import 'tabscreen.dart';
 
@@ -43,7 +43,7 @@ class Home extends StatefulWidget {
 ///
 class _HomeState extends State<Home>
     with SingleTickerProviderStateMixin, RouteAware {
-  TabSelectionBloc _tabSelectionBloc = TabSelectionBloc();
+  final _tabSelectionBloc = TabSelectionService();
 
   /// Firebase Messaging
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -107,7 +107,7 @@ class _HomeState extends State<Home>
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarEventsTabTitle,
-      child: TabScreenEvents(),
+      child: TabScreenTrailEvents(),
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarNewsTabTitle,

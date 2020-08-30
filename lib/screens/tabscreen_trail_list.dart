@@ -1,12 +1,11 @@
-import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
+import 'package:alabama_beer_trail/blocs/tabscreen_trail_list_bloc.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
-import 'package:alabama_beer_trail/blocs/tabselection_bloc.dart';
+import 'package:alabama_beer_trail/util/tabselection_service.dart';
 
 import 'package:flutter/material.dart';
 import '../data/trail_place.dart';
 
 /// The trail list screen
-///
 /// This is a sub-screen for the Trail Tab
 class TabScreenTrailList extends StatefulWidget {
   @override
@@ -14,12 +13,12 @@ class TabScreenTrailList extends StatefulWidget {
 }
 
 /// The state of the trail list screen
-///
 class _TabScreenTrailList extends State<TabScreenTrailList>
     with AutomaticKeepAliveClientMixin<TabScreenTrailList> {
 
   _TabScreenTrailList() {
     _tabSelectionBloc.tabSelectionStream.listen((newTab) {
+        // Scroll to top if on this tab an tab tapped.
         if (newTab == 0 && _tabSelectionBloc.lastTapSame) {
           _trailListViewKey.currentState.scrollToTop();
         }
@@ -30,16 +29,17 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
   var _trailListViewKey = GlobalKey<TrailListViewState>();
 
   /// The BLoC for the app tab selection
-  TabSelectionBloc _tabSelectionBloc = TabSelectionBloc();
+  final _tabSelectionBloc = TabSelectionService();
 
   /// The BloC for the trail places
-  var _trailPlacesBloc = TrailPlacesBloc();
+  var _bloc = TabScreenTrailListBloc();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StreamBuilder(
-      stream: _trailPlacesBloc.trailPlaceStream,
+      stream: _bloc.trailPlaceStream,
+      initialData: _bloc.trailPlaces,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());

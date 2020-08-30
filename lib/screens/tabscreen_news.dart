@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/blocs/trailnews_bloc.dart';
+import 'package:alabama_beer_trail/blocs/tabscreen_news_bloc.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailnews_item.dart';
 
@@ -13,8 +13,8 @@ class TabScreenNews extends StatefulWidget {
 
 class _TabScreenNews extends State<TabScreenNews>
     with AutomaticKeepAliveClientMixin<TabScreenNews> {
-  TrailNewsBloc _trailNewsBloc =
-      TrailNewsBloc(TrailAppSettings.newsScreenRssFeedUrl);
+  TabScreenNewsBloc _trailNewsBloc =
+      TabScreenNewsBloc(TrailAppSettings.newsScreenRssFeedUrl);
 
   @override
   bool get wantKeepAlive => true;

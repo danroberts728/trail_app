@@ -1,7 +1,5 @@
-import 'package:alabama_beer_trail/blocs/newtrophies_bloc.dart';
-import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
+import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -19,40 +17,18 @@ class CheckinButton extends StatefulWidget {
 }
 
 class _CheckinButton extends State<CheckinButton> {
-  UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
+  var _bloc = ButtonCheckInBloc();
 
   @override
   Widget build(BuildContext context) {
-    NewTrophyBloc _newTrophyBloc = NewTrophyBloc();
-
-    _newTrophyBloc.newTrophiesStream.listen((newTrophies) {
-      newTrophies.forEach((t) {
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text(
-            "You won a new trophy - " + t.name,
-          ),
-        ));
-      });
-    });
     return Visibility(
       // Check in button
       visible: widget.canCheckin || widget.showAlways,
       child: StreamBuilder(
-          stream: _userCheckinsBloc.checkInStream,
+          stream: _bloc.stream,
+          initialData: _bloc.checkIns,
           builder: (context, snapshot) {
-            List<CheckIn> checkInsToday =
-                (snapshot.connectionState == ConnectionState.waiting)
-                    ? _userCheckinsBloc.checkIns
-                    : snapshot.data;
-            var now = DateTime.now();
-            var today = DateTime(now.year, now.month, now.day);
-
-            bool isCheckedIn = checkInsToday.any((e) =>
-                e.placeId == widget.place.id &&
-                DateTime(
-                        e.timestamp.year, e.timestamp.month, e.timestamp.day) ==
-                    today);
-
+            bool isCheckedIn = _bloc.isCheckedInToday(widget.place.id);
             return Container(
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
@@ -158,8 +134,15 @@ class _CheckinButton extends State<CheckinButton> {
                           return null;
                         } else {
                           // Check In
-                          Future.microtask(() => _userCheckinsBloc.checkIn(widget.place.id));
-                          
+                          _bloc.checkIn(widget.place.id).then((newTrophies) {
+                            newTrophies.forEach((t) {
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                  "You earned a new achievement: " + t.name,
+                                ),
+                              ));
+                            });
+                          });
                         }
                       },
               ),

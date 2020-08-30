@@ -5,7 +5,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'blocs/appauth_bloc.dart';
+import 'util/appauth.dart';
 import 'data/app_user.dart';
 import 'screens/screen_signin.dart';
 import 'package:flutter/material.dart';

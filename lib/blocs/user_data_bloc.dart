@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:alabama_beer_trail/data/user_data.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
-import '../blocs/appauth_bloc.dart';
+import '../util/appauth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -139,7 +139,7 @@ class UserDataBloc implements Bloc {
     FirebaseFirestore.instance
       .collection('user_data')
       .doc(AppAuth().user.uid)
-      .update({'fcm_token': token});
+      .update({'fcmToken': token});
   }
 
   @override

@@ -34,7 +34,7 @@ class TrailEventDetailScreen extends StatelessWidget {
               ),
               // Event Details
               Visibility(
-                visible: this.event.details.isNotEmpty,
+                visible: event.details != null && event.details.isNotEmpty,
                 child: Container(
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),
@@ -90,7 +90,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: !this.event.details.isNotEmpty,
+                visible: event.details != null && event.details.isNotEmpty,
                 child: SizedBox(
                   height: 6.0,
                 ),
@@ -158,8 +158,8 @@ class TrailEventDetailScreen extends StatelessWidget {
               ),
               // Location
               Visibility(
-                visible: this.event.locationName != null &&
-                    this.event.locationName.isNotEmpty,
+                visible: event.locationName != null &&
+                    event.locationName.isNotEmpty,
                 child: Container(
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),

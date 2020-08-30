@@ -1,5 +1,5 @@
-import 'package:alabama_beer_trail/blocs/location_bloc.dart';
-import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
+import 'package:alabama_beer_trail/blocs/screen_trailplaces_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
@@ -12,33 +12,31 @@ class TrailPlacesScreen extends StatefulWidget {
   TrailPlacesScreen({@required this.placeIds, @required this.appBarTitle});
 
   @override
-  State<StatefulWidget> createState() => _TrailPlacesScreen(this.placeIds, this.appBarTitle);
+  State<StatefulWidget> createState() => _TrailPlacesScreen();
 }
 
 class _TrailPlacesScreen extends State<TrailPlacesScreen> {
-  final List<String> placeIds;
-  final String appBarTitle;
-  TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
+  ScreenTrailListBloc _screenTrailListBloc = ScreenTrailListBloc();
 
-  _TrailPlacesScreen(this.placeIds, this.appBarTitle);
+  _TrailPlacesScreen();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-            title: Text(this.appBarTitle),
+            title: Text(widget.appBarTitle),
       ),
       body: StreamBuilder(
-        stream: _trailPlacesBloc.trailPlaceStream,
+        stream: _screenTrailListBloc.trailPlaceStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else {
             var placesToShow = (snapshot.data as List<TrailPlace>)
-                .where((p) => this.placeIds.contains(p.id)).toList();
+                .where((p) => widget.placeIds.contains(p.id)).toList();
             placesToShow.sort((a,b) {
-              if(LocationBloc().lastLocation != null) {
-                var userLocation = LocationBloc().lastLocation;
+              if(LocationService().lastLocation != null) {
+                var userLocation = LocationService().lastLocation;
                 return GeoMethods.calculateDistance(a.location,userLocation)
                   .compareTo(GeoMethods.calculateDistance(b.location, userLocation));
               } else {

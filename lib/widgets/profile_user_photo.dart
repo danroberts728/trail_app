@@ -50,7 +50,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
 
   @override
   Widget build(BuildContext context) {
-    Widget imageProvider = this.imageUrl != null
+    Widget imageProvider = imageUrl != null && imageUrl.isNotEmpty
         ? CachedNetworkImage(
             imageUrl: this.imageUrl,
             imageBuilder: (context, imageProvider) => Container(

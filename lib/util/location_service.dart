@@ -4,16 +4,14 @@ import 'dart:math';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:location/location.dart';
 
-import 'bloc.dart';
+class LocationService {
+  static final LocationService _singleton = LocationService._internal();
 
-class LocationBloc extends Bloc {
-  static final LocationBloc _singleton = LocationBloc._internal();
-
-  factory LocationBloc() {
+  factory LocationService() {
     return _singleton;
   }
 
-  LocationBloc._internal() {
+  LocationService._internal() {
     _location.hasPermission().then((result) {
       this.hasPermission = result == PermissionStatus.granted;
       if (result == PermissionStatus.granted) {
@@ -34,7 +32,6 @@ class LocationBloc extends Bloc {
   final _locationStreamController = StreamController<Point>.broadcast();
   Stream<Point> get locationStream => this._locationStreamController.stream;
 
-  @override
   void dispose() {
     _locationStreamController.close();
   }

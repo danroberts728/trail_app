@@ -4,10 +4,8 @@ import 'package:alabama_beer_trail/data/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'bloc.dart';
-
-/// A BLoC for user/authentication.
-class AppAuth extends Bloc {
+/// An abstraction for User/Authentication
+class AppAuth {
   /// Singleton Pattern
   static final AppAuth _singleton = AppAuth._internal();
 

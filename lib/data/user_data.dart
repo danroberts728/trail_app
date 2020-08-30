@@ -58,7 +58,9 @@ class UserData {
       return UserData(        
           aboutYou: d['aboutYou'],
           bannerImageUrl: d['bannerImageUrl'],
-          birthDay: d['birthdate'].toDate(),
+          birthDay: d['birthdate'] != null
+            ? d['birthdate'].toDate()
+            : null,
           displayName: d['displayName'],
           favorites: d['favorites'] != null
             ? List<String>.from(d['favorites'])

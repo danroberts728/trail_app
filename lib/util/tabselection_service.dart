@@ -1,15 +1,14 @@
-import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'dart:async';
 
-class TabSelectionBloc extends Bloc {
+class TabSelectionService {
 
-  static final TabSelectionBloc _singleton = TabSelectionBloc._internal();
+  static final TabSelectionService _singleton = TabSelectionService._internal();
 
-  factory TabSelectionBloc() {
+  factory TabSelectionService() {
     return _singleton;
   }
 
-  TabSelectionBloc._internal();
+  TabSelectionService._internal();
 
   int currentSelectedTab;
   bool lastTapSame;
@@ -28,7 +27,6 @@ class TabSelectionBloc extends Bloc {
     _tabSelectionController.add(currentSelectedTab);
   }
 
-  @override
   void dispose() {
     _tabSelectionController.close();
   }

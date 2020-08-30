@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/event_filter_bloc.dart';
+import 'package:alabama_beer_trail/util/event_filter_service.dart';
 import 'package:flutter/material.dart';
 
 class EventFilterFab extends StatefulWidget {
@@ -10,15 +10,15 @@ class EventFilterFab extends StatefulWidget {
 
 class _EventFilterFab extends State<EventFilterFab>
     with SingleTickerProviderStateMixin {
-  EventFilterBloc _eventFilterBloc = EventFilterBloc();
+  EventFilterService _eventFilterService = EventFilterService();
   double _filterDistance;
   StreamSubscription _eventFilterSubscription;
 
   _EventFilterFab() {
-    _filterDistance = _eventFilterBloc.distance;
-    _eventFilterSubscription = _eventFilterBloc.eventFilterStream.listen((distance) {
+    _filterDistance = _eventFilterService.filter.distance;
+    _eventFilterSubscription = _eventFilterService.stream.listen((EventFilter filter) {
       setState(() {
-        _filterDistance = distance;
+        _filterDistance = filter.distance;
       });
     });
   }

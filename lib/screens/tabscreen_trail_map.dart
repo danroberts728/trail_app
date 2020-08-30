@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
+import 'package:alabama_beer_trail/blocs/tabscreen_trail_map_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -32,7 +32,7 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
 
   Set<Marker> _markers = Set();
 
-  TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
+  TabScreenTrailMapBloc _tabScreenTrailMapBloc = TabScreenTrailMapBloc();
 
   List<ClusterItem<TrailPlace>> items = List<ClusterItem<TrailPlace>>();
 
@@ -44,8 +44,15 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
 
   @override
   void initState() {
-    _trailPlacesBloc.trailPlaceStream.listen(_onPlaceUpdate);
     _manager = _initClusterManager();
+    items = _tabScreenTrailMapBloc.trailPlaces.map((place) {
+        return ClusterItem(
+          LatLng(place.location.x, place.location.y),
+          item: place,
+        );
+      }).toList();
+    _manager.setItems(items);
+    _tabScreenTrailMapBloc.trailPlaceStream.listen(_onPlaceUpdate);    
     super.initState();
   }
 
@@ -153,7 +160,7 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
   /// Compares to the [lat] and [lng] because clustering
   /// hides the actual place object.
   InfoWindow _getSingleInfoWindow(double lat, double lng) {
-    TrailPlace p = _trailPlacesBloc.trailPlaces
+    TrailPlace p = _tabScreenTrailMapBloc.trailPlaces
         .firstWhere((a) => a.location.x == lat && a.location.y == lng);
     return InfoWindow(
         title: p.name,

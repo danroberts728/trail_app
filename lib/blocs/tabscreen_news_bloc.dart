@@ -4,11 +4,11 @@ import 'bloc.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
 
-class TrailNewsBloc extends Bloc {  
+class TabScreenNewsBloc extends Bloc {  
   final String feedUrl;
   Timer _timer;
 
-  TrailNewsBloc(this.feedUrl) {
+  TabScreenNewsBloc(this.feedUrl) {
     onReadTimer().then((_) {
       _timer = Timer(Duration(seconds: 120), onReadTimer);
     });    

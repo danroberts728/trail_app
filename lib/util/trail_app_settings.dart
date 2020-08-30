@@ -80,7 +80,7 @@ class TrailAppSettings {
   ];
   static final String defaultBannerImageAssetLocation =
       'assets/images/fthglasses.jpg';
-  static final String defaultDisplayName = "";
+  static final String defaultDisplayName = " ";
   static final String defaultProfilePhotoAssetLocation =
       'assets/images/defaultprofilephoto.png';
 

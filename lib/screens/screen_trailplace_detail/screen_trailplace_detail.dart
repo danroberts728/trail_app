@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:alabama_beer_trail/blocs/screen_trailplace_detail_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_area.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_checkin_area.dart';
@@ -12,10 +11,8 @@ import 'package:alabama_beer_trail/widgets/favorite_button.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 
 class TrailPlaceDetailScreen extends StatefulWidget {
   final TrailPlace place;
@@ -23,62 +20,32 @@ class TrailPlaceDetailScreen extends StatefulWidget {
   const TrailPlaceDetailScreen({Key key, this.place}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _TrailPlaceDetailScreen(place);
+  State<StatefulWidget> createState() => _TrailPlaceDetailScreen();
 }
 
 class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
-  final TrailPlace place;
+  int _checkInsCount = 0;
+  TrailPlace _place;
 
-  final UserCheckinsBloc _userCheckinBloc = UserCheckinsBloc();
+  ScreenTrailPlaceDetailBloc _bloc;
 
-  StreamSubscription _checkinStreamSubscription;
-
-  int _checkInsCount;
-  String _overrideWording;
-
-  _TrailPlaceDetailScreen(this.place) {
-    _checkinStreamSubscription = _userCheckinBloc.checkInStream.listen((data) {
-      setState(() {
-        var sortedCheckIns = data
-            .where((element) => element.placeId == place.id)
-            .toList()
-            .map((e) => e.timestamp)
-            .toList()
-              ..sort((a, b) {
-                return b.compareTo(a);
-              });
-        this._checkInsCount = sortedCheckIns.length;
-        if (_checkInsCount == 0) {
-          _overrideWording = "You have never checked-in";
-        } else {
-          var lastCheckin = sortedCheckIns[0];
-          DateTime now = DateTime.now();
-          var formatter = DateFormat('MMM d, yyyy');
-          if (now.difference(lastCheckin).inHours < 24) {
-            _overrideWording = "Your last check-in was today";
-          } else if (now.difference(lastCheckin).inDays == 1) {
-            _overrideWording = "Your last check-in was yesterday";
-          } else if (now.difference(lastCheckin).inDays < 7) {
-            _overrideWording = "Your last check-in was this week";
-          } else if (now.difference(lastCheckin).inDays < 14) {
-            _overrideWording = "Your last check-in was last week";
-          } else {
-            _overrideWording =
-                "Last check-in was " + formatter.format(lastCheckin);
-          }
-        }
-      });
-    });
+  @override
+  void initState() {
+    super.initState();
+    _place = widget.place;
+    _bloc = ScreenTrailPlaceDetailBloc(widget.place);
+    _checkInsCount = _bloc.placeDetail.checkInsCount;
+    _bloc.stream.listen(_onPlaceUpdate);
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> galleryImageUrls = List.from(this.place.galleryUrls)
-      ..insert(0, this.place.featuredImgUrl);
+    List<String> galleryImageUrls = List.from(_place.galleryUrls)
+      ..insert(0, _place.featuredImgUrl);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(place.name),
+        title: Text(_place.name),
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -98,7 +65,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     bottom: 8.0,
                     right: 16.0,
                     child: FavoriteButton(
-                      place: widget.place,
+                      place: _place,
                       iconSize: 36.0,
                     ),
                   ),
@@ -112,13 +79,13 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                   children: <Widget>[
                     // Place Header (logo, name, categories)
                     TrialPlaceHeader(
-                      name: this.place.name,
-                      categories: this.place.categories,
+                      name: _place.name,
+                      categories: _place.categories,
                       titleFontSize: 20,
                       categoriesFontSize: 16.0,
                       titleOverflow: TextOverflow.visible,
                       logo: CachedNetworkImage(
-                        imageUrl: this.place.logoUrl,
+                        imageUrl: _place.logoUrl,
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) =>
                                 CircularProgressIndicator(
@@ -130,25 +97,26 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     ),
                     // Check-in Area
                     TrailPlaceCheckinArea(
-                      place: widget.place,
-                      checkinsCount: _checkInsCount,
-                      overrideWording: _overrideWording,
+                      place: _place,
+                      checkInsCount: _checkInsCount,
                     ),
                     // Description
                     Divider(
                       color: TrailAppSettings.attentionColor,
                     ),
                     TrailPlaceArea(
-                      isVisible: place.description != null && place.description.isNotEmpty,
+                      isVisible: _place.description != null &&
+                          _place.description.isNotEmpty,
                       child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: 4.0, vertical: 4.0),
-                        child: place.description == null
-                          ? SizedBox()
-                          : HtmlWidget(
-                          place.description,
-                          onTapUrl: (url) => AppLauncher().openWebsite(url),
-                        ),
+                        child: _place.description == null
+                            ? SizedBox()
+                            : HtmlWidget(
+                                _place.description,
+                                onTapUrl: (url) =>
+                                    AppLauncher().openWebsite(url),
+                              ),
                       ),
                     ),
                     Divider(
@@ -156,32 +124,33 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     ),
                     // Hours Area
                     TrailPlaceArea(
-                      isVisible: place.hours != null && place.hours.length > 0,
+                      isVisible:
+                          _place.hours != null && _place.hours.length > 0,
                       child: TrailPlaceHoursArea(
-                        place: place,
+                        place: _place,
                       ),
                     ),
                     // Address Area
                     TrailPlaceArea(
-                      isVisible: place.address != null,
+                      isVisible: _place.address != null,
                       child: TrailPlaceExternalLinkArea(
                         leadingIconData: Icons.directions,
                         onPress: () {
                           String address =
-                              '${place.name}, ${place.address}, ${place.city}, ${place.state} ${place.zip}';
+                              '${_place.name}, ${_place.address}, ${_place.city}, ${_place.state} ${_place.zip}';
                           AppLauncher().openDirections(address);
                         },
                         content: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              place.address ?? "",
+                              _place.address ?? "",
                               style: TextStyle(
                                 fontSize: 14.0,
                               ),
                             ),
                             Text(
-                              place.city + ", " + (place.state ?? ""),
+                              _place.city + ", " + (_place.state ?? ""),
                               style: TextStyle(
                                 fontSize: 14.0,
                               ),
@@ -193,26 +162,27 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     // Phone
                     TrailPlaceArea(
                       isVisible:
-                          place.phones != null && place.phones.length > 0,
+                          _place.phones != null && _place.phones.length > 0,
                       child: TrailPlaceExternalLinkArea(
                         leadingIconData: Icons.phone,
-                        content: place.phones != null && place.phones.length > 0
-                            ? Text(place.phones.values.first)
-                            : Text(""),
+                        content:
+                            _place.phones != null && _place.phones.length > 0
+                                ? Text(_place.phones.values.first)
+                                : Text(""),
                         onPress: () {
-                          AppLauncher().call(place.phones.values.first);
+                          AppLauncher().call(_place.phones.values.first);
                         },
                       ),
                     ),
                     // URL Link
                     TrailPlaceArea(
-                      isVisible: place.connections['website'] != null &&
-                          "" != place.connections['website'],
+                      isVisible: _place.connections['website'] != null &&
+                          "" != _place.connections['website'],
                       child: TrailPlaceExternalLinkArea(
                         leadingIconData: FontAwesomeIcons.link,
                         leadingIconSize: 22.0,
                         content: Text(
-                          (place.connections['website'] ?? "")
+                          (_place.connections['website'] ?? "")
                               .replaceAll("http://", "")
                               .replaceAll("https://", "")
                               .replaceAll(RegExp(r"/$"), ""),
@@ -220,97 +190,98 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                         ),
                         onPress: () {
                           AppLauncher()
-                              .openWebsite(place.connections['website']);
+                              .openWebsite(_place.connections['website']);
                         },
                       ),
                     ),
                     // Facebook
                     TrailPlaceArea(
-                      isVisible: place.connections['facebook'] != null &&
-                          "" != place.connections['facebook'],
+                      isVisible: _place.connections['facebook'] != null &&
+                          "" != _place.connections['facebook'],
                       child: TrailPlaceExternalLinkArea(
                         leadingIconData: FontAwesomeIcons.facebookF,
                         leadingIconSize: 22.0,
-                        content: Text(place.name) ?? "",
+                        content: Text(_place.name) ?? "",
                         onPress: () {
                           AppLauncher()
-                              .openFacebook(place.connections['facebook']);
+                              .openFacebook(_place.connections['facebook']);
                         },
                       ),
                     ),
                     // Twitter
                     TrailPlaceArea(
                       isVisible:
-                          _getUsername(place.connections['twitter']) != null,
+                          _getUsername(_place.connections['twitter']) != null,
                       child: TrailPlaceExternalLinkArea(
                           leadingIconData: FontAwesomeIcons.twitter,
                           leadingIconSize: 22.0,
-                          content: _getUsername(place.connections['twitter']) ==
+                          content: _getUsername(
+                                      _place.connections['twitter']) ==
                                   null
                               ? Container()
                               : Text(
-                                  _getUsername(place.connections['twitter'])),
+                                  _getUsername(_place.connections['twitter'])),
                           onPress: () {
                             AppLauncher()
-                                .openWebsite(place.connections['twitter']);
+                                .openWebsite(_place.connections['twitter']);
                           }),
                     ),
                     // Instagram
                     TrailPlaceArea(
                       isVisible:
-                          _getUsername(place.connections['instagram']) != null,
+                          _getUsername(_place.connections['instagram']) != null,
                       child: TrailPlaceExternalLinkArea(
                           leadingIconData: FontAwesomeIcons.instagram,
                           leadingIconSize: 20.0,
-                          content: _getUsername(
-                                      place.connections['instagram']) ==
-                                  null
-                              ? Container()
-                              : Text(
-                                  _getUsername(place.connections['instagram'])),
+                          content:
+                              _getUsername(_place.connections['instagram']) ==
+                                      null
+                                  ? Container()
+                                  : Text(_getUsername(
+                                      _place.connections['instagram'])),
                           onPress: () {
                             AppLauncher()
-                                .openWebsite(place.connections['instagram']);
+                                .openWebsite(_place.connections['instagram']);
                           }),
                     ),
                     // untappd
                     TrailPlaceArea(
-                      isVisible: place.connections['untappd'] != null &&
-                          "" != place.connections['untappd'],
+                      isVisible: _place.connections['untappd'] != null &&
+                          "" != _place.connections['untappd'],
                       child: TrailPlaceExternalLinkArea(
                           leadingIconData: FontAwesomeIcons.untappd,
                           leadingIconSize: 20.0,
-                          content: Text(place.name) ?? "",
+                          content: Text(_place.name) ?? "",
                           onPress: () {
                             AppLauncher()
-                                .openUntappd(place.connections['untappd']);
+                                .openUntappd(_place.connections['untappd']);
                           }),
                     ),
                     // Youtube
                     TrailPlaceArea(
-                      isVisible: place.connections['youtube'] != null &&
-                          "" != place.connections['youtube'],
+                      isVisible: _place.connections['youtube'] != null &&
+                          "" != _place.connections['youtube'],
                       child: TrailPlaceExternalLinkArea(
                           leadingIconData: FontAwesomeIcons.youtube,
                           leadingIconSize: 20.0,
-                          content: Text(place.connections['youtube'] ?? ""),
+                          content: Text(_place.connections['youtube'] ?? ""),
                           onPress: () {
                             AppLauncher()
-                                .openWebsite(place.connections['youtube']);
+                                .openWebsite(_place.connections['youtube']);
                           }),
                     ),
                     // Email
                     TrailPlaceArea(
                         isVisible:
-                            place.emails != null && place.emails.length > 0,
+                            _place.emails != null && _place.emails.length > 0,
                         child: TrailPlaceExternalLinkArea(
                           leadingIconData: Icons.email,
                           content:
-                              place.emails != null && place.emails.length > 0
-                                  ? Text(place.emails.values.first)
+                              _place.emails != null && _place.emails.length > 0
+                                  ? Text(_place.emails.values.first)
                                   : Text(""),
                           onPress: () {
-                            AppLauncher().email(place.emails.values.first);
+                            AppLauncher().email(_place.emails.values.first);
                           },
                         )),
                     // Blank Space at Bottom
@@ -327,10 +298,11 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    _checkinStreamSubscription.cancel();
-    super.dispose();
+  void _onPlaceUpdate(PlaceDetail event) {
+    setState(() {
+      _place = event.place;
+      _checkInsCount = event.checkInsCount;
+    });
   }
 }
 

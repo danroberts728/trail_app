@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:alabama_beer_trail/blocs/location_bloc.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/data/trail_place_category.dart';
 import 'package:alabama_beer_trail/util/filter_options.dart';
@@ -32,7 +32,7 @@ class TrailListViewState extends State<TrailListView> {
     _controller.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
   }
 
-  var _locationBloc = LocationBloc();
+  var _locationBloc = LocationService();
 
   void showFilterModal() {
     showDialog(

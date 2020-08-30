@@ -1,16 +1,9 @@
-import 'package:alabama_beer_trail/data/trail_trophy.dart';
-import 'package:alabama_beer_trail/data/user_data.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/screen_trailtrophy_detail.dart';
+import 'package:alabama_beer_trail/blocs/profile_trophies_area_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTrophiesArea extends StatefulWidget {
-  final List<TrailTrophy> trailTrophies;
-  final UserData userData;
-
-  const ProfileTrophiesArea({Key key, this.trailTrophies, this.userData})
-      : super(key: key);
-
   @override
   State<StatefulWidget> createState() => _ProfileTrophiesArea();
 }
@@ -18,39 +11,54 @@ class ProfileTrophiesArea extends StatefulWidget {
 class _ProfileTrophiesArea extends State<ProfileTrophiesArea> {
   final _crossAxisCount = 4;
 
+  final _profileTrophiesAreaBloc = ProfileTrophiesAreaBloc();
+
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: this._crossAxisCount,
-      ),
-      delegate: SliverChildBuilderDelegate((context, index) {
-        return GestureDetector(
-          onTap: () {
-            Feedback.forTap(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    settings: RouteSettings(
-                      name: 'Trail Tophy - ' + widget.trailTrophies[index].name,
+    return StreamBuilder(
+        stream: _profileTrophiesAreaBloc.stream,
+        initialData: _profileTrophiesAreaBloc.userTrophyInformation,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SliverPadding(padding: EdgeInsets.all(0.0),);
+          } else {
+            List<UserTrophyInformation> data = snapshot.data;
+            return SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: this._crossAxisCount,
+              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Feedback.forTap(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        settings: RouteSettings(
+                          name: 'Trail Tophy - ' + data[index].trophy.name,
+                        ),
+                        builder: (context) => TrophyDetailScreen(
+                          trophy: data[index].trophy,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    child: CachedNetworkImage(
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      fit: BoxFit.scaleDown,
+                      imageUrl: data[index].userEarned
+                          ? data[index].trophy.activeImage
+                          : data[index].trophy.inactiveImage,
                     ),
-                    builder: (context) => TrophyDetailScreen(
-                        trophy: widget.trailTrophies[index])));
-          },
-          child: Container(
-            child: CachedNetworkImage(
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        CircularProgressIndicator(value: downloadProgress.progress),
-              fit: BoxFit.scaleDown,
-              imageUrl: widget.userData.trophies != null 
-                      && widget.userData.trophies.keys
-                      .contains(widget.trailTrophies[index].id)
-                  ? widget.trailTrophies[index].activeImage
-                  : widget.trailTrophies[index].inactiveImage,
-            ),
-          ),
-        );
-      }, childCount: widget.trailTrophies.length),
-    );
+                  ),
+                );
+              }, childCount: data.length),
+            );
+          }
+        });
   }
 }

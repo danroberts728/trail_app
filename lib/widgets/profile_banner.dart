@@ -51,7 +51,7 @@ class _ProfileBanner extends State<ProfileBanner> {
   Widget build(BuildContext context) {
     Widget imageProvider = LayoutBuilder(
       builder: (context, constraints) {
-        return this.imageUrl != null
+        return imageUrl != null && imageUrl.isNotEmpty
             ? CachedNetworkImage(
                 imageUrl: this.imageUrl,
                 imageBuilder: (context, imageProvider) => Container(

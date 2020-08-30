@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/location_bloc.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:flutter/material.dart';
 
 class AppLoadingScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class _AppLoadingScreen extends State<AppLoadingScreen> {
   @override
   void initState() {
     super.initState();
-    LocationBloc().refreshLocation();
+    LocationService().refreshLocation();
   }
 
   @override
