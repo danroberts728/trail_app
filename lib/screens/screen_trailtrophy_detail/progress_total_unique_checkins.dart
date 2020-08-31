@@ -1,5 +1,4 @@
-import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
-import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
+import 'package:alabama_beer_trail/blocs/trophy_progress_checkins_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_trophy_total_unique_checkins.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
@@ -12,31 +11,21 @@ class TrailTrophyProgressTotalUniqueCheckins extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
-
-    UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
-
+    TrophyProgressCheckinsBloc _bloc = TrophyProgressCheckinsBloc();
     return StreamBuilder(
-        stream: _trailPlacesBloc.trailPlaceStream,
-        builder: (context, trailPlacesSnapshot) {
-          return StreamBuilder(
-              stream: _userCheckinsBloc.checkInStream,
-              builder: (context, checkinsSnapshot) {
-                if (trailPlacesSnapshot.connectionState ==
-                        ConnectionState.waiting ||
-                    checkinsSnapshot.connectionState ==
+        stream: _bloc.stream,
+        initialData: _bloc.placeStatuses,
+        builder: (context, AsyncSnapshot<List<TrailPlaceCheckInStatus>> snapshot) {
+          
+                if (snapshot.connectionState ==
                         ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
 
                 var requiredCount = trophy.uniqueCountRequired;
-
-                var currentCount = checkinsSnapshot.data
-                    .map((f) {
-                      return f.placeId;
-                    })
-                    .toSet()
-                    .length;
+                var currentCount = snapshot.data
+                  .where((p) => p.hasUniqueCheckin)
+                  .length;
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,6 +78,5 @@ class TrailTrophyProgressTotalUniqueCheckins extends StatelessWidget {
                   ],
                 );
               });
-        });
   }
 }

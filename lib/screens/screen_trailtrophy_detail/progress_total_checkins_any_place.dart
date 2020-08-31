@@ -1,5 +1,4 @@
-import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
-import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
+import 'package:alabama_beer_trail/blocs/trophy_progress_checkins_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_trophy_total_checkins_any_place.dart';
 import 'package:flutter/material.dart';
 
@@ -11,19 +10,13 @@ class TrailTrophyProgressTotalCheckinsAnyPlace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
-
-    UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
+    TrophyProgressCheckinsBloc _bloc = TrophyProgressCheckinsBloc();
 
     return StreamBuilder(
-        stream: _trailPlacesBloc.trailPlaceStream,
-        builder: (context, trailPlacesSnapshot) {
-          return StreamBuilder(
-              stream: _userCheckinsBloc.checkInStream,
-              builder: (context, checkinsSnapshot) {
-                if (trailPlacesSnapshot.connectionState ==
-                        ConnectionState.waiting ||
-                    checkinsSnapshot.connectionState ==
+        stream: _bloc.stream,
+        initialData: _bloc.placeStatuses,
+        builder: (context, snapshot) {
+                if (snapshot.connectionState ==
                         ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -40,6 +33,5 @@ class TrailTrophyProgressTotalCheckinsAnyPlace extends StatelessWidget {
                   ],
                 );
               });
-        });
   }
 }

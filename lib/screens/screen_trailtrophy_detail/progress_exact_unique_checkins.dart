@@ -1,6 +1,4 @@
-import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
-import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/blocs/trophy_progress_checkins_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_trophy_exact_unique_checkins.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
@@ -10,32 +8,31 @@ import 'package:flutter/material.dart';
 class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {
   final TrailTrophyExactUniqueCheckins trophy;
 
-  const TrailTrophyProgressExactUniqueCheckins({Key key, @required this.trophy})
+  TrailTrophyProgressExactUniqueCheckins({Key key, @required this.trophy})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TrailPlacesBloc _trailPlacesBloc = TrailPlacesBloc();
-
-    UserCheckinsBloc _userCheckinsBloc = UserCheckinsBloc();
+    TrophyProgressCheckinsBloc _bloc = TrophyProgressCheckinsBloc();
 
     return StreamBuilder(
-      stream: _trailPlacesBloc.trailPlaceStream,
-      builder: (context, trailPlacesSnapshot) {
-        List<TrailPlace> trailPlaces = trailPlacesSnapshot.data;
+      stream: _bloc.stream,
+      initialData: _bloc.placeStatuses,
+      builder: (context, AsyncSnapshot<List<TrailPlaceCheckInStatus>> snapshot) {
+        List<TrailPlaceCheckInStatus> trailPlaces = snapshot.data;
         return ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: trophy.requiredCheckins.length,
           itemBuilder: (context, index) {
-            if (trailPlacesSnapshot.connectionState ==
+            if (snapshot.connectionState ==
                 ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             }
             var trophyPlaces = trophy.requiredCheckins..sort();
 
-            TrailPlace place = trailPlaces.firstWhere(
-              (p) => p.id == trophyPlaces[index],
+            TrailPlaceCheckInStatus place = trailPlaces.firstWhere(
+              (p) => p.place.id == trophyPlaces[index],
               orElse: () {
                 return null;
               },
@@ -63,14 +60,6 @@ class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {
                 ),
               );
             }
-
-            var uniqueCheckIns = _userCheckinsBloc.checkIns
-                .map((f) {
-                  return f.placeId;
-                })
-                .toSet()
-                .toList()
-                  ..sort();
             return GestureDetector(
               onTap: () {
                 Feedback.forTap(context);
@@ -78,10 +67,10 @@ class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     settings: RouteSettings(
-                      name: place.name,
+                      name: place.place.name,
                     ),
                     builder: (context) => TrailPlaceDetailScreen(
-                      place: place,
+                      place: place.place,
                     ),
                   ),
                 );
@@ -95,20 +84,20 @@ class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {
                 ),
                 child: Row(
                   children: <Widget>[
-                    uniqueCheckIns.contains(place.id)
+                    place.hasUniqueCheckin
                         ? Icon(Icons.check, color: Colors.green)
                         : Icon(Icons.close, color: Colors.red),
                     Expanded(
                       child: Container(
                         child: TrialPlaceHeader(
-                          name: place.name,
-                          categories: place.categories,
+                          name: place.place.name,
+                          categories: place.place.categories,
                           titleFontSize: 16.0,
                           categoriesFontSize: 12.0,
                           titleOverflow: TextOverflow.ellipsis,
                           alphaValue: 0,
                           logo: CachedNetworkImage(
-                            imageUrl: place.logoUrl,
+                            imageUrl: place.place.logoUrl,
                             progressIndicatorBuilder:
                                 (context, url, downloadProgress) =>
                                     CircularProgressIndicator(

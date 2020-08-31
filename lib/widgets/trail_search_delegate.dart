@@ -1,9 +1,12 @@
-import 'package:alabama_beer_trail/blocs/trail_places_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
 import 'package:flutter/material.dart';
 
 class TrailSearchDelegate extends SearchDelegate {
+  final List<TrailPlace> _places = TrailDatabase().places;
+
   @override
   String get searchFieldLabel => super.searchFieldLabel;
 
@@ -39,26 +42,45 @@ class TrailSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return buildSuggestions(context);
+    var result = _places
+        .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    return TrailListView(
+      places: result,
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return StreamBuilder(
-        stream: TrailPlacesBloc().trailPlaceStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            List<TrailPlace> allPlaces = snapshot.data;
-            List<TrailPlace> places = allPlaces
-                .where(
-                    (p) => p.name.toLowerCase().contains(query.toLowerCase()))
-                .toList();
-            return TrailListView(
-              places: places,
-            );
-          }
-        });
+    if (query.length < 3) {
+      return Container();
+    }
+    var result = _places
+        .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    return Container(
+        width: double.infinity,
+        child: ListView.builder(
+          itemCount: result.length,
+          itemBuilder: (context, index) => InkWell(
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
+              child: Text(result[index].name),
+            ),
+            onTap: () {
+              Future.delayed(Duration(milliseconds: 300)).then((value) =>
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          settings: RouteSettings(
+                            name: 'Trail Place - ' + result[index].name,
+                          ),
+                          builder: (context) =>
+                              TrailPlaceDetailScreen(place: result[index]))));
+            },
+          ),
+        ));
   }
 }
