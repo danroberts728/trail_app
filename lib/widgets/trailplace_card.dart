@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:alabama_beer_trail/blocs/trailplace_card_bloc.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/blocs/user_checkins_bloc.dart';
-import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -31,27 +30,27 @@ class _TrailListCard extends State<TrailListCard> {
   double _distance = double.infinity;
   int _checkInsCount = 0;
 
-  final _locationBloc = LocationService();
-  final _userCheckinsBloc = UserCheckinsBloc();
+  final _locationService = LocationService();
   StreamSubscription<Point> _streamSub;
-  StreamSubscription<List<CheckIn>> _checkInSubscription;
+  StreamSubscription<int> _checkInSubscription;
 
   _TrailListCard(this.place);
 
   @override
   void initState() {
-    this._locationEnabled = _locationBloc.hasPermission;
+    this._locationEnabled = _locationService.hasPermission;
     this._distance = _getDistance();
-    _checkInSubscription = this._userCheckinsBloc.checkInStream.listen((data) {
+    var bloc = TrailPlaceCardBloc(place.id);
+    _checkInsCount = bloc.checkInsCount;
+    _checkInSubscription = bloc.stream.listen((data) {
       setState(() {
-        this._checkInsCount =
-            data.where((element) => element.placeId == place.id).length;
+        this._checkInsCount = data;
       });
     });
 
-    this._streamSub = _locationBloc.locationStream.listen((newUserLocation) {
+    this._streamSub = _locationService.locationStream.listen((newUserLocation) {
       setState(() {
-        this._locationEnabled = _locationBloc.hasPermission;
+        this._locationEnabled = _locationService.hasPermission;
         this._distance = _getDistance();
       });
     });
@@ -204,9 +203,9 @@ class _TrailListCard extends State<TrailListCard> {
   }
 
   double _getDistance() {
-    if (_locationBloc.hasPermission) {
+    if (_locationService.hasPermission) {
       return GeoMethods.calculateDistance(
-          _locationBloc.lastLocation, this.place.location);
+          _locationService.lastLocation, this.place.location);
     } else {
       return double.infinity;
     }
