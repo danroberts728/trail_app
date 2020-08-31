@@ -50,11 +50,13 @@ class TrailDatabase {
 
     FirebaseFirestore.instance
         .collection('places')
+        .where('published', isEqualTo: true)
         .snapshots()
         .listen(_onPlacesDataUpdate);
 
     FirebaseFirestore.instance
         .collection('trophies')
+        .where('published', isEqualTo: true)
         .snapshots()
         .listen(_onTrophiesDataUpdate);
 
