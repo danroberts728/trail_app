@@ -61,7 +61,7 @@ class TrailTrophyProgressTotalUniqueCheckins extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          requiredCount.toString(),
+                          (requiredCount - currentCount).toString(),
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -69,8 +69,9 @@ class TrailTrophyProgressTotalUniqueCheckins extends StatelessWidget {
                         )
                       ],
                     ),
-                    Text(
-                      "breweries to win this trophy",
+                    Text( requiredCount - currentCount == 1
+                      ? "more brewery to win this trophy"
+                      : "more breweries to win this trophy",
                       style: TextStyle(
                         fontSize: 18.0,
                       ),

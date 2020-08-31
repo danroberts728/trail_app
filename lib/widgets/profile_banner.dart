@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
+import 'package:alabama_beer_trail/blocs/profile_banner_bloc.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class _ProfileBanner extends State<ProfileBanner> {
   final bool canEdit;
   Widget placeholder;
 
-  var _userDataBloc = UserDataBloc();
+  final _bloc = ProfileBannerBloc();
   final int _imageQuality = 75;
   final double _maxHeight = 400.0;
 
@@ -40,10 +40,8 @@ class _ProfileBanner extends State<ProfileBanner> {
   @override
   void initState() {
     super.initState();
-    this._userDataBloc.userDataStream.listen((newData) {
-      if (this.imageUrl != newData.bannerImageUrl) {
-        this.imageUrl = newData.bannerImageUrl;
-      }
+    this._bloc.stream.listen((newData) {
+        this.imageUrl = newData;
     });
   }
 
@@ -110,7 +108,7 @@ class _ProfileBanner extends State<ProfileBanner> {
           '.jpg';
       File(scaledImageFilename)
         ..writeAsBytesSync(encodeJpg(scaledImage, quality: this._imageQuality));
-      this._userDataBloc.updateBannerImage(File(scaledImageFilename));
+      this._bloc.updateBannerImage(File(scaledImageFilename));
     });
   }
 

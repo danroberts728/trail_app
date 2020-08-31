@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
 import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
-import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
 import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
@@ -95,7 +95,7 @@ class _HomeState extends State<Home>
       onResume: _handleNotificationResume,
     );
     _firebaseMessaging.getToken().then((token) {
-      UserDataBloc().saveFcmToken(token);
+      TrailDatabase().saveFcmToken(token);
     });
   }
 

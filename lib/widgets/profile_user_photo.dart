@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
+import 'package:alabama_beer_trail/blocs/profile_user_photo_bloc.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
   final bool canEdit;
   Widget placeholder;
 
-  var _userDataBloc = UserDataBloc();
+  var _bloc = ProfileUserPhotoBloc();
   final double _maxHeight = 400.0;
   final int _imageQuality = 75;
 
@@ -41,10 +41,8 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
   @override
   void initState() {
     super.initState();
-    this._userDataBloc.userDataStream.listen((newData) {
-      if (this.imageUrl != newData.profilePhotoUrl) {
-        this.imageUrl = newData.profilePhotoUrl;
-      }
+    _bloc.stream.listen((newData) {
+      this.imageUrl = newData;
     });
   }
 
@@ -69,16 +67,13 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                 child: Center(child: this.placeholder)),
             errorWidget: (context, url, error) => Icon(Icons.error))
         : Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 3.0),
-            image: DecorationImage(
-              image: this.backupImage, fit: BoxFit.cover
-            )
-          )
-        );
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 3.0),
+                image: DecorationImage(
+                    image: this.backupImage, fit: BoxFit.cover)));
 
     var stackedWidgets = <Widget>[imageProvider];
     if (this.canEdit) {
@@ -94,25 +89,25 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
     Navigator.pop(context);
     ImageCropper.cropImage(
       sourcePath: file.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square
-      ],
+      aspectRatioPresets: [CropAspectRatioPreset.square],
       androidUiSettings: AndroidUiSettings(
-        toolbarTitle: "Crop Profile Image",
-        toolbarColor: TrailAppSettings.themePrimarySwatch,
-        toolbarWidgetColor: Colors.white,
-        initAspectRatio: CropAspectRatioPreset.square,
-        lockAspectRatio: true),
-      iosUiSettings: IOSUiSettings(
-        aspectRatioLockEnabled: true,
-        minimumAspectRatio: 1),
-      ).then((File croppedFile) {
-        var image = decodeImage((croppedFile).readAsBytesSync());
-        var scaledImage = copyResize(image, width: 800, height: 800);
-        String scaledImageFilename = croppedFile.path + DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
-        File(scaledImageFilename)..writeAsBytesSync(encodeJpg(scaledImage, quality: this._imageQuality));
-        this._userDataBloc.updateProfileImage(File(scaledImageFilename));
-      });
+          toolbarTitle: "Crop Profile Image",
+          toolbarColor: TrailAppSettings.themePrimarySwatch,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.square,
+          lockAspectRatio: true),
+      iosUiSettings:
+          IOSUiSettings(aspectRatioLockEnabled: true, minimumAspectRatio: 1),
+    ).then((File croppedFile) {
+      var image = decodeImage((croppedFile).readAsBytesSync());
+      var scaledImage = copyResize(image, width: 800, height: 800);
+      String scaledImageFilename = croppedFile.path +
+          DateTime.now().millisecondsSinceEpoch.toString() +
+          '.jpg';
+      File(scaledImageFilename)
+        ..writeAsBytesSync(encodeJpg(scaledImage, quality: this._imageQuality));
+      _bloc.updateProfileImage(File(scaledImageFilename));
+    });
   }
 
   Future<dynamic> showBottomModalSelector() {
@@ -136,10 +131,12 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                     child: Text("Camera"),
                     onPressed: () {
                       var picker = ImagePicker();
-                      picker.getImage(
+                      picker
+                          .getImage(
                         source: ImageSource.camera,
                         maxHeight: this._maxHeight,
-                      ).then((file) {
+                      )
+                          .then((file) {
                         this.saveImage(file);
                       });
                     },
@@ -149,10 +146,12 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                     child: Text("Photo Gallery"),
                     onPressed: () {
                       var picker = ImagePicker();
-                      picker.getImage(
+                      picker
+                          .getImage(
                         source: ImageSource.gallery,
                         maxHeight: this._maxHeight,
-                      ).then((file) {
+                      )
+                          .then((file) {
                         this.saveImage(file);
                       });
                     },

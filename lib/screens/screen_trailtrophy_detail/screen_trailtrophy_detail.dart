@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
+import 'package:alabama_beer_trail/blocs/screen_trailtrophy_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/completed_trophy.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_exact_unique_checkins.dart';
@@ -16,9 +16,9 @@ class TrophyDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserDataBloc _userDataBloc = UserDataBloc();
+    TrophyDetailScreenBloc _bloc = TrophyDetailScreenBloc();
 
-    var hasTrophy = _userDataBloc.userData.trophies.keys.contains(trophy.id);
+    var hasTrophy = _bloc.earnedTrophies.keys.contains(trophy.id);
 
     return Scaffold(
       appBar: AppBar(title: Text(trophy.name)),
@@ -84,7 +84,7 @@ class TrophyDetailScreen extends StatelessWidget {
                 builder: (context) {
                   if (hasTrophy) {
                     var completedDate =
-                        _userDataBloc.userData.trophies[trophy.id];
+                        _bloc.earnedTrophies[trophy.id];
                     return CompletedTrophy(completedDate: completedDate);
                   } else if (trophy.trophyType ==
                       TrophyType.ExactUniqueCheckins) {

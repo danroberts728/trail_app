@@ -1,5 +1,4 @@
-import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
-import 'package:alabama_beer_trail/data/user_data.dart';
+import 'package:alabama_beer_trail/blocs/screen_edit_profile_bloc.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_banner.dart';
@@ -17,7 +16,7 @@ class EditProfileScreen extends StatefulWidget {
 /// The state for the user's edit profile screen
 class _EditProfileScreen extends State<EditProfileScreen> {
   /// The user data BLoC
-  UserDataBloc _userDataBloc = UserDataBloc();
+  EditProfileScreenBloc _bloc = EditProfileScreenBloc();
 
   /// The key for the edit form
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -41,15 +40,10 @@ class _EditProfileScreen extends State<EditProfileScreen> {
           ),
           body: SingleChildScrollView(
             child: StreamBuilder(
-              stream: this._userDataBloc.userDataStream,
+              stream: _bloc.stream,
+              initialData: _bloc.userData,
               builder: (context, snapshot) {
-                UserData userData;
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  userData = this._userDataBloc.userData;
-                } else {
-                  userData = snapshot.data;
-                }
-
+                var userData = snapshot.data;
                 return Container(
                   child: Center(
                     child: Column(
@@ -110,7 +104,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   maxLength: 100,
                                   maxLengthEnforced: true,
                                   onSaved: (value) =>
-                                      _userDataBloc.updateDisplayName(value),
+                                      _bloc.updateDisplayName(value),
                                 ),
                                 TextFormField(
                                   decoration: InputDecoration(
@@ -121,7 +115,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   initialValue: userData.location,
                                   maxLength: 100,
                                   onSaved: (value) =>
-                                      _userDataBloc.updateLocation(value),
+                                      _bloc.updateLocation(value),
                                 ),
                                 TextFormField(
                                   decoration: InputDecoration(
@@ -153,7 +147,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                     });
                                   }),
                                   onSaved: (value) =>
-                                      _userDataBloc.updateDob(value),
+                                      _bloc.updateDob(value),
                                 ),
                                 TextFormField(
                                   decoration: InputDecoration(
@@ -165,7 +159,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   minLines: 1,
                                   maxLength: 140,
                                   onSaved: (value) =>
-                                      _userDataBloc.updateAboutYou(value),
+                                      _bloc.updateAboutYou(value),
                                 ),
                               ],
                             ),

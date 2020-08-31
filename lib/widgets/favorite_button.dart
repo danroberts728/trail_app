@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/blocs/user_data_bloc.dart';
+import 'package:alabama_beer_trail/blocs/favorite_button_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:flutter/material.dart';
 
@@ -14,20 +14,15 @@ class FavoriteButton extends StatefulWidget {
 }
 
 class _FavoriteButton extends State<FavoriteButton> {
-  UserDataBloc userDataBloc = UserDataBloc();
-
   @override
   Widget build(BuildContext context) {
+    FavoriteButtonBloc _bloc = FavoriteButtonBloc(widget.place.id);
     // Favorite
     return StreamBuilder(
-      stream: userDataBloc.userDataStream,
+      stream: _bloc.stream,
+      initialData: _bloc.isFavorite,
       builder: (context, snapshot) {
-        List<String> favorites =
-            (snapshot.connectionState == ConnectionState.waiting)
-                ? List<String>.from(userDataBloc.userData.favorites)
-                : List<String>.from(snapshot.data.favorites);
-        bool isFavorite =
-            favorites != null && favorites.contains(widget.place.id);
+        bool isFavorite = snapshot.data;        
         return Stack(        
           alignment: Alignment.center,  
           children: <Widget>[
@@ -61,7 +56,7 @@ class _FavoriteButton extends State<FavoriteButton> {
                             : Text(
                                 "${widget.place.name} removed from favorites")));
                   });
-                  userDataBloc.toggleFavorite(widget.place.id);
+                  _bloc.toggleFavorite();
                 },
               ),
             ),

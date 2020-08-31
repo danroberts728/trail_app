@@ -163,6 +163,20 @@ class TrailDatabase {
         .update({'trophies': trophyList});
     }    
   }
+  
+  void saveFcmToken(String token) {
+    FirebaseFirestore.instance
+      .collection('user_data')
+      .doc(AppAuth().user.uid)
+      .update({'fcmToken': token});
+  }
+
+  void updateUserData(Object data) {
+    FirebaseFirestore.instance
+      .collection('user_data')
+      .doc(AppAuth().user.uid)
+      .update(data);
+  }
 
   void dispose() {
     _eventsStreamController.close();
