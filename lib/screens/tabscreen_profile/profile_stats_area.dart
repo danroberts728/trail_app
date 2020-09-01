@@ -44,7 +44,7 @@ class _ProfileStatsArea extends State<ProfileStatsArea> {
                             builder: (context) => TrailPlacesScreen(
                               appBarTitle: "Visited",
                               placeIds:
-                                  userPlacesInformation.map((e) => e.place.id),
+                                  visited.map((e) => e.place.id).toList(),
                             ),
                           ),
                         );
@@ -62,7 +62,7 @@ class _ProfileStatsArea extends State<ProfileStatsArea> {
                             settings: RouteSettings(name: 'Not Visisted'),
                             builder: (context) => TrailPlacesScreen(
                               appBarTitle: "Not Visited",
-                              placeIds: notVisited.map((e) => e.place.id),
+                              placeIds: notVisited.map((e) => e.place.id).toList(),
                             ),
                           ),
                         );
