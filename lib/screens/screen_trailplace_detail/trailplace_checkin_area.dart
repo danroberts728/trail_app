@@ -57,7 +57,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
   }
 
   double _getDistance() {
-    if (_locationBloc.hasPermission) {
+    if (_locationBloc.lastLocation != null) {
       return GeoMethods.calculateDistance(
           _locationBloc.lastLocation, this.place.location);
     } else {

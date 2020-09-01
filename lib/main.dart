@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -23,7 +24,9 @@ void main() {
       .then((_) {
     return Firebase.initializeApp();
   }).then((fbApp) {
-    runApp(TrailApp());
+    LocationService().refreshLocation().then((_) {
+      runApp(TrailApp());
+    });
   });
 }
 

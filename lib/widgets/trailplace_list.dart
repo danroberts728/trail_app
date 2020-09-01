@@ -75,7 +75,6 @@ class TrailListViewState extends State<TrailListView> {
 
   void sortPlaces() {
     if (this._filter.sort == SortOrder.DISTANCE &&
-        _locationBloc.hasPermission &&
         _locationBloc.lastLocation != null) {
       widget.places.sort((a, b) {
         return GeoMethods.calculateDistance(
@@ -106,6 +105,7 @@ class TrailListViewState extends State<TrailListView> {
         setState(() {
           _showUpdate = false;
         });
+        return null;
     });
   }
 

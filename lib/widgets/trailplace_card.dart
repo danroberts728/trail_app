@@ -26,7 +26,6 @@ class TrailListCard extends StatefulWidget {
 
 class _TrailListCard extends State<TrailListCard> {
   final TrailPlace place;
-  bool _locationEnabled = false;
   double _distance = double.infinity;
   int _checkInsCount = 0;
 
@@ -38,7 +37,6 @@ class _TrailListCard extends State<TrailListCard> {
 
   @override
   void initState() {
-    this._locationEnabled = _locationService.hasPermission;
     this._distance = _getDistance();
     var bloc = TrailPlaceCardBloc(place.id);
     _checkInsCount = bloc.checkInsCount;
@@ -50,7 +48,6 @@ class _TrailListCard extends State<TrailListCard> {
 
     this._streamSub = _locationService.locationStream.listen((newUserLocation) {
       setState(() {
-        this._locationEnabled = _locationService.hasPermission;
         this._distance = _getDistance();
       });
     });
@@ -119,6 +116,7 @@ class _TrailListCard extends State<TrailListCard> {
                     Container(
                       // Location and action buttons
                       height: 50.0,
+                      width: constraints.maxWidth,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8.0,
                         vertical: 0.0,
@@ -144,7 +142,7 @@ class _TrailListCard extends State<TrailListCard> {
                                     ),
                                     SizedBox(width: 4.0),
                                     Text(
-                                      this._locationEnabled &&
+                                      this._locationService.lastLocation != null &&
                                               this.place.city != null
                                           ? this.place.city +
                                               " " +
@@ -203,7 +201,7 @@ class _TrailListCard extends State<TrailListCard> {
   }
 
   double _getDistance() {
-    if (_locationService.hasPermission) {
+    if (_locationService.lastLocation != null) {
       return GeoMethods.calculateDistance(
           _locationService.lastLocation, this.place.location);
     } else {
