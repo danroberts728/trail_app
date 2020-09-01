@@ -45,6 +45,7 @@ class TrailDatabase {
   TrailDatabase._internal() {
     FirebaseFirestore.instance
         .collection('events')
+        .where('publish_status', isEqualTo: 'publish')
         .snapshots()
         .listen(_onEventsDataUpdate);
 

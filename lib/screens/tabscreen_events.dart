@@ -66,6 +66,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
                         return TrailEventCard(
                           startMargin: 4.0,
                           endMargin: 4.0,
+                          bottomMargin: 0.0,
                           showImage: true,
                           elevation: 8.0,
                           event: event,

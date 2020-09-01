@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TrailEvent {
+  final String id;
   final String name;
   final String details;
   final Color color;
   final bool featured;
   final String imageUrl;
   final String learnMoreLink;
+  final String status;
 
   final String locationName;
   final String locationAddress;
@@ -26,12 +28,14 @@ class TrailEvent {
   final bool allDayEvent;
 
   TrailEvent(
-      {this.name,
+      {this.id,
+      this.name,
       this.details,
       this.color,
       this.featured,
       this.imageUrl,
       this.learnMoreLink,
+      this.status,
       this.locationName,
       this.locationAddress,
       this.locationCity,
@@ -48,12 +52,14 @@ class TrailEvent {
     try {
       var d = snapshot.data();
       var trailEvent = TrailEvent(
+        id: snapshot.id,
         name: d['name'] ?? '<Unnamed>',
         details: d['details'] ?? '',
         color: d['color'] != null ? _fromHex(d['color']) : Colors.black,
         featured: d['featured'] != null ? d['featured'] == 'yes' : false,
         imageUrl: d['image_url'] != null ? d['image_url'] : null,
         learnMoreLink: d['learnmore_link'] != null ? d['learnmore_link'] : '',
+        status: d['status'] != null ? d['status'] : '',
         locationName: d['location_name'] != null ? d['location_name'] : '',
         locationAddress:
             d['location_address'] != null ? d['location_address'] : '',
@@ -91,12 +97,14 @@ class TrailEvent {
     try {
       var d = snapshot.data();
       var trailEvent = TrailEvent(
+        id: snapshot.id,
         name: d['name'] ?? '<Unnamed>',
         details: d['details'] ?? '',
         color: d['color'] != null ? _fromHex(d['color']) : Colors.black,
         featured: d['featured'] != null ? d['featured'] == 'yes' : false,
         imageUrl: d['image_url'] != null ? d['image_url'] : null,
         learnMoreLink: d['learnmore_link'] != null ? d['learnmore_link'] : '',
+        status: d['status'] != null ? d['status'] : '',
         locationName: d['location_name'] != null ? d['location_name'] : '',
         locationAddress:
             d['location_address'] != null ? d['location_address'] : '',
