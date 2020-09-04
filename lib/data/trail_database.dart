@@ -44,8 +44,9 @@ class TrailDatabase {
   /// Singleton pattern private constructor.
   TrailDatabase._internal() {
     FirebaseFirestore.instance
-        .collection('events')
+        .collection('events')        
         .where('publish_status', isEqualTo: 'publish')
+        .orderBy('start_timestamp_seconds')     
         .snapshots()
         .listen(_onEventsDataUpdate);
 
