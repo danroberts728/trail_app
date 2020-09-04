@@ -155,7 +155,8 @@ class TrailListViewState extends State<TrailListView> {
                         // Remove items that don't match filter
                         return Container();
                       } else {
-                        return TrailListCard(                          
+                        return TrailPlaceCard(
+                          key: ValueKey(widget.places[index].id),
                           place: widget.places[index],
                         );
                       }
