@@ -13,6 +13,9 @@ import 'package:alabama_beer_trail/util/appauth.dart';
 class TrailDatabase {
   bool _knowUserDataExists = false;
 
+  StreamSubscription _userDataSubscription;
+  StreamSubscription _checkInsSubscription;
+
   var events = List<TrailEvent>();
   var places = List<TrailPlace>();
   var trophies = List<TrailTrophy>();
@@ -48,6 +51,7 @@ class TrailDatabase {
   TrailDatabase._internal() {
     AppAuth().onAuthChange.listen((event) {
       _knowUserDataExists = false;
+      _subscribeToUserData();
     });
 
     FirebaseFirestore.instance
@@ -69,18 +73,30 @@ class TrailDatabase {
         .snapshots()
         .listen(_onTrophiesDataUpdate);
 
-    FirebaseFirestore.instance
-        .collection('user_data')
-        .doc(AppAuth().user.uid)
-        .snapshots()
-        .listen(_onUserDataUpdate);
+    _subscribeToUserData();
+  }
 
-    FirebaseFirestore.instance
-        .collection('user_data')
-        .doc(AppAuth().user.uid)
-        .collection('check_ins')
-        .snapshots()
-        .listen(_onCheckInsUpdate);
+  void _subscribeToUserData() {
+    if (_userDataSubscription != null) {
+      _userDataSubscription.cancel();
+    }
+    if (_checkInsSubscription != null) {
+      _checkInsSubscription.cancel();
+    }
+    if (AppAuth().user != null) {
+      _userDataSubscription = FirebaseFirestore.instance
+          .collection('user_data')
+          .doc(AppAuth().user.uid)
+          .snapshots()
+          .listen(_onUserDataUpdate);
+
+      _checkInsSubscription = FirebaseFirestore.instance
+          .collection('user_data')
+          .doc(AppAuth().user.uid)
+          .collection('check_ins')
+          .snapshots()
+          .listen(_onCheckInsUpdate);
+    }
   }
 
   void _onEventsDataUpdate(QuerySnapshot snapshot) {
