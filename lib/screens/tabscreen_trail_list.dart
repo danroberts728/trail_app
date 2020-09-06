@@ -15,13 +15,12 @@ class TabScreenTrailList extends StatefulWidget {
 /// The state of the trail list screen
 class _TabScreenTrailList extends State<TabScreenTrailList>
     with AutomaticKeepAliveClientMixin<TabScreenTrailList> {
-
   _TabScreenTrailList() {
     _tabSelectionBloc.tabSelectionStream.listen((newTab) {
-        // Scroll to top if on this tab an tab tapped.
-        if (newTab == 0 && _tabSelectionBloc.lastTapSame) {
-          _trailListViewKey.currentState.scrollToTop();
-        }
+      // Scroll to top if on this tab an tab tapped.
+      if (newTab == 0 && _tabSelectionBloc.lastTapSame) {
+        _trailListViewKey.currentState.scrollToTop();
+      }
     });
   }
 
@@ -41,12 +40,8 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
       stream: _bloc.trailPlaceStream,
       initialData: _bloc.trailPlaces,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          List<TrailPlace> places = snapshot.data;
-          return TrailListView(key: _trailListViewKey, places: places);
-        }
+        List<TrailPlace> places = snapshot.data;
+        return TrailListView(key: _trailListViewKey, places: places);
       },
     );
   }

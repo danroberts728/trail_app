@@ -11,7 +11,7 @@ import 'package:alabama_beer_trail/util/appauth.dart';
 /// An abstraction to reduce the number of calls to
 /// the flutter firestore
 class TrailDatabase {
-  bool _userDataExists = false;
+  bool _knowUserDataExists = false;
 
   var events = List<TrailEvent>();
   var places = List<TrailPlace>();
@@ -45,7 +45,11 @@ class TrailDatabase {
   }
 
   /// Singleton pattern private constructor.
-  TrailDatabase._internal() {    
+  TrailDatabase._internal() {
+    AppAuth().onAuthChange.listen((event) {
+      _knowUserDataExists = false;
+    });
+
     FirebaseFirestore.instance
         .collection('events')
         .where('publish_status', isEqualTo: 'publish')
@@ -154,7 +158,9 @@ class TrailDatabase {
 
   Future<void> checkInNow(placeId) {
     return FirebaseFirestore.instance
-        .collection('user_data/${AppAuth().user.uid}/check_ins')
+        .collection('user_data')
+        .doc(AppAuth().user.uid)
+        .collection('check_ins')
         .add({
       'place_id': placeId,
       'timestamp': DateTime.now(),
@@ -176,21 +182,21 @@ class TrailDatabase {
   }
 
   void updateUserData(Object data) {
-    if (_userDataExists) {
+    if (_knowUserDataExists) {
       _doUserDataUpdate(data);
     } else {
       var userDataCollection =
           FirebaseFirestore.instance.collection('user_data');
       userDataCollection.doc(AppAuth().user.uid).get().then((value) {
         if (value.exists) {
-          _userDataExists = true;
+          _knowUserDataExists = true;
           _doUserDataUpdate(data);
         } else {
           userDataCollection
               .doc(AppAuth().user.uid)
               .set(UserData.createBlank().toMap())
               .then((value) {
-            _userDataExists = true;
+            _knowUserDataExists = true;
             _doUserDataUpdate(data);
           });
         }
