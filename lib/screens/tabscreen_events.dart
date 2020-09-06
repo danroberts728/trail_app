@@ -17,6 +17,8 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
   TabScreenTrailEventsBloc _tabScreenTrailEventsBloc =
       TabScreenTrailEventsBloc();
 
+  StreamSubscription _locationStream;
+
   Point _userLocation;
 
   EventFilter _eventFilter = EventFilter();
@@ -25,7 +27,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
   void initState() {
     super.initState();
     _tabScreenTrailEventsBloc.filterStream.listen(_onFilterUpdate);
-    _tabScreenTrailEventsBloc.locationStream.listen(_onLocationUpdate);
+    _locationStream = _tabScreenTrailEventsBloc.locationStream.listen(_onLocationUpdate);
   }
 
   @override
@@ -123,5 +125,11 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
     setState(() {
       _userLocation = event;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _locationStream.cancel();
   }
 }

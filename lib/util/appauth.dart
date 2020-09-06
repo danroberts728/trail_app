@@ -22,9 +22,12 @@ class AppAuth {
   /// The authenticated user, null if not signed in.
   AppUser user;
 
+  /// The reason for the latest registration failure.
+  String registrationUserError;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final _authStreamController = StreamController<AppUser>();
+  final _authStreamController = StreamController<AppUser>.broadcast();
   Stream<AppUser> get onAuthChange => this._authStreamController.stream;
 
   void dispose() {
@@ -33,34 +36,32 @@ class AppAuth {
 
   /// Returns whether user is signed in or not
   SigninStatus get signinStatus {
-    return this.user == null 
-      ? SigninStatus.NOT_SIGNED_IN
-      : SigninStatus.SIGNED_IN;
+    return this.user == null
+        ? SigninStatus.NOT_SIGNED_IN
+        : SigninStatus.SIGNED_IN;
   }
 
   void _handleAuthStatusChanged(User fbUser) {
-    if(fbUser == null) {
+    if (fbUser == null) {
       this.user = null;
-    }
-    else {
+    } else {
       this.user = AppUser.fromFirebaseUser(fbUser);
     }
-    
+
     _authStreamController.add(user);
   }
 
   /// Sign in user using email and password.
-  Future<AppAuthReturn> signInWithEmailAndPassword(String email, String password) async {
+  Future<AppAuthReturn> signInWithEmailAndPassword(
+      String email, String password) async {
     User fbUser;
     String errorMessage;
 
     try {
       fbUser = (await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password
-      )).user;
-    }
-    catch (e) {
+              email: email, password: password))
+          .user;
+    } catch (e) {
       if (e.code == "ERROR_WRONG_PASSWORD") {
         errorMessage = "Password is invalid.";
       }
@@ -69,23 +70,24 @@ class AppAuth {
       }
       if (e.code == "ERROR_USER_DISABLED ") {
         errorMessage = "This user has been disabled.";
-      }
-      else {
+      } else {
         errorMessage = "Unknown Error.";
       }
     }
-    
-    if(user != null) {
+
+    if (user != null) {
       this.user = AppUser.fromFirebaseUser(fbUser);
-      return AppAuthReturn(success: true, errorMessage: errorMessage, user: this.user );
-    }
-    else {
-      return AppAuthReturn(success: false, errorMessage: errorMessage, user: this.user );
+      return AppAuthReturn(
+          success: true, errorMessage: errorMessage, user: this.user);
+    } else {
+      return AppAuthReturn(
+          success: false, errorMessage: errorMessage, user: this.user);
     }
   }
 
   /// Sign in user with Google authentication.
   Future<AppUser> signInWithGoogle() async {
+    await _googleSignIn.signOut();
     final GoogleSignInAccount googleUser = await this._googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
@@ -117,17 +119,26 @@ class AppAuth {
     User user;
     try {
       user = (await _auth.createUserWithEmailAndPassword(
-      email: email, 
-      password: password )).user;
-    }
-    catch (e) {
+              email: email, password: password))
+          .user;
+    } catch (e) {
+      if (e.code == 'email-already-in-use') {
+        registrationUserError = "Email already in use";
+      } else if (e.code == 'invalid email') {
+        registrationUserError = "Invalid email address";
+      } else if (e.code == 'operation-not-allowed') {
+        registrationUserError = "Server error";
+      } else if (e.code == 'weak-password') {
+        registrationUserError = "Password not strong enough";
+      } else {
+        registrationUserError = e.toString();
+      }      
       user = null;
     }
-    
-    if(user != null) {
+
+    if (user != null) {
       return AppUser.fromFirebaseUser(user);
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -135,7 +146,7 @@ class AppAuth {
   void resetPassword(String email) {
     try {
       _auth.sendPasswordResetEmail(email: email);
-    } catch(e) {
+    } catch (e) {
       throw e;
     }
   }

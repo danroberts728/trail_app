@@ -17,7 +17,13 @@ class FavoriteButtonBloc extends Bloc {
 
   FavoriteButtonBloc(String placeId) {
     _placeId = placeId;
-    isFavorite = _db.userData.favorites.contains(_placeId);
+    if(_db.userData.favorites == null) {
+      // This is sometimes a race condition when the user is first being registered
+      // To avoid errors, let's set this to false if it cannot find the userData
+      isFavorite = false;
+    } else {
+      isFavorite = _db.userData.favorites.contains(_placeId);
+    }    
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }
 
