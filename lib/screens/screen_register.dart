@@ -47,12 +47,11 @@ class _RegisterScreen extends State<RegisterScreen> {
                         child: Column(
                           children: <Widget>[
                             Text('CREATE ACCOUNT',
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                                color: TrailAppSettings.first,
-                              )
-                            ),
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: TrailAppSettings.first,
+                                )),
                             Divider(
                               color: TrailAppSettings.fourth,
                               indent: 50.0,
@@ -61,7 +60,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             TextFormField(
                               controller: _emailController,
                               decoration: const InputDecoration(
-                                icon: Icon(Icons.email),                                
+                                icon: Icon(Icons.email),
                                 hintText: "user@mydomain.com",
                                 labelText: "Email Address",
                               ),
@@ -69,7 +68,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                                 if (value.isEmpty) {
                                   return "Please enter an email";
                                 }
-                                if (!RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
+                                if (!RegExp(
+                                        r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
                                   return "Please enter a valid email";
                                 }
                                 return null;
@@ -111,20 +112,22 @@ class _RegisterScreen extends State<RegisterScreen> {
                             ),
                             RaisedButton(
                               onPressed: () async {
-                                if(_formKey.currentState.validate()) {
-                                  AppAuth().register(_emailController.text, _passwordController.text)
-                                    .then((user) {
-                                      if(user == null) {
-                                        setState(() {
-                                          _success = false;
-                                        });                                        
-                                      }
-                                      else {
-                                        setState(() {
-                                          _success = true;
-                                        });
-                                      }
-                                    });
+                                if (_formKey.currentState.validate()) {
+                                  AppAuth()
+                                      .register(_emailController.text,
+                                          _passwordController.text)
+                                      .then((user) {
+                                    if (user == null) {
+                                      setState(() {
+                                        _success = false;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        _success = true;
+                                      });
+                                      Navigator.pop(context);
+                                    }
+                                  });
                                 }
                               },
                               color: Colors.green,
@@ -139,19 +142,24 @@ class _RegisterScreen extends State<RegisterScreen> {
                             FlatButton(
                               onPressed: () {
                                 Navigator.pop(context);
-                              }, 
-                              child: Text("Sign in",
+                              },
+                              child: Text(
+                                "Sign in",
                                 style: TextStyle(
                                   fontSize: 16.0,
                                 ),
-                              ), 
+                              ),
                               textColor: TrailAppSettings.second,
                             ),
                             Container(
                               alignment: Alignment.center,
-                              child: Text(_success == null 
-                                ? ''
-                                : "Registration Failed"
+                              child: Text(
+                                _success == null
+                                    ? ''
+                                    : AppAuth().registrationUserError == null
+                                        ? "Registration Failed"
+                                        : AppAuth().registrationUserError,
+                                style: TextStyle(color: Colors.red),
                               ),
                             ),
                           ],

@@ -11,9 +11,15 @@ import 'package:alabama_beer_trail/util/appauth.dart';
 /// An abstraction to reduce the number of calls to
 /// the flutter firestore
 class TrailDatabase {
+  bool _knowUserDataExists = false;
+
+  StreamSubscription _userDataSubscription;
+  StreamSubscription _checkInsSubscription;
+
   var events = List<TrailEvent>();
   var places = List<TrailPlace>();
   var trophies = List<TrailTrophy>();
+
   var userData = UserData();
   var checkIns = List<CheckIn>();
 
@@ -43,9 +49,15 @@ class TrailDatabase {
 
   /// Singleton pattern private constructor.
   TrailDatabase._internal() {
+    AppAuth().onAuthChange.listen((event) {
+      _knowUserDataExists = false;
+      _subscribeToUserData();
+    });
+
     FirebaseFirestore.instance
         .collection('events')
         .where('publish_status', isEqualTo: 'publish')
+        .orderBy('start_timestamp_seconds')
         .snapshots()
         .listen(_onEventsDataUpdate);
 
@@ -61,18 +73,30 @@ class TrailDatabase {
         .snapshots()
         .listen(_onTrophiesDataUpdate);
 
-    FirebaseFirestore.instance
-        .collection('user_data')
-        .doc(AppAuth().user.uid)
-        .snapshots()
-        .listen(_onUserDataUpdate);
+    _subscribeToUserData();
+  }
 
-    FirebaseFirestore.instance
-        .collection('user_data')
-        .doc(AppAuth().user.uid)
-        .collection('check_ins')
-        .snapshots()
-        .listen(_onCheckInsUpdate);
+  void _subscribeToUserData() {
+    if (_userDataSubscription != null) {
+      _userDataSubscription.cancel();
+    }
+    if (_checkInsSubscription != null) {
+      _checkInsSubscription.cancel();
+    }
+    if (AppAuth().user != null) {
+      _userDataSubscription = FirebaseFirestore.instance
+          .collection('user_data')
+          .doc(AppAuth().user.uid)
+          .snapshots()
+          .listen(_onUserDataUpdate);
+
+      _checkInsSubscription = FirebaseFirestore.instance
+          .collection('user_data')
+          .doc(AppAuth().user.uid)
+          .collection('check_ins')
+          .snapshots()
+          .listen(_onCheckInsUpdate);
+    }
   }
 
   void _onEventsDataUpdate(QuerySnapshot snapshot) {
@@ -148,9 +172,11 @@ class TrailDatabase {
     _checkInsStreamController.sink.add(newCheckIns);
   }
 
-  void checkInNow(placeId) {
-    FirebaseFirestore.instance
-        .collection('user_data/${AppAuth().user.uid}/check_ins')
+  Future<void> checkInNow(placeId) {
+    return FirebaseFirestore.instance
+        .collection('user_data')
+        .doc(AppAuth().user.uid)
+        .collection('check_ins')
         .add({
       'place_id': placeId,
       'timestamp': DateTime.now(),
@@ -159,26 +185,46 @@ class TrailDatabase {
 
   void addTrophy(TrailTrophy trophy) {
     var trophyList = userData.trophies;
-    if(!trophyList.containsKey(trophy.id)) {
+    if (!trophyList.containsKey(trophy.id)) {
       trophyList[trophy.id] = DateTime.now();
       FirebaseFirestore.instance
-        .doc('user_data/${AppAuth().user.uid}')
-        .update({'trophies': trophyList});
-    }    
+          .doc('user_data/${AppAuth().user.uid}')
+          .update({'trophies': trophyList});
+    }
   }
-  
+
   void saveFcmToken(String token) {
-    FirebaseFirestore.instance
-      .collection('user_data')
-      .doc(AppAuth().user.uid)
-      .update({'fcmToken': token});
+    updateUserData({'fcmToken': token});
   }
 
   void updateUserData(Object data) {
+    if (_knowUserDataExists) {
+      _doUserDataUpdate(data);
+    } else {
+      var userDataCollection =
+          FirebaseFirestore.instance.collection('user_data');
+      userDataCollection.doc(AppAuth().user.uid).get().then((value) {
+        if (value.exists) {
+          _knowUserDataExists = true;
+          _doUserDataUpdate(data);
+        } else {
+          userDataCollection
+              .doc(AppAuth().user.uid)
+              .set(UserData.createBlank().toMap())
+              .then((value) {
+            _knowUserDataExists = true;
+            _doUserDataUpdate(data);
+          });
+        }
+      });
+    }
+  }
+
+  void _doUserDataUpdate(Object data) {
     FirebaseFirestore.instance
-      .collection('user_data')
-      .doc(AppAuth().user.uid)
-      .update(data);
+        .collection('user_data')
+        .doc(AppAuth().user.uid)
+        .update(data);
   }
 
   void dispose() {

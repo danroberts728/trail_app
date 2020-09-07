@@ -35,31 +35,37 @@ class ButtonCheckInBloc extends Bloc {
   }
 
   bool isCheckedInToday(String placeId) {
-    return checkIns.where((e) {
-      var now = DateTime.now();
-      return e.placeId == placeId
-        && now.day == e.timestamp.day
-        && now.month == e.timestamp.month
-        && now.year == e.timestamp.year;
-    }).toList().length > 0;
+    return checkIns
+            .where((e) {
+              var now = DateTime.now();
+              return e.placeId == placeId &&
+                  now.day == e.timestamp.day &&
+                  now.month == e.timestamp.month &&
+                  now.year == e.timestamp.year;
+            })
+            .toList()
+            .length >
+        0;
   }
 
   Future<List<TrailTrophy>> checkIn(String placeId) async {
     var completer = Completer<List<TrailTrophy>>();
     // Only update if user has not checked in today already
-    if (!isCheckedInToday(placeId)){
-      _db.checkInNow(placeId);
+    if (!isCheckedInToday(placeId)) {
+      _db.checkInNow(placeId).then((value) {
+        var earnedTrophies = List<TrailTrophy>();
+        // See if user has earned any NEW trophies
+        _allTrophies.forEach((t) {
+          if (t.conditionsMet(checkIns, _places) &&
+              !_userData.trophies.containsKey(t.id)) {
+            earnedTrophies.add(t);
+            _db.addTrophy(t);
+          }
+        });
+        completer.complete(earnedTrophies);
+      });
     }
-    var earnedTrophies = List<TrailTrophy>();
-    // See if user has earned any NEW trophies
-    _allTrophies.forEach((t) { 
-      if(t.conditionsMet(checkIns, _places)
-        && !_userData.trophies.containsKey(t.id)) {
-        earnedTrophies.add(t);
-        _db.addTrophy(t);
-      }      
-    });
-    completer.complete(earnedTrophies);
+
     return completer.future;
   }
 

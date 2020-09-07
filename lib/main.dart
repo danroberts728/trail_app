@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'util/appauth.dart';
 import 'data/app_user.dart';
 import 'screens/screen_signin.dart';
@@ -39,6 +41,13 @@ class TrailApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    AppAuth().onAuthChange.listen((event) {
+      if (AppAuth().user != null && AppAuth().user.uid.isNotEmpty) {
+        FirebaseMessaging().getToken().then((token) {
+          TrailDatabase().saveFcmToken(token);
+        });
+      }
+    });
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
       navigatorKey: navigatorKey,

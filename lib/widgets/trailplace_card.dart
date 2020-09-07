@@ -15,16 +15,17 @@ import 'check_in_count_widget.dart';
 
 import '../data/trail_place.dart';
 
-class TrailListCard extends StatefulWidget {
+class TrailPlaceCard extends StatefulWidget {
+  final ValueKey key;
   final TrailPlace place;
 
-  TrailListCard({@required this.place});
+  TrailPlaceCard({this.key, @required this.place});
 
   @override
-  State<StatefulWidget> createState() => _TrailListCard(place);
+  State<StatefulWidget> createState() => _TrailPlaceCard(place);
 }
 
-class _TrailListCard extends State<TrailListCard> {
+class _TrailPlaceCard extends State<TrailPlaceCard> {
   final TrailPlace place;
   double _distance = double.infinity;
   int _checkInsCount = 0;
@@ -33,7 +34,7 @@ class _TrailListCard extends State<TrailListCard> {
   StreamSubscription<Point> _streamSub;
   StreamSubscription<int> _checkInSubscription;
 
-  _TrailListCard(this.place);
+  _TrailPlaceCard(this.place);
 
   @override
   void initState() {

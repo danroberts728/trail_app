@@ -28,64 +28,35 @@ class LocationService {
         });
       }
     });
-  }
-
-  void dispose() {
-    _locationStreamController.close();
-  }
+  }  
 
   Future<Point> refreshLocation() async {
     return _location
-        .hasPermission()
+        .requestPermission()
         .timeout(
-          Duration(seconds: 5),
+          Duration(seconds: 10),
           onTimeout: () => PermissionStatus.denied,
         )
-        .then((result) {
-      if (result == PermissionStatus.granted) {
-        _location
+        .then((permission) {
+      if (permission == PermissionStatus.granted) {
+        return _location
             .getLocation()
             .timeout(
               Duration(seconds: 5),
               onTimeout: () => null,
             )
             .then((result) {
-          if (result == null) {
-            lastLocation = lastLocation;
-          } else {
-            lastLocation = Point(result.latitude, result.longitude);
-            _locationStreamController.sink.add(this.lastLocation);
-          }
+          lastLocation = Point(result.latitude, result.longitude);
+          _locationStreamController.sink.add(lastLocation);
+          return lastLocation;
         });
       } else {
-        _location
-            .requestPermission()
-            .timeout(
-              Duration(seconds: 10),
-              onTimeout: () => PermissionStatus.denied,
-            )
-            .then((result) {
-          if (result == PermissionStatus.granted) {
-            _location
-                .getLocation()
-                .timeout(
-                  Duration(seconds: 5),
-                  onTimeout: () => null,
-                )
-                .then((result) {
-              if (result == null) {
-                lastLocation = lastLocation;
-              } else {
-                lastLocation = Point(result.latitude, result.longitude);
-                _locationStreamController.sink.add(this.lastLocation);
-              }
-            });
-          } else {
-            lastLocation = null;
-          }
-        });
+        return lastLocation;
       }
-      return lastLocation;
     });
+  }
+
+  void dispose() {
+    _locationStreamController.close();
   }
 }

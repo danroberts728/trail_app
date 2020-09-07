@@ -18,6 +18,8 @@ class ProfileStatsAreaBloc extends Bloc {
   get stream => _streamController.stream;
 
   ProfileStatsAreaBloc() {
+    _places = _db.places;
+    _checkIns = _db.checkIns;
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdated);
     _checkInSubscription = _db.checkInStream.listen(_onCheckInsUpdated);
     userPlacesInformation = _buildStream(_places, _checkIns);

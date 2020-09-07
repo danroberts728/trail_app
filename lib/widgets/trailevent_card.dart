@@ -9,6 +9,7 @@ import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
 
 class TrailEventCard extends StatefulWidget {
+  final ValueKey key;
   final TrailEvent event;
   final double startMargin;
   final double endMargin;
@@ -18,7 +19,8 @@ class TrailEventCard extends StatefulWidget {
   final bool showImage;
 
   TrailEventCard(
-      {@required this.event,
+      {this.key,
+      @required this.event,
       this.startMargin = 0.0,
       this.titleOverflow = TextOverflow.ellipsis,
       this.endMargin = 0.0,
@@ -34,7 +36,6 @@ class _TrailEventCard extends State<TrailEventCard> {
   @override
   Widget build(BuildContext context) {
     TrailEventCardBloc _bloc = TrailEventCardBloc(widget.event.id);
-
     return StreamBuilder(
       stream: _bloc.stream,
       initialData: _bloc.event,

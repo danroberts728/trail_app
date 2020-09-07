@@ -17,6 +17,8 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
   TabScreenTrailEventsBloc _tabScreenTrailEventsBloc =
       TabScreenTrailEventsBloc();
 
+  StreamSubscription _locationStream;
+
   Point _userLocation;
 
   EventFilter _eventFilter = EventFilter();
@@ -25,7 +27,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
   void initState() {
     super.initState();
     _tabScreenTrailEventsBloc.filterStream.listen(_onFilterUpdate);
-    _tabScreenTrailEventsBloc.locationStream.listen(_onLocationUpdate);
+    _locationStream = _tabScreenTrailEventsBloc.locationStream.listen(_onLocationUpdate);
   }
 
   @override
@@ -39,12 +41,13 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
         child: SingleChildScrollView(
           child: StreamBuilder(
             stream: _tabScreenTrailEventsBloc.trailEventsStream,
+            initialData: _tabScreenTrailEventsBloc.trailEvents,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else {
                 var upcomingEventsInFilter =
-                    snapshot.data.where((TrailEvent e) {
+                    List<TrailEvent>.from(snapshot.data.where((TrailEvent e) {
                   Point eventLocation = Point(e.locationLat, e.locationLon);
                   double distance = GeoMethods.calculateDistance(
                       _userLocation, eventLocation);
@@ -52,7 +55,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
                   return distance == null ||
                       e.featured ||
                       distance <= _eventFilter.distance;
-                }).toList();
+                }).toList());
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,6 +67,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
                       itemBuilder: (context, index) {
                         TrailEvent event = upcomingEventsInFilter[index];
                         return TrailEventCard(
+                          key: ValueKey(event.id),
                           startMargin: 4.0,
                           endMargin: 4.0,
                           bottomMargin: 0.0,
@@ -121,5 +125,11 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
     setState(() {
       _userLocation = event;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _locationStream.cancel();
   }
 }
