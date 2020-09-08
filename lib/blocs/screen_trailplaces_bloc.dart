@@ -24,6 +24,7 @@ class ScreenTrailListBloc extends Bloc {
 
   void _onPlacesUpdate(List<TrailPlace> places) {
     trailPlaces = places;
+    _placesStreamController.add(null);
     _placesStreamController.sink.add(places);
   }
 

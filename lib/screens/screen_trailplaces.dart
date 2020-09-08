@@ -30,9 +30,7 @@ class _TrailPlacesScreen extends State<TrailPlacesScreen> {
         stream: _screenTrailListBloc.trailPlaceStream,
         initialData: _screenTrailListBloc.trailPlaces,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
+          if (snapshot.hasError) {
             return Center(child: Icon(Icons.error));
           } else {
             var placesToShow = (snapshot.data as List<TrailPlace>)
