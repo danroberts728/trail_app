@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:intl/intl.dart';
 
+/// Static methods for geographic calculations
 class GeoMethods {
   static const _R = 3958.756; // in miles
   
+  /// Calculate distance between two Lat/Lng points in miles
   static double calculateDistance(Point point1, Point point2) {
     if(point1 == null || point2 == null) {
       return null;
@@ -31,9 +34,9 @@ class GeoMethods {
     }
     if (d < TrailAppSettings.minDistanceToCheckin) 
       return 0.toString();
-    // Greater than 10, just round to nearest int
+    // Greater than 10, just round to nearest int and show commas
     else if (d >= 10) 
-      return d.round().toString();
+      return NumberFormat("#,###", 'en_US').format(d.round().toInt());
     // Greater than 1, round to nearest 0.1
     else if (d >= 1)
       return d.toStringAsFixed(1);

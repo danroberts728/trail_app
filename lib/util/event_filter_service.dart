@@ -15,6 +15,9 @@ class EventFilterService {
   get stream => _controller.stream;
 
   void updateFilter({double distance}) {
+    if(distance < 0) {
+      distance = 0;
+    }
     _filter.distance = distance;
     _controller.sink.add(filter);
   }
