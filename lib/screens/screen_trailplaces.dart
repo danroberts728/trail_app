@@ -30,22 +30,28 @@ class _TrailPlacesScreen extends State<TrailPlacesScreen> {
         stream: _screenTrailListBloc.trailPlaceStream,
         initialData: _screenTrailListBloc.trailPlaces,
         builder: (context, snapshot) {
-          var placesToShow = (snapshot.data as List<TrailPlace>)
-              .where((p) => widget.placeIds.contains(p.id))
-              .toList();
-          placesToShow.sort((a, b) {
-            if (LocationService().lastLocation != null) {
-              var userLocation = LocationService().lastLocation;
-              return GeoMethods.calculateDistance(a.location, userLocation)
-                  .compareTo(
-                      GeoMethods.calculateDistance(b.location, userLocation));
-            } else {
-              return a.name.compareTo(b.name);
-            }
-          });
-          return TrailListView(
-            places: placesToShow.toList(),
-          );
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Icon(Icons.error));
+          } else {
+            var placesToShow = (snapshot.data as List<TrailPlace>)
+                .where((p) => widget.placeIds.contains(p.id))
+                .toList();
+            placesToShow.sort((a, b) {
+              if (LocationService().lastLocation != null) {
+                var userLocation = LocationService().lastLocation;
+                return GeoMethods.calculateDistance(a.location, userLocation)
+                    .compareTo(
+                        GeoMethods.calculateDistance(b.location, userLocation));
+              } else {
+                return a.name.compareTo(b.name);
+              }
+            });
+            return TrailListView(
+              places: placesToShow.toList(),
+            );
+          }
         },
       ),
     );

@@ -37,45 +37,45 @@ class _TrailEventCard extends State<TrailEventCard> {
   Widget build(BuildContext context) {
     TrailEventCardBloc _bloc = TrailEventCardBloc(widget.event.id);
     return StreamBuilder(
-      stream: _bloc.stream,
-      initialData: _bloc.event,
-      builder: (context, snapshot) {
-        TrailEvent event = snapshot.data;
-        BoxDecoration boxDecoration;
-        if (event.status == 'cancelled') {
-          boxDecoration = BoxDecoration(
-            color: Color.fromRGBO(253, 242, 242, 1),
-          );
-        } else if (event.featured) {
-          boxDecoration = BoxDecoration(
-            color: Color(0xfffff6e2),
-          );
-        } else {
-          boxDecoration = BoxDecoration(
-            color: Color(0x00025c6e),
-          );
-        }
-        return GestureDetector(
-          onTap: () {
-            Feedback.forTap(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    settings:
-                        RouteSettings(name: 'Trail Event - ' + event.name),
-                    builder: (context) =>
-                        TrailEventDetailScreen(event: event)));
-          },
-          child: Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(
-              left: widget.startMargin,
-              right: widget.endMargin,
-              bottom: widget.bottomMargin,
-            ),
-            child: Card(
-              elevation: widget.elevation,
-              child: Container(
+        stream: _bloc.stream,
+        initialData: _bloc.event,
+        builder: (context, snapshot) {
+          TrailEvent event = snapshot.data;
+          BoxDecoration boxDecoration;
+          if (event.status == 'cancelled') {
+            boxDecoration = BoxDecoration(
+              color: Color.fromRGBO(253, 242, 242, 1),
+            );
+          } else if (event.featured) {
+            boxDecoration = BoxDecoration(
+              color: Color(0xfffff6e2),
+            );
+          } else {
+            boxDecoration = BoxDecoration(
+              color: Color(0x00025c6e),
+            );
+          }
+          return GestureDetector(
+            onTap: () {
+              Feedback.forTap(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      settings:
+                          RouteSettings(name: 'Trail Event - ' + event.name),
+                      builder: (context) =>
+                          TrailEventDetailScreen(event: event)));
+            },
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                left: widget.startMargin,
+                right: widget.endMargin,
+                bottom: widget.bottomMargin,
+              ),
+              child: Card(
+                elevation: widget.elevation,
+                child: Container(
                   decoration: boxDecoration,
                   padding: EdgeInsets.symmetric(
                     horizontal: 0.0,
@@ -177,23 +177,24 @@ class _TrailEventCard extends State<TrailEventCard> {
                                 children: <Widget>[
                                   // Featured/Cancelled Tag
                                   Visibility(
-                                    visible: event.status == 'cancelled' || event.featured,
+                                    visible: event.status == 'cancelled' ||
+                                        event.featured,
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
                                           vertical: 3.0, horizontal: 9.0),
                                       margin:
                                           EdgeInsets.symmetric(vertical: 4.0),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5.0)),
-                                          color: event.status == 'cancelled'
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        color: event.status == 'cancelled'
                                             ? Color(0xfff79191)
                                             : Color(0xffffcb55),
-                                          ),
+                                      ),
                                       child: Text(
                                         event.status == 'cancelled'
-                                          ? "Cancelled".toUpperCase()
-                                          : "Featured".toUpperCase(),
+                                            ? "Cancelled".toUpperCase()
+                                            : "Featured".toUpperCase(),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 12.0,
@@ -278,11 +279,11 @@ class _TrailEventCard extends State<TrailEventCard> {
                         ),
                       ),
                     ],
-                  )),
+                  ),
+                ),
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        });
   }
 }

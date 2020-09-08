@@ -17,63 +17,70 @@ class _ProfileStatsArea extends State<ProfileStatsArea> {
       stream: _profileStatsAreaBloc.stream,
       initialData: _profileStatsAreaBloc.userPlacesInformation,
       builder: (context, snapshot) {
-        List<UserPlaceInformation> userPlacesInformation = snapshot.data;
-        List<UserPlaceInformation> visited =
-            userPlacesInformation.where((e) => e.userHasCheckedIn).toList();
-        List<UserPlaceInformation> notVisited =
-            userPlacesInformation.where((e) => !e.userHasCheckedIn).toList();
-        return Container(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 5.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: ProfileStat(
-                      value: visited.length,
-                      postText: "Visited",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            settings: RouteSettings(name: 'Visited'),
-                            builder: (context) => TrailPlacesScreen(
-                              appBarTitle: "Visited",
-                              placeIds:
-                                  visited.map((e) => e.place.id).toList(),
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: LinearProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Icon(Icons.error));
+        } else {
+          List<UserPlaceInformation> userPlacesInformation = snapshot.data;
+          List<UserPlaceInformation> visited =
+              userPlacesInformation.where((e) => e.userHasCheckedIn).toList();
+          List<UserPlaceInformation> notVisited =
+              userPlacesInformation.where((e) => !e.userHasCheckedIn).toList();
+          return Container(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 5.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: ProfileStat(
+                        value: visited.length,
+                        postText: "Visited",
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              settings: RouteSettings(name: 'Visited'),
+                              builder: (context) => TrailPlacesScreen(
+                                appBarTitle: "Visited",
+                                placeIds:
+                                    visited.map((e) => e.place.id).toList(),
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  Center(
-                    child: ProfileStat(
-                      value: notVisited.length,
-                      postText: "Not Visited",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            settings: RouteSettings(name: 'Not Visisted'),
-                            builder: (context) => TrailPlacesScreen(
-                              appBarTitle: "Not Visited",
-                              placeIds: notVisited.map((e) => e.place.id).toList(),
+                    Center(
+                      child: ProfileStat(
+                        value: notVisited.length,
+                        postText: "Not Visited",
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              settings: RouteSettings(name: 'Not Visisted'),
+                              builder: (context) => TrailPlacesScreen(
+                                appBarTitle: "Not Visited",
+                                placeIds:
+                                    notVisited.map((e) => e.place.id).toList(),
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
+                  ],
+                ),
+              ],
+            ),
+          );
+        }
       },
     );
   }

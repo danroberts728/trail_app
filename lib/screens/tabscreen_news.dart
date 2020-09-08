@@ -35,12 +35,7 @@ class _TabScreenNews extends State<TabScreenNews>
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(snapshot.error.toString()),
-                ),
-              );
-              return Center(child: Text(snapshot.error.toString()));
+              return Center(child: Icon(Icons.error));
             } else {
               List<RssItem> newsItems = snapshot.data;
               return ListView.builder(

@@ -16,49 +16,45 @@ class _ProfileTrophiesArea extends State<ProfileTrophiesArea> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: _profileTrophiesAreaBloc.stream,
-        initialData: _profileTrophiesAreaBloc.userTrophyInformation,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return SliverPadding(padding: EdgeInsets.all(0.0),);
-          } else {
-            List<UserTrophyInformation> data = snapshot.data;
-            return SliverGrid(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: this._crossAxisCount,
-              ),
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Feedback.forTap(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        settings: RouteSettings(
-                          name: 'Trail Tophy - ' + data[index].trophy.name,
-                        ),
-                        builder: (context) => TrophyDetailScreen(
-                          trophy: data[index].trophy,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    child: CachedNetworkImage(
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                      fit: BoxFit.scaleDown,
-                      imageUrl: data[index].userEarned
-                          ? data[index].trophy.activeImage
-                          : data[index].trophy.inactiveImage,
+      stream: _profileTrophiesAreaBloc.stream,
+      initialData: _profileTrophiesAreaBloc.userTrophyInformation,
+      builder: (context, snapshot) {
+        List<UserTrophyInformation> data = snapshot.data;
+        return SliverGrid(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: this._crossAxisCount,
+          ),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return GestureDetector(
+              onTap: () {
+                Feedback.forTap(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    settings: RouteSettings(
+                      name: 'Trail Tophy - ' + data[index].trophy.name,
+                    ),
+                    builder: (context) => TrophyDetailScreen(
+                      trophy: data[index].trophy,
                     ),
                   ),
                 );
-              }, childCount: data.length),
+              },
+              child: Container(
+                child: CachedNetworkImage(
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  fit: BoxFit.scaleDown,
+                  imageUrl: data[index].userEarned
+                      ? data[index].trophy.activeImage
+                      : data[index].trophy.inactiveImage,
+                ),
+              ),
             );
-          }
-        });
+          }, childCount: data.length),
+        );
+      },
+    );
   }
 }

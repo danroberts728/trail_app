@@ -35,30 +35,44 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
       stream: _bloc.filteredTraiilPlacesStream,
       initialData: _bloc.filteredTrailPlaces,
       builder: (context, snapshot) {
-        List<TrailPlace> places = snapshot.data;
-        return RefreshIndicator(
-          onRefresh: _bloc.refreshPulled,
-          child: Container(
-            color: Colors.black12,
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Icon(Icons.error));
+        } else {
+          List<TrailPlace> places = snapshot.data;
+          return RefreshIndicator(
+            onRefresh: _refreshPulled,
             child: Container(
-              margin: EdgeInsets.all(0),
-              padding: EdgeInsets.all(0),
-              child: ListView.builder(
-                controller: _listViewController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: places.length,
-                itemBuilder: (context, index) {
-                  return TrailPlaceCard(
-                    key: ValueKey(places[index].id),
-                    place: places[index],
-                  );
-                },
+              color: Colors.black12,
+              child: Container(
+                margin: EdgeInsets.all(0),
+                padding: EdgeInsets.all(0),
+                child: ListView.builder(
+                  controller: _listViewController,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: places.length,
+                  itemBuilder: (context, index) {
+                    return TrailPlaceCard(
+                      key: ValueKey(places[index].id),
+                      place: places[index],
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        );
+          );
+        }
       },
     );
+  }
+
+  Future<void> _refreshPulled() {
+    return Future.delayed(Duration(seconds: 1), () {
+      _bloc.refreshPulled();
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text("Trail list updated.")));
+    });
   }
 
   void _scrollToTop(newTab) {

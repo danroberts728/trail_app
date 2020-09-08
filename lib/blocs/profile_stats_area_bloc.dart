@@ -10,7 +10,8 @@ class ProfileStatsAreaBloc extends Bloc {
   StreamSubscription _checkInSubscription;
   StreamSubscription _placesSubscription;
 
-  List<UserPlaceInformation> userPlacesInformation = List<UserPlaceInformation>();
+  List<UserPlaceInformation> userPlacesInformation =
+      List<UserPlaceInformation>();
   var _places = List<TrailPlace>();
   var _checkIns = List<CheckIn>();
 
@@ -22,17 +23,15 @@ class ProfileStatsAreaBloc extends Bloc {
     _checkIns = _db.checkIns;
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdated);
     _checkInSubscription = _db.checkInStream.listen(_onCheckInsUpdated);
-    userPlacesInformation = _buildStream(_places, _checkIns);
+      userPlacesInformation = _buildStream(_places, _checkIns);
   }
 
-  List<UserPlaceInformation> _buildStream(List<TrailPlace> places, List<CheckIn> checkIns) {
+  List<UserPlaceInformation> _buildStream(
+      List<TrailPlace> places, List<CheckIn> checkIns) {
     List<UserPlaceInformation> retval = List<UserPlaceInformation>();
     places.forEach((p) {
-      retval.add(
-        UserPlaceInformation(
-          p, 
-          checkIns.any((c) => c.placeId == p.id))
-      );
+      retval
+          .add(UserPlaceInformation(p, checkIns.any((c) => c.placeId == p.id)));
     });
     return retval;
   }
@@ -40,11 +39,14 @@ class ProfileStatsAreaBloc extends Bloc {
   void _onPlacesUpdated(List<TrailPlace> event) {
     _places = event;
     userPlacesInformation = _buildStream(_places, _checkIns);
+    _streamController.add(null);
     _streamController.sink.add(userPlacesInformation);
   }
+
   void _onCheckInsUpdated(List<CheckIn> event) {
     _checkIns = event;
     userPlacesInformation = _buildStream(_places, _checkIns);
+    _streamController.add(null);
     _streamController.sink.add(userPlacesInformation);
   }
 

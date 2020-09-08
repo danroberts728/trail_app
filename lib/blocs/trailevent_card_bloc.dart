@@ -22,6 +22,7 @@ class TrailEventCardBloc extends Bloc {
 
   void _onEventsUpdate(List<TrailEvent> newEvent) {
     event = newEvent.firstWhere((e) => e.id == _eventId);
+    _controller.add(null);
     _controller.sink.add(event);
   }
 

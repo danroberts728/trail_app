@@ -78,11 +78,14 @@ class TabScreenTrailListBloc extends Bloc {
 
   void _onPlacesUpdate(List<TrailPlace> places) {
     allTrailPlaces = places;
+    _allPlacesStreamController.add(null);
     _allPlacesStreamController.sink.add(places);
+    _filteredPlacesStreamController.add(null);
     _filteredPlacesStreamController.sink.add(filteredTrailPlaces);
   }
 
   void _onLocationUpdate(Point newLocation) {
+    _filteredPlacesStreamController.add(null);
     _filteredPlacesStreamController.sink.add(filteredTrailPlaces);
   }
 

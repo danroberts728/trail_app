@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/util/event_filter_service.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
@@ -17,45 +18,61 @@ class TabScreenTrailEventsBloc extends Bloc {
   StreamSubscription _locationSubscription;
   StreamSubscription _eventFilterServiceSubscription;
 
-  List<TrailEvent> trailEvents = List<TrailEvent>();
-  EventFilter filter;
+  List<TrailEvent> _allTrailEvents = List<TrailEvent>();
+  List<TrailEvent> filteredTrailEvents = List<TrailEvent>();
+  EventFilter filter = EventFilter();
   Point lastLocation;
 
   final _eventsController = StreamController<List<TrailEvent>>();
-  final _eventFilterController = StreamController<EventFilter>();
   final _locationController = StreamController<Point>();
   Stream<List<TrailEvent>> get trailEventsStream => _eventsController.stream;
-  Stream<EventFilter> get filterStream => _eventFilterController.stream;
   Stream<Point> get locationStream => _locationController.stream;
 
   TabScreenTrailEventsBloc() {
-    trailEvents = _db.events;
+    _allTrailEvents = _db.events;
     _eventsSubscription = _db.eventsStream.listen(_onEventsUpdate);
-    _locationSubscription =
-        _location.locationStream.listen(_onLocationUpdate);
-    _eventFilterServiceSubscription = _eventFilterService.stream.listen(_onFilterUpdate);
+    _locationSubscription = _location.locationStream.listen(_onLocationUpdate);
+    _eventFilterServiceSubscription =
+        _eventFilterService.stream.listen(_onFilterUpdate);
   }
 
   void _onEventsUpdate(List<TrailEvent> events) {
-    trailEvents =
+    _allTrailEvents =
         events.where((e) => e.end.compareTo(DateTime.now()) >= 0).toList();
-    _eventsController.sink.add(trailEvents);
+    filteredTrailEvents = _getFilteredEvents();
+    _eventsController.add(null);
+    _eventsController.sink.add(filteredTrailEvents);
   }
 
   void _onLocationUpdate(event) {
     lastLocation = Point(event.x, event.y);
-    _locationController.sink.add(lastLocation);
+    filteredTrailEvents = _getFilteredEvents();
+    _eventsController.add(null);
+    _eventsController.sink.add(filteredTrailEvents);
   }
 
   void _onFilterUpdate(EventFilter event) {
     filter = event;
-    _eventFilterController.sink.add(filter);
+    filteredTrailEvents = _getFilteredEvents();
+    _eventsController.add(null);
+    _eventsController.sink.add(filteredTrailEvents);
+  }
+
+  List<TrailEvent> _getFilteredEvents() {
+    return List<TrailEvent>.from(_allTrailEvents.where((TrailEvent e) {
+      Point eventLocation = Point(e.locationLat, e.locationLon);
+      double distance =
+          GeoMethods.calculateDistance(lastLocation, eventLocation);
+      // Show if distance is unkown, it's a featured event, or its within filter
+      return distance == null || e.featured || distance <= filter?.distance ??
+          double.infinity;
+    }).toList());
   }
 
   void refreshLocation() {
     _location.refreshLocation();
   }
-  
+
   void updateDistanceFilter(double distance) {
     _eventFilterService.updateFilter(distance: distance);
   }
@@ -66,7 +83,6 @@ class TabScreenTrailEventsBloc extends Bloc {
     _locationSubscription.cancel();
     _eventFilterServiceSubscription.cancel();
     _eventsController.close();
-    _eventFilterController.close();
     _locationController.close();
   }
 }

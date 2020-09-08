@@ -20,7 +20,7 @@ class _FavoriteButton extends State<FavoriteButton> {
     // Favorite
     return StreamBuilder(
       stream: _bloc.stream,
-      initialData: _bloc.isFavorite,
+      initialData: _bloc.isFavorite ?? false,
       builder: (context, snapshot) {
         bool isFavorite = snapshot.data;        
         return Stack(        
