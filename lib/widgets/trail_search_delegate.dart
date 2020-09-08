@@ -43,7 +43,10 @@ class TrailSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     var result = _places
-        .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+        .where((p) =>
+            p.name.toLowerCase().contains(query.toLowerCase()) ||
+            p.city.toLowerCase().contains(query.toLowerCase()) ||
+            p.address.toLowerCase().contains(query.toLowerCase()))
         .toList();
     return TrailListView(
       places: result,
@@ -56,7 +59,10 @@ class TrailSearchDelegate extends SearchDelegate {
       return Container();
     }
     var result = _places
-        .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+        .where((p) =>
+            p.name.toLowerCase().contains(query.toLowerCase()) ||
+            p.city.toLowerCase().contains(query.toLowerCase()) ||
+            p.address.toLowerCase().contains(query.toLowerCase()))
         .toList();
     return Container(
         width: double.infinity,
