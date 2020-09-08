@@ -86,4 +86,11 @@ class TrailAppSettings {
 
   static final String privacyPolicyUrl = "https://freethehops.org/apps/alabama-beer-trail-privacy-policy/";
   static final String submitFeedbackUrl = "https://freethehops.org/apps/submit-feedback/";
+
+  /// About page
+  static final String aboutScreenFbPageId = '178685318846986';
+  static final String aboutScreenTwitterLink = 'https://twitter.com/freethehops';
+  static final String aboutScreenInstagramLink = 'https://www.instagram.com/freethehops/';
+  static final String aboutScreenWebsiteLink = 'https://freethehops.org';
 }
+
