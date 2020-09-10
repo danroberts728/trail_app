@@ -49,14 +49,14 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
   @override
   void initState() {
     _manager = _initClusterManager();
-    items = _tabScreenTrailMapBloc.trailPlaces.map((place) {
+    items = _tabScreenTrailMapBloc.filteredTrailPlaces.map((place) {
       return ClusterItem(
         LatLng(place.location.x, place.location.y),
         item: place,
       );
     }).toList();
     _manager.setItems(items);
-    _tabScreenTrailMapBloc.trailPlaceStream.listen(_onPlaceUpdate);
+    _tabScreenTrailMapBloc.filteredTraiilPlacesStream.listen(_onPlaceUpdate);
     super.initState();
   }
 
@@ -82,6 +82,7 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
         GoogleMap(
           mapType: MapType.normal,
           scrollGesturesEnabled: true,
+          zoomControlsEnabled: false,
           zoomGesturesEnabled: true,
           mapToolbarEnabled: false,
           myLocationEnabled: true,

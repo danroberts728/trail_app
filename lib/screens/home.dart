@@ -11,8 +11,10 @@ import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/event_filter_fab.dart';
+import 'package:alabama_beer_trail/widgets/fab_event_filter.dart';
 import 'package:alabama_beer_trail/widgets/event_filter_widget.dart';
+import 'package:alabama_beer_trail/widgets/fab_place_filter.dart';
+import 'package:alabama_beer_trail/screens/screen_place_filter.dart';
 import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -80,6 +82,7 @@ class _HomeState extends State<Home>
   void initState() {
     super.initState();
     _appBarTitle = Text(_appTabs[_currentIndex].appBarTitle);
+    _setFloatingActionButton();
     _firebaseMessaging.requestNotificationPermissions(
       const IosNotificationSettings(
         sound: true,
@@ -92,7 +95,7 @@ class _HomeState extends State<Home>
       onMessage: _handleNotificationMessage,
       onLaunch: _handleNotificationLaunch,
       onResume: _handleNotificationResume,
-    );    
+    );
   }
 
   /// A list of the tabs.
@@ -242,20 +245,35 @@ class _HomeState extends State<Home>
   }
 
   void _setFloatingActionButton() {
-    if (_currentIndex == 1) {
+    if (_currentIndex == 0) {
+      // Trail Tab
+      _floatingActionButton = FloatingActionButton(
+        child: PlaceFilterFab(),
+        backgroundColor: TrailAppSettings.actionLinksColor,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              settings: RouteSettings(
+                name: 'Open Filter',
+              ),
+              builder: (context) => ModalTrailFilter(),
+            ),
+          );
+        },
+      );
+    } else if (_currentIndex == 1) {
       // Events Tab
       _floatingActionButton = FloatingActionButton(
         child: EventFilterFab(),
         backgroundColor: TrailAppSettings.actionLinksColor,
-        onPressed: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return SingleChildScrollView(
-                  child: EventFilterWidget(),
-                );
-              });
-        },
+        onPressed: () => showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return SingleChildScrollView(
+                child: EventFilterWidget(),
+              );
+            }),
       );
     } else if (_currentIndex == 3) {
       // Profile Tab
@@ -316,7 +334,8 @@ class _HomeState extends State<Home>
             label: 'Go',
             textColor: TrailAppSettings.actionLinksColor,
             onPressed: () {
-              Navigator.of(_stackKey.currentContext).popUntil((route) => route.isFirst);
+              Navigator.of(_stackKey.currentContext)
+                  .popUntil((route) => route.isFirst);
               Navigator.push(
                   _stackKey.currentContext,
                   MaterialPageRoute(
@@ -339,7 +358,8 @@ class _HomeState extends State<Home>
             label: 'Go',
             textColor: TrailAppSettings.actionLinksColor,
             onPressed: () {
-              Navigator.of(_stackKey.currentContext).popUntil((route) => route.isFirst);
+              Navigator.of(_stackKey.currentContext)
+                  .popUntil((route) => route.isFirst);
               Navigator.push(
                   _stackKey.currentContext,
                   MaterialPageRoute(
@@ -367,8 +387,7 @@ class _HomeState extends State<Home>
     }
   }
 
-  Future<void> _navigateNotificationRoute(
-      Map<dynamic, dynamic> message) async {
+  Future<void> _navigateNotificationRoute(Map<dynamic, dynamic> message) async {
     var data = message['data'] ?? message;
     String gotoPlace = data['gotoPlace'];
     String gotoEvent = data['gotoEvent'];

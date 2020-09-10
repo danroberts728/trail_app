@@ -55,7 +55,7 @@ class AboutScreen extends StatelessWidget {
                       text: "We have passed significant legislation, including the Gourmet Beer Bill " +
                           "that legalized beer with an alcohol by volume (ABV) of more than 6% and the " +
                           "Brewery Modernization Act that legalized brewery and distillery tasting rooms. " +
-                          "We also supported the legalizion of homebrewing and serve as a watchdog for " +
+                          "We also supported the legalization of homebrewing and serve as a watchdog for " +
                           "craft beer consumers at the State House.",
                     ),
                     TextSpan(

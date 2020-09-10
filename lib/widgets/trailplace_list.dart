@@ -3,14 +3,12 @@ import 'dart:math';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/data/trail_place_category.dart';
-import 'package:alabama_beer_trail/util/filter_options.dart';
-import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'modal_trailfilter.dart';
+import '../screens/screen_place_filter.dart';
 
 class TrailListView extends StatefulWidget {
   final List<TrailPlace> places;
@@ -23,7 +21,6 @@ class TrailListView extends StatefulWidget {
 }
 
 class TrailListViewState extends State<TrailListView> {
-  FilterOptions _filter;
   bool _showUpdate;
 
   final ScrollController _controller = ScrollController();
@@ -39,20 +36,9 @@ class TrailListViewState extends State<TrailListView> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return ModalTrailFilter(initialOptions: this._filter);
+        return ModalTrailFilter();
       },
-    ).then((value) {
-      bool doUpdate = false;
-      if (this._filter.sort != value.sort) {
-        doUpdate = true;
-      }
-      setState(() {
-        this._filter = value;
-      });
-      if (doUpdate) {
-        _refreshScreen();
-      }
-    });
+    ).then((value) { });
   }
 
   void _refreshScreen() {
@@ -74,18 +60,7 @@ class TrailListViewState extends State<TrailListView> {
   }
 
   void sortPlaces() {
-    if (this._filter.sort == SortOrder.DISTANCE &&
-        _locationBloc.lastLocation != null) {
-      widget.places.sort((a, b) {
-        return GeoMethods.calculateDistance(
-                a.location, _locationBloc.lastLocation)
-            .compareTo(GeoMethods.calculateDistance(
-                b.location, _locationBloc.lastLocation));
-      });
-    } else {
-      widget.places
-          .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-    }
+    
   }
 
   void _onLocationUpdate(Point<num> newLocation) {
@@ -114,7 +89,6 @@ class TrailListViewState extends State<TrailListView> {
     super.initState();
     var initialShow = Map<TrailPlaceCategory, bool>();
     TrailAppSettings.filterStrings.forEach((f) => initialShow[f] = true);
-    this._filter = FilterOptions(SortOrder.DISTANCE, initialShow);
 
     sortPlaces();
     _showUpdate = false;
@@ -143,26 +117,13 @@ class TrailListViewState extends State<TrailListView> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: widget.places.length,
                     itemBuilder: (BuildContext context, int index) {
-                      List<String> filterIncludes = List<String>();
-                      _filter.show.forEach((cat, show) {
-                        if (show) {
-                          filterIncludes.add(cat.name);
-                        }
-                      });
-
-                      if (!widget.places[index].categories
-                          .any((f) => filterIncludes.contains(f))) {
-                        // Remove items that don't match filter
-                        return Container();
-                      } else {
                         return TrailPlaceCard(
                           key: ValueKey(widget.places[index].id),
                           place: widget.places[index],
                         );
-                      }
-                    },
+                      },
                   ),
-                ),
+                )
               ),
             ],
           ),

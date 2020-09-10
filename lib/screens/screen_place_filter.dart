@@ -1,22 +1,19 @@
-import '../util/filter_options.dart';
-import '../data/trail_place_category.dart';
+import 'package:alabama_beer_trail/data/trail_place_category.dart';
+import 'package:alabama_beer_trail/util/place_filter_service.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ModalTrailFilter extends StatefulWidget {
-  final FilterOptions initialOptions;
-
-  ModalTrailFilter({@required this.initialOptions});
-
   @override
   State<StatefulWidget> createState() {
-    return _ModalTrailFilter(options: this.initialOptions);
+    return _ModalTrailFilter();
   }
 }
 
 class _ModalTrailFilter extends State<ModalTrailFilter> {
-  FilterOptions options;
-
-  _ModalTrailFilter({@required this.options});
+  _ModalTrailFilter();
+  PlaceFilterService _placeFilterService = PlaceFilterService();
+  PlaceFilter get _filter => _placeFilterService.filter;
 
   @override
   Widget build(BuildContext context) {
@@ -24,61 +21,68 @@ class _ModalTrailFilter extends State<ModalTrailFilter> {
       RadioListTile<SortOrder>(
         title: const Text("Name"),
         value: SortOrder.ALPHABETICAL,
-        groupValue: options.sort,
+        groupValue: _filter.sort,
         onChanged: (SortOrder sort) {
-          setState(() => options = FilterOptions(sort, options.show));
+          setState(() => _placeFilterService.updateSort(sort));
         },
       ),
       RadioListTile<SortOrder>(
         title: const Text("Distance"),
         value: SortOrder.DISTANCE,
-        groupValue: options.sort,
+        groupValue: _filter.sort,
         onChanged: (SortOrder sort) {
-          setState(() => options = FilterOptions(sort, options.show));
+          setState(() => _placeFilterService.updateSort(sort));
         },
       ),
     ];
     var checkboxes = List<CheckboxListTile>();
-    options.show.forEach((filter, show) {
+    _filter.categories.forEach((category, show) {
       checkboxes.add(
         CheckboxListTile(
-            title: Text(filter.plural),
+            title: Text(category.plural),
             value: show,
             onChanged: (bool newValue) {
               setState(() {
-                Map<TrailPlaceCategory, bool> newFilters = this.options.show;
-                newFilters[filter] = !show;
-                this.options = FilterOptions(this.options.sort, newFilters);
+                Map<TrailPlaceCategory, bool> newFilters = _filter.categories;
+                newFilters[category] = !show;
+                _placeFilterService.updateCategories(newFilters);
               });
             }),
       );
     });
+    // Sort By
     List<Widget> list = <Widget>[
       ListTile(
-        leading: Icon(Icons.sort),
-        title: Text('Sort By'),
+        leading: Icon(FontAwesomeIcons.sortAmountDown),
+        title: Text('Sort List By'),
       )
     ];
     list.addAll(sortWidgets);
+    // Categories
     list.add(ListTile(
-      leading: Icon(Icons.sort),
+      leading: Icon(FontAwesomeIcons.filter),
       title: Text('Show Me'),
     ));
     list.add(CheckboxListTile(
       title: Text("Everything"),
-      value: this.options.show.values.where((a) => a).length ==
-          options.show.length,
+      value: _filter.categories.keys.every((c) => _filter.categories[c]),
       onChanged: (bool isChecked) {
-        setState(() {
-          options.show.updateAll((f, v) => v = isChecked);
+        if(isChecked) {
+          setState(() {
+          _placeFilterService.allCategoriesTrue();
         });
+        } else {
+          setState(() {
+            _placeFilterService.allCategoriesFalse();
+          });          
+        }
       },
     ));
     list.addAll(checkboxes);
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, this.options);
+        Navigator.pop(context, _placeFilterService);
         return false;
       },
       child: Scaffold(
@@ -88,7 +92,10 @@ class _ModalTrailFilter extends State<ModalTrailFilter> {
         ),
         body: Container(
           child: SingleChildScrollView(
-            child: Column(children: list),
+            child: Column(children: [
+              Column(children: list),
+              SizedBox(height: 16.0,),
+            ],)
           ),
         ),
       ),
