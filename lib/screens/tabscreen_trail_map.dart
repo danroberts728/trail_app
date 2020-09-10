@@ -3,8 +3,8 @@ import 'dart:ui';
 
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_map_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/map_info_card_carousel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +36,10 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
 
   List<ClusterItem<TrailPlace>> items = List<ClusterItem<TrailPlace>>();
 
+  List<TrailPlace> _selectedPlaces = List<TrailPlace>();
+
+  String _selectedMarkerId;
+
   /// The initial camera position
   static final CameraPosition _geoCenterAlabama = CameraPosition(
     target: LatLng(32.834722222222226, -86.63333333333334),
@@ -46,23 +50,22 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
   void initState() {
     _manager = _initClusterManager();
     items = _tabScreenTrailMapBloc.trailPlaces.map((place) {
-        return ClusterItem(
-          LatLng(place.location.x, place.location.y),
-          item: place,
-        );
-      }).toList();
+      return ClusterItem(
+        LatLng(place.location.x, place.location.y),
+        item: place,
+      );
+    }).toList();
     _manager.setItems(items);
-    _tabScreenTrailMapBloc.trailPlaceStream.listen(_onPlaceUpdate);    
+    _tabScreenTrailMapBloc.trailPlaceStream.listen(_onPlaceUpdate);
     super.initState();
   }
 
   ClusterManager _initClusterManager() {
     return ClusterManager<TrailPlace>(items, _updateMarkers,
-      markerBuilder: _markerBuilder, 
-      initialZoom: _geoCenterAlabama.zoom,
-      levels: [1, 3.2, 3.5, 5, 8.25, 11.5, 14.5, 16, 16.5, 20],
-      extraPercent: 0.5
-    );
+        markerBuilder: _markerBuilder,
+        initialZoom: _geoCenterAlabama.zoom,
+        levels: [1, 3.2, 3.5, 5, 8.25, 11.5, 14.5, 16, 16.5, 20],
+        extraPercent: 0.5);
   }
 
   void _updateMarkers(Set<Marker> markers) {
@@ -74,26 +77,46 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GoogleMap(
-      mapType: MapType.normal,
-      scrollGesturesEnabled: true,
-      zoomGesturesEnabled: true,
-      mapToolbarEnabled: true,
-      myLocationEnabled: true,
-      indoorViewEnabled: false,
-      initialCameraPosition: _geoCenterAlabama,
-      markers: _markers,
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
-        _manager.setMapController(controller);
-      },
-      onCameraMove: _manager.onCameraMove,
-      onCameraIdle: _manager.updateMap,
-      gestureRecognizers: [
-        Factory<OneSequenceGestureRecognizer>(
-          () => EagerGestureRecognizer(),
+    return Stack(
+      children: [
+        GoogleMap(
+          mapType: MapType.normal,
+          scrollGesturesEnabled: true,
+          zoomGesturesEnabled: true,
+          mapToolbarEnabled: false,
+          myLocationEnabled: true,
+          indoorViewEnabled: false,
+          onTap: (argument) {
+            setState(() {
+              _selectedPlaces = null;
+              _selectedMarkerId = null;
+            });
+            _manager.updateMap(); // Forces marker IDs to change
+          },
+          initialCameraPosition: _geoCenterAlabama,
+          markers: _markers,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+            _manager.setMapController(controller);
+          },
+          onCameraMove: _manager.onCameraMove,
+          onCameraIdle: _manager.updateMap,
+          gestureRecognizers: [
+            Factory<OneSequenceGestureRecognizer>(
+              () => EagerGestureRecognizer(),
+            ),
+          ].toSet(),
         ),
-      ].toSet(),
+        Positioned(
+          bottom: 5.0,
+          left: 0,
+          right: 0,
+          child: MapInfoCardSlider(
+            places: _selectedPlaces,
+            initialCard: 0,
+          ),
+        ),
+      ],
     );
   }
 
@@ -102,18 +125,20 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
         return Marker(
           markerId: MarkerId(cluster.getId()),
           position: cluster.location,
-          onTap: () {},
+          onTap: () {
+            setState(() {
+              _selectedPlaces = cluster.items.toList();
+              _selectedMarkerId = cluster.getId();
+            });
+          },
           icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
+              cluster.getId() == _selectedMarkerId,
               text: cluster.isMultiple ? cluster.count.toString() : null),
-          infoWindow: cluster.isMultiple
-              ? _getMultipleInfoWindow(
-                cluster)
-              : _getSingleInfoWindow(
-                  cluster.location.latitude, cluster.location.longitude),
         );
       };
 
-  Future<BitmapDescriptor> _getMarkerBitmap(int size, {String text}) async {
+  Future<BitmapDescriptor> _getMarkerBitmap(int size, bool isSelected,
+      {String text}) async {
     assert(size != null);
 
     final PictureRecorder pictureRecorder = PictureRecorder();
@@ -121,16 +146,22 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
     final Paint paint1 = Paint()..color = TrailAppSettings.actionLinksColor;
     final Paint multiPaint1 = Paint()..color = TrailAppSettings.subHeadingColor;
     final Paint paint2 = Paint()..color = Colors.white;
-    
-    if(text == null) {
+    final Paint paint3 = Paint()
+      ..color = TrailAppSettings.attentionColor; // When selected
+
+    if (text == null) {
       // Null means not multiple
-      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
+      canvas.drawCircle(
+          Offset(size / 2, size / 2), size / 2.0, isSelected ? paint3 : paint1);
       canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
-      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, paint1);
+      canvas.drawCircle(
+          Offset(size / 2, size / 2), size / 2.8, isSelected ? paint3 : paint1);
     } else {
-      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, multiPaint1);
+      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0,
+          isSelected ? paint3 : multiPaint1);
       canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
-      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, multiPaint1);
+      canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8,
+          isSelected ? paint3 : multiPaint1);
     }
 
     if (text != null) {
@@ -153,40 +184,6 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
     final data = await img.toByteData(format: ImageByteFormat.png);
 
     return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
-  }
-
-  /// Returns an appropriate info window for a single marker
-  ///
-  /// Compares to the [lat] and [lng] because clustering
-  /// hides the actual place object.
-  InfoWindow _getSingleInfoWindow(double lat, double lng) {
-    TrailPlace p = _tabScreenTrailMapBloc.trailPlaces
-        .firstWhere((a) => a.location.x == lat && a.location.y == lng);
-    return InfoWindow(
-        title: p.name,
-        snippet: (p.categories..sort()).join(", "),
-        onTap: () {
-          Feedback.forTap(context);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  settings: RouteSettings(
-                    name: 'Trail Place - ' + p.name,
-                  ),
-                  builder: (context) => TrailPlaceDetailScreen(place: p)));
-        });
-  }
-
-  /// Returns an appropriate info window for a multiple marker
-  ///
-  /// Compares to the [lat] and [lng] because clustering
-  /// hides the actual place object.
-  InfoWindow _getMultipleInfoWindow(Cluster<TrailPlace> cluster) {
-    var clusterCount = cluster.items.length;
-    return InfoWindow(
-        title: "$clusterCount locations",
-        snippet: "Zoom in to see more...",
-    );
   }
 
   void _onPlaceUpdate(List<TrailPlace> places) {
