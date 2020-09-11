@@ -14,8 +14,13 @@ class TabScreenTrailMapBloc extends Bloc {
   PlaceFilterService _placeFilterService = PlaceFilterService();
 
   List<TrailPlace> allTrailPlaces = List<TrailPlace>();
+  /// Returns a list with the current filter applied, sorted alphabetically by name
   List<TrailPlace> get filteredTrailPlaces =>
-      _placeFilterService.applyFilter(allPlaces: allTrailPlaces);
+      (_placeFilterService.applyFilter(allPlaces: allTrailPlaces)
+            ..sort((a, b) {
+              return a.name.compareTo(b.name);
+            }))
+          .toList();
 
   final _allPlacesStreamController = StreamController<List<TrailPlace>>();
   Stream<List<TrailPlace>> get allTrailPlaceStream =>

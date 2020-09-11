@@ -28,7 +28,7 @@ class LocationService {
         });
       }
     });
-  }  
+  }
 
   Future<Point> refreshLocation() async {
     return _location
@@ -46,7 +46,9 @@ class LocationService {
               onTimeout: () => null,
             )
             .then((result) {
-          lastLocation = Point(result.latitude, result.longitude);
+          if (result != null) {
+            lastLocation = Point(result.latitude, result.longitude);
+          }
           _locationStreamController.sink.add(lastLocation);
           return lastLocation;
         });

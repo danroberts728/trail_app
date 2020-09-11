@@ -249,6 +249,7 @@ class _HomeState extends State<Home>
       // Trail Tab
       _floatingActionButton = FloatingActionButton(
         child: PlaceFilterFab(),
+        elevation: 16.0,
         backgroundColor: TrailAppSettings.actionLinksColor,
         onPressed: () {
           Navigator.push(
@@ -266,6 +267,7 @@ class _HomeState extends State<Home>
       // Events Tab
       _floatingActionButton = FloatingActionButton(
         child: EventFilterFab(),
+        elevation: 16.0,
         backgroundColor: TrailAppSettings.actionLinksColor,
         onPressed: () => showModalBottomSheet(
             context: context,
@@ -279,8 +281,8 @@ class _HomeState extends State<Home>
       // Profile Tab
       _floatingActionButton = FloatingActionButton(
         child: Icon(Icons.edit),
+        elevation: 16.0,
         backgroundColor: TrailAppSettings.actionLinksColor,
-        foregroundColor: Colors.white70,
         onPressed: () {
           Navigator.push(
             context,
