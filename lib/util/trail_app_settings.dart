@@ -74,9 +74,12 @@ class TrailAppSettings {
   static final List<TrailPlaceCategory> filterStrings = <TrailPlaceCategory>[
     TrailPlaceCategory("Brewery", "Breweries"),
     TrailPlaceCategory("Distillery", "Distilleries"),
-    TrailPlaceCategory("Tasting Room", "Tasting Rooms"),
-    TrailPlaceCategory("Restaurant", "Restaurants"),
-    TrailPlaceCategory("Open Bar", "Open Bars"),
+    TrailPlaceCategory("Tasting Room", "Tasting Rooms",
+      description: "A Tasting Room means that the brewery or distillery is licensed to sell only alcoholic beverages that it manufactures on location."),    
+    TrailPlaceCategory("Open Bar", "Open Bars",
+      description: "An Open Bar means that the brewery or distillery is licensed to have guest taps and to sell other alcoholic beverages"),
+    TrailPlaceCategory("Restaurant", "Restaurants",
+      description: "Within the app, a Restaurant means a full kitchen, menu, and table service"),
   ];
   static final String defaultBannerImageAssetLocation =
       'assets/images/fthglasses.jpg';

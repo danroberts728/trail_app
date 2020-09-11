@@ -60,18 +60,60 @@ class PlaceFilterService {
     _controller.sink.add(filter);
   }
 
-  void updateIncludeClosed(bool isSelected) {
-    filter.includeClosed = isSelected;
+  void updateHoursOption(HoursOption option) {
+    filter.hoursOption = option;
     _controller.sink.add(filter);
   }
 
-  void updateFilter({PlaceFilter filter}) {
-    filter = filter;
-    _controller.sink.add(filter);
+  bool anyCategoriesFalse() {
+    return filter.categories.keys.any((c) => filter.categories[c] == false);
+  }
+
+  /// Is the [place] open today? Returns false
+  /// if unable to determine.
+  bool isOpenToday(TrailPlace place) {
+    if (place.hoursDetail == null) {
+      return false;
+    }
+    DateTime now = DateTime.now();
+    try {
+      int todayInt =
+          now.weekday == 7 ? 0 : now.weekday; // IOS 8601 to Google conversion
+      return place.hoursDetail.any((t) => t['open']['day'] == todayInt);
+    } catch (err) {
+      return false;
+    }
+  }
+
+  /// Is the [place] open now? Returns false
+  /// if unable to determine.
+  bool isOpenNow(TrailPlace place) {
+    if (place.hoursDetail == null) {
+      return false;
+    }
+    if (isOpenToday(place) != true) {
+      // Can't be open now if it's not open today
+      return false;
+    }
+    DateTime now = DateTime.now();
+    try {
+      int todayInt =
+          now.weekday == 7 ? 0 : now.weekday; // IOS 8601 to Google conversion
+      List<Map<String, dynamic>> hoursToday =
+          place.hoursDetail.where((t) => t['open']['day'] == todayInt).toList();
+      int nowHour = now.hour * 100 + now.minute;
+      return hoursToday.any((t) =>
+          nowHour > int.parse(t['open']['time']) &&
+          nowHour < int.parse(t['close']['time']));
+    } catch (err) {
+      return false;
+    }
   }
 
   List<TrailPlace> applyFilter(
-      {List<TrailPlace> allPlaces, List<CheckIn> checkIns}) {
+      {List<TrailPlace> allPlaces,
+      List<CheckIn> checkIns,
+      bool filterHours = true}) {
     // Filter Categories
     List<String> shownCategories = filter.categories.keys
         .where((f) => filter.categories[f])
@@ -84,18 +126,28 @@ class PlaceFilterService {
     if (checkIns != null || (filter.visited && filter.notVisited)) {
       if (filter.visited && !filter.notVisited) {
         // Show only visisted
-        filtered = filtered.where(
-            (p) => checkIns.map<String>((e) => e.placeId).contains(p.id));
+        filtered = filtered
+            .where((p) => checkIns.map<String>((e) => e.placeId).contains(p.id))
+            .toList();
       } else if (!filter.visited && filter.notVisited) {
         // Show only not visisted
-        filtered = filtered.where(
-            (p) => !checkIns.map<String>((e) => e.placeId).contains(p.id));
+        filtered = filtered
+            .where(
+                (p) => !checkIns.map<String>((e) => e.placeId).contains(p.id))
+            .toList();
       } else if (!filter.visited && !filter.notVisited) {
         // Show nothing basically
         filtered = List<TrailPlace>();
       }
     }
-
+    if (filterHours) {
+      // Filter By Hours
+      if (filter.hoursOption == HoursOption.OPEN_TODAY) {
+        filtered = filtered.where((p) => isOpenToday(p)).toList();
+      } else if (filter.hoursOption == HoursOption.OPEN_NOW) {
+        filtered = filtered.where((p) => isOpenNow(p)).toList();
+      }
+    }
     // Sort
     if (filter.sort == SortOrder.DISTANCE &&
         _locationService.lastLocation != null) {
@@ -122,18 +174,24 @@ class PlaceFilter {
   Map<TrailPlaceCategory, bool> categories;
   bool visited;
   bool notVisited;
-  bool includeClosed;
+  HoursOption hoursOption;
 
   PlaceFilter(
       {this.sort = SortOrder.DISTANCE,
       this.categories,
       this.visited = true,
       this.notVisited = true,
-      this.includeClosed = false})
+      this.hoursOption = HoursOption.ALL})
       : assert(categories != null);
 }
 
 enum SortOrder {
   ALPHABETICAL,
   DISTANCE,
+}
+
+enum HoursOption {
+  ALL,
+  OPEN_NOW,
+  OPEN_TODAY,
 }

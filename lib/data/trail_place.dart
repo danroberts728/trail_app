@@ -18,6 +18,7 @@ class TrailPlace {
   final List<String> galleryUrls;
   final Map<String, String> connections;
   final Map<String, String> hours;
+  final List<Map<String, dynamic>> hoursDetail;
   final String description;
   final Map<String, String> emails;
   final Map<String, String> phones;
@@ -36,6 +37,7 @@ class TrailPlace {
     @required this.location,
     @required this.connections,
     @required this.hours,
+    @required this.hoursDetail,
     @required this.description,
     @required this.emails,
     @required this.phones,
@@ -74,6 +76,7 @@ class TrailPlace {
       featuredImgUrl: '',
       galleryUrls: List<String>(),
       hours: Map<String, String>(),
+      hoursDetail: List<Map<String, dynamic>>(),
       id: '',
       location: Point(0, 0),
       logoUrl: '',
@@ -108,6 +111,9 @@ class TrailPlace {
         hours: d['hours'] == null
             ? Map<String, String>()
             : Map<String, String>.from(d['hours']),
+        hoursDetail: d['hours_detail'] == null
+            ? List<Map<String, dynamic>>()
+            : List<Map<String, dynamic>>.from(d['hours_detail']),
         location: Point(d['location'].latitude, d['location'].longitude),
         description: d['description'],
         emails: d['emails'] == null
@@ -146,6 +152,9 @@ class TrailPlace {
         hours: d['hours'] == null
             ? Map<String, String>()
             : Map<String, String>.from(d['hours']),
+        hoursDetail: d['hours_detail'] == null
+            ? List<Map<String, dynamic>>()
+            : List<Map<String, dynamic>>.from(d['hours_detail']),
         location: Point(d['location'].latitude, d['location'].longitude),
         description: d['description'],
         emails: d['emails'] == null

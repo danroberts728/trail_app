@@ -1,5 +1,6 @@
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_list_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/widgets/top_list_sort.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_card.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 
@@ -45,20 +46,23 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
             onRefresh: _refreshPulled,
             child: Container(
               color: Colors.black12,
-              child: Container(
-                margin: EdgeInsets.all(0),
-                padding: EdgeInsets.all(0),
-                child: ListView.builder(
-                  controller: _listViewController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: places.length,
-                  itemBuilder: (context, index) {
+              margin: EdgeInsets.all(0),
+              padding: EdgeInsets.all(0),
+              child: ListView.builder(
+                controller: _listViewController,
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: places.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return TopListSort();
+                  } else {
                     return TrailPlaceCard(
-                      key: ValueKey(places[index].id),
-                      place: places[index],
+                      key: ValueKey(places[index - 1].id),
+                      place: places[index-1],
                     );
-                  },
-                ),
+                  }
+                },
               ),
             ),
           );
