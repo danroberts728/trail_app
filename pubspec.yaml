@@ -52,6 +52,7 @@ flutter:
     - assets/images/defaultprofilephoto.png
     - assets/images/fth_black.png
     - assets/images/newsfeed_empty_image.jpg
+    - assets/images/guild_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

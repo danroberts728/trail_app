@@ -22,6 +22,7 @@ class TrailPlace {
   final String description;
   final Map<String, String> emails;
   final Map<String, String> phones;
+  final bool isMember;
 
   TrailPlace({
     @required this.id,
@@ -41,6 +42,7 @@ class TrailPlace {
     @required this.description,
     @required this.emails,
     @required this.phones,
+    @required this.isMember
   });
 
   bool isEqual(TrailPlace other) {
@@ -79,6 +81,7 @@ class TrailPlace {
       hoursDetail: List<Map<String, dynamic>>(),
       id: '',
       location: Point(0, 0),
+      isMember: false,
       logoUrl: '',
       name: '',
       phones: Map<String, String>(),
@@ -122,6 +125,9 @@ class TrailPlace {
         phones: d['phones'] == null
             ? Map<String, String>()
             : Map<String, String>.from(d['phones']),
+        isMember: d['is_member'] == null
+            ? false
+            : d['is_member']
       );
     } catch (e) {
       throw e;
@@ -163,6 +169,9 @@ class TrailPlace {
         phones: d['phones'] == null
             ? Map<String, String>()
             : Map<String, String>.from(d['phones']),
+        isMember: d['is_member'] == null
+            ? false
+            : d['is_member']
       );
     } catch (e) {
       throw e;

@@ -8,6 +8,7 @@ import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_h
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/favorite_button.dart';
+import 'package:alabama_beer_trail/widgets/guild_badge.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,16 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                 children: <Widget>[
                   TrailPlaceGallery(
                     galleryImageUrls: galleryImageUrls,
+                  ),
+                  Positioned(
+                    left: 16.0,
+                    top: 16.0,
+                    child: Visibility(
+                      visible: _place.isMember,
+                      child: GuildBadge(
+                        alphaValue: 200,
+                      ),
+                    ),
                   ),
                   Positioned(
                     bottom: 8.0,
