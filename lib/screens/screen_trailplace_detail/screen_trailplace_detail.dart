@@ -68,7 +68,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                     child: Visibility(
                       visible: _place.isMember,
                       child: GuildBadge(
-                        alphaValue: 200,
                       ),
                     ),
                   ),
