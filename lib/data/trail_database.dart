@@ -54,9 +54,11 @@ class TrailDatabase {
       _subscribeToUserData();
     });
 
+    int lastWeekTimestampSeconds = (DateTime.now().millisecondsSinceEpoch ~/ 1000) - 604800;
     FirebaseFirestore.instance
         .collection('events')
         .where('publish_status', isEqualTo: 'publish')
+        .where('start_timestamp_seconds', isGreaterThanOrEqualTo: lastWeekTimestampSeconds)
         .orderBy('start_timestamp_seconds')
         .snapshots()
         .listen(_onEventsDataUpdate);
