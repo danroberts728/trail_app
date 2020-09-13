@@ -11,8 +11,6 @@ import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/fab_event_filter.dart';
-import 'package:alabama_beer_trail/widgets/event_filter_widget.dart';
 import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -243,21 +241,7 @@ class _HomeState extends State<Home>
   }
 
   void _setFloatingActionButton() {
-    if (_currentIndex == 1) {
-      // Events Tab
-      _floatingActionButton = FloatingActionButton(
-        child: EventFilterFab(),
-        elevation: 16.0,
-        backgroundColor: TrailAppSettings.actionLinksColor,
-        onPressed: () => showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return SingleChildScrollView(
-                child: EventFilterWidget(),
-              );
-            }),
-      );
-    } else if (_currentIndex == 3) {
+    if (_currentIndex == 3) {
       // Profile Tab
       _floatingActionButton = FloatingActionButton(
         child: Icon(Icons.edit),
