@@ -72,6 +72,7 @@ class TrailDatabase {
     FirebaseFirestore.instance
         .collection('trophies')
         .where('published', isEqualTo: true)
+        .orderBy('sort_order')
         .snapshots()
         .listen(_onTrophiesDataUpdate);
 
