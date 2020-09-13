@@ -99,6 +99,9 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   decoration: InputDecoration(
                                     icon: Icon(Icons.person),
                                     labelText: "Name",
+                                    labelStyle: TextStyle(
+                                      color: TrailAppSettings.subHeadingColor,
+                                    ),
                                   ),
                                   initialValue: userData.displayName,
                                   maxLength: 100,
@@ -111,6 +114,9 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                     icon: Icon(Icons.home),
                                     labelText: "Location",
                                     hintText: "City, State",
+                                    labelStyle: TextStyle(
+                                      color: TrailAppSettings.subHeadingColor,
+                                    ),
                                   ),
                                   initialValue: userData.location,
                                   maxLength: 100,
@@ -121,6 +127,9 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   decoration: InputDecoration(
                                     icon: Icon(Icons.calendar_today),
                                     labelText: "Date of Birth",
+                                    labelStyle: TextStyle(
+                                      color: TrailAppSettings.subHeadingColor,
+                                    ),
                                   ),
                                   controller: TextEditingController(
                                     text: this._selectedBirthDate != null
@@ -152,6 +161,9 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                 TextFormField(
                                   decoration: InputDecoration(
                                     labelText: "About You",
+                                    labelStyle: TextStyle(
+                                      color: TrailAppSettings.subHeadingColor,
+                                    ),
                                   ),
                                   initialValue: userData.aboutYou,
                                   maxLines: 5,
