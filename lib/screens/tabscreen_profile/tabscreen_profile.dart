@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/screens/tabscreen_profile/profile_trophies_area.dart';
+import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_profile/profile_stats_area.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_profile/proflie_top_area.dart';
@@ -19,10 +20,19 @@ class _TabScreenProfile extends State<TabScreenProfile> {
   /// The user's current sign in status
   SigninStatus signinStatus = SigninStatus.NOT_SIGNED_IN;
 
+  ScrollController _controller = ScrollController();
+
+  TabSelectionService _tabSelectionService = TabSelectionService();
+
+  _TabScreenProfile() {
+    _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: CustomScrollView(
+        controller: _controller,
         slivers: <Widget>[
           // Top Area (images, name, email, member since, about You, and location)
           SliverToBoxAdapter(
@@ -73,5 +83,14 @@ class _TabScreenProfile extends State<TabScreenProfile> {
         ],
       ),
     );
+  }
+
+  void _scrollToTop(newTab) {
+    if (newTab == 3 && _tabSelectionService.lastTapSame) {
+      _controller.animateTo(0.0,
+          duration:
+              Duration(milliseconds: _controller.position.pixels ~/ 2),
+          curve: Curves.easeOut);
+    }
   }
 }
