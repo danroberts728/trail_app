@@ -15,25 +15,24 @@ class ProfileStat extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: this.onPressed,
-      child: Row(
-        children: <Widget>[
-          Text(
-            "${this.value ?? '-'}",
-            overflow: TextOverflow.fade,
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0),
+      child: RichText(
+        text: TextSpan(
+          text: this.value.toString() ?? '-',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
           ),
-          Text(
-            " ${this.postText}",
-            overflow: TextOverflow.fade,
-            style: TextStyle(
-              color: TrailAppSettings.actionLinksColor,
-              fontSize: 16.0
+          children: <TextSpan> [
+            TextSpan(
+              text: " ${this.postText}",
+              style: TextStyle(
+                color: TrailAppSettings.actionLinksColor,
+                fontSize: 16.0,
+              ),
             ),
-          ),
-        ],
+          ]
+        ),
       ),
     );
   }

@@ -27,58 +27,64 @@ class _ProfileStatsArea extends State<ProfileStatsArea> {
               userPlacesInformation.where((e) => e.userHasCheckedIn).toList();
           List<UserPlaceInformation> notVisited =
               userPlacesInformation.where((e) => !e.userHasCheckedIn).toList();
-          return Container(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 5.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: ProfileStat(
-                        value: visited.length,
-                        postText: "Visited",
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              settings: RouteSettings(name: 'Visited'),
-                              builder: (context) => TrailPlacesScreen(
-                                appBarTitle: "Visited",
-                                placeIds:
-                                    visited.map((e) => e.place.id).toList(),
-                              ),
-                            ),
-                          );
-                        },
+          List<UserPlaceInformation> favorited =
+              userPlacesInformation.where((e) => e.isUserFavorite).toList();
+          return Wrap(
+            runAlignment: WrapAlignment.spaceEvenly,
+            alignment: WrapAlignment.spaceEvenly,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runSpacing: 8.0,
+            spacing: 8.0,
+            children: <Widget>[
+              ProfileStat(
+                value: visited.length,
+                postText: "Visited",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      settings: RouteSettings(name: 'Visited'),
+                      builder: (context) => TrailPlacesScreen(
+                        appBarTitle: "Visited",
+                        placeIds: visited.map((e) => e.place.id).toList(),
                       ),
                     ),
-                    Center(
-                      child: ProfileStat(
-                        value: notVisited.length,
-                        postText: "Not Visited",
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              settings: RouteSettings(name: 'Not Visisted'),
-                              builder: (context) => TrailPlacesScreen(
-                                appBarTitle: "Not Visited",
-                                placeIds:
-                                    notVisited.map((e) => e.place.id).toList(),
-                              ),
-                            ),
-                          );
-                        },
+                  );
+                },
+              ),
+              ProfileStat(
+                value: notVisited.length,
+                postText: "Not Visited",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      settings: RouteSettings(name: 'Not Visisted'),
+                      builder: (context) => TrailPlacesScreen(
+                        appBarTitle: "Not Visited",
+                        placeIds: notVisited.map((e) => e.place.id).toList(),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  );
+                },
+              ),
+              ProfileStat(
+                value: favorited.length,
+                postText: "Favorites",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      settings: RouteSettings(name: 'Favorites'),
+                      builder: (context) => TrailPlacesScreen(
+                        appBarTitle: "Favorites",
+                        placeIds: favorited.map((e) => e.place.id).toList(),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           );
         }
       },
