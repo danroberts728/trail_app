@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class TrailPlaceArea extends StatelessWidget {
   final bool isVisible;
   final Widget child;
+  final bool bottomBorder;
 
-  const TrailPlaceArea({Key key, this.isVisible = false, this.child})
+  const TrailPlaceArea({Key key, this.isVisible = false, this.child, this.bottomBorder = true})
       : super(key: key);
 
   @override
@@ -16,7 +17,9 @@ class TrailPlaceArea extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 0.0,),
         decoration: BoxDecoration(
           border: Border(            
-            bottom: BorderSide(width: 0.5, color: Colors.black45),
+            bottom: bottomBorder
+              ? BorderSide(width: 0.5, color: Colors.black45)
+              : BorderSide(width: 0.0, color: Colors.transparent),
           ),
         ),
         child: child,

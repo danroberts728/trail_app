@@ -115,6 +115,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
                       color: TrailAppSettings.attentionColor,
                     ),
                     TrailPlaceArea(
+                      bottomBorder: false,
                       isVisible: _place.description != null &&
                           _place.description.isNotEmpty,
                       child: Container(
