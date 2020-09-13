@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_events_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,15 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
   TabScreenTrailEventsBloc _tabScreenTrailEventsBloc =
       TabScreenTrailEventsBloc();
 
+  /// The BLoC for the app tab selection
+  final _tabSelectionService = TabSelectionService();
+
+  ScrollController _controller = ScrollController();
+
+  _TabScreenTrailEvents() {
+    _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -23,6 +33,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
+          controller: _controller,
           child: StreamBuilder(
             stream: _tabScreenTrailEventsBloc.trailEventsStream,
             initialData: _tabScreenTrailEventsBloc.filteredTrailEvents,
@@ -57,6 +68,15 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
         ),
       ),
     );
+  }
+
+  void _scrollToTop(newTab) {
+    if (newTab == 1 && _tabSelectionService.lastTapSame) {
+      _controller.animateTo(0.0,
+          duration:
+              Duration(milliseconds: _controller.position.pixels ~/ 2),
+          curve: Curves.easeOut);
+    }
   }
 
   Future<void> _refreshPulled() {

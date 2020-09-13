@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/blocs/tabscreen_news_bloc.dart';
+import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailnews_item.dart';
 
@@ -15,6 +16,15 @@ class _TabScreenNews extends State<TabScreenNews>
     with AutomaticKeepAliveClientMixin<TabScreenNews> {
   TabScreenNewsBloc _trailNewsBloc =
       TabScreenNewsBloc(TrailAppSettings.newsScreenRssFeedUrl);
+
+  /// The BLoC for the app tab selection
+  final _tabSelectionService = TabSelectionService();
+
+  ScrollController _controller = ScrollController();
+
+  _TabScreenNews() {
+    _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -40,6 +50,7 @@ class _TabScreenNews extends State<TabScreenNews>
               List<RssItem> newsItems = snapshot.data;
               return ListView.builder(
                 physics: AlwaysScrollableScrollPhysics(),
+                controller: _controller,
                 itemCount: newsItems.length,
                 itemBuilder: (context, index) {
                   if (newsItems == null) {
@@ -56,6 +67,15 @@ class _TabScreenNews extends State<TabScreenNews>
         ),
       ),
     );
+  }
+
+  void _scrollToTop(newTab) {
+    if (newTab == 2 && _tabSelectionService.lastTapSame) {
+      _controller.animateTo(0.0,
+          duration:
+              Duration(milliseconds: _controller.position.pixels ~/ 2),
+          curve: Curves.easeOut);
+    }
   }
 
   Future<void> _refreshPulled() {
