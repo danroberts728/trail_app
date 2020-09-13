@@ -31,14 +31,13 @@ class GuildBadge extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(12.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image(image: AssetImage(assetNameDialogImage), width: 72.0),
-                  SizedBox(width: width),
+                  SizedBox(width: 16.0),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [

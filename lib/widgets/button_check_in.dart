@@ -69,69 +69,51 @@ class _CheckinButton extends State<CheckinButton> {
                     ? null
                     : () {
                         if (!widget.canCheckin) {
-                          showGeneralDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              barrierColor: Colors.black.withOpacity(0.4),
-                              transitionDuration: Duration(milliseconds: 300),
-                              barrierLabel: '',
-                              transitionBuilder:
-                                  (context, anim1, anim2, child) {
-                                return Transform.scale(
-                                  alignment: Alignment.center,
-                                  scale: anim1.value,
-                                  child: child,
-                                );
-                              },
-                              pageBuilder: (context, anim1, anim2) {
-                                return Material(
-                                  type: MaterialType.transparency,
-                                  child: Center(
-                                    child: SizedBox(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            borderRadius:
-                                                BorderRadius.circular(16.0),
-                                            color: Colors.white,
-                                            border: Border.all(
-                                              color: Colors.black,
-                                              width: 2.0,
-                                            )),
-                                        padding: EdgeInsets.all(16.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                              "You are not close enough to check in to " +
-                                                  widget.place.name,
-                                              textAlign: TextAlign.center,
+                          showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              child: Padding(
+                                padding: EdgeInsets.all(12.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            "You are not close enough to check in to " +
+                                                widget.place.name,
+                                            style: TextStyle(),
+                                            maxLines: 10,
+                                            overflow: TextOverflow.visible,
+                                          ),
+                                          FlatButton(
+                                            child: Text(
+                                              "Dismiss",
                                               style: TextStyle(
-                                                fontSize: 22.0,
+                                                color: TrailAppSettings
+                                                    .actionLinksColor,
                                               ),
                                             ),
-                                            SizedBox(
-                                              height: 24.0,
-                                            ),
-                                            RaisedButton(
-                                              child: Text(
-                                                "Close",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              color: TrailAppSettings.second,
-                                            ),
-                                          ],
-                                        ),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                );
-                              });
-                          return null;
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
                         } else {
                           // Check In
                           _bloc.checkIn(widget.place.id).then((newTrophies) {
