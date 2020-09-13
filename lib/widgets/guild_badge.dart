@@ -8,15 +8,15 @@ class GuildBadge extends StatelessWidget {
 
   const GuildBadge({
     Key key,
-    this.assetNameIcon = 'assets/images/guild_logo_state.png',
-    this.assetNameDialogImage = 'assets/images/guild_logo_state_color.png',
-    this.width = 36.0,
+    this.assetNameIcon = 'assets/images/guild_logo_square_color.png',
+    this.assetNameDialogImage = 'assets/images/guild_logo_square_color.png',
+    this.width = 42.0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 36.0,
+      width: width,
       child: FlatButton(
         padding: EdgeInsets.all(0),
         child: Image(
@@ -31,16 +31,19 @@ class GuildBadge extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(12.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image(image: AssetImage(assetNameDialogImage), width: 72.0),
                   SizedBox(width: width),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "Alabama Brewers Guild Member",
+                          "Alabama Brewers Guild Member.",
                           style: TextStyle(),
                           maxLines: 10,
                           overflow: TextOverflow.visible,

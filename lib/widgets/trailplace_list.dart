@@ -8,8 +8,6 @@ import 'package:alabama_beer_trail/widgets/trailplace_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../screens/screen_place_filter.dart';
-
 class TrailListView extends StatefulWidget {
   final List<TrailPlace> places;
   final Key key;
@@ -30,16 +28,6 @@ class TrailListViewState extends State<TrailListView> {
   }
 
   var _locationBloc = LocationService();
-
-  void showFilterModal() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return ModalTrailFilter();
-      },
-    ).then((value) { });
-  }
 
   void _refreshScreen() {
     if(!this.mounted) {

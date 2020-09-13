@@ -49,14 +49,14 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
   @override
   void initState() {
     _manager = _initClusterManager();
-    items = _tabScreenTrailMapBloc.filteredTrailPlaces.map((place) {
+    items = _tabScreenTrailMapBloc.allTrailPlaces.map((place) {
       return ClusterItem(
         LatLng(place.location.x, place.location.y),
         item: place,
       );
     }).toList();
     _manager.setItems(items);
-    _tabScreenTrailMapBloc.filteredTraiilPlacesStream.listen(_onPlaceUpdate);
+    _tabScreenTrailMapBloc.allTrailPlaceStream.listen(_onPlaceUpdate);
     super.initState();
   }
 

@@ -2,12 +2,12 @@ import 'package:alabama_beer_trail/util/place_filter_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
-class TopListSort extends StatefulWidget {
+class TopListSortAndFilter extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _TopListSort();
+  State<StatefulWidget> createState() => _TopListSortAndFiltert();
 }
 
-class _TopListSort extends State<TopListSort> {
+class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +51,45 @@ class _TopListSort extends State<TopListSort> {
               ),
             ),
           ),
-          
+          SizedBox(width: 4.0,),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 4.0),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(20.0),
+                color: Colors.white54,
+              ),
+              child: DropdownButton(
+                underline: SizedBox(),
+                icon: Icon(Icons.access_time),
+                isDense: true,
+                iconEnabledColor: TrailAppSettings.actionLinksColor,
+                iconSize: 14,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+                value: PlaceFilterService().filter.hoursOption,
+                onChanged: (value) => PlaceFilterService().updateHoursOption(value),
+                items: [                  
+                  DropdownMenuItem(
+                    child: Text("Any Hours "),
+                    value: HoursOption.ALL
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Open Now "),
+                    value: HoursOption.OPEN_NOW,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Open Today "),
+                    value: HoursOption.OPEN_TODAY,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

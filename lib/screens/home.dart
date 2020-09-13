@@ -13,8 +13,6 @@ import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/fab_event_filter.dart';
 import 'package:alabama_beer_trail/widgets/event_filter_widget.dart';
-import 'package:alabama_beer_trail/widgets/fab_place_filter.dart';
-import 'package:alabama_beer_trail/screens/screen_place_filter.dart';
 import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -245,25 +243,7 @@ class _HomeState extends State<Home>
   }
 
   void _setFloatingActionButton() {
-    if (_currentIndex == 0) {
-      // Trail Tab
-      _floatingActionButton = FloatingActionButton(
-        child: PlaceFilterFab(),
-        elevation: 16.0,
-        backgroundColor: TrailAppSettings.actionLinksColor,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              settings: RouteSettings(
-                name: 'Open Filter',
-              ),
-              builder: (context) => ModalTrailFilter(),
-            ),
-          );
-        },
-      );
-    } else if (_currentIndex == 1) {
+    if (_currentIndex == 1) {
       // Events Tab
       _floatingActionButton = FloatingActionButton(
         child: EventFilterFab(),
