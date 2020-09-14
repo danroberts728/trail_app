@@ -30,11 +30,11 @@ class _ProfileStatsArea extends State<ProfileStatsArea> {
           List<UserPlaceInformation> favorited =
               userPlacesInformation.where((e) => e.isUserFavorite).toList();
           return Wrap(
-            runAlignment: WrapAlignment.spaceEvenly,
-            alignment: WrapAlignment.spaceEvenly,
+            runAlignment: WrapAlignment.spaceBetween,
+            alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: 8.0,
-            spacing: 8.0,
+            runSpacing: 4.0,
+            spacing: 4.0,
             children: <Widget>[
               ProfileStat(
                 value: visited.length,
