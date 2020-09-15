@@ -80,16 +80,17 @@ class _SigninScreen extends State<SigninScreen> {
                     SizedBox(
                       height: Platform.isIOS ? 10.0 : 0.0,
                     ),
-                    FittedBox(
-                      child: Platform.isIOS
-                          ? AppleSignInButton(
+                    Platform.isIOS
+                      ? FittedBox(
+                        child: AppleSignInButton(
                               borderRadius: 10.0,
                               onPressed: () {
                                 AppAuth().signInWithApple();
                               },
                             )
-                          : SizedBox(height: 0),
-                    ),
+
+                      )
+                      : SizedBox(height: 0),
                     SizedBox(
                       height: 10.0,
                     ),
