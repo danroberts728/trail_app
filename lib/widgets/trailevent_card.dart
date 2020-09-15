@@ -5,6 +5,7 @@ import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
 
@@ -18,6 +19,7 @@ class TrailEventCard extends StatefulWidget {
   final double elevation;
   final bool showExport;
   final bool showImage;
+  final bool isClickable;
 
   TrailEventCard(
       {this.key,
@@ -28,7 +30,8 @@ class TrailEventCard extends StatefulWidget {
       this.elevation = 4.0,
       this.bottomMargin = 0.0,
       this.showImage = true,
-      this.showExport = false});
+      this.showExport = false,
+      this.isClickable = true});
 
   @override
   State<StatefulWidget> createState() => _TrailEventCard();
@@ -59,14 +62,16 @@ class _TrailEventCard extends State<TrailEventCard> {
           }
           return GestureDetector(
             onTap: () {
-              Feedback.forTap(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      settings:
-                          RouteSettings(name: 'Trail Event - ' + event.name),
-                      builder: (context) =>
-                          TrailEventDetailScreen(event: event)));
+              if (widget.isClickable) {
+                Feedback.forTap(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        settings:
+                            RouteSettings(name: 'Trail Event - ' + event.name),
+                        builder: (context) =>
+                            TrailEventDetailScreen(event: event)));
+              }
             },
             child: Container(
               width: double.infinity,
@@ -172,7 +177,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                             SizedBox(
                               width: 16.0,
                             ),
-                            Flexible(
+                            Expanded(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,14 +282,12 @@ class _TrailEventCard extends State<TrailEventCard> {
                                 ],
                               ),
                             ),
-                            Flexible(
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.import_export,
-                                  color: TrailAppSettings.actionLinksColor,
-                                ),
-                                onPressed: () => _bloc.exportToCalendar(),
+                            IconButton(
+                              icon: Icon(
+                                FontAwesomeIcons.calendarPlus,
+                                color: TrailAppSettings.actionLinksColor,
                               ),
+                              onPressed: () => _bloc.exportToCalendar(),
                             ),
                           ],
                         ),

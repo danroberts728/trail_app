@@ -129,45 +129,48 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.location_on,
-                                      color: Colors.white,
-                                      size: 18.0,
-                                    ),
-                                    SizedBox(width: 4.0),
-                                    Text(
-                                      this._locationService.lastLocation != null &&
-                                              this.place.city != null
-                                          ? this.place.city +
-                                              " " +
-                                              GeoMethods
-                                                  .toFriendlyDistanceString(
-                                                      this._distance) +
-                                              " mi"
-                                          : this.place.city ?? "",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 14.0),
-                                    ),
-                                  ],
-                                ),
-                                CheckInCountWidget(
-                                  count: _checkInsCount,
-                                  visible: _checkInsCount != 0,
-                                  icon: Icons.check,
-                                  iconColor: Colors.white.withAlpha(200),
-                                  fontColor: Colors.white.withAlpha(200),
-                                ),
-                              ],
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.white,
+                                        size: 18.0,
+                                      ),
+                                      SizedBox(width: 4.0),
+                                      Text(
+                                        this._locationService.lastLocation !=
+                                                    null &&
+                                                this.place.city != null
+                                            ? this.place.city +
+                                                " " +
+                                                GeoMethods
+                                                    .toFriendlyDistanceString(
+                                                        this._distance) +
+                                                " mi"
+                                            : this.place.city ?? "",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.0),
+                                      ),
+                                    ],
+                                  ),
+                                  CheckInCountWidget(
+                                    count: _checkInsCount,
+                                    visible: _checkInsCount != 0,
+                                    icon: Icons.check,
+                                    iconColor: Colors.white.withAlpha(200),
+                                    fontColor: Colors.white.withAlpha(200),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Spacer(),
                           TrailPlaceActionButtonWidget(
                             place: this.place,
                             mapIconColor: TrailAppSettings.subHeadingColor,

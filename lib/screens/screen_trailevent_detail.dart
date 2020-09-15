@@ -26,9 +26,10 @@ class TrailEventDetailScreen extends StatelessWidget {
             children: <Widget>[
               // Event Card
               TrailEventCard(
+                isClickable: false,
                 event: this.event,
                 startMargin: 0.0,
-                endMargin: 0.0,                
+                endMargin: 0.0,
                 titleOverflow: TextOverflow.visible,
                 elevation: 0.0,
               ),
@@ -158,8 +159,8 @@ class TrailEventDetailScreen extends StatelessWidget {
               ),
               // Location
               Visibility(
-                visible: event.locationName != null &&
-                    event.locationName.isNotEmpty,
+                visible:
+                    event.locationName != null && event.locationName.isNotEmpty,
                 child: Container(
                   color: Colors.white,
                   margin: EdgeInsets.only(bottom: 6.0),
