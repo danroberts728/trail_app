@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:alabama_beer_trail/data/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:apple_sign_in/apple_sign_in.dart';
 
 /// An abstraction for User/Authentication
 class AppAuth {
@@ -109,6 +111,49 @@ class AppAuth {
     return this.user;
   }
 
+  /// Sign in with Apple
+  Future<AppAuthReturn> signInWithApple() async {
+    if (Platform.isIOS) {
+      final AuthorizationResult result = await AppleSignIn.performRequests([
+        AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+      ]);
+      switch (result.status) {
+        case AuthorizationStatus.authorized:
+          AppleIdCredential appleIdCredential = result.credential;
+          OAuthProvider oAuthProvider = OAuthProvider('apple.com');
+          AuthCredential credential = oAuthProvider.credential(
+              idToken: String.fromCharCodes(appleIdCredential.identityToken),
+              accessToken:
+                  String.fromCharCodes(appleIdCredential.authorizationCode));
+          UserCredential authResult =
+              await FirebaseAuth.instance.signInWithCredential(credential);
+
+          AppUser user = AppUser.fromFirebaseUser(authResult.user);
+          return AppAuthReturn(errorMessage: null, user: user, success: true);
+          break;
+        case AuthorizationStatus.cancelled:
+          return AppAuthReturn(
+              errorMessage: "User Canceled", success: false, user: null);
+          break;
+        case AuthorizationStatus.error:
+          return AppAuthReturn(
+              errorMessage: result.error.toString(),
+              success: false,
+              user: null);
+          break;
+        default:
+          return Future.microtask(() => AppAuthReturn(
+                errorMessage: "Unknown Error",
+                success: false,
+                user: null,
+              ));
+      }
+    } else {
+      return Future.microtask(() => AppAuthReturn(
+          errorMessage: "Not supported", success: false, user: null));
+    }
+  }
+
   /// Sign out the user.
   Future<void> logout() {
     return this._auth.signOut();
@@ -132,7 +177,7 @@ class AppAuth {
         registrationUserError = "Password not strong enough";
       } else {
         registrationUserError = e.toString();
-      }      
+      }
       user = null;
     }
 

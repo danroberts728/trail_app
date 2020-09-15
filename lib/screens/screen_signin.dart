@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:alabama_beer_trail/screens/screen_forgot_password.dart';
 import 'package:alabama_beer_trail/screens/screen_register.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/util/appauth.dart';
 
-import '../util/appauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
@@ -66,12 +68,27 @@ class _SigninScreen extends State<SigninScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    GoogleSignInButton(
-                      onPressed: () {
-                        AppAuth().signInWithGoogle();
-                      },
-                      borderRadius: 10.0,
-                      darkMode: true,
+                    FittedBox(
+                      child: GoogleSignInButton(
+                        onPressed: () {
+                          AppAuth().signInWithGoogle();
+                        },
+                        borderRadius: 10.0,
+                        darkMode: true,
+                      ),
+                    ),
+                    SizedBox(
+                      height: Platform.isIOS ? 10.0 : 0.0,
+                    ),
+                    FittedBox(
+                      child: Platform.isIOS
+                          ? AppleSignInButton(
+                              borderRadius: 10.0,
+                              onPressed: () {
+                                AppAuth().signInWithApple();
+                              },
+                            )
+                          : SizedBox(height: 0),
                     ),
                     SizedBox(
                       height: 10.0,
