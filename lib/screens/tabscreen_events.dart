@@ -43,8 +43,6 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Icon(Icons.error));
-              } else if (!snapshot.hasData || snapshot.data.length == 0) {
-                return Center(child: Text("No events found."));
               } else {
                 return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
