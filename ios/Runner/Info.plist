@@ -49,6 +49,10 @@
 	<string>Used to select an optional profile and user photos</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Required usage description for a Flutter dependency</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Required to export event to calendar</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Required to export event to calednar</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

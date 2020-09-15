@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:add_2_calendar/add_2_calendar.dart' as a2c;
 
 class TrailEventCardBloc extends Bloc {
   final _db = TrailDatabase();
@@ -20,6 +21,20 @@ class TrailEventCardBloc extends Bloc {
     _eventsSubscription = _db.eventsStream.listen(_onEventsUpdate);
   }
 
+  void exportToCalendar() {
+    a2c.Add2Calendar.addEvent2Cal(
+      a2c.Event(
+          title: event.name,
+          description: event.details,
+          location:
+              "${event.locationAddress}, ${event.locationCity}, ${event.locationState}",
+          startDate: event.start,
+          endDate: event.hideEndTime
+              ? event.start.add(Duration(hours: 1))
+              : event.end),
+    );
+  }
+
   void _onEventsUpdate(List<TrailEvent> newEvent) {
     event = newEvent.firstWhere((e) => e.id == _eventId);
     _controller.add(null);
@@ -31,5 +46,4 @@ class TrailEventCardBloc extends Bloc {
     _eventsSubscription.cancel();
     _controller.close();
   }
-
 }

@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  add_2_calendar: ^1.4.0
   cached_network_image: ^2.3.2+1
   carousel_slider: ^2.2.1
   cloud_firestore: ^0.14.0+2

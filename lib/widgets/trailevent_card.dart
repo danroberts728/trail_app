@@ -16,6 +16,7 @@ class TrailEventCard extends StatefulWidget {
   final double bottomMargin;
   final TextOverflow titleOverflow;
   final double elevation;
+  final bool showExport;
   final bool showImage;
 
   TrailEventCard(
@@ -26,7 +27,8 @@ class TrailEventCard extends StatefulWidget {
       this.endMargin = 0.0,
       this.elevation = 4.0,
       this.bottomMargin = 0.0,
-      this.showImage = true});
+      this.showImage = true,
+      this.showExport = false});
 
   @override
   State<StatefulWidget> createState() => _TrailEventCard();
@@ -273,6 +275,15 @@ class _TrailEventCard extends State<TrailEventCard> {
                                     ),
                                   ),
                                 ],
+                              ),
+                            ),
+                            Flexible(
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.import_export,
+                                  color: TrailAppSettings.actionLinksColor,
+                                ),
+                                onPressed: () => _bloc.exportToCalendar(),
                               ),
                             ),
                           ],
