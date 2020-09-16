@@ -61,11 +61,12 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
   }
 
   ClusterManager _initClusterManager() {
-    return ClusterManager<TrailPlace>(items, _updateMarkers,
-        markerBuilder: _markerBuilder,
-        initialZoom: _geoCenterAlabama.zoom,
-        levels: [1, 3.2, 3.5, 5, 8.25, 11.5, 14.5, 16, 16.5, 20],
-        extraPercent: 0.5);
+    return ClusterManager<TrailPlace>(
+      items,
+      _updateMarkers,
+      markerBuilder: _markerBuilder,
+      initialZoom: _geoCenterAlabama.zoom,
+    );
   }
 
   void _updateMarkers(Set<Marker> markers) {
