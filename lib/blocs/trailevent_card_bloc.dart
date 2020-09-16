@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:html/dom.dart' as htmlParser;
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
@@ -25,13 +26,14 @@ class TrailEventCardBloc extends Bloc {
     a2c.Add2Calendar.addEvent2Cal(
       a2c.Event(
           title: event.name,
-          description: event.details,
+          description: htmlParser.DocumentFragment.html(event.details).text,
           location:
-              "${event.locationAddress}, ${event.locationCity}, ${event.locationState}",
-          startDate: event.start,
+              "${event.locationName}, ${event.locationAddress}, ${event.locationCity}, ${event.locationState}",
+          timeZone: event.start.timeZoneName,
+          startDate: event.start.toLocal(),          
           endDate: event.hideEndTime
-              ? event.start.add(Duration(hours: 1))
-              : event.end),
+              ? event.start.toLocal().add(Duration(hours: 1))
+              : event.end.toLocal()),
     );
   }
 
