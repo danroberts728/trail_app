@@ -1,6 +1,6 @@
-import 'package:alabama_beer_trail/util/app_launcher.dart';
+import 'package:alabama_beer_trail/data/trail_news_post.dart';
+import 'package:alabama_beer_trail/screens/screen_trailnews_post.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:webfeed/domain/rss_item.dart';
@@ -12,12 +12,18 @@ class TrailNewsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var pubDate = new DateFormat("E, d MMM y H:m:s").parse(_item.pubDate);
+    TrailNewsPost post = TrailNewsPost.fromRssItem(_item);
 
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Feedback.forTap(context);
-        AppLauncher().openWebsite(_item.link);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                settings: RouteSettings(
+                  name: '/news/${post.id}',
+                ),
+                builder: (context) => ScreenTrailNewsPost(post: post)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
@@ -31,13 +37,7 @@ class TrailNewsItem extends StatelessWidget {
               children: <Widget>[
                 Image(
                   image:
-                      _item.media == null || _item.media.thumbnails.length != 0
-                          ? CachedNetworkImageProvider(
-                              _item.media.thumbnails[0].url,
-                            )
-                          : AssetImage(
-                              TrailAppSettings.defaultNewsThumbnailAsset,
-                            ),
+                      post.imageThumbnail,
                   width: 150.0,
                   height: 150.0,
                   fit: BoxFit.cover,
@@ -51,7 +51,7 @@ class TrailNewsItem extends StatelessWidget {
                       SizedBox(
                         height: 8.0,
                       ),
-                      Text(_item.title,
+                      Text(post.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -66,7 +66,7 @@ class TrailNewsItem extends StatelessWidget {
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(
-                          removeAllHtmlTags(_item.description),
+                          removeAllHtmlTags(post.description),
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
@@ -87,7 +87,7 @@ class TrailNewsItem extends StatelessWidget {
                             width: 2.0,
                           ),
                           Text(
-                            DateFormat("MMM d y").format(pubDate),
+                            DateFormat("MMM d y").format(post.publicationDateTime),
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: TrailAppSettings.subHeadingColor,
@@ -106,7 +106,7 @@ class TrailNewsItem extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              _item.dc.creator.toUpperCase(),
+                              post.creator.toUpperCase(),
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   color: TrailAppSettings.subHeadingColor,

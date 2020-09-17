@@ -207,9 +207,9 @@ class _TabScreenProfileSignIn extends State<TabScreenProfileSignIn> {
                         height: 4.0,
                       ),
                       Text(
-                        Platform.isIOS
-                            ? "Sign in with Google above, or"
-                            : "Sign in with Google or Apple above, or",
+                        Platform.isIOS                            
+                            ? "Sign in with Google or Apple above, or"
+                            : "Sign in with Google above, or",
                         style: TextStyle(
                           fontSize: 16.0,
                         ),
