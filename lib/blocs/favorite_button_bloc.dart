@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
+import 'package:alabama_beer_trail/util/appauth.dart';
 
 class FavoriteButtonBloc extends Bloc {
   final _db = TrailDatabase();
@@ -35,7 +36,12 @@ class FavoriteButtonBloc extends Bloc {
     }    
   }
 
-  void toggleFavorite() {
+  /// Toggle the favorite on/off. If the user is not
+  /// logged in, returns false
+  bool toggleFavorite() {
+    if(AppAuth().user == null) {
+      return false;
+    }
     List<String> allFavorites = List<String>.from(_db.userData.favorites);
     if(allFavorites.contains(_placeId)) {
       allFavorites.remove(_placeId);      
@@ -43,6 +49,7 @@ class FavoriteButtonBloc extends Bloc {
       allFavorites.add(_placeId);
     }
     _db.updateUserData({'favorites': allFavorites});
+    return true;
   }
 
   @override

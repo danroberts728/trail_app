@@ -1,5 +1,6 @@
 import 'package:alabama_beer_trail/blocs/favorite_button_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteButton extends StatefulWidget {
@@ -22,9 +23,9 @@ class _FavoriteButton extends State<FavoriteButton> {
       stream: _bloc.stream,
       initialData: _bloc.isFavorite ?? false,
       builder: (context, snapshot) {
-        bool isFavorite = snapshot.data;        
-        return Stack(        
-          alignment: Alignment.center,  
+        bool isFavorite = snapshot.data;
+        return Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             Container(
               width: widget.iconSize + 4,
@@ -48,15 +49,22 @@ class _FavoriteButton extends State<FavoriteButton> {
                   size: widget.iconSize,
                 ),
                 onPressed: () {
-                  setState(() {
-                    isFavorite = !isFavorite;
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                        content: isFavorite
-                            ? Text("${widget.place.name} added to favorites")
-                            : Text(
-                                "${widget.place.name} removed from favorites")));
-                  });
-                  _bloc.toggleFavorite();
+                  if (_bloc.toggleFavorite()) {
+                    setState(() {
+                      isFavorite = !isFavorite;
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                          content: isFavorite
+                              ? Text("${widget.place.name} added to favorites")
+                              : Text(
+                                  "${widget.place.name} removed from favorites")));
+                    });
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) => 
+                        MustCheckInDialog(message: "You must be signed in to select favorites.",),
+                    );
+                  }
                 },
               ),
             ),

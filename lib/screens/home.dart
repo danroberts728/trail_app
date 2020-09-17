@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
 import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
+import 'package:alabama_beer_trail/screens/tabscreen_profile.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
@@ -15,8 +16,7 @@ import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../util/appauth.dart';
-import '../screens/tabscreen_profile/tabscreen_profile.dart';
+import 'package:alabama_beer_trail/util/appauth.dart';
 import 'tabscreen.dart';
 
 import 'tabscreen_trail.dart';
@@ -42,6 +42,14 @@ class _HomeState extends State<Home>
     with SingleTickerProviderStateMixin, RouteAware {
   final _tabSelectionBloc = TabSelectionService();
 
+  _HomeState() {
+    AppAuth().onAuthChange.listen((event) {
+      setState(() {
+        _userLoggedIn = event != null;
+      });
+    });
+  }
+
   /// Firebase Messaging
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -57,6 +65,8 @@ class _HomeState extends State<Home>
   ///
   /// This is updated when the [_currentIndex] is changed
   Text _appBarTitle;
+
+  bool _userLoggedIn = false;
 
   @override
   void didChangeDependencies() {
@@ -136,7 +146,7 @@ class _HomeState extends State<Home>
             elevation: 3.2,
             onSelected: (choice) => choice.action(),
             itemBuilder: (BuildContext context) {
-              return [
+              var items = [
                 PopupMenuItem<PopMenuChoice>(
                   value: PopMenuChoice(
                     title: "About",
@@ -175,14 +185,18 @@ class _HomeState extends State<Home>
                   ),
                   child: Container(child: Text("Privacy Policy")),
                 ),
-                PopupMenuItem<PopMenuChoice>(
+              ];
+              if (_userLoggedIn) {
+                items.add(PopupMenuItem<PopMenuChoice>(
                     value: PopMenuChoice(
                       title: "Log Out",
                       icon: Icons.power_settings_new,
                       action: () => AppAuth().logout(),
                     ),
-                    child: Container(child: Text("Log Out")))
-              ];
+                    child: Container(child: Text("Log Out"))));
+              
+              }
+              return items;
             },
           ),
         ],
@@ -241,7 +255,7 @@ class _HomeState extends State<Home>
   }
 
   void _setFloatingActionButton() {
-    if (_currentIndex == 3) {
+    if (_currentIndex == 3 && _userLoggedIn) {
       // Profile Tab
       _floatingActionButton = FloatingActionButton(
         child: Icon(Icons.edit),

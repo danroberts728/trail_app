@@ -1,8 +1,8 @@
-import 'package:alabama_beer_trail/screens/tabscreen_profile/profile_trophies_area.dart';
+import 'package:alabama_beer_trail/screens/tabscreen_profile_profile/profile_trophies_area.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/screens/tabscreen_profile/profile_stats_area.dart';
-import 'package:alabama_beer_trail/screens/tabscreen_profile/proflie_top_area.dart';
+import 'package:alabama_beer_trail/screens/tabscreen_profile_profile/profile_stats_area.dart';
+import 'package:alabama_beer_trail/screens/tabscreen_profile_profile/proflie_top_area.dart';
 
 import '../../util/appauth.dart';
 
@@ -10,13 +10,13 @@ import 'package:flutter/material.dart';
 
 /// The tab screen for the user's own profile
 ///
-class TabScreenProfile extends StatefulWidget {
+class TabScreenProfileProfile extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _TabScreenProfile();
+  State<StatefulWidget> createState() => _TabScreenProfileProfile();
 }
 
 /// The state for the profile tab
-class _TabScreenProfile extends State<TabScreenProfile> {
+class _TabScreenProfileProfile extends State<TabScreenProfileProfile> {
   /// The user's current sign in status
   SigninStatus signinStatus = SigninStatus.NOT_SIGNED_IN;
 
@@ -24,7 +24,7 @@ class _TabScreenProfile extends State<TabScreenProfile> {
 
   TabSelectionService _tabSelectionService = TabSelectionService();
 
-  _TabScreenProfile() {
+  _TabScreenProfileProfile() {
     _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
   }
 

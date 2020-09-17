@@ -1,6 +1,8 @@
 import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/util/appauth.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -68,7 +70,14 @@ class _CheckinButton extends State<CheckinButton> {
                 onPressed: isCheckedIn
                     ? null
                     : () {
-                        if (!widget.canCheckin) {
+                        if (AppAuth().user == null) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => MustCheckInDialog(
+                              message: "You must be signed in to check in.",
+                            ),
+                          );
+                        } else if (!widget.canCheckin) {
                           showDialog(
                             context: context,
                             builder: (context) => Dialog(

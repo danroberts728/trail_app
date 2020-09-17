@@ -17,7 +17,7 @@ class _ProfileStatsArea extends State<ProfileStatsArea> {
       stream: _profileStatsAreaBloc.stream,
       initialData: _profileStatsAreaBloc.userPlacesInformation,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot == null) {
           return Center(child: LinearProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Icon(Icons.error));

@@ -10,7 +10,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'util/appauth.dart';
 import 'data/app_user.dart';
-import 'screens/screen_signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/home.dart';
@@ -63,8 +62,6 @@ class TrailApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return AppLoadingScreen();
-          } else if (snapshot.data == null) {
-            return SigninScreen();
           } else {
             return Home(observer);
           }

@@ -26,7 +26,7 @@ class _ProfileTopArea extends State<ProfileTopArea> {
           stream: _profileTopAreaBloc.stream,
           initialData: _profileTopAreaBloc.userData,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot == null) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Icon(Icons.error));

@@ -20,6 +20,7 @@ class ProfileTopAreaBloc extends Bloc {
 
   void _onUserDataUpdate(UserData event) {
     userData = event;
+    _streamController.add(null);
     _streamController.sink.add(userData);
   }
 
