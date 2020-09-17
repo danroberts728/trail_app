@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:alabama_beer_trail/blocs/screen_trailplace_detail_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_area.dart';
@@ -30,13 +32,15 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
 
   ScreenTrailPlaceDetailBloc _bloc;
 
+  StreamSubscription _streamSubscription;
+
   @override
   void initState() {
     super.initState();
     _place = widget.place;
     _bloc = ScreenTrailPlaceDetailBloc(widget.place);
     _checkInsCount = _bloc.placeDetail.checkInsCount;
-    _bloc.stream.listen(_onPlaceUpdate);
+    _streamSubscription = _bloc.stream.listen(_onPlaceUpdate);
   }
 
   @override
@@ -309,11 +313,17 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen> {
     );
   }
 
-  void _onPlaceUpdate(PlaceDetail event) {
+  void _onPlaceUpdate(PlaceDetail event) {    
     setState(() {
       _place = event.place;
       _checkInsCount = event.checkInsCount;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _streamSubscription.cancel();
   }
 }
 

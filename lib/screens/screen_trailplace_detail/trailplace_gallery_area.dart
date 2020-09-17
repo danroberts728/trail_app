@@ -74,19 +74,18 @@ class _TrailPlaceGallery extends State<TrailPlaceGallery> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: widget.galleryImageUrls.map<Widget>((f) {
-                return Container(
-                  width: 8.0,
-                  height: 8.0,
+                bool isCurrentIndex = widget.galleryImageUrls.indexOf(f) == _currentGalleryIndex;
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 250),
+                  width: isCurrentIndex ? 9.0 : 6.0,
+                  height: isCurrentIndex ? 9.0 : 6.0,
                   margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.white54,
+                        color:Colors.white54,
                       ),
-                      color: widget.galleryImageUrls.indexOf(f) ==
-                              _currentGalleryIndex
-                          ? Colors.white54
-                          : Colors.black54),
+                      color: Colors.black54),
                 );
               }).toList(),
             ),
