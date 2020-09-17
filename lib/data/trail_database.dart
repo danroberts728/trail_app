@@ -20,7 +20,7 @@ class TrailDatabase {
   var places = List<TrailPlace>();
   var trophies = List<TrailTrophy>();
 
-  var userData = UserData();
+  var userData = UserData.createBlank();
   var checkIns = List<CheckIn>();
 
   final _eventsStreamController =
@@ -54,11 +54,13 @@ class TrailDatabase {
       _subscribeToUserData();
     });
 
-    int lastWeekTimestampSeconds = (DateTime.now().millisecondsSinceEpoch ~/ 1000) - 604800;
+    int lastWeekTimestampSeconds =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000) - 604800;
     FirebaseFirestore.instance
         .collection('events')
         .where('publish_status', isEqualTo: 'publish')
-        .where('start_timestamp_seconds', isGreaterThanOrEqualTo: lastWeekTimestampSeconds)
+        .where('start_timestamp_seconds',
+            isGreaterThanOrEqualTo: lastWeekTimestampSeconds)
         .orderBy('start_timestamp_seconds')
         .snapshots()
         .listen(_onEventsDataUpdate);
@@ -99,6 +101,9 @@ class TrailDatabase {
           .collection('check_ins')
           .snapshots()
           .listen(_onCheckInsUpdate);
+    } else {
+      _onUserDataUpdate(null);
+      _onCheckInsUpdate(null);
     }
   }
 
@@ -154,25 +159,36 @@ class TrailDatabase {
   }
 
   void _onUserDataUpdate(DocumentSnapshot snapshot) {
-    var newUserData = UserData.fromFirebase(snapshot);
-    userData = newUserData;
-    _userDataStreamController.sink.add(newUserData);
+    if (snapshot == null) {
+      userData = UserData.createBlank();
+      _userDataStreamController.sink.add(userData);
+    } else {
+      var newUserData = UserData.fromFirebase(snapshot);
+      userData = newUserData;
+      _userDataStreamController.sink.add(newUserData);
+    }
   }
 
   void _onCheckInsUpdate(QuerySnapshot snapshot) {
-    var newDocs = snapshot.docs;
-    var newCheckIns = List<CheckIn>();
-    newDocs.forEach((d) {
-      try {
-        var data = d.data();
-        newCheckIns.add(CheckIn(data['place_id'], data['timestamp'].toDate()));
-      } catch (err) {
-        print(err);
-      }
-    });
+    if (snapshot == null) {
+      checkIns = List<CheckIn>();
+      _checkInsStreamController.sink.add(checkIns);
+    } else {
+      var newDocs = snapshot.docs;
+      var newCheckIns = List<CheckIn>();
+      newDocs.forEach((d) {
+        try {
+          var data = d.data();
+          newCheckIns
+              .add(CheckIn(data['place_id'], data['timestamp'].toDate()));
+        } catch (err) {
+          print(err);
+        }
+      });
 
-    checkIns = newCheckIns;
-    _checkInsStreamController.sink.add(newCheckIns);
+      checkIns = newCheckIns;
+      _checkInsStreamController.sink.add(newCheckIns);
+    }
   }
 
   Future<void> checkInNow(placeId) {

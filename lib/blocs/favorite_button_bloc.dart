@@ -30,7 +30,7 @@ class FavoriteButtonBloc extends Bloc {
 
   void _onUserDataUpdate(UserData event) {
     var isItNow = _db.userData.favorites.contains(_placeId);
-    if(isItNow != isFavorite) {
+    if(isItNow != isFavorite || AppAuth().user == null) {
      isFavorite = _db.userData.favorites.contains(_placeId);
      _controller.sink.add(isFavorite); 
     }    

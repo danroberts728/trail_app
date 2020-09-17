@@ -26,6 +26,8 @@ class _TabScreenTrail extends State<TabScreenTrail>
     _controller = TabController(length: 2, vsync: this);
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Column(

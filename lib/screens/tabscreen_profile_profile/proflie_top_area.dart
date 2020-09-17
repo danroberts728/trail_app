@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 import 'package:alabama_beer_trail/blocs/profile_top_area_bloc.dart';
@@ -27,9 +28,19 @@ class _ProfileTopArea extends State<ProfileTopArea> {
           initialData: _profileTopAreaBloc.userData,
           builder: (context, snapshot) {
             if (snapshot == null) {
-              return Center(child: CircularProgressIndicator());
+              return Container(
+                height: profileImageHeight,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             } else if (snapshot.hasError) {
-              return Center(child: Icon(Icons.error));
+              return Container(
+                height: profileImageHeight,
+                child: Center(
+                  child: Icon(Icons.error),
+                ),
+              );
             } else {
               var userData = snapshot.data as UserData;
               return Container(
@@ -61,6 +72,36 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                                 'assets/images/defaultprofilephoto.png'),
                             canEdit: false,
                             placeholder: CircularProgressIndicator(),
+                          ),
+                        ),
+                        Positioned(
+                          top: profileImageHeight - 55,
+                          right: 16.0,
+                          child: RaisedButton(
+                            color: Colors.white54,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(
+                                color: TrailAppSettings.actionLinksColor,
+                              ),
+                            ),
+                            child: Text(
+                              "Edit Profile",
+                              style: TextStyle(
+                                color: TrailAppSettings.actionLinksColor,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  settings: RouteSettings(
+                                    name: 'Edit Profile',
+                                  ),
+                                  builder: (context) => EditProfileScreen(),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         Positioned(

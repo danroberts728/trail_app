@@ -5,7 +5,6 @@ import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_profile.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/screens/screen_about.dart';
-import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
@@ -33,16 +32,16 @@ class Home extends StatefulWidget {
   final FirebaseAnalyticsObserver observer;
 
   @override
-  State<StatefulWidget> createState() => _HomeState();
+  State<StatefulWidget> createState() => HomeState();
 }
 
 /// The state for the home screen
 ///
-class _HomeState extends State<Home>
+class HomeState extends State<Home>
     with SingleTickerProviderStateMixin, RouteAware {
   final _tabSelectionBloc = TabSelectionService();
 
-  _HomeState() {
+  HomeState() {
     AppAuth().onAuthChange.listen((event) {
       setState(() {
         _userLoggedIn = event != null;
@@ -57,9 +56,6 @@ class _HomeState extends State<Home>
 
   /// The currently-selected tab index
   int _currentIndex = 0;
-
-  /// The Floating Action Button for the current tab
-  FloatingActionButton _floatingActionButton;
 
   /// The app bar title
   ///
@@ -88,7 +84,6 @@ class _HomeState extends State<Home>
   void initState() {
     super.initState();
     _appBarTitle = Text(_appTabs[_currentIndex].appBarTitle);
-    _setFloatingActionButton();
     _firebaseMessaging.requestNotificationPermissions(
       const IosNotificationSettings(
         sound: true,
@@ -128,7 +123,6 @@ class _HomeState extends State<Home>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      floatingActionButton: _floatingActionButton,
       appBar: AppBar(
         title: _appBarTitle,
         actions: <Widget>[
@@ -247,34 +241,9 @@ class _HomeState extends State<Home>
         _currentIndex = index;
         _appBarTitle = Text(_appTabs[index].appBarTitle);
         _sendCurrentTabToAnalytics();
-        _setFloatingActionButton();
       }
       _tabSelectionBloc.updateTabSelection(index);
     });
-  }
-
-  void _setFloatingActionButton() {
-    if (_currentIndex == 3 && _userLoggedIn) {
-      // Profile Tab
-      _floatingActionButton = FloatingActionButton(
-        child: Icon(Icons.edit),
-        elevation: 16.0,
-        backgroundColor: TrailAppSettings.actionLinksColor,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              settings: RouteSettings(
-                name: 'Edit Profile',
-              ),
-              builder: (context) => EditProfileScreen(),
-            ),
-          );
-        },
-      );
-    } else {
-      _floatingActionButton = null;
-    }
   }
 
   /// Send the current tab selection to analytics

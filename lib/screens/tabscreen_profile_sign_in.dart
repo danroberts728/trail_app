@@ -30,6 +30,7 @@ class _TabScreenProfileSignIn extends State<TabScreenProfileSignIn> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.black12,
       height: double.infinity,
       width: double.infinity,
       child: SingleChildScrollView(

@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_profile_profile/profile_trophies_area.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -30,6 +31,23 @@ class _TabScreenProfileProfile extends State<TabScreenProfileProfile> {
 
   @override
   Widget build(BuildContext context) {
+        FloatingActionButton(
+      child: Icon(Icons.edit),
+      elevation: 16.0,
+      backgroundColor: TrailAppSettings.actionLinksColor,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            settings: RouteSettings(
+              name: 'Edit Profile',
+            ),
+            builder: (context) => EditProfileScreen(),
+          ),
+        );
+      },
+    );
+
     return Container(
       child: CustomScrollView(
         controller: _controller,
@@ -88,8 +106,7 @@ class _TabScreenProfileProfile extends State<TabScreenProfileProfile> {
   void _scrollToTop(newTab) {
     if (newTab == 3 && _tabSelectionService.lastTapSame) {
       _controller.animateTo(0.0,
-          duration:
-              Duration(milliseconds: _controller.position.pixels ~/ 2),
+          duration: Duration(milliseconds: _controller.position.pixels ~/ 2),
           curve: Curves.easeOut);
     }
   }
