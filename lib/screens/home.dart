@@ -194,7 +194,6 @@ class _HomeState extends State<Home>
                       action: () => AppAuth().logout(),
                     ),
                     child: Container(child: Text("Log Out"))));
-              
               }
               return items;
             },
