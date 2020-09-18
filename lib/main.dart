@@ -15,20 +15,17 @@ import 'package:flutter/services.dart';
 import 'screens/home.dart';
 
 void main() {
-  Crashlytics.instance.enableInDevMode = true;
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
-
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
-
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    return Firebase.initializeApp();
-  }).then((fbApp) {
-    LocationService().refreshLocation().then((_) {
+  Firebase.initializeApp()
+    .then((app) {
+      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+      return SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }).then((_) {
+      return LocationService().refreshLocation();
+    }).then((location) {
       runApp(TrailApp());
     });
-  });
 }
 
 class TrailApp extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:alabama_beer_trail/screens/screen_forgot_password.dart';
 import 'package:alabama_beer_trail/screens/screen_register.dart';
@@ -20,11 +21,23 @@ class _TabScreenProfileSignIn extends State<TabScreenProfileSignIn> {
   final TextEditingController _passwordController = TextEditingController();
   SubmitButtonState _submitButtonState = SubmitButtonState.Waiting;
   String _formError;
+  StreamSubscription _authSubscription;
 
   String get formError {
     String tmp = _formError;
     _formError = null;
     return tmp;
+  }
+
+  @override
+  void initState() {
+    _authSubscription = AppAuth().onAuthChange.listen((user) { 
+      if(Navigator.canPop(context)) {
+        Navigator.popUntil(context, (route) => route.isFirst);
+      }      
+    });
+    super.initState();
+
   }
 
   @override
@@ -241,5 +254,11 @@ class _TabScreenProfileSignIn extends State<TabScreenProfileSignIn> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _authSubscription.cancel();
+    super.dispose();    
   }
 }
