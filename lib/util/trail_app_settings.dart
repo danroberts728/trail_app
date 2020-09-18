@@ -98,7 +98,7 @@ class TrailAppSettings {
 
   static final String privacyPolicyHtml = '''
 <div>
-<p><em>This policy may be updated at any time. The latest version can be found <a href="https://freethehops.org/app/alabama-beer-trail-privacy-policy/">here</a></em></p>.
+<p><em>This policy may be updated at any time. The latest version can be found <a href="https://freethehops.org/app/alabama-beer-trail-privacy-policy/">here</a></em>.</p>
 <p><strong><span data-custom-class="title">PRIVACY NOTICE   </span>  </strong></p>
 <p><strong><span data-custom-class="subtitle">Last updated July 03, 2020</span></strong></p>
 <p><span data-custom-class="body_text">Thank you for choosing to be part of our community at Alabama Brewers Guild, Inc, doing business as Free the Hops (“<strong>Free the Hops</strong>”, “<strong>we</strong>”, “<strong>us</strong>”, or “<strong>our</strong>”). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our notice, or our practices with regards to your personal information, please contact us at <a href="mailto:info@freethehops.org">info@freethehops.org</a>.</span></p>
