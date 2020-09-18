@@ -1,3 +1,5 @@
+// Copyright (c) 2020, Fermented Software.
+
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
@@ -5,46 +7,60 @@ import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
 
+/// A BLoC for FavoriteButton objects
 class FavoriteButtonBloc extends Bloc {
+  /// A reference to the central database.
   final _db = TrailDatabase();
+
+  /// A subscription to the user data data stream
   StreamSubscription _userDataSubscription;
 
+  /// The place ID that the button is attached to
   String _placeId;
 
+  /// True if the button is already favorited by the user,
+  /// false otherwise
   bool isFavorite;
 
+  /// The controller for this BLoC's stream
   final _controller = StreamController<bool>();
+
+  /// The stream for this button's favorite status
   Stream<bool> get stream => _controller.stream;
 
+  /// Default constructor. The button is affiliated with
+  /// a particular [placeId].
   FavoriteButtonBloc(String placeId) {
     _placeId = placeId;
-    if(_db.userData.favorites == null) {
+    if (_db.userData.favorites == null) {
       // This is sometimes a race condition when the user is first being registered
-      // To avoid errors, let's set this to false if it cannot find the userData
+      // To avoid errors, let's set this to false if it cannot find the userData.
+      // It will be updated when the stream updates.
       isFavorite = false;
     } else {
       isFavorite = _db.userData.favorites.contains(_placeId);
-    }    
+    }
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }
 
+  /// Callback when the user data gets new data
   void _onUserDataUpdate(UserData event) {
     var isItNow = _db.userData.favorites.contains(_placeId);
-    if(isItNow != isFavorite || AppAuth().user == null) {
-     isFavorite = _db.userData.favorites.contains(_placeId);
-     _controller.sink.add(isFavorite); 
-    }    
+    if (isItNow != isFavorite || AppAuth().user == null) {
+      isFavorite = _db.userData.favorites.contains(_placeId);
+      _controller.sink.add(isFavorite);
+    }
   }
 
   /// Toggle the favorite on/off. If the user is not
-  /// logged in, returns false
+  /// logged in, returns false. Otherwise returns true
   bool toggleFavorite() {
-    if(AppAuth().user == null) {
+    if (AppAuth().user == null) {
       return false;
     }
     List<String> allFavorites = List<String>.from(_db.userData.favorites);
-    if(allFavorites.contains(_placeId)) {
-      allFavorites.remove(_placeId);      
+    if (allFavorites.contains(_placeId)) {
+      allFavorites.remove(_placeId);
     } else {
       allFavorites.add(_placeId);
     }
@@ -52,10 +68,10 @@ class FavoriteButtonBloc extends Bloc {
     return true;
   }
 
+  /// Dispose the object
   @override
   void dispose() {
     _userDataSubscription.cancel();
     _controller.close();
   }
-
 }

@@ -1,28 +1,40 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 
+/// The BLoC for TrophyDetailScreen objects
 class TrophyDetailScreenBloc extends Bloc {
+  /// A reference to the central database
   final _db = TrailDatabase();
+
+  /// A subscription to the user's data
   StreamSubscription _userDataSubscription;
 
+  /// The list of the user's earned trophies
   Map<String, DateTime> earnedTrophies;
 
+  /// Controller for this BLoC's stream
   final _controller = StreamController<Map<String, DateTime>>();
+
+  /// Stream for the user's earned trophies
   Stream<Map<String, DateTime>> get stream => _controller.stream;
 
+  /// Default constructor
   TrophyDetailScreenBloc() {
     earnedTrophies = _db.userData.trophies;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }
 
+  /// Callback for user data updates
   void _onUserDataUpdate(UserData event) {
     earnedTrophies = event.trophies;
     _controller.sink.add(earnedTrophies);
   }
 
+  /// Dispose object
   @override
   void dispose() {
     _userDataSubscription.cancel();

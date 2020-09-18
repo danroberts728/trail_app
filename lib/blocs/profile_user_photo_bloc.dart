@@ -1,6 +1,8 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
@@ -8,20 +10,30 @@ import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 
+/// The BLoC for ProfileUserPhoto objects
 class ProfileUserPhotoBloc extends Bloc {
+  /// A reference to the central database
   final _db = TrailDatabase();
+
+  /// A subscription to the user's data
   StreamSubscription _userDataSubscription;
 
+  /// The current user's profile image
   String profileImageUrl;
 
+  /// Controller for this BLoC's stream
   final _controller = StreamController<String>();
+
+  /// The stream for this BLoC's profile image URL
   Stream<String> get stream => _controller.stream;
 
+  /// Default constructor
   ProfileUserPhotoBloc() {
     profileImageUrl = _db.userData.profilePhotoUrl;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }
 
+  /// Callback when user's data is updated
   void _onUserDataUpdate(UserData event) {
     var newProfileImage = event.profilePhotoUrl;
     if(newProfileImage != profileImageUrl) {
@@ -30,6 +42,9 @@ class ProfileUserPhotoBloc extends Bloc {
     }
   }
 
+  /// Updates the user's profile image with [file]. Uploads
+  /// the [file] to storage and updates the reference in the
+  /// user's data.
   Future<void> updateProfileImage(File file) async {
     String ext = extension(file.path);
     String storageFileName = Random().nextInt(100000).toString() + '.$ext';
@@ -46,6 +61,7 @@ class ProfileUserPhotoBloc extends Bloc {
     _db.updateUserData({'profilePhotoUrl': url});
   }
 
+  /// Dipose object
   @override
   void dispose() {
     _userDataSubscription.cancel();

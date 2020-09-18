@@ -1,3 +1,5 @@
+// Copyright (c) 2020, Fermented Software.
+
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
@@ -7,22 +9,42 @@ import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 
+/// A BLoC for ButtonCheckIn objects
 class ButtonCheckInBloc extends Bloc {
+  /// A reference to the central database.
   var _db = TrailDatabase();
+
+  /// A subscription to the checkIns data stream
   StreamSubscription _checkInSubscription;
+
+  /// A subscription to the trophies data stream
   StreamSubscription _trophySubscription;
+
+  /// A subscription to the places data stream
   StreamSubscription _placeSubscription;
+
+  /// A subscription to the user data data stream
   StreamSubscription _userDataSubscription;
 
+  /// The user's check in's
   var checkIns = List<CheckIn>();
 
+  /// All published trophies
   var _allTrophies = List<TrailTrophy>();
+
+  /// All published places
   var _places = List<TrailPlace>();
+
+  /// The current User's user data
   var _userData = UserData();
 
+  /// The controller for this BLoC's stream
   final _streamController = StreamController<List<CheckIn>>();
+
+  /// The stream of CheckIn data
   get stream => _streamController.stream;
 
+  /// Default constructor
   ButtonCheckInBloc() {
     checkIns = _db.checkIns;
     _allTrophies = _db.trophies;
@@ -34,6 +56,8 @@ class ButtonCheckInBloc extends Bloc {
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }
 
+  /// Returns true if the current user has checked into [placeId] today,
+  /// false otherwise.
   bool isCheckedInToday(String placeId) {
     return checkIns
             .where((e) {
@@ -48,6 +72,7 @@ class ButtonCheckInBloc extends Bloc {
         0;
   }
 
+  /// Checks the current user into [placeId] now
   Future<List<TrailTrophy>> checkIn(String placeId) async {
     var completer = Completer<List<TrailTrophy>>();
     // Only update if user has not checked in today already
@@ -65,27 +90,35 @@ class ButtonCheckInBloc extends Bloc {
         completer.complete(earnedTrophies);
       });
     }
-
     return completer.future;
   }
 
+  /// Callback when the check in subscription gets
+  /// new data
   void _onCheckInsUpdate(List<CheckIn> event) {
     checkIns = event;
     _streamController.sink.add(checkIns);
   }
 
+  /// Callback when the trophies subscription gets
+  /// new data
   void _onTrophiesUpdate(List<TrailTrophy> event) {
     _allTrophies = event;
   }
 
+  /// Callback when the placessubscription gets
+  /// new data
   void _onPlacesUpdate(List<TrailPlace> event) {
     _places = event;
   }
 
+  /// Callback when the user data subscription gets
+  /// new data
   void _onUserDataUpdate(UserData event) {
     _userData = event;
   }
 
+  /// Dispose of the object
   @override
   void dispose() {
     _checkInSubscription.cancel();

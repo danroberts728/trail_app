@@ -1,27 +1,47 @@
+// Copyright (c) 2020, Fermented Software.
+
 import 'dart:async';
 
 import 'package:alabama_beer_trail/data/user_data.dart';
-
-import 'bloc.dart';
+import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 
+/// The BLoC for ProfileStatsArea objects
 class ProfileStatsAreaBloc extends Bloc {
+  /// A reference to the central database.
   final _db = TrailDatabase();
+
+  /// A subscription to the user's check ins
   StreamSubscription _checkInSubscription;
+
+  /// A subscription to the places
   StreamSubscription _placesSubscription;
+
+  /// A subscription to the user's user data
   StreamSubscription _userDataSubscription;
 
+  /// The current user places information
   List<UserPlaceInformation> userPlacesInformation =
       List<UserPlaceInformation>();
+
+  /// The current list of places
   var _places = List<TrailPlace>();
+
+  /// The current list of the user's checkins
   var _checkIns = List<CheckIn>();
+
+  /// The current list of the user's favorites
   var _favorites = List<String>();
 
+  /// The controller for this BLoC's stream
   final _streamController = StreamController<List<UserPlaceInformation>>();
+
+  /// The stream for the user place information
   get stream => _streamController.stream;
 
+  /// Default constructor
   ProfileStatsAreaBloc() {
     _places = _db.places;
     _checkIns = _db.checkIns;
@@ -32,6 +52,7 @@ class ProfileStatsAreaBloc extends Bloc {
     userPlacesInformation = _buildStream(_places, _checkIns, _favorites);
   }
 
+  /// Buil a list of UserPlaceInformation objects that can be sent to the stream
   List<UserPlaceInformation> _buildStream(
       List<TrailPlace> places, List<CheckIn> checkIns, List<String> favorites) {
     List<UserPlaceInformation> retval = List<UserPlaceInformation>();
@@ -42,6 +63,7 @@ class ProfileStatsAreaBloc extends Bloc {
     return retval;
   }
 
+  /// Callback when places get new data
   void _onPlacesUpdated(List<TrailPlace> event) {
     _places = event;
     userPlacesInformation = _buildStream(_places, _checkIns, _favorites);
@@ -49,6 +71,7 @@ class ProfileStatsAreaBloc extends Bloc {
     _streamController.sink.add(userPlacesInformation);
   }
 
+  /// Callback when the user check ins get new data
   void _onCheckInsUpdated(List<CheckIn> event) {
     _checkIns = event;
     userPlacesInformation = _buildStream(_places, _checkIns, _favorites);
@@ -56,6 +79,7 @@ class ProfileStatsAreaBloc extends Bloc {
     _streamController.sink.add(userPlacesInformation);
   }
 
+  /// Callback when the user data gets new data
   void _onUserDataUpdated(UserData userData) {
     _favorites = userData.favorites ?? List<String>();
     userPlacesInformation = _buildStream(_places, _checkIns, _favorites);
@@ -63,6 +87,7 @@ class ProfileStatsAreaBloc extends Bloc {
     _streamController.sink.add(userPlacesInformation);
   }
 
+  /// Dispose object
   @override
   void dispose() {
     _streamController.close();
@@ -72,10 +97,18 @@ class ProfileStatsAreaBloc extends Bloc {
   }
 }
 
+/// An object that combines a place with the current user's
+/// check in status and whether it is a favorite
 class UserPlaceInformation {
+  /// The place that this object refers to
   final TrailPlace place;
+
+  /// True if the user has checked into this place at any time
   final bool userHasCheckedIn;
+
+  /// True if the user has this marked as a favorite place
   final bool isUserFavorite;
 
+  /// Default constructor
   UserPlaceInformation(this.place, this.userHasCheckedIn, this.isUserFavorite);
 }

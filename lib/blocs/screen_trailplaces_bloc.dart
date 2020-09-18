@@ -1,33 +1,43 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/blocs/bloc.dart';
 
-import 'bloc.dart';
-
-/// BLoC for the Trail List Tab screen
+/// BLoC for ScreenTrailList objects
 class ScreenTrailListBloc extends Bloc {
+  /// A reference to the central database
   final _db = TrailDatabase();
+
+  /// A subscription to trail places data
   StreamSubscription _placesSubscription;
 
+  /// The current list of trail places
   List<TrailPlace> trailPlaces = List<TrailPlace>();
 
+  /// Controller for this BLoC's stream
   final StreamController<List<TrailPlace>> _placesStreamController =
       StreamController<List<TrailPlace>>();
+
+  /// The stream for updates to the trail places
   Stream<List<TrailPlace>> get trailPlaceStream =>
       _placesStreamController.stream;
 
+  /// Default constructor
   ScreenTrailListBloc() {
     trailPlaces = _db.places;
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdate);
   }
 
+  /// Callback when places are updated
   void _onPlacesUpdate(List<TrailPlace> places) {
     trailPlaces = places;
     _placesStreamController.add(null);
     _placesStreamController.sink.add(places);
   }
 
+  /// Dispose object
   @override
   void dispose() {
     _placesSubscription.cancel();
