@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
 import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
+import 'package:alabama_beer_trail/screens/screen_privacy_policy.dart';
 import 'package:alabama_beer_trail/screens/tabscreen_profile.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/screens/screen_about.dart';
@@ -173,8 +174,14 @@ class HomeState extends State<Home>
                     title: "Privacy Policy",
                     icon: Icons.info,
                     action: () {
-                      AppLauncher()
-                          .openWebsite(TrailAppSettings.privacyPolicyUrl);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              settings: RouteSettings(
+                                name: '/privacy_policy',
+                              ),
+                              builder: (context) =>
+                                  ScreenPrivacyPolicy()));
                     },
                   ),
                   child: Container(child: Text("Privacy Policy")),
