@@ -17,6 +17,9 @@ class PlaceFilterService {
     var showAll = Map<TrailPlaceCategory, bool>();
     TrailAppSettings.filterStrings.forEach((f) => showAll[f] = true);
     filter = PlaceFilter(
+      sort: _locationService.lastLocation == null
+        ? SortOrder.ALPHABETICAL
+        : SortOrder.DISTANCE,
       categories: showAll,
     );
   }
@@ -29,7 +32,15 @@ class PlaceFilterService {
   Stream<PlaceFilter> get stream => _controller.stream;
 
   void updateSort(SortOrder sortOrder) {
-    filter.sort = sortOrder;
+    if (sortOrder == SortOrder.DISTANCE &&
+        _locationService.lastLocation == null) {
+      _locationService.refreshLocation().then((value) {
+        filter.sort =
+            value == null ? SortOrder.ALPHABETICAL : SortOrder.DISTANCE;
+      });
+    } else {
+      filter.sort = sortOrder;
+    }
     _controller.sink.add(filter);
   }
 
