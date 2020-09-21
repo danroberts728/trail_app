@@ -89,6 +89,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
     Navigator.pop(context);
     ImageCropper.cropImage(
       sourcePath: file.path,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       aspectRatioPresets: [CropAspectRatioPreset.square],
       androidUiSettings: AndroidUiSettings(
           toolbarTitle: "Crop Profile Image",
@@ -190,7 +191,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
               } else {
                 PermissionHandler().requestPermissions(
                     [PermissionGroup.camera]).then((status) {
-                  print(status);
+                  this.showBottomModalSelector();
                 });
               }
             });

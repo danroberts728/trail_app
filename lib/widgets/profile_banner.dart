@@ -41,7 +41,7 @@ class _ProfileBanner extends State<ProfileBanner> {
   void initState() {
     super.initState();
     this._bloc.stream.listen((newData) {
-        this.imageUrl = newData;
+      this.imageUrl = newData;
     });
   }
 
@@ -51,9 +51,10 @@ class _ProfileBanner extends State<ProfileBanner> {
       builder: (context, constraints) {
         return imageUrl != null && imageUrl.isNotEmpty
             ? CachedNetworkImage(
+                color: Colors.grey,
                 imageUrl: this.imageUrl,
                 imageBuilder: (context, imageProvider) => Container(
-                  width: double.infinity,
+                  width: constraints.maxWidth,
                   height: constraints.maxWidth * (9 / 16),
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -65,7 +66,7 @@ class _ProfileBanner extends State<ProfileBanner> {
                 errorWidget: (context, url, error) => Icon(Icons.error),
               )
             : Container(
-                width: double.infinity,
+                width: constraints.maxWidth,
                 height: constraints.maxWidth * (9 / 16),
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -91,6 +92,10 @@ class _ProfileBanner extends State<ProfileBanner> {
 
     ImageCropper.cropImage(
       sourcePath: file.path,
+      aspectRatio: CropAspectRatio(
+        ratioX: 16,
+        ratioY: 9,
+      ),
       aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
       androidUiSettings: AndroidUiSettings(
           toolbarTitle: "Crop Banner Image",
@@ -98,8 +103,9 @@ class _ProfileBanner extends State<ProfileBanner> {
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.ratio16x9,
           lockAspectRatio: true),
-      iosUiSettings:
-          IOSUiSettings(aspectRatioLockEnabled: true, minimumAspectRatio: 1.7),
+      iosUiSettings: IOSUiSettings(
+        aspectRatioLockEnabled: true,
+      ),
     ).then((File croppedFile) {
       var image = decodeImage((croppedFile).readAsBytesSync());
       var scaledImage = copyResize(image, width: 1600, height: 900);
@@ -133,10 +139,10 @@ class _ProfileBanner extends State<ProfileBanner> {
                     child: Text("Camera"),
                     onPressed: () {
                       var picker = ImagePicker();
-                      picker.getImage(
-                        source: ImageSource.camera,
-                        maxHeight: _maxHeight
-                      ).then((file) {
+                      picker
+                          .getImage(
+                              source: ImageSource.camera, maxHeight: _maxHeight)
+                          .then((file) {
                         this.saveImage(file);
                       });
                     },
@@ -146,10 +152,12 @@ class _ProfileBanner extends State<ProfileBanner> {
                     child: Text("Photo Gallery"),
                     onPressed: () {
                       var picker = ImagePicker();
-                      picker.getImage(
+                      picker
+                          .getImage(
                         source: ImageSource.gallery,
                         maxHeight: this._maxHeight,
-                      ).then((file) {
+                      )
+                          .then((file) {
                         this.saveImage(file);
                       });
                     },
@@ -185,6 +193,7 @@ class _ProfileBanner extends State<ProfileBanner> {
               PermissionHandler()
                   .requestPermissions([PermissionGroup.camera]).then((status) {
                 print(status);
+                this.showBottomModalSelector();
               });
             }
           });
