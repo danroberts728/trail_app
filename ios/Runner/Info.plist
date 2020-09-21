@@ -46,7 +46,11 @@
 	<key>NSMotionUsageDescription</key>
 	<string>Required usage description for a Flutter dependency</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Used to select an optional profile and user photos</string>
+	<string>Used to select optional profile and user photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to take optional profile and user photos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to take optional profile and user photos</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Required usage description for a Flutter dependency</string>
 	<key>NSCalendarsUsageDescription</key>
