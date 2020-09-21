@@ -278,7 +278,7 @@ packages:
       name: flutter_auth_buttons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0"
+    version: "0.10.0"
   flutter_blurhash:
     dependency: transitive
     description:
@@ -316,7 +316,7 @@ packages:
       name: flutter_widget_from_html_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.5.0+3"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -351,7 +351,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.30"
+    version: "0.5.32"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -393,7 +393,7 @@ packages:
       name: html_unescape
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1+3"
+    version: "1.0.2"
   http:
     dependency: "direct main"
     description:
@@ -421,21 +421,21 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.13"
+    version: "2.1.17"
   image_cropper:
     dependency: "direct main"
     description:
       name: image_cropper
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.3.1"
   image_picker:
     dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.7+7"
+    version: "0.6.7+10"
   image_picker_platform_interface:
     dependency: transitive
     description:
@@ -881,7 +881,7 @@ packages:
       name: webfeed
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.6.0"
   webkit_inspection_protocol:
     dependency: transitive
     description:
@@ -902,7 +902,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.7.0"
+    version: "4.5.1"
   yaml:
     dependency: transitive
     description:
