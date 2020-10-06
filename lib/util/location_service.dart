@@ -53,6 +53,7 @@ class LocationService {
           return lastLocation;
         });
       } else {
+        lastLocation = null;
         return lastLocation;
       }
     });

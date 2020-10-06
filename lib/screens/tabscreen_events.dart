@@ -52,7 +52,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
                     if (index == 0) {
                       return TopEventFilter();
                     } else {
-                      TrailEvent event = snapshot.data[index-1];
+                      TrailEvent event = snapshot.data[index - 1];
                       return TrailEventCard(
                         key: ValueKey(event.id),
                         startMargin: 4.0,
@@ -82,10 +82,9 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
   }
 
   Future<void> _refreshPulled() {
-    return Future.delayed(Duration(seconds: 1), () {
-      _tabScreenTrailEventsBloc.refreshLocation();
+    return _tabScreenTrailEventsBloc.refreshLocation().then((_) {
       Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text("Events list updated.")));
+          .showSnackBar(SnackBar(content: Text("Location updated.")));
     });
   }
 }

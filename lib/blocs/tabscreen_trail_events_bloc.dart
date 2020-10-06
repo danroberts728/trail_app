@@ -69,8 +69,8 @@ class TabScreenTrailEventsBloc extends Bloc {
     }).toList());
   }
 
-  void refreshLocation() {
-    _location.refreshLocation();
+  Future<void> refreshLocation() {
+    return _location.refreshLocation();
   }
 
   void updateDistanceFilter(double distance) {

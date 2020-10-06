@@ -56,7 +56,7 @@ class _TabScreenNews extends State<TabScreenNews>
                   if (newsItems == null) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    return Container(                      
+                    return Container(
                       child: TrailNewsItem(newsItems[index]),
                     );
                   }
@@ -72,18 +72,15 @@ class _TabScreenNews extends State<TabScreenNews>
   void _scrollToTop(newTab) {
     if (newTab == 2 && _tabSelectionService.lastTapSame) {
       _controller.animateTo(0.0,
-          duration:
-              Duration(milliseconds: _controller.position.pixels ~/ 2),
+          duration: Duration(milliseconds: _controller.position.pixels ~/ 2),
           curve: Curves.easeOut);
     }
   }
 
   Future<void> _refreshPulled() {
-    return Future.delayed(Duration(seconds: 1), () {
-      _trailNewsBloc.onReadTimer().then((_) {
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("News updated.")));
-      });
+    return _trailNewsBloc.onReadTimer().then((_) {
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text("News updated.")));
     });
   }
 }

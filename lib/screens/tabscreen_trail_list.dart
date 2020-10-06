@@ -60,7 +60,7 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
                   } else {
                     return TrailPlaceCard(
                       key: ValueKey(places[index - 1].id),
-                      place: places[index-1],
+                      place: places[index - 1],
                     );
                   }
                 },
@@ -73,10 +73,9 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
   }
 
   Future<void> _refreshPulled() {
-    return Future.delayed(Duration(seconds: 1), () {
-      _bloc.refreshPulled();
+    return _bloc.refreshPulled().then((_) {
       Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text("Trail list updated.")));
+          .showSnackBar(SnackBar(content: Text("Location updated.")));
     });
   }
 
