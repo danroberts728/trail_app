@@ -3,6 +3,7 @@ import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
+import 'package:alabama_beer_trail/util/open_hours_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
 import '../data/trail_place_category.dart';
@@ -86,14 +87,7 @@ class PlaceFilterService {
     if (place.hoursDetail == null) {
       return false;
     }
-    DateTime now = DateTime.now();
-    try {
-      int todayInt =
-          now.weekday == 7 ? 0 : now.weekday; // IOS 8601 to Google conversion
-      return place.hoursDetail.any((t) => t['open']['day'] == todayInt);
-    } catch (err) {
-      return false;
-    }
+    return OpenHoursMethods.isOpenLaterToday(place.hoursDetail);
   }
 
   /// Is the [place] open now? Returns false
@@ -102,23 +96,7 @@ class PlaceFilterService {
     if (place.hoursDetail == null) {
       return false;
     }
-    if (isOpenToday(place) != true) {
-      // Can't be open now if it's not open today
-      return false;
-    }
-    DateTime now = DateTime.now();
-    try {
-      int todayInt =
-          now.weekday == 7 ? 0 : now.weekday; // IOS 8601 to Google conversion
-      List<Map<String, dynamic>> hoursToday =
-          place.hoursDetail.where((t) => t['open']['day'] == todayInt).toList();
-      int nowHour = now.hour * 100 + now.minute;
-      return hoursToday.any((t) =>
-          nowHour > int.parse(t['open']['time']) &&
-          nowHour < int.parse(t['close']['time']));
-    } catch (err) {
-      return false;
-    }
+    return OpenHoursMethods.isOpenNow(place.hoursDetail);
   }
 
   List<TrailPlace> applyFilter(

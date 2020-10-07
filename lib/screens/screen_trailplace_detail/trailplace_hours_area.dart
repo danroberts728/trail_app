@@ -1,30 +1,15 @@
+import 'package:alabama_beer_trail/blocs/trailplace_hours_area_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/util/open_hours_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/expansion_section.dart';
 import 'package:flutter/material.dart';
-
-const double _defaultIconSize = 26.0;
-
-const List<String> _weekdays = [
-  'filler',
-  'monday',
-  'tuesday',
-  'wednesday',
-  'thursday',
-  'friday',
-  'saturday',
-  'sunday'
-];
-
-DateTime _now = DateTime.now().toLocal();
-String _nowDay = _weekdays[_now.weekday];
 
 class TrailPlaceHoursArea extends StatefulWidget {
   final TrailPlace place;
   final double iconSize;
 
-  const TrailPlaceHoursArea(
-      {Key key, this.place, this.iconSize = _defaultIconSize})
+  const TrailPlaceHoursArea({Key key, this.place, this.iconSize = 26.0})
       : super(key: key);
 
   @override
@@ -32,20 +17,43 @@ class TrailPlaceHoursArea extends StatefulWidget {
 }
 
 class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
-  Text _status;
+  String _status;
+
+  TrailPlaceHoursAreaBloc _bloc = TrailPlaceHoursAreaBloc();
+
+  String get _nowDay {
+    return [
+      'filler',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday'
+    ][DateTime.now().weekday];
+  }
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      _status = _getStatusString(widget.place.hours);
+      _status = _bloc.getStatusString(widget.place.hoursDetail);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return ExpansionSection(
-      title: _status,
+      title: Text(
+        _status,
+        style: TextStyle(
+            fontSize: 16.0,
+            color: OpenHoursMethods.isOpenNow(widget.place.hoursDetail) || 
+                OpenHoursMethods.isOpenLaterToday(widget.place.hoursDetail)
+                ? Colors.green
+                : Colors.black),
+      ),
       leading: Icon(
         Icons.access_time,
         size: widget.iconSize,
@@ -72,7 +80,10 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
                   style: TextStyle(
                     fontSize: 16.0,
                     height: 1.5,
-                    color: key == _nowDay ? Colors.green : Colors.black,
+                    fontWeight: key == _nowDay
+                      ? FontWeight.bold
+                      : FontWeight.normal,
+                    color: Colors.black,
                   ),
                 ),
                 Spacer(),
@@ -81,7 +92,10 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
                   style: TextStyle(
                     fontSize: 16.0,
                     height: 1.5,
-                    color: key == _nowDay ? Colors.green : Colors.black,
+                    fontWeight: key == _nowDay
+                      ? FontWeight.bold
+                      : FontWeight.normal,
+                    color: Colors.black,
                   ),
                 ),
               ],
@@ -91,26 +105,4 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
       ),
     );
   }
-}
-
-Text _getStatusString(Map<String, String> hours) {
-  String status = "Closed today";
-  Color statusColor = Colors.red;
-
-  if (hours[_nowDay].toLowerCase() == "closed") {
-    status = "Closed Today";
-    statusColor = Colors.red;
-  } else {
-    status = "Open Today " + hours[_nowDay];
-    statusColor = Colors.green;
-  }
-
-  return Text(
-    status,
-    style: TextStyle(
-      fontSize: 14.0,
-      color: statusColor,
-    ),
-    overflow: TextOverflow.fade,
-  );
 }
