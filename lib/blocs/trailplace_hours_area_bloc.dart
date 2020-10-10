@@ -9,7 +9,7 @@ class TrailPlaceHoursAreaBloc extends Bloc {
   String getStatusString(List<Map<String, dynamic>> hours) {
     String status = "Closed today";
     if (OpenHoursMethods.isOpenNow(hours)) {
-      status = "Open until " + OpenHoursMethods.nextOpenString(hours);
+      status = "Open until " + OpenHoursMethods.nextCloseString(hours, includeDay: false);
     } else if (OpenHoursMethods.isOpenLaterToday(hours)) {
       status = "Open today at " +
           OpenHoursMethods.nextOpenString(hours, includeDay: false);
