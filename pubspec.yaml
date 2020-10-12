@@ -5,7 +5,7 @@ author: Dan Roberts <droberts@alabamabrewers.org>
 version: 1.2.1+15
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.8.0 <3.0.0"
 
 dependencies:
   flutter:
