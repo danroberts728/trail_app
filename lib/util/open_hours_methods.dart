@@ -76,7 +76,8 @@ class OpenHoursMethods {
       bool afterOpenDay = nowDayGoogle >= openDay;
       bool beforeCloseDay = nowDayGoogle <= closeDayCalc;
       bool afterOpenTime = nowDayGoogle >= openDay && nowTime >= openTime;
-      bool beforeCloseTime = nowDayGoogle <= closeDayCalc && nowTime <= closeTime;
+      bool beforeCloseTime = (nowDayGoogle == closeDayCalc && nowTime <= closeTime)
+        || (nowDayGoogle <= closeDayCalc);
 
       if (afterOpenDay && afterOpenTime && beforeCloseDay && beforeCloseTime) {
         retval = true;
