@@ -60,10 +60,13 @@ class _RegisterScreen extends State<RegisterScreen> {
                             ),
                             TextFormField(
                               controller: _emailController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 icon: Icon(Icons.email),
                                 hintText: "user@mydomain.com",
                                 labelText: "Email Address",
+                                labelStyle: TextStyle(
+                                  color: TrailAppSettings.subHeadingColor,
+                                ),
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -80,9 +83,12 @@ class _RegisterScreen extends State<RegisterScreen> {
                             TextFormField(
                               controller: _passwordController,
                               obscureText: true,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 icon: Icon(Icons.lock),
                                 labelText: "Password",
+                                labelStyle: TextStyle(
+                                  color: TrailAppSettings.subHeadingColor,
+                                ),
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -97,9 +103,12 @@ class _RegisterScreen extends State<RegisterScreen> {
                             TextFormField(
                               controller: _password2Controller,
                               obscureText: true,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 icon: Icon(Icons.lock),
                                 labelText: "Confirm Password",
+                                labelStyle: TextStyle(
+                                  color: TrailAppSettings.subHeadingColor,
+                                ),
                               ),
                               validator: (value) {
                                 if (value != _passwordController.text) {
@@ -126,7 +135,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                                       setState(() {
                                         _success = true;
                                       });
-                                      Navigator.pop(context);
+                                      Navigator.popUntil(context, (route) => route.isFirst);
                                     }
                                   });
                                 }
@@ -142,7 +151,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             Text("Have an account?"),
                             FlatButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.popUntil(context, (route) => route.isFirst);
                               },
                               child: Text(
                                 "Sign in",

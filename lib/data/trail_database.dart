@@ -159,7 +159,7 @@ class TrailDatabase {
   }
 
   void _onUserDataUpdate(DocumentSnapshot snapshot) {
-    if (snapshot == null) {
+    if (snapshot == null || snapshot.data() == null) {
       userData = UserData.createBlank();
       _userDataStreamController.sink.add(userData);
     } else {
