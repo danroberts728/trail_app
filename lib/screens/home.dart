@@ -217,18 +217,19 @@ class HomeState extends State<Home>
         items: [
           BottomNavigationBarItem(
             icon: new Icon(TrailAppSettings.navBarTrailIcon),
-            title: new Text(TrailAppSettings.navBarTrailLabel),
+            label: TrailAppSettings.navBarTrailLabel,
           ),
           BottomNavigationBarItem(
             icon: Icon(TrailAppSettings.navBarEventsIcon),
-            title: Text(TrailAppSettings.navBarEventsLabel),
+            label: TrailAppSettings.navBarEventsLabel,
           ),
           BottomNavigationBarItem(
               icon: Icon(TrailAppSettings.navBarNewsIcon),
-              title: Text(TrailAppSettings.navBarNewsLabel)),
+              label: TrailAppSettings.navBarNewsLabel,
+          ),
           BottomNavigationBarItem(
             icon: new Icon(TrailAppSettings.navBarProfileIcon),
-            title: new Text(TrailAppSettings.navBarProfileLabel),
+            label: TrailAppSettings.navBarProfileLabel,
           ),
         ],
       ),
