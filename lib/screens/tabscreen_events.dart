@@ -1,27 +1,39 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_events_bloc.dart';
-import 'package:alabama_beer_trail/widgets/top_event_filter.dart';
+import 'package:alabama_beer_trail/util/event_filter.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
+import 'package:alabama_beer_trail/widgets/dropdown_event_filter.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
+/// The Trail Events tab screen
 class TabScreenTrailEvents extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _TabScreenTrailEvents();
 }
 
+/// The state for the Trail Events tab
 class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
-  TabScreenTrailEventsBloc _tabScreenTrailEventsBloc =
-      TabScreenTrailEventsBloc();
-
   /// The BLoC for the app tab selection
+  TabScreenTrailEventsBloc _tabScreenTrailEventsBloc;
+
+  /// A service to communicate tab changes
   final _tabSelectionService = TabSelectionService();
 
+  /// The filter used for events
+  EventFilter _filter;
+
+  /// Controller for the vertical scroll widget
   ScrollController _controller = ScrollController();
 
+  /// Default constructor
   _TabScreenTrailEvents() {
+    _filter = EventFilter(locationService: LocationService());
+    _tabScreenTrailEventsBloc = TabScreenTrailEventsBloc(_filter);
     _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
   }
 
@@ -50,7 +62,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
                   itemCount: snapshot.data.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      return TopEventFilter();
+                      return DropDownEventFilter(filter: _filter,);
                     } else {
                       TrailEvent event = snapshot.data[index - 1];
                       return TrailEventCard(
@@ -73,6 +85,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
     );
   }
 
+  /// Scrolls the tab to the top of the vertical scroll
   void _scrollToTop(newTab) {
     if (newTab == 1 && _tabSelectionService.lastTapSame) {
       _controller.animateTo(0.0,
@@ -81,10 +94,11 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
     }
   }
 
+  /// Handle refresh pulldown
   Future<void> _refreshPulled() {
     return _tabScreenTrailEventsBloc.refreshLocation().then((_) {
       Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text("Location updated.")));
+          .showSnackBar(SnackBar(content: Text("Events updated.")));
     });
   }
 }

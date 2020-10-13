@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_list_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/widgets/top_list_sort_and_filter.dart';
@@ -75,7 +76,7 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
   Future<void> _refreshPulled() {
     return _bloc.refreshPulled().then((_) {
       Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text("Location updated.")));
+          .showSnackBar(SnackBar(content: Text("Places updated.")));
     });
   }
 

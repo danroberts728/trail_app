@@ -1,14 +1,24 @@
-import 'package:alabama_beer_trail/util/event_filter_service.dart';
+// Copyright (c) 2020, Fermented Software.
+import 'package:alabama_beer_trail/util/event_filter.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
-class TopEventFilter extends StatefulWidget {
+/// A dropdown filter widget for events
+class DropDownEventFilter extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _TopEventFilter();
+  State<StatefulWidget> createState() => _DropDownEventFilter();
+
+  /// The event filter associated with this widget
+  final EventFilter filter;
+
+  /// Default constructor
+  DropDownEventFilter({@required this.filter});
 }
 
-class _TopEventFilter extends State<TopEventFilter> {
-  final List<double> _options = [5, 25, 50, 100, double.infinity];
+/// State for DropDownEventFilter
+class _DropDownEventFilter extends State<DropDownEventFilter> {
+  /// Filter distance selection options
+  final List<double> _options = TrailAppSettings.eventFilterDistances..add(double.infinity);
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +48,8 @@ class _TopEventFilter extends State<TopEventFilter> {
                   fontSize: 14,
                   color: Colors.black54,
                 ),
-                value: EventFilterService().filter.distance,
-                onChanged: (value) => EventFilterService().updateFilter(distance: value),
+                value: widget.filter.distance,
+                onChanged: (value) => widget.filter.updateFilter(distance: value),
                 items: _options.map((double d) {
                     return DropdownMenuItem(
                       child: d == double.infinity

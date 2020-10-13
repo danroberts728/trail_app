@@ -59,7 +59,7 @@ class TrailAppSettings {
   static final IconData navBarProfileIcon = Icons.person;
 
   // Events Tab Options
-  static final List<int> eventFilterDistances = [5, 25, 50, 100];
+  static final List<double> eventFilterDistances = [5, 25, 50, 100];
 
   // Other Options
   static final bool navBarShowSelectedLabels = true;
