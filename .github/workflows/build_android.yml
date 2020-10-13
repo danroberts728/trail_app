@@ -21,7 +21,7 @@ jobs:
         flutter-version: '1.22.1'
     - name: Decode google-services.json
       env:
-        FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        FIREBASE_SECRET: ${{ secrets.GOOGLE_SERVICES }}
         run: echo $FIREBASE_SECRET > beer_trail_app/android/app/google-services.json
     - name: Install dependencies
       run: flutter pub get
