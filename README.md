@@ -1,3 +1,4 @@
+![Test & Build for Android](https://github.com/danroberts728/beer_trail_app/workflows/Test%20&%20Build%20for%20Android/badge.svg)
 # Trail App
 
 A new Flutter project.
