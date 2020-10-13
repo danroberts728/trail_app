@@ -26,4 +26,4 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
     - name: Build
-      run: flutter build appbundle
+      run: flutter build appbundle --debug
