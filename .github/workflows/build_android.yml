@@ -19,6 +19,10 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         flutter-version: '1.22.1'
+    - name: Decode google-services.json
+      env:
+        FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        run: echo $FIREBASE_SECRET > beer_trail_app/android/app/google-services.json
     - name: Install dependencies
       run: flutter pub get
     - name: Build
