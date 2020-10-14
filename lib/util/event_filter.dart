@@ -4,14 +4,12 @@ import 'package:alabama_beer_trail/util/location_service.dart';
 
 /// A filter for trail events
 class EventFilter {
+  /// Default constructor.
+  EventFilter({LocationService locationService, this.distance = 50.0})
+      : assert(locationService != null) {
+    _locationService = locationService;
 
-  /// Default constructor. If [locationService] is null, it will use
-  /// the LocationService singleton.
-  EventFilter({locationService, this.distance = 50.0}) {
-    if(locationService == null) {
-      _locationService = LocationService();
-    }
-    if(locationService.lastLocation == null) {
+    if (locationService.lastLocation == null) {
       distance = double.infinity;
     }
   }
@@ -31,15 +29,13 @@ class EventFilter {
       distance = 0;
     }
 
-    if(distance < double.infinity && _locationService.lastLocation == null) {
+    if (distance < double.infinity && _locationService.lastLocation == null) {
       _locationService.refreshLocation().then((value) {
-        distance = value == null
-          ? double.infinity
-          : distance;
+        distance = value == null ? double.infinity : distance;
       });
     } else {
       this.distance = distance;
-    }    
+    }
     _controller.sink.add(this);
   }
 
