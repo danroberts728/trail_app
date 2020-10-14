@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/util/place_filter_service.dart';
+import 'package:alabama_beer_trail/util/place_filter.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 
 import 'bloc.dart';
@@ -13,12 +13,12 @@ class TabScreenTrailListBloc extends Bloc {
   final TrailDatabase _db = TrailDatabase();
   StreamSubscription _placesSubscription;
   StreamSubscription _placeFilterSubscription;
-  PlaceFilterService _placeFilterService = PlaceFilterService();
+  PlaceFilter _placeFilter;
   LocationService _locationService = LocationService();
 
   List<TrailPlace> allTrailPlaces = List<TrailPlace>();
   List<TrailPlace> get filteredTrailPlaces =>
-    _placeFilterService.applyFilter(allPlaces: allTrailPlaces);
+    _placeFilter.applyFilter(allPlaces: allTrailPlaces);
 
   final _allPlacesStreamController = StreamController<List<TrailPlace>>();
   Stream<List<TrailPlace>> get allTrailPlaceStream =>
@@ -28,11 +28,12 @@ class TabScreenTrailListBloc extends Bloc {
   Stream<List<TrailPlace>> get filteredTraiilPlacesStream =>
       _filteredPlacesStreamController.stream;
 
-  TabScreenTrailListBloc() {
+  TabScreenTrailListBloc(PlaceFilter filter) {
+    _placeFilter = filter;
     _locationService.locationStream.listen(_onLocationUpdate);
     allTrailPlaces = _db.places;
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdate);
-    _placeFilterSubscription = _placeFilterService.stream.listen(_onFilterUpdate);
+    _placeFilterSubscription = _placeFilter.stream.listen(_onFilterUpdate);
   }
 
   Future<void> refreshPulled() {
@@ -53,7 +54,7 @@ class TabScreenTrailListBloc extends Bloc {
     _filteredPlacesStreamController.sink.add(filteredTrailPlaces);
   }
 
-  void _onFilterUpdate(PlaceFilter filter) {
+  void _onFilterUpdate(PlaceFilterCriteria filter) {
     _filteredPlacesStreamController.sink.add(filteredTrailPlaces);
   }
 

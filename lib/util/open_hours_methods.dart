@@ -67,7 +67,7 @@ class OpenHoursMethods {
       int openTime = int.tryParse(value['open']['time']);
       int closeDay = value['close']['day'];
       int closeDayCalc = closeDay;
-      if (closeDay < nowDayGoogle) {
+      if (closeDay < openDay) {
         // This has wrapped around to next week
         closeDayCalc = closeDay + 7;
       }
@@ -75,9 +75,10 @@ class OpenHoursMethods {
 
       bool afterOpenDay = nowDayGoogle >= openDay;
       bool beforeCloseDay = nowDayGoogle <= closeDayCalc;
-      bool afterOpenTime = nowDayGoogle >= openDay && nowTime >= openTime;
+      bool afterOpenTime = (nowDayGoogle == openDay && nowTime >= openTime)
+        || (nowDayGoogle > openDay);
       bool beforeCloseTime = (nowDayGoogle == closeDayCalc && nowTime <= closeTime)
-        || (nowDayGoogle <= closeDayCalc);
+        || (nowDayGoogle < closeDayCalc);
 
       if (afterOpenDay && afterOpenTime && beforeCloseDay && beforeCloseTime) {
         retval = true;

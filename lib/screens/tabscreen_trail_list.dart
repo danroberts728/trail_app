@@ -1,6 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_list_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/util/place_filter.dart';
 import 'package:alabama_beer_trail/widgets/top_list_sort_and_filter.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_card.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
@@ -18,8 +19,12 @@ class TabScreenTrailList extends StatefulWidget {
 class _TabScreenTrailList extends State<TabScreenTrailList>
     with AutomaticKeepAliveClientMixin<TabScreenTrailList> {
   _TabScreenTrailList() {
+    _bloc = TabScreenTrailListBloc(_placeFilter);
     _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
   }
+
+  /// The filter for the trail place list on this tab screen
+  final PlaceFilter _placeFilter = PlaceFilter();
 
   /// The ListView Controller
   final _listViewController = ScrollController();
@@ -28,7 +33,7 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
   final _tabSelectionService = TabSelectionService();
 
   /// The BloC for the trail places
-  var _bloc = TabScreenTrailListBloc();
+  TabScreenTrailListBloc _bloc;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +62,7 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
                 itemCount: places.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return TopListSortAndFilter();
+                    return TopListSortAndFilter(_placeFilter);
                   } else {
                     return TrailPlaceCard(
                       key: ValueKey(places[index - 1].id),

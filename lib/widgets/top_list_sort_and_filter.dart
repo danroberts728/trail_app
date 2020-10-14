@@ -1,8 +1,11 @@
-import 'package:alabama_beer_trail/util/place_filter_service.dart';
+import 'package:alabama_beer_trail/util/place_filter.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 class TopListSortAndFilter extends StatefulWidget {
+  final PlaceFilter filter;
+  TopListSortAndFilter(this.filter);
+
   @override
   State<StatefulWidget> createState() => _TopListSortAndFiltert();
 }
@@ -36,8 +39,8 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
                   fontSize: 14,
                   color: Colors.black54,
                 ),
-                value: PlaceFilterService().filter.sort,
-                onChanged: (value) => PlaceFilterService().updateSort(value),
+                value: widget.filter.filterCriteria.sort,
+                onChanged: (value) => widget.filter.updateSort(value),
                 items: [                  
                   DropdownMenuItem(
                     child: Text("Alphabetical "),
@@ -71,8 +74,8 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
                   fontSize: 14,
                   color: Colors.black54,
                 ),
-                value: PlaceFilterService().filter.hoursOption,
-                onChanged: (value) => PlaceFilterService().updateHoursOption(value),
+                value: widget.filter.filterCriteria.hoursOption,
+                onChanged: (value) => widget.filter.updateHoursOption(value),
                 items: [                  
                   DropdownMenuItem(
                     child: Text("Any Hours "),
