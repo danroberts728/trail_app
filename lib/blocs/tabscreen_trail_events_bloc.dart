@@ -72,8 +72,8 @@ class TabScreenTrailEventsBloc extends Bloc {
       double distance =
           GeoMethods.calculateDistance(lastLocation, eventLocation);
       // Show if distance is unkown, it's a featured event, or its within filter
-      return distance == null || e.featured || distance <= _filter?.distance ??
-          double.infinity;
+      return distance == null || e.featured || distance <= (_filter?.distance ??
+          double.infinity);
     }).toList());
   }
 
