@@ -1,6 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -12,16 +11,29 @@ class CheckinButton extends StatefulWidget {
   final bool canCheckin;
   final TrailPlace place;
   final bool showAlways;
+  final ButtonCheckInBloc bloc;
 
   CheckinButton(
-      {this.canCheckin = false, @required this.place, this.showAlways = false});
+      {@required this.bloc,
+      @required this.place,
+      this.canCheckin = false,
+      this.showAlways = false,
+      })
+      : assert(bloc != null),
+        assert(place != null);
 
   @override
   State<StatefulWidget> createState() => _CheckinButton();
 }
 
 class _CheckinButton extends State<CheckinButton> {
-  var _bloc = ButtonCheckInBloc(TrailDatabase());
+  ButtonCheckInBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = widget.bloc;    
+  }
 
   @override
   Widget build(BuildContext context) {

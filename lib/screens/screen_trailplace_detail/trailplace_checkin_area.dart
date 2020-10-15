@@ -1,3 +1,5 @@
+import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
@@ -36,6 +38,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
               bottom: 0,
             ),
             child: CheckinButton(
+              bloc: ButtonCheckInBloc(TrailDatabase()),
               showAlways: true,
               place: this.place,
               canCheckin:

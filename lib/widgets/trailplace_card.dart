@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
 import 'package:alabama_beer_trail/blocs/trailplace_card_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
@@ -184,6 +186,7 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 4.0),
                 child: CheckinButton(
+                  bloc: ButtonCheckInBloc(TrailDatabase()),
                   showAlways: false,
                   canCheckin: this._distance != null &&
                       this._distance <= TrailAppSettings.minDistanceToCheckin,

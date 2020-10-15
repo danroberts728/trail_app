@@ -28,7 +28,10 @@ import 'package:flutter/material.dart';
 /// and directs the user to the tabs
 /// or the sign in screen
 class Home extends StatefulWidget {
-  Home(this.observer);
+  Home({this.observer, this.key});
+
+  @override
+  final Key key;
 
   final FirebaseAnalyticsObserver observer;
 
@@ -84,7 +87,9 @@ class HomeState extends State<Home>
   @override
   void initState() {
     super.initState();
-    _appBarTitle = Text(_appTabs[_currentIndex].appBarTitle);
+    _appBarTitle = Text(_appTabs[_currentIndex].appBarTitle,
+      key: Key("MainAppBarTitle")
+    );
     _firebaseMessaging.requestNotificationPermissions(
       const IosNotificationSettings(
         sound: true,

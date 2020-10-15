@@ -44,6 +44,8 @@ dev_dependencies:
   mockito: ^4.1.1
   flutter_test:
     sdk: flutter
+  flutter_driver:
+    sdk: flutter
 
 flutter:
   uses-material-design: true

@@ -60,7 +60,7 @@ class TrailApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return AppLoadingScreen();
           } else {
-            return Home(observer);
+            return Home(observer: observer, key: Key('home'));
           }
         },
       ),
