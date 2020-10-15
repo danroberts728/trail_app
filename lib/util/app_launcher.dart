@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 

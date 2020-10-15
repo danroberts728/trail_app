@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/data/trail_place_category.dart';
 import 'package:flutter/material.dart';
 

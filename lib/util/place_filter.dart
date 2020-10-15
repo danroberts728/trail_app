@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
@@ -5,7 +6,10 @@ import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/open_hours_methods.dart';
 
+/// A place filter with filter criteria and methods for sorting
+/// and filtering a list of places to match the criteria
 class PlaceFilter {
+  /// The filter criteria
   PlaceFilterCriteria filterCriteria = PlaceFilterCriteria(
       sort: SortOrder.DISTANCE, hoursOption: HoursOption.ALL);
   LocationService _locationService = LocationService();
@@ -14,6 +18,7 @@ class PlaceFilter {
       StreamController<PlaceFilterCriteria>.broadcast();
   Stream<PlaceFilterCriteria> get stream => _controller.stream;
 
+  /// Updates the sort order of the filter criteria
   void updateSort(SortOrder sortOrder) {
     if (sortOrder == SortOrder.DISTANCE &&
         _locationService.lastLocation == null) {
@@ -27,29 +32,15 @@ class PlaceFilter {
     _controller.sink.add(filterCriteria);
   }
 
+  /// Updates the hours option of the filter criteria
   void updateHoursOption(HoursOption option) {
     filterCriteria.hoursOption = option;
     _controller.sink.add(filterCriteria);
   }
 
-  /// Is the [place] open today? Returns false
-  /// if unable to determine.
-  bool isOpenLaterToday(TrailPlace place) {
-    if (place.hoursDetail == null) {
-      return false;
-    }
-    return OpenHoursMethods.isOpenLaterToday(place.hoursDetail);
-  }
-
-  /// Is the [place] open now? Returns false
-  /// if unable to determine.
-  bool isOpenNow(TrailPlace place) {
-    if (place.hoursDetail == null) {
-      return false;
-    }
-    return OpenHoursMethods.isOpenNow(place.hoursDetail);
-  }
-
+  /// Applies the filter to the list of [allPlaces]
+  /// Returns a list sorted and filtered accroding to the 
+  /// filter criteria
   List<TrailPlace> applyFilter(
       {List<TrailPlace> allPlaces,
       List<CheckIn> checkIns,
@@ -59,10 +50,14 @@ class PlaceFilter {
       // Filter By Hours
       if (filterCriteria.hoursOption == HoursOption.OPEN_TODAY) {
         filtered = filtered
-            .where((p) => (isOpenNow(p) || isOpenLaterToday(p)))
+            .where((p) =>
+                OpenHoursMethods.isOpenToday(p.hoursDetail, DateTime.now()))
             .toList();
       } else if (filterCriteria.hoursOption == HoursOption.OPEN_NOW) {
-        filtered = filtered.where((p) => isOpenNow(p)).toList();
+        filtered = filtered
+            .where((p) =>
+                OpenHoursMethods.isOpenNow(p.hoursDetail, DateTime.now()))
+            .toList();
       }
     }
     // Sort
@@ -86,19 +81,25 @@ class PlaceFilter {
   }
 }
 
+/// Criteria for the filter
 class PlaceFilterCriteria {
   SortOrder sort;
   HoursOption hoursOption;
 
+  /// Default constructor
+  /// [sort] is how to sort the resulting list
+  /// [hoursOption] is how/whether to filter the list by hours
   PlaceFilterCriteria(
       {this.sort = SortOrder.DISTANCE, this.hoursOption = HoursOption.ALL});
 }
 
+/// The sort order of a list of places
 enum SortOrder {
   ALPHABETICAL,
   DISTANCE,
 }
 
+/// Filter options for places based on its open status
 enum HoursOption {
   ALL,
   OPEN_NOW,

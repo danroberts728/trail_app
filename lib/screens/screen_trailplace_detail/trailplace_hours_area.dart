@@ -49,8 +49,7 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
         _status,
         style: TextStyle(
             fontSize: 16.0,
-            color: OpenHoursMethods.isOpenNow(widget.place.hoursDetail) || 
-                OpenHoursMethods.isOpenLaterToday(widget.place.hoursDetail)
+            color: OpenHoursMethods.isOpenToday(widget.place.hoursDetail, DateTime.now())
                 ? Colors.green
                 : Colors.black),
       ),

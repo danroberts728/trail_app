@@ -3,18 +3,19 @@ import 'package:alabama_beer_trail/util/open_hours_methods.dart';
 
 class TrailPlaceHoursAreaBloc extends Bloc {
   bool isOpenNow(List<Map<String,dynamic>> hours) {
-    return OpenHoursMethods.isOpenNow(hours);
+    return OpenHoursMethods.isOpenNow(hours, DateTime.now());
   } 
 
   String getStatusString(List<Map<String, dynamic>> hours) {
+    DateTime now = DateTime.now();
     String status = "Closed today";
-    if (OpenHoursMethods.isOpenNow(hours)) {
-      status = "Open until " + OpenHoursMethods.nextCloseString(hours, includeDay: false);
-    } else if (OpenHoursMethods.isOpenLaterToday(hours)) {
+    if (OpenHoursMethods.isOpenNow(hours, now)) {
+      status = "Open until " + OpenHoursMethods.nextCloseString(hours, now, includeDay: false);
+    } else if (OpenHoursMethods.isOpenLaterToday(hours, now)) {
       status = "Open today at " +
-          OpenHoursMethods.nextOpenString(hours, includeDay: false);
+          OpenHoursMethods.nextOpenString(hours, now, includeDay: false);
     } else {
-      status = "Open " + OpenHoursMethods.nextOpenString(hours);
+      status = "Open " + OpenHoursMethods.nextOpenString(hours, now);
     }
 
     return status;

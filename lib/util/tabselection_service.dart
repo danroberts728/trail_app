@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
 class TabSelectionService {

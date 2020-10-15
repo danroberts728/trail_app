@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 const List<String> _googleWeekdays = [
   'sunday',
   'monday',
@@ -19,15 +20,12 @@ const List<String> _iso8601WeekDays = [
   'sunday',
 ];
 
-DateTime get _now {
-  return DateTime.now().toLocal();
-}
-
-String get _nowDayIso8601 {
-  return _iso8601WeekDays[_now.weekday];
-}
-
 class OpenHoursMethods {
+  static String _nowDayIso8601(DateTime now) {
+    return _iso8601WeekDays[now.weekday];
+  }
+
+
   static String convertMilitaryTime(String time) {
     String amPm = "AM";
     int milTime = int.tryParse(time);
@@ -40,9 +38,9 @@ class OpenHoursMethods {
       // Convert to civilian PM times if after 1259
       civTime = milTime - 1200;
     }
-    if(milTime == 0) {
-      // If midnight, make it 1200
-      civTime = 1200;
+    if(milTime >= 0 && milTime < 100) {
+      // If midnight hour, make it 12xx
+      civTime = milTime + 1200;
     }
 
     String hour = civTime.toString().padLeft(4, '0').substring(0, 2);
@@ -57,60 +55,106 @@ class OpenHoursMethods {
   }
 
   /// Returns true if [hours] shows that it is currently open
-  static bool isOpenNow(List<Map<String, dynamic>> hours) {
-    bool retval = false;
-    var nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601);
-    var nowTime = _now.hour * 100 + _now.minute;
-    for (int i = 0; i < hours.length; i++) {
-      Map<String, dynamic> value = hours[i];
-      int openDay = value['open']['day'];
-      int openTime = int.tryParse(value['open']['time']);
-      int closeDay = value['close']['day'];
-      int closeDayCalc = closeDay;
-      if (closeDay < openDay) {
-        // This has wrapped around to next week
-        closeDayCalc = closeDay + 7;
+  static bool isOpenNow(List<Map<String, dynamic>> hours, DateTime now) {
+    bool isOpenNow = false;    
+    
+    List<Map<String, dynamic>> matchedPeriods = _getOpenDaysPeriod(hours, now);
+    int nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601(now));
+    int nowTime = now.hour * 100 + now.minute;
+
+    // We know that all matched periods include today (now day)
+    // If there are no matched periods, this logic will be skipped
+    // because we know we are not open at all today
+    for(int i = 0; i < matchedPeriods.length; i++) {
+      Map<String, dynamic> period = matchedPeriods[i];
+      int openDay = period['open']['day'];
+      int closeDay = period['close']['day'];
+      int openTime = int.tryParse(period['open']['time']);
+      int closeTime = int.tryParse(period['close']['time']);
+
+      bool afterOpenTime = false;
+      if(nowDayGoogle == openDay && nowTime < openTime) {
+        // If today is the open day but it is before the
+        // open time, then it is not after the open time
+        afterOpenTime = false;
+      } else {
+        // Otherwise, it is after the open time, either
+        // because it's after the open time on the open day
+        // or because it's another day within the open 
+        // period.
+        afterOpenTime = true;
       }
-      int closeTime = int.tryParse(value['close']['time']);
 
-      bool afterOpenDay = nowDayGoogle >= openDay;
-      bool beforeCloseDay = nowDayGoogle <= closeDayCalc;
-      bool afterOpenTime = (nowDayGoogle == openDay && nowTime >= openTime)
-        || (nowDayGoogle > openDay);
-      bool beforeCloseTime = (nowDayGoogle == closeDayCalc && nowTime <= closeTime)
-        || (nowDayGoogle < closeDayCalc);
+      bool beforeCloseTime = false;
+      if(nowDayGoogle == closeDay && nowTime > closeTime) {
+        // If today is the close day and it's after the
+        // close time, then it is not before the close time
+        beforeCloseTime = false;
+      } else {
+        // Otherwise, it is after the close time, either
+        // because it's before the close time on the close
+        // day or because it's another day within the open
+        // period
+        beforeCloseTime = true;
+      }
 
-      if (afterOpenDay && afterOpenTime && beforeCloseDay && beforeCloseTime) {
-        retval = true;
+      if(afterOpenTime && beforeCloseTime) {
+        isOpenNow = true;
         break;
       }
     }
-    return retval;
+    return isOpenNow;
   }
 
-  /// Returns true if [hours] shows that it open at some time today but in the future
-  static bool isOpenLaterToday(List<Map<String, dynamic>> hours) {
-    bool retval = false;
-    var nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601);
-    var nowTime = _now.hour * 100 + _now.minute;
-    for (int i = 0; i < hours.length; i++) {
-      Map<String, dynamic> value = hours[i];
-      int openDay = value['open']['day'];
-      int openTime = int.tryParse(value['open']['time']);
-      int closeDay = value['close']['day'];
-      int closeDayCalc = closeDay;
-      if (closeDay < nowDayGoogle) {
-        // This has wrapped around to next week
-        closeDayCalc = closeDay + 7;
+  /// Returns true if [hours] shows that it open at some time today
+  static bool isOpenToday(List<Map<String, dynamic>> hours, DateTime now) {
+    return _getOpenDaysPeriod(hours, now).isNotEmpty;
+  }
+
+  /// Returns tue if [hours] shows that it is open at some time today but in the future
+  static bool isOpenLaterToday(List<Map<String, dynamic>> hours, DateTime now) {
+    bool isOpenLaterToday = false;
+    List<Map<String, dynamic>> matchedPeriods = _getOpenDaysPeriod(hours, now);
+    int nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601(now));
+    int nowTime = now.hour * 100 + now.minute;
+
+    // We know that all matched periods include today (now day)
+    // If there are no matched periods, this logic will be skipped
+    // because we know we are not open at all today
+    for(int i = 0; i < matchedPeriods.length; i++) {
+      Map<String, dynamic> period = matchedPeriods[i];
+      int openDay = period['open']['day'];
+      int openTime = int.tryParse(period['open']['time']);
+
+      if(nowDayGoogle == openDay && nowTime < openTime) {
+        isOpenLaterToday = true;
+        break;
+      }
+    }
+    return isOpenLaterToday;
+  }
+
+  /// Gets the open/close periods that that are include the [now] day of the week.
+  /// Returns an empty list if no open/close periods match
+  static List<Map<String, dynamic>> _getOpenDaysPeriod(List<Map<String,dynamic>> hours, DateTime now) {
+    List<Map<String, dynamic>> retval = List<Map<String,dynamic>>();
+    int nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601(now));
+    for(int i = 0; i < hours.length; i++) {
+      Map<String, dynamic> period = hours[i];
+      int openDay = period['open']['day'];
+      int closeDay = period['close']['day'];
+
+      List<int> openDays = List<int>();
+      if(closeDay >= openDay) {
+        openDays = List<int>.generate(closeDay - openDay + 1, (i) => openDay + i);
+      } else {
+        // Wraps around the week
+        openDays = List<int>.generate(7 - openDay, (i) => openDay + i)
+          + List<int>.generate(closeDay + 1, (i) => closeDay + i);
       }
 
-      bool afterOpenDay = nowDayGoogle >= openDay;
-      bool beforeCloseDay = nowDayGoogle <= closeDayCalc;
-      bool beforeOpenTime = afterOpenDay && beforeCloseDay && nowTime < openTime; 
-
-      if (afterOpenDay && beforeCloseDay && beforeOpenTime) {
-        retval = true;
-        break;
+      if(openDays.contains(nowDayGoogle)) {
+        retval.add(period);
       }
     }
     return retval;
@@ -118,9 +162,9 @@ class OpenHoursMethods {
 
   /// Returns a string for the next closing time from DateTime.now() for [hours]
   /// Format example: Tuesday at 10:00 PM
-  static String nextCloseString(List<Map<String, dynamic>> hours, {bool includeDay = true}) {
-    var nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601);
-    var nowTime = _now.hour * 100 + _now.minute;
+  static String nextCloseString(List<Map<String, dynamic>> hours, DateTime now, {bool includeDay = true}) {
+    var nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601(now));
+    var nowTime = now.hour * 100 + now.minute;
     int nextDay = 100;
     int nextDayCalc = 100;
     int nextTime = 100000;
@@ -161,9 +205,9 @@ class OpenHoursMethods {
 
   /// Returns a string for the next open time from DateTime.now() for [hours]
   /// Format example: Tuesday at 2:00 PM
-  static String nextOpenString(List<Map<String, dynamic>> hours, {bool includeDay = true}) {
-    var nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601);
-    var nowTime = _now.hour * 100 + _now.minute;
+  static String nextOpenString(List<Map<String, dynamic>> hours, DateTime now, {bool includeDay = true}) {
+    var nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601(now));
+    var nowTime = now.hour * 100 + now.minute;
     int nextDay = 100;
     int nextDayCalc = 100;
     int nextTime = 100000;
