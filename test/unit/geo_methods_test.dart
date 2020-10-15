@@ -6,6 +6,7 @@ import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
 import 'package:test/test.dart';
 
+/// Tests for the GeoMethods utility class
 void main() {
   flutter_test.TestWidgetsFlutterBinding.ensureInitialized();
 group('Geo Methods', () {

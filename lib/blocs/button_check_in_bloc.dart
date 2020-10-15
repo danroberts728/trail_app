@@ -1,5 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
@@ -12,7 +11,7 @@ import 'package:alabama_beer_trail/data/user_data.dart';
 /// A BLoC for ButtonCheckIn objects
 class ButtonCheckInBloc extends Bloc {
   /// A reference to the central database.
-  var _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to the checkIns data stream
   StreamSubscription _checkInSubscription;
@@ -45,7 +44,8 @@ class ButtonCheckInBloc extends Bloc {
   get stream => _streamController.stream;
 
   /// Default constructor
-  ButtonCheckInBloc() {
+  ButtonCheckInBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     checkIns = _db.checkIns;
     _allTrophies = _db.trophies;
     _places = _db.places;
@@ -58,14 +58,17 @@ class ButtonCheckInBloc extends Bloc {
 
   /// Returns true if the current user has checked into [placeId] today,
   /// false otherwise.
-  bool isCheckedInToday(String placeId) {
+  /// If [today] is not provided, it will default to DateTime.now()
+  bool isCheckedInToday(String placeId, {DateTime today}) {
+    if(today == null) {
+      today = DateTime.now();
+    }
     return checkIns
             .where((e) {
-              var now = DateTime.now();
               return e.placeId == placeId &&
-                  now.day == e.timestamp.day &&
-                  now.month == e.timestamp.month &&
-                  now.year == e.timestamp.year;
+                  today.day == e.timestamp.day &&
+                  today.month == e.timestamp.month &&
+                  today.year == e.timestamp.year;
             })
             .toList()
             .length >

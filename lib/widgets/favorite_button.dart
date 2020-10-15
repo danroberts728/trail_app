@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/blocs/favorite_button_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class FavoriteButton extends StatefulWidget {
 class _FavoriteButton extends State<FavoriteButton> {
   @override
   Widget build(BuildContext context) {
-    FavoriteButtonBloc _bloc = FavoriteButtonBloc(widget.place.id);
+    FavoriteButtonBloc _bloc = FavoriteButtonBloc(TrailDatabase(), widget.place.id);
     // Favorite
     return StreamBuilder(
       stream: _bloc.stream,

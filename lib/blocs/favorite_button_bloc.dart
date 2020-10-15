@@ -1,5 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
@@ -10,7 +9,7 @@ import 'package:alabama_beer_trail/util/appauth.dart';
 /// A BLoC for FavoriteButton objects
 class FavoriteButtonBloc extends Bloc {
   /// A reference to the central database.
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to the user data data stream
   StreamSubscription _userDataSubscription;
@@ -30,7 +29,10 @@ class FavoriteButtonBloc extends Bloc {
 
   /// Default constructor. The button is affiliated with
   /// a particular [placeId].
-  FavoriteButtonBloc(String placeId) {
+  FavoriteButtonBloc(TrailDatabase db, String placeId)
+      : assert(placeId != null),
+        assert(db != null) {
+    _db = db;
     _placeId = placeId;
     if (_db.userData.favorites == null) {
       // This is sometimes a race condition when the user is first being registered

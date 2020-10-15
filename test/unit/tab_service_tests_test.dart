@@ -3,6 +3,7 @@ import 'package:alabama_beer_trail/util/tabselection_service.dart';
 
 import 'package:test/test.dart';
 
+/// Test for the Tab Selection Service utility class
 void main() {
 group('Tab selection', () {
     test('Update tab', () {

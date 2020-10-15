@@ -11,7 +11,7 @@ import 'package:alabama_beer_trail/util/event_filter.dart';
 
 class LocationServiceMock extends Mock implements LocationService {}
 
-/// Tests for utlity methods found in the util folder
+/// Tests for event filter
 void main() {
   flutter_test.TestWidgetsFlutterBinding.ensureInitialized();
 

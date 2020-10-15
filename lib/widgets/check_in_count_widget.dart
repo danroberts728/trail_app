@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:flutter/material.dart';
 
 class CheckInCountWidget extends StatelessWidget {

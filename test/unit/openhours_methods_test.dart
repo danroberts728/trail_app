@@ -66,6 +66,7 @@ List<Map<String, dynamic>> testHours = [
   },
 ];
 
+/// Tests for the OpenHours utility class
 main() {
   group('convertMilitaryTime', () {
     test('Before Noon', () {
