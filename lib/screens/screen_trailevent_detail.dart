@@ -31,6 +31,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                 startMargin: 0.0,
                 endMargin: 0.0,
                 titleOverflow: TextOverflow.visible,
+                titleMaxLines: 5,
                 elevation: 0.0,
               ),
               // Event Details

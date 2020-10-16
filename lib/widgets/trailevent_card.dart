@@ -16,6 +16,7 @@ class TrailEventCard extends StatefulWidget {
   final double endMargin;
   final double bottomMargin;
   final TextOverflow titleOverflow;
+  final int titleMaxLines;
   final double elevation;
   final bool showExport;
   final bool showImage;
@@ -26,6 +27,7 @@ class TrailEventCard extends StatefulWidget {
       @required this.event,
       this.startMargin = 0.0,
       this.titleOverflow = TextOverflow.ellipsis,
+      this.titleMaxLines = 1,
       this.endMargin = 0.0,
       this.elevation = 4.0,
       this.bottomMargin = 0.0,
@@ -214,7 +216,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                                   Container(
                                     child: Text(
                                       HtmlUnescape().convert(widget.event.name),
-                                      maxLines: 1,
+                                      maxLines: widget.titleMaxLines,
                                       overflow: widget.titleOverflow,
                                       style: TextStyle(
                                         color: TrailAppSettings.first,
