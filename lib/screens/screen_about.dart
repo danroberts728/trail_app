@@ -84,7 +84,7 @@ class AboutScreen extends StatelessWidget {
                     InkWell(
                       child: Icon(FontAwesomeIcons.facebook, color: Color(0xff3b5998),),
                       onTap: () => AppLauncher()
-                          .openFacebook(TrailAppSettings.aboutScreenFbPageId),
+                          .openFacebookPage(TrailAppSettings.aboutScreenFbPageId),
                     ),
                     InkWell(
                       child: Icon(FontAwesomeIcons.twitter, color: Color(0xff1da1f2)),

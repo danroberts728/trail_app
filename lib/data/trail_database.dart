@@ -1,5 +1,7 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
+import 'package:alabama_beer_trail/data/beer.dart';
 import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
@@ -9,18 +11,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
 
 /// An abstraction to reduce the number of calls to
-/// the flutter firestore
+/// the flutter firestore and to allow easier changing
+/// of cloud services.
+///
+/// This class utilizes a singleton pattern
 class TrailDatabase {
+  /// Flag to indicate if we already have user
+  /// data. This is important in a scenario where
+  /// a new user logs in during an app instance and
+  /// let's us know if we need to retrieve new data
   bool _knowUserDataExists = false;
 
+  /// Subscription to user data update from Firebase
   StreamSubscription _userDataSubscription;
+
+  /// Subscription to user check ins from Firebase
   StreamSubscription _checkInsSubscription;
 
+  /// The list of events from Firebase
   var events = List<TrailEvent>();
+
+  /// The list of places from Firebase
   var places = List<TrailPlace>();
+
+  /// The list of all trophies from Firebase
   var trophies = List<TrailTrophy>();
 
+  /// The current user's data
   var userData = UserData.createBlank();
+
+  /// The current user's check ins
   var checkIns = List<CheckIn>();
 
   final _eventsStreamController =
@@ -32,11 +52,20 @@ class TrailDatabase {
   final _userDataStreamController = StreamController<UserData>.broadcast();
   final _checkInsStreamController = StreamController<List<CheckIn>>.broadcast();
 
+  /// Stream for trail events from the cloud
   Stream<List<TrailEvent>> get eventsStream => _eventsStreamController.stream;
+
+  /// Stream for trail places from the cloud
   Stream<List<TrailPlace>> get placesStream => _placesStreamController.stream;
+
+  /// Stream for trail trophies from the cloud
   Stream<List<TrailTrophy>> get trophiesStream =>
       _trophiesStreamController.stream;
+
+  /// Stream for user data from the cloud
   Stream<UserData> get userDataStream => _userDataStreamController.stream;
+
+  /// Stream for user check ins from the cloud
   Stream<List<CheckIn>> get checkInStream => _checkInsStreamController.stream;
 
   /// Singleton Pattern
@@ -54,6 +83,8 @@ class TrailDatabase {
       _subscribeToUserData();
     });
 
+    // We don't need to get a history of events for years, so let's
+    // just get up to last week
     int lastWeekTimestampSeconds =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000) - 604800;
     FirebaseFirestore.instance
@@ -81,6 +112,9 @@ class TrailDatabase {
     _subscribeToUserData();
   }
 
+  /// This gets a little tricky if a new user
+  /// is logging into a single app instance or
+  /// if the user is logging out
   void _subscribeToUserData() {
     if (_userDataSubscription != null) {
       _userDataSubscription.cancel();
@@ -107,6 +141,7 @@ class TrailDatabase {
     }
   }
 
+  /// Handle updates to events data
   void _onEventsDataUpdate(QuerySnapshot snapshot) {
     var newDocs = snapshot.docs;
     var newEvents = List<TrailEvent>();
@@ -124,6 +159,7 @@ class TrailDatabase {
     _eventsStreamController.sink.add(newEvents);
   }
 
+  /// Handle updates to places data
   void _onPlacesDataUpdate(QuerySnapshot snapshot) {
     var newDocs = snapshot.docs;
     var newPlaces = List<TrailPlace>();
@@ -132,6 +168,14 @@ class TrailDatabase {
       try {
         if (place != null) {
           newPlaces.add(place);
+          FirebaseFirestore.instance
+              .collection('places')
+              .doc(d.id)
+              .collection('all_beers')
+              .snapshots()
+              .listen((b) {
+            _onBeersUpdate(place, b);
+          });
         }
       } catch (err) {
         print(err);
@@ -141,6 +185,24 @@ class TrailDatabase {
     _placesStreamController.sink.add(newPlaces);
   }
 
+  /// Handle updates to beer data
+  void _onBeersUpdate(TrailPlace place, QuerySnapshot snapshot) {
+    var newDocs = snapshot.docs;
+    var newBeers = List<Beer>();
+    newDocs.forEach((d) {
+      Beer beer = Beer.createFromFirebase(d);
+      try {
+        if (beer != null) {
+          newBeers.add(beer);
+        }
+      } catch (err) {
+        print(err);
+      }
+    });
+    place.allBeers = newBeers;
+  }
+
+  /// Handle updates to trophy data
   void _onTrophiesDataUpdate(QuerySnapshot snapshot) {
     var newDocs = snapshot.docs;
     var newTrophies = List<TrailTrophy>();
@@ -158,6 +220,7 @@ class TrailDatabase {
     _trophiesStreamController.sink.add(newTrophies);
   }
 
+  /// Handle updates to user data
   void _onUserDataUpdate(DocumentSnapshot snapshot) {
     if (snapshot == null || snapshot.data() == null) {
       userData = UserData.createBlank();
@@ -169,6 +232,7 @@ class TrailDatabase {
     }
   }
 
+  /// Handle updates to events data
   void _onCheckInsUpdate(QuerySnapshot snapshot) {
     if (snapshot == null) {
       checkIns = List<CheckIn>();
@@ -191,6 +255,7 @@ class TrailDatabase {
     }
   }
 
+  /// Check in to a [placeId]
   Future<void> checkInNow(placeId) {
     return FirebaseFirestore.instance
         .collection('user_data')
@@ -202,6 +267,7 @@ class TrailDatabase {
     });
   }
 
+  /// Add the [trophy] for the current user
   void addTrophy(TrailTrophy trophy) {
     var trophyList = userData.trophies;
     if (!trophyList.containsKey(trophy.id)) {
@@ -212,10 +278,17 @@ class TrailDatabase {
     }
   }
 
+  /// Saves the current Firebase Cloud Messaging
+  /// [token] for the user.
+  /// 
+  /// This is useful later if we want to send
+  /// targeted push notifications
   void saveFcmToken(String token) {
     updateUserData({'fcmToken': token});
   }
 
+  /// Update user's data. If the user does not have
+  /// data in the cloud, it will create a blank entry
   void updateUserData(Object data) {
     if (_knowUserDataExists) {
       _doUserDataUpdate(data);

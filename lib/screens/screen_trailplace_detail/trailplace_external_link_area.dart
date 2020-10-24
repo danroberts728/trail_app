@@ -1,8 +1,10 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 const double _defaultIconSize = 26.0;
 
+/// An area with an external link for the trail place screen
 class TrailPlaceExternalLinkArea extends StatelessWidget {
   final IconData leadingIconData;
   final double leadingIconSize;
@@ -34,8 +36,17 @@ class TrailPlaceExternalLinkArea extends StatelessWidget {
               width: 14.0 + (_defaultIconSize - leadingIconSize),
             ),
             Flexible(
-              fit: FlexFit.loose,
+              flex: 6,
+              fit: FlexFit.tight,
               child: content,
+            ),
+            Spacer(),
+            Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: Icon(
+                Icons.exit_to_app_outlined,
+                color: TrailAppSettings.actionLinksColor,
+              ),
             ),
           ],
         ),

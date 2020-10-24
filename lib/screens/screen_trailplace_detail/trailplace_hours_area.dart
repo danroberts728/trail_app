@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/blocs/trailplace_hours_area_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/util/open_hours_methods.dart';
@@ -5,11 +6,13 @@ import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/expansion_section.dart';
 import 'package:flutter/material.dart';
 
+/// List of hours for the trail place screen
 class TrailPlaceHoursArea extends StatefulWidget {
   final TrailPlace place;
   final double iconSize;
+  final double fontSize;
 
-  const TrailPlaceHoursArea({Key key, this.place, this.iconSize = 26.0})
+  const TrailPlaceHoursArea({Key key, this.place, this.iconSize = 26.0, this.fontSize = 16.0})
       : super(key: key);
 
   @override
@@ -48,7 +51,7 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
       title: Text(
         _status,
         style: TextStyle(
-            fontSize: 16.0,
+            fontSize: widget.fontSize,
             color: OpenHoursMethods.isOpenToday(widget.place.hoursDetail, DateTime.now())
                 ? Colors.green
                 : Colors.black),
