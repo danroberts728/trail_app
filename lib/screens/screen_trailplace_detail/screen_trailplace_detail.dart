@@ -7,6 +7,7 @@ import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_d
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_area.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_beers.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_checkin_area.dart';
+import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_events.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_gallery_area.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_hours_area.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -50,6 +51,10 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
     ];
     _galleryImageUrls = List.from(_place.galleryUrls)
       ..insert(0, _place.featuredImgUrl);
+    if (_bloc.placeHasUpcomingEvents()) {
+      _tabList.add(Tab(text: "Events"));
+      _tabChildren.add(TrailPlaceEvents(locationTaxonomy: _place.locationTaxonomy));
+    }
     if (_place.allBeers.isNotEmpty) {
       _tabList.add(Tab(text: "Beers"));
       _tabChildren.add(TrailPlaceBeers(beers: _place.allBeers));
@@ -147,8 +152,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
                     // Tab Bar
                     Center(
                       child: TabBar(
-                        isScrollable: false,
-                        labelPadding: EdgeInsets.symmetric(vertical: 0.0),
+                        isScrollable: true,
+                        labelPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 22.0),
                         indicatorColor: TrailAppSettings.actionLinksColor,
                         indicatorWeight: 4.0,
                         labelColor: TrailAppSettings.subHeadingColor,

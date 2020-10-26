@@ -25,7 +25,7 @@ class _ProfileTrophiesArea extends State<ProfileTrophiesArea> {
             crossAxisCount: this._crossAxisCount,
           ),
           delegate: SliverChildBuilderDelegate((context, index) {
-            return GestureDetector(
+            return InkWell(
               onTap: () {
                 Feedback.forTap(context);
                 Navigator.push(

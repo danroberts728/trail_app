@@ -59,7 +59,7 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(onTap: () {
+    return InkWell(onTap: () {
       Feedback.forTap(context);
       Navigator.push(
           context,

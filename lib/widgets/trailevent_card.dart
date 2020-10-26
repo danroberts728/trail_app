@@ -62,7 +62,7 @@ class _TrailEventCard extends State<TrailEventCard> {
               color: Color(0x00025c6e),
             );
           }
-          return GestureDetector(
+          return InkWell(
             onTap: () {
               if (widget.isClickable) {
                 Feedback.forTap(context);

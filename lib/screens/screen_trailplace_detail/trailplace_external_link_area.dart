@@ -21,7 +21,7 @@ class TrailPlaceExternalLinkArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onPress,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8.0),

@@ -52,6 +52,22 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
     _controller.sink.add(retval);
   }
 
+  /// Whether the place has any upcoming events.
+  /// 
+  /// In order to be true, the event must have the same
+  /// location taxonomy and end before or at now.
+  bool placeHasUpcomingEvents() {
+    try {
+      return _db.events.where((e) => 
+          e.locationTaxonomy == placeDetail.place.locationTaxonomy
+          && e.end.compareTo(DateTime.now()) >= 0).length > 0;
+    } catch (err) {
+      print(err);
+      return false;
+    }
+    
+  }
+
   /// Callback when user's check ins are updated
   _onCheckInsUpdate(List<CheckIn> event) {
     var newCheckInsCount = event.where((c) => c.placeId == _placeId).length;

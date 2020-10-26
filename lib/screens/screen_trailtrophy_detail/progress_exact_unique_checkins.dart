@@ -65,7 +65,7 @@ class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {
                   ),
                 );
               }
-              return GestureDetector(
+              return InkWell(
                 onTap: () {
                   Feedback.forTap(context);
                   Navigator.push(

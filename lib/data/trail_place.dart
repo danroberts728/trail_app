@@ -26,6 +26,7 @@ class TrailPlace {
   final Map<String, String> emails;
   final Map<String, String> phones;
   final bool isMember;
+  final int locationTaxonomy;
   List<Beer> allBeers = List<Beer>();
 
   /// Default constructor
@@ -47,7 +48,8 @@ class TrailPlace {
       @required this.description,
       @required this.emails,
       @required this.phones,
-      @required this.isMember});
+      @required this.isMember,
+      @required this.locationTaxonomy});
 
   /// Creates a beer from a document snapshot from firebase
   static TrailPlace createFromFirebaseDocument(DocumentSnapshot snapshot) {
@@ -85,7 +87,8 @@ class TrailPlace {
           phones: d['phones'] == null
               ? Map<String, String>()
               : Map<String, String>.from(d['phones']),
-          isMember: d['is_member'] == null ? false : d['is_member']);
+          isMember: d['is_member'] == null ? false : d['is_member'],
+          locationTaxonomy: d['location_tax'] == null ? 0 : d['location_tax']);
     } catch (e) {
       throw e;
     }
@@ -127,7 +130,8 @@ class TrailPlace {
           phones: d['phones'] == null
               ? Map<String, String>()
               : Map<String, String>.from(d['phones']),
-          isMember: d['is_member'] == null ? false : d['is_member']);
+          isMember: d['is_member'] == null ? false : d['is_member'],
+          locationTaxonomy: d['location_tax'] == null ? 0 : d['location_tax']);
     } catch (e) {
       throw e;
     }
