@@ -5,7 +5,7 @@ import 'dart:io';
 /// Singleton that smartly launches various apps, websites,
 /// maps, emails, and phone numbers.
 class AppLauncher {
-  /// Singleotn Pattern
+  /// Singleton Pattern
   factory AppLauncher() {
     return _instance;
   }
