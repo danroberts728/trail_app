@@ -15,6 +15,9 @@ class TrailPlaceDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(place == null) {
+      return Center(child: Text("Loading"));
+    }
     return SingleChildScrollView(
       child: Column(
         children: [

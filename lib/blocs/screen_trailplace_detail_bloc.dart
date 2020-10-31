@@ -2,20 +2,31 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
+import 'package:alabama_beer_trail/data/beer.dart';
 import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/data/on_tap_beer.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
+import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 
 /// The BLoC for ScreenTrailPlaceDetail objects
 class ScreenTrailPlaceDetailBloc extends Bloc {
   /// A reference to the central database
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to all published places
   StreamSubscription _placesSubscription;
 
+  StreamSubscription _eventsSubscription;
+
   /// A subscription to the user's check ins
   StreamSubscription _checkInsSubscription;
+
+  /// A subscription to the on-tap list for this place
+  StreamSubscription _tapSubscription;
+
+  /// A subscription to the all Beers list for this place
+  StreamSubscription _allBeersSubscription;
 
   /// The current place's detail information
   PlaceDetail placeDetail;
@@ -31,54 +42,98 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
 
   /// Default constructor. Each instance of this BLoC is
   /// associated with a single [place].
-  ScreenTrailPlaceDetailBloc(TrailPlace place) {
-    _placeId = place.id;
-    var checkInCount = _db.checkIns.where((c) => c.placeId == _placeId).length;
+  ScreenTrailPlaceDetailBloc(String placeId, TrailDatabase db)
+      : assert(placeId != null),
+        assert(db != null) {
+    _placeId = placeId;
+    _db = db;
+
+    // Initial data
     placeDetail = PlaceDetail(
-      place: place,
-      checkInsCount: checkInCount,
+      place: _db.places.firstWhere((p) => p.id == _placeId),
+      checkInsCount: _db.checkIns.where((c) => c.placeId == _placeId).length,
+      taps: List<OnTapBeer>(),
     );
+    placeDetail.events = _getPlaceUpcomingEvents(_db.events);
+
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdate);
+    _eventsSubscription = _db.eventsStream.listen(_onEventsUpdate);
     _checkInsSubscription = _db.checkInStream.listen(_onCheckInsUpdate);
+    _tapSubscription = _db.getTaps(_placeId).asStream().listen(_onTapUpdate);
+    _allBeersSubscription =
+        _db.getPopularBeers(_placeId).asStream().listen(_onBeersUpdate);
+  }
+
+  List<TrailEvent> _getPlaceUpcomingEvents(List<TrailEvent> allEvents) {
+    return allEvents
+        .where((e) => e.locationTaxonomy == placeDetail.place.locationTaxonomy)
+        .where((e) =>
+            e.end.millisecondsSinceEpoch >
+            DateTime.now().millisecondsSinceEpoch)
+        .toList();
   }
 
   /// Callback when trail places are updated
   _onPlacesUpdate(List<TrailPlace> event) {
     var newPlace = event.firstWhere((p) => p.id == _placeId);
-    PlaceDetail retval = PlaceDetail(
+    placeDetail = PlaceDetail(
       place: newPlace,
+      events: placeDetail.events,
       checkInsCount: placeDetail.checkInsCount,
+      taps: placeDetail.taps,
+      popularBeers: placeDetail.popularBeers,
     );
-    _controller.sink.add(retval);
+    _controller.sink.add(placeDetail);
   }
 
-  /// Whether the place has any upcoming events.
-  /// 
-  /// In order to be true, the event must have the same
-  /// location taxonomy and end before or at now.
-  bool placeHasUpcomingEvents() {
-    try {
-      return _db.events.where((e) => 
-          e.locationTaxonomy == placeDetail.place.locationTaxonomy
-          && e.end.compareTo(DateTime.now()) >= 0).length > 0;
-    } catch (err) {
-      print(err);
-      return false;
-    }
-    
+  _onEventsUpdate(List<TrailEvent> event) {
+    placeDetail = PlaceDetail(
+      place: placeDetail.place,
+      events: _getPlaceUpcomingEvents(event),
+      checkInsCount: placeDetail.checkInsCount,
+      taps: placeDetail.taps,
+      popularBeers: placeDetail.popularBeers,
+    );
+    _controller.sink.add(placeDetail);
   }
 
   /// Callback when user's check ins are updated
   _onCheckInsUpdate(List<CheckIn> event) {
     var newCheckInsCount = event.where((c) => c.placeId == _placeId).length;
-    if(newCheckInsCount != placeDetail.checkInsCount) {
-      PlaceDetail retval = PlaceDetail(
+    if (newCheckInsCount != placeDetail.checkInsCount) {
+      placeDetail = PlaceDetail(
         place: placeDetail.place,
+        events: placeDetail.events,
         checkInsCount: newCheckInsCount,
+        taps: placeDetail.taps,
+        popularBeers: placeDetail.popularBeers,
       );
-      _controller.sink.add(retval);
+      _controller.sink.add(placeDetail);
     }
-    
+  }
+
+  /// Callback when place's on-tap list is updated
+  _onTapUpdate(List<OnTapBeer> event) {
+    var newTaps = event;
+    placeDetail = PlaceDetail(
+      place: placeDetail.place,
+      events: placeDetail.events,
+      checkInsCount: placeDetail.checkInsCount,
+      taps: newTaps,
+      popularBeers: placeDetail.popularBeers,
+    );
+    _controller.sink.add(placeDetail);
+  }
+
+  _onBeersUpdate(List<Beer> event) {
+    var newBeers = event;
+    placeDetail = PlaceDetail(
+      place: placeDetail.place,
+      events: placeDetail.events,
+      checkInsCount: placeDetail.checkInsCount,
+      taps: placeDetail.taps,
+      popularBeers: newBeers,
+    );
   }
 
   /// Dispose object
@@ -86,6 +141,9 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
   void dispose() {
     _placesSubscription.cancel();
     _checkInsSubscription.cancel();
+    _tapSubscription.cancel();
+    _eventsSubscription.cancel();
+    _allBeersSubscription.cancel();
     _controller.close();
   }
 }
@@ -96,9 +154,20 @@ class PlaceDetail {
   /// The trail place
   final TrailPlace place;
 
+  List<OnTapBeer> taps;
+
+  List<TrailEvent> events;
+
+  List<Beer> popularBeers;
+
   /// The number of times the current user has checked in
   int checkInsCount;
 
   /// Default constructor
-  PlaceDetail({this.place, this.checkInsCount});
+  PlaceDetail(
+      {this.place,
+      this.checkInsCount,
+      this.taps,
+      this.events,
+      this.popularBeers});
 }

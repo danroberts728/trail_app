@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/data/beer.dart';
 import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/data/on_tap_beer.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/data/trail_trophy.dart';
@@ -168,14 +169,6 @@ class TrailDatabase {
       try {
         if (place != null) {
           newPlaces.add(place);
-          FirebaseFirestore.instance
-              .collection('places')
-              .doc(d.id)
-              .collection('all_beers')
-              .snapshots()
-              .listen((b) {
-            _onBeersUpdate(place, b);
-          });
         }
       } catch (err) {
         print(err);
@@ -183,23 +176,6 @@ class TrailDatabase {
     });
     places = newPlaces;
     _placesStreamController.sink.add(newPlaces);
-  }
-
-  /// Handle updates to beer data
-  void _onBeersUpdate(TrailPlace place, QuerySnapshot snapshot) {
-    var newDocs = snapshot.docs;
-    var newBeers = List<Beer>();
-    newDocs.forEach((d) {
-      Beer beer = Beer.createFromFirebase(d);
-      try {
-        if (beer != null) {
-          newBeers.add(beer);
-        }
-      } catch (err) {
-        print(err);
-      }
-    });
-    place.allBeers = newBeers;
   }
 
   /// Handle updates to trophy data
@@ -280,11 +256,53 @@ class TrailDatabase {
 
   /// Saves the current Firebase Cloud Messaging
   /// [token] for the user.
-  /// 
+  ///
   /// This is useful later if we want to send
   /// targeted push notifications
   void saveFcmToken(String token) {
     updateUserData({'fcmToken': token});
+  }
+
+  /// Returns the top 25 popular beers from the brewery.
+  ///
+  /// This is currently tied into Untappd and ranked by
+  /// the number of checkins.
+  Future<List<Beer>> getPopularBeers(String placeId) {
+    return FirebaseFirestore.instance
+        .collection('places')
+        .doc(placeId)
+        .collection('all_beers')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      List<Beer> popularBeers = List<Beer>();
+      snapshot.docs.forEach((b) {
+        popularBeers.add(Beer.createFromFirebase(b));
+      });
+      this.places.firstWhere((p) => p.id == placeId).allBeers = popularBeers;
+      return popularBeers
+        ..sort((a, b) => a.untappdRatingCount.compareTo(b.untappdRatingCount));
+    });
+  }
+
+  /// Returns the current On-Tap list.
+  ///
+  /// This is currently tied into the Alabama.beer
+  /// API service
+  Future<List<OnTapBeer>> getTaps(String placeId) {
+    return FirebaseFirestore.instance
+        .collection('places')
+        .doc(placeId)
+        .collection('on_tap')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      List<OnTapBeer> taps = List<OnTapBeer>();
+      snapshot.docs.forEach((b) {
+        taps.add(OnTapBeer.createFromFirebase(b));
+      });
+      this.places.firstWhere((p) => p.id == placeId).onTap = taps;
+      return taps
+        ..sort((a, b) => a.name.compareTo(b.name));
+    });
   }
 
   /// Update user's data. If the user does not have

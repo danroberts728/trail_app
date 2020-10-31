@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:alabama_beer_trail/data/beer.dart';
+import 'package:alabama_beer_trail/data/on_tap_beer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class TrailPlace {
   final bool isMember;
   final int locationTaxonomy;
   List<Beer> allBeers = List<Beer>();
+  List<OnTapBeer> onTap = List<OnTapBeer>();
 
   /// Default constructor
   TrailPlace(
