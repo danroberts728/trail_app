@@ -61,7 +61,8 @@ class TrailEventDetailScreen extends StatelessWidget {
                               onTapUrl: (url) => AppLauncher().openWebsite(url),
                             ),
                             Visibility(
-                              visible: event.learnMoreLink != null,
+                              visible: event.learnMoreLink != null
+                                && event.learnMoreLink != "",
                               child: SizedBox(
                                 width: double.infinity,
                                 child: RaisedButton(
