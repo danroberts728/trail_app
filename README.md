@@ -1,7 +1,5 @@
 ![Android Build](https://github.com/danroberts728/beer_trail_app/workflows/Android%20Build/badge.svg)
 ![iOS Build](https://github.com/danroberts728/beer_trail_app/workflows/iOS%20Build/badge.svg)
-![Android Test](https://github.com/danroberts728/beer_trail_app/workflows/Android%20Test/badge.svg)
-![iOS Test](https://github.com/danroberts728/beer_trail_app/workflows/iOS%20Test/badge.svg)
 # Trail App
 
 A new Flutter project.
