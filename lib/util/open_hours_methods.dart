@@ -167,7 +167,7 @@ class OpenHoursMethods {
     var nowTime = now.hour * 100 + now.minute;
     int nextDay = 100;
     int nextDayCalc = 100;
-    int nextTime = 100000;
+    int nextTime = nowTime;
     // Get the close time closest (but after) now
     for (int i = 0; i < hours.length; i++) {
       Map<String, dynamic> value = hours[i];
@@ -177,6 +177,14 @@ class OpenHoursMethods {
       if (closeDay < nowDayGoogle) {
         // This has wrapped around to next week
         closeDayCalc = closeDay + 7;
+      }
+
+      // If there's more than one period and
+      // this is the same day and after close time, ignore
+      if(hours.length > 1 &&
+        closeDay == nowDayGoogle &&
+        closeTime <= nowTime) {
+          continue;
       }
 
       // See if this is sooner than the current
@@ -210,18 +218,26 @@ class OpenHoursMethods {
     var nowTime = now.hour * 100 + now.minute;
     int nextDay = 100;
     int nextDayCalc = 100;
-    int nextTime = 100000;
+    int nextTime = nowTime;
     // Get the next-highest open day
     for (int i = 0; i < hours.length; i++) {
       Map<String, dynamic> value = hours[i];
       int openDay = value['open']['day'];
       int openDayCalc = openDay;
       int openTime = int.tryParse(value['open']['time']);
+
       if (openDay < nowDayGoogle) {
         // This has wrapped around to next week
         openDayCalc = openDay + 7;
       }
 
+      // If there's more than one period and
+      // this is the same day and after open time, ignore
+      if(hours.length > 1 &&
+        openDayCalc == nowDayGoogle &&
+        openTime <= nowTime) {
+          continue;
+      }
       // See if this is sooner than the current
       if (openDayCalc - nowDayGoogle == nextDayCalc - nowDayGoogle &&
           openTime - nowTime < nextTime - nowTime) {
@@ -230,7 +246,7 @@ class OpenHoursMethods {
         nextDayCalc = openDayCalc;
         nextTime = openTime;
       } else if (openDayCalc - nowDayGoogle < nextDayCalc - nowDayGoogle) {
-        // Earlier Day
+        // Earlier day
         nextDay = openDay;
         nextDayCalc = openDayCalc;
         nextTime = openTime;

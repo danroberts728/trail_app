@@ -173,4 +173,80 @@ main() {
       expect(isOpenToday, false);
     });
   });
+
+  group('nextOpenString', () {
+    test('Next open later today', () {
+      DateTime now = DateTime.parse("2020-10-22 08:27:00"); // Thu at 8:27 AM
+      String result = OpenHoursMethods.nextOpenString(testHours, now);
+      expect(result, "Thursday at 12:00 PM");
+    });
+
+    test('Open now and next open tomorrow', () {
+      DateTime now = DateTime.parse("2020-10-20 23:42:00"); // Tue at 11:42 PM
+      String result = OpenHoursMethods.nextOpenString(testHours, now);
+      expect(result, "Wednesday at 12:00 PM");
+    });
+
+    test('Closed now but next open tomorrow', () {
+      DateTime now = DateTime.parse("2020-10-19 08:27:00"); // Mon at 8:27 AM
+      String result = OpenHoursMethods.nextOpenString(testHours, now);
+      expect(result, "Tuesday at 12:00 PM");
+    });
+
+    test('Open now and next open later in week', () {
+      DateTime now = DateTime.parse("2020-10-18 13:30:00"); // Sun at 1:30 PM
+      String result = OpenHoursMethods.nextOpenString(testHours, now);
+      expect(result, "Tuesday at 12:00 PM");
+    });
+
+    test('Closed now and next open later in week', () {
+      DateTime now = DateTime.parse("2020-10-17 23:30:00"); // Sat at 11:30 AM
+      String result = OpenHoursMethods.nextOpenString(testHours, now);
+      expect(result, "Sunday at 1:00 PM");
+    });
+
+    test('Next open next week', () {
+      DateTime now = DateTime.parse("2020-10-17 12:01:00"); // Sat at 12:01 PM
+      String result = OpenHoursMethods.nextOpenString(testHours, now);
+      expect(result, "Sunday at 1:00 PM");
+    });
+
+    test('No day', () {
+      DateTime now = DateTime.parse("2020-10-17 12:01:00"); // Sat at 12:01 PM
+      String result = OpenHoursMethods.nextOpenString(testHours, now, includeDay: false);
+      expect(result, "1:00 PM");
+    });
+  });
+
+  group('nextCloseString', () {
+    test('Not yet open - closes later today', () {
+      DateTime now = DateTime.parse("2020-10-18 12:00:00"); // Sun at 10:00 AM
+      String result = OpenHoursMethods.nextCloseString(testHours, now);
+      expect(result, "Sunday at 10:00 PM");
+    });
+
+    test('Not yet open - closes tomorrow', () {
+      DateTime now = DateTime.parse("2020-10-17 10:42:00"); // Sat at 10:42 AM
+      String result = OpenHoursMethods.nextCloseString(testHours, now);
+      expect(result, "Sunday at 2:00 AM");
+    });
+
+    test('Closed - closes later in week', () {
+      DateTime now = DateTime.parse("2020-10-18 23:27:00"); // Sun at 11:27 AM
+      String result = OpenHoursMethods.nextCloseString(testHours, now);
+      expect(result, "Tuesday at 10:00 PM");
+    });
+
+    test('Open now closes today', () {
+      DateTime now = DateTime.parse("2020-10-18 13:30:00"); // Sun at 1:30 PM
+      String result = OpenHoursMethods.nextCloseString(testHours, now);
+      expect(result, "Sunday at 10:00 PM");
+    });
+
+    test('Open now and closes next week', () {
+      DateTime now = DateTime.parse("2020-10-17 14:30:00"); // Sat at 2:30 PM
+      String result = OpenHoursMethods.nextCloseString(testHours, now);
+      expect(result, "Sunday at 2:00 AM");
+    });
+  });
 }
