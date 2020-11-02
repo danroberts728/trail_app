@@ -6,11 +6,11 @@ import 'package:test/test.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
 import 'package:fake_async/fake_async.dart';
 
-import 'test_data/test_data_all_beers.dart';
-import 'test_data/test_data_checkins.dart';
-import 'test_data/test_data_events.dart';
-import 'test_data/test_data_places.dart';
-import 'test_data/test_data_taps.dart';
+import '../test_data/test_data_all_beers.dart';
+import '../test_data/test_data_checkins.dart';
+import '../test_data/test_data_events.dart';
+import '../test_data/test_data_places.dart';
+import '../test_data/test_data_taps.dart';
 
 class TrailDatabaseMock extends Mock implements TrailDatabase {}
 

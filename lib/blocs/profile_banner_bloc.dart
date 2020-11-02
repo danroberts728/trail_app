@@ -14,7 +14,7 @@ import 'package:alabama_beer_trail/data/user_data.dart';
 /// A BLoC for ProfileBanner objects
 class ProfileBannerBloc extends Bloc {
   /// A reference to the central database.
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to the user data data stream
   StreamSubscription _userDataSubscription;
@@ -29,7 +29,9 @@ class ProfileBannerBloc extends Bloc {
   Stream<String> get stream => _controller.stream;
 
   /// Default constructor
-  ProfileBannerBloc() {
+  ProfileBannerBloc(TrailDatabase db) 
+    : assert(db != null) {
+    _db = db;
     bannerImageUrl = _db.userData.bannerImageUrl;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }

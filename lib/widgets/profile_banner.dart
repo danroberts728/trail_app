@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:alabama_beer_trail/blocs/profile_banner_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _ProfileBanner extends State<ProfileBanner> {
   final bool canEdit;
   Widget placeholder;
 
-  final _bloc = ProfileBannerBloc();
+  final _bloc = ProfileBannerBloc(TrailDatabase());
   final int _imageQuality = 75;
   final double _maxHeight = 400.0;
 
