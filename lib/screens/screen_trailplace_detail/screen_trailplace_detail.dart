@@ -98,8 +98,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
                         Stack(
                           children: <Widget>[
                             TrailPlaceGallery(
-                              galleryImageUrls: place.galleryUrls
-                                ..insert(0, place.featuredImgUrl),
+                              galleryImageUrls: [place.featuredImgUrl] + place.galleryUrls,
                             ),
                             Positioned(
                               left: 16.0,
