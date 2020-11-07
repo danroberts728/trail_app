@@ -1,13 +1,17 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../data/trail_place.dart';
 
+/// Place information element intended for use
+/// on the map screen
 class TrailPlaceMapInfo extends StatefulWidget {
   final ValueKey key;
   final TrailPlace place;
 
+  /// Default constructor.
   TrailPlaceMapInfo({this.key, @required this.place});
 
   @override
@@ -81,8 +85,7 @@ class _TrailPlaceMapInfo extends State<TrailPlaceMapInfo> {
                           ),
                         ),
                         Text(
-                          (widget.place.categories..sort()).join(", "),
-                          maxLines: 2,
+                          widget.place.city,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: Colors.black54,
