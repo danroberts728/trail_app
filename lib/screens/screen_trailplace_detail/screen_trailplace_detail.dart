@@ -37,8 +37,9 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
 
   @override
   void initState() {
-    super.initState();
     _bloc = ScreenTrailPlaceDetailBloc(widget.place.id, TrailDatabase());
+    super.initState();
+
   }
 
   @override

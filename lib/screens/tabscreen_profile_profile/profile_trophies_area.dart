@@ -1,8 +1,11 @@
+// Copyright (c) 2020, Fermented Software.
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/screen_trailtrophy_detail.dart';
 import 'package:alabama_beer_trail/blocs/profile_trophies_area_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+/// The trophies area of the Profile tab screen
 class ProfileTrophiesArea extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ProfileTrophiesArea();
@@ -11,7 +14,7 @@ class ProfileTrophiesArea extends StatefulWidget {
 class _ProfileTrophiesArea extends State<ProfileTrophiesArea> {
   final _crossAxisCount = 4;
 
-  final _profileTrophiesAreaBloc = ProfileTrophiesAreaBloc();
+  final _profileTrophiesAreaBloc = ProfileTrophiesAreaBloc(TrailDatabase());
 
   @override
   Widget build(BuildContext context) {

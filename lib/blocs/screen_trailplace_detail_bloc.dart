@@ -86,6 +86,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
     _controller.sink.add(placeDetail);
   }
 
+  /// Callback when events are updated
   _onEventsUpdate(List<TrailEvent> event) {
     placeDetail = PlaceDetail(
       place: placeDetail.place,
@@ -125,6 +126,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
     _controller.sink.add(placeDetail);
   }
 
+  /// Callback when all beers are updated
   _onBeersUpdate(List<Beer> event) {
     var newBeers = event;
     placeDetail = PlaceDetail(
@@ -134,6 +136,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
       taps: placeDetail.taps,
       popularBeers: newBeers,
     );
+    _controller.sink.add(placeDetail);
   }
 
   /// Dispose object
@@ -154,10 +157,13 @@ class PlaceDetail {
   /// The trail place
   final TrailPlace place;
 
+  /// The beers currently on tap (if known)
   List<OnTapBeer> taps;
 
+  /// The upcoming events for this [place]
   List<TrailEvent> events;
 
+  /// The top 25 popular beers according to unTappd
   List<Beer> popularBeers;
 
   /// The number of times the current user has checked in

@@ -9,7 +9,7 @@ import 'package:alabama_beer_trail/data/user_data.dart';
 /// The BLoC for ProfileTrophyArea objects
 class ProfileTrophiesAreaBloc extends Bloc {
   /// A reference to the central database
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to all published trophies
   StreamSubscription _trophiesSubscription;
@@ -33,7 +33,8 @@ class ProfileTrophiesAreaBloc extends Bloc {
   get stream => _streamController.stream;
 
   /// Default constructor
-  ProfileTrophiesAreaBloc() {
+  ProfileTrophiesAreaBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     _trailTrophies = _db.trophies;
     _userData = _db.userData;
     userTrophyInformation = _buildStreamData(_trailTrophies, _userData);
