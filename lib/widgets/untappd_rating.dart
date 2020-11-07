@@ -20,9 +20,9 @@ class UntappdRating extends StatelessWidget {
         super(key: key);
 
   static Icon _ratingBubbleBase =
-      Icon(Icons.circle, color: Colors.grey.withAlpha(125), size: 24.0);
+      Icon(Icons.circle, color: Colors.grey.withAlpha(125), size: 18.0);
   static Icon _ratingBubbleFilled =
-      Icon(Icons.circle, color: Color(0xffffc000), size: 24.0);
+      Icon(Icons.circle, color: Color(0xffffc000), size: 18.0);
 
   /// Returns a "rating bubble," which is a Widget with a circle
   /// colored to [fillPercent]. So if [fillPercent] is 0.25, then
