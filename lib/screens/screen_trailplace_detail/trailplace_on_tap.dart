@@ -1,5 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/data/on_tap_beer.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -28,13 +29,13 @@ class TrailPlaceOnTap extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 8.0),
           margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               CachedNetworkImage(
                 imageUrl: tap.logoUrl,
-                height: 60.0,
-                width: 60.0,
+                height: 75.0,
+                width: 75.0,
                 fit: BoxFit.fill,
               ),
               SizedBox(
@@ -45,31 +46,61 @@ class TrailPlaceOnTap extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Brewery Name
+                    Text(
+                      tap.manufacturer,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black87,
+                        height: 1.0,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
                     // Beer Name
                     Text(
                       tap.name,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 18.0,
-                        fontFamily: "Oswald",
-                        fontFamilyFallback: ["sans-serif"],
-                        color: Colors.black87,
-                        height: 1.0,
+                        color: TrailAppSettings.mainHeadingColor,
+                        height: 1.1,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    // Beer Style and ABV
-                    Row(
+                    // Beer Style
+                    Text(
+                      tap.style != "" ? tap.style : "Unknown Style",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black87,
+                        fontStyle: tap.style != ""
+                            ? FontStyle.normal
+                            : FontStyle.italic,
+                      ),
+                    ),
+                    // ABV and IBU
+                    Wrap(
                       children: [
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Expanded(
+                        Visibility(
+                          visible: tap.abv != null && tap.abv != "",
                           child: Text(
-                            tap.abv == "N/A"
-                                ? tap.style
-                                : "${tap.style} - ${tap.abv}% ABV",
-                            overflow: TextOverflow.ellipsis,
+                            "ABV ${tap.abv}%",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: tap.abv != null && tap.abv != "",
+                          child: SizedBox(width: 12.0),
+                        ),
+                        Visibility(
+                          visible: tap.ibu != null && tap.ibu != 0,
+                          child: Text(
+                            "IBU ${tap.ibu.toString()}",
                             style: TextStyle(
                               fontSize: 14.0,
                               color: Colors.black87,
@@ -78,25 +109,6 @@ class TrailPlaceOnTap extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        // Brewer Name
-                        Text(
-                          tap.manufacturer,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: "Lekton",
-                            fontFamilyFallback: ["sans-serif"],
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.0),
                   ],
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/blocs/profile_stats_area_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplaces.dart';
 import 'package:alabama_beer_trail/widgets/profile_stat.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,12 @@ class ProfileStatsArea extends StatefulWidget {
 }
 
 class _ProfileStatsArea extends State<ProfileStatsArea> {
-  ProfileStatsAreaBloc _profileStatsAreaBloc = ProfileStatsAreaBloc();
+  ProfileStatsAreaBloc _profileStatsAreaBloc;
+
+  @override void initState() {
+    _profileStatsAreaBloc = ProfileStatsAreaBloc(TrailDatabase());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -15,7 +15,9 @@ class TrailPlaceOnTapBloc extends Bloc {
   Stream<List<OnTapBeer>> get stream => _db.getTaps(_placeId).asStream();
 
   /// Default constructor
-  TrailPlaceOnTapBloc(String placeId, TrailDatabase db) {
+  TrailPlaceOnTapBloc(String placeId, TrailDatabase db)
+      : assert(placeId != null),
+        assert(db != null) {
     _db = db;
     _placeId = placeId;
     _beersOnTapController.stream.listen(_onTapsUpdate);

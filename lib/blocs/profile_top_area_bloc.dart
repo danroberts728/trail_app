@@ -1,5 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
@@ -9,7 +8,7 @@ import 'package:alabama_beer_trail/data/user_data.dart';
 /// The BLoC for ProfileTopArea objects
 class ProfileTopAreaBloc extends Bloc {
   /// A reference to the central database
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to the user's data
   StreamSubscription _userDataSubscription;
@@ -24,7 +23,8 @@ class ProfileTopAreaBloc extends Bloc {
   get stream => _streamController.stream;
 
   /// Default constructor
-  ProfileTopAreaBloc() {
+  ProfileTopAreaBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     userData = _db.userData;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }

@@ -13,7 +13,6 @@ import '../test_data/test_data_places.dart';
 import '../test_data/test_data_taps.dart';
 
 class TrailDatabaseMock extends Mock implements TrailDatabase {}
-
 class StreamMock<T> extends Mock implements Stream<T> {}
 
 /// Test for the Tab Selection Service utility class

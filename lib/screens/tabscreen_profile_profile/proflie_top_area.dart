@@ -1,3 +1,4 @@
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
@@ -17,7 +18,7 @@ class _ProfileTopArea extends State<ProfileTopArea> {
 
   @override
   Widget build(BuildContext context) {
-    final _profileTopAreaBloc = ProfileTopAreaBloc();
+    final _profileTopAreaBloc = ProfileTopAreaBloc(TrailDatabase());
 
     return LayoutBuilder(
       builder: (context, constraints) {

@@ -1,5 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-
 import 'dart:async';
 
 import 'package:alabama_beer_trail/data/user_data.dart';
@@ -11,7 +10,7 @@ import 'package:alabama_beer_trail/data/trail_place.dart';
 /// The BLoC for ProfileStatsArea objects
 class ProfileStatsAreaBloc extends Bloc {
   /// A reference to the central database.
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to the user's check ins
   StreamSubscription _checkInSubscription;
@@ -42,7 +41,8 @@ class ProfileStatsAreaBloc extends Bloc {
   get stream => _streamController.stream;
 
   /// Default constructor
-  ProfileStatsAreaBloc() {
+  ProfileStatsAreaBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     _places = _db.places;
     _checkIns = _db.checkIns;
     _favorites = _db.userData.favorites ?? List<String>();
@@ -57,8 +57,8 @@ class ProfileStatsAreaBloc extends Bloc {
       List<TrailPlace> places, List<CheckIn> checkIns, List<String> favorites) {
     List<UserPlaceInformation> retval = List<UserPlaceInformation>();
     places.forEach((p) {
-      retval.add(UserPlaceInformation(p, checkIns.any((c) => c.placeId == p.id),
-        favorites.contains(p.id)));
+      retval.add(UserPlaceInformation(
+          p, checkIns.any((c) => c.placeId == p.id), favorites.contains(p.id)));
     });
     return retval;
   }

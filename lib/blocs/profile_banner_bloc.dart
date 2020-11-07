@@ -1,5 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
@@ -21,7 +20,7 @@ class ProfileBannerBloc extends Bloc {
 
   /// The banner Image URL for the current user
   String bannerImageUrl;
-  
+
   /// The controller for this BLoC's stream
   final _controller = StreamController<String>();
 
@@ -29,8 +28,7 @@ class ProfileBannerBloc extends Bloc {
   Stream<String> get stream => _controller.stream;
 
   /// Default constructor
-  ProfileBannerBloc(TrailDatabase db) 
-    : assert(db != null) {
+  ProfileBannerBloc(TrailDatabase db) : assert(db != null) {
     _db = db;
     bannerImageUrl = _db.userData.bannerImageUrl;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
