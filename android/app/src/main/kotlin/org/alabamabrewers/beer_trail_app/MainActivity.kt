@@ -1,4 +1,4 @@
-package org.alabamabrewers.beer_trail_app
+package org.alabamabrewers.albeertrail
 
 import io.flutter.embedding.android.FlutterActivity
 

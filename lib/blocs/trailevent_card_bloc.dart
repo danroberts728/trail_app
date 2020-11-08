@@ -4,7 +4,7 @@ import 'package:html/dom.dart' as htmlParser;
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
-import 'package:add_2_calendar/add_2_calendar.dart' as a2c;
+import 'package:add_to_calendar/add_to_calendar.dart';
 
 class TrailEventCardBloc extends Bloc {
   final _db = TrailDatabase();
@@ -23,17 +23,16 @@ class TrailEventCardBloc extends Bloc {
   }
 
   void exportToCalendar() {
-    a2c.Add2Calendar.addEvent2Cal(
-      a2c.Event(
+    AddToCalendar.addToCalendar(
           title: event.name,
-          description: htmlParser.DocumentFragment.html(event.details).text,
+          startTime: event.start.toLocal(),
+          endTime: event.hideEndTime
+            ? event.start.toLocal().add(Duration(hours: 1))
+            : event.end.toLocal(),
           location:
               "${event.locationName}, ${event.locationAddress}, ${event.locationCity}, ${event.locationState}",
-          timeZone: event.start.timeZoneName,
-          startDate: event.start.toLocal(),          
-          endDate: event.hideEndTime
-              ? event.start.toLocal().add(Duration(hours: 1))
-              : event.end.toLocal()),
+          description: htmlParser.DocumentFragment.html(event.details).text,
+          isAllDay: event.allDayEvent,
     );
   }
 
