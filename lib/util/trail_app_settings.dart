@@ -62,6 +62,9 @@ class TrailAppSettings {
   // Events Tab Options
   static final List<double> eventFilterDistances = [5, 25, 50, 100];
 
+  // Place Detail Options
+  static final bool showNonMemberTapList = true;
+
   // Other Options
   static final bool navBarShowSelectedLabels = true;
   static final bool navBarShowUnselectedLabels = false;

@@ -39,7 +39,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
   void initState() {
     _bloc = ScreenTrailPlaceDetailBloc(widget.place.id, TrailDatabase());
     super.initState();
-
   }
 
   @override
@@ -70,7 +69,9 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
 
         List<Widget> tabs = [Tab(text: "Details")];
         List<Widget> tabChildren = [TrailPlaceDetails(place: place)];
-        if (taps.length > 0) {
+        if (taps.length > 0 &&
+            // Only show member tap list unless turned off in the settings
+            (TrailAppSettings.showNonMemberTapList || place.isMember)) {
           tabs.add(Tab(text: "On Tap Now"));
           tabChildren.add(TrailPlaceOnTap(taps: taps));
         }
@@ -99,7 +100,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
                         Stack(
                           children: <Widget>[
                             TrailPlaceGallery(
-                              galleryImageUrls: [place.featuredImgUrl] + place.galleryUrls,
+                              galleryImageUrls:
+                                  [place.featuredImgUrl] + place.galleryUrls,
                             ),
                             Positioned(
                               left: 16.0,
