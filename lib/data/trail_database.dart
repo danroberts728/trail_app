@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/data/beer.dart';
 import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/data/firebase_helper.dart';
 import 'package:alabama_beer_trail/data/on_tap_beer.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
@@ -147,7 +148,7 @@ class TrailDatabase {
     var newDocs = snapshot.docs;
     var newEvents = List<TrailEvent>();
     newDocs.forEach((d) {
-      TrailEvent event = TrailEvent.buildFromFirebase(d);
+      TrailEvent event = FirebaseHelper.createTrailEventFromFirebaseQueryDoc(d);
       try {
         if (event != null) {
           newEvents.add(event);
@@ -276,7 +277,7 @@ class TrailDatabase {
         .then((QuerySnapshot snapshot) {
       List<Beer> popularBeers = List<Beer>();
       snapshot.docs.forEach((b) {
-        popularBeers.add(Beer.createFromFirebase(b));
+        popularBeers.add(FirebaseHelper.createBeerFromFirebase(b));
       });
       this.places.firstWhere((p) => p.id == placeId).allBeers = popularBeers;
       return popularBeers
@@ -297,11 +298,10 @@ class TrailDatabase {
         .then((QuerySnapshot snapshot) {
       List<OnTapBeer> taps = List<OnTapBeer>();
       snapshot.docs.forEach((b) {
-        taps.add(OnTapBeer.createFromFirebase(b));
+        taps.add(FirebaseHelper.createOnTapBeerFromFirebase(b));
       });
       this.places.firstWhere((p) => p.id == placeId).onTap = taps;
-      return taps
-        ..sort((a, b) => a.name.compareTo(b.name));
+      return taps..sort((a, b) => a.name.compareTo(b.name));
     });
   }
 

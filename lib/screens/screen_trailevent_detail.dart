@@ -12,6 +12,18 @@ class TrailEventDetailScreen extends StatelessWidget {
 
   const TrailEventDetailScreen({Key key, this.event}) : super(key: key);
 
+  String _getTimeString(TrailEvent event) {
+    if (event.allDayEvent) {
+      return " (All Day: " + DateFormat("EEEEE").format(event.start) + ") ";
+    } else if (event.hideEndTime) {
+      return DateFormat("h:mm a").format(event.start);
+    } else {
+      return DateFormat("h:mm a").format(event.start) +
+          " - " +
+          DateFormat("h:mm a").format(event.end);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +73,8 @@ class TrailEventDetailScreen extends StatelessWidget {
                               onTapUrl: (url) => AppLauncher().openWebsite(url),
                             ),
                             Visibility(
-                              visible: event.learnMoreLink != null
-                                && event.learnMoreLink != "",
+                              visible: event.learnMoreLink != null &&
+                                  event.learnMoreLink != "",
                               child: SizedBox(
                                 width: double.infinity,
                                 child: RaisedButton(
@@ -144,7 +156,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                   overflow: TextOverflow.fade,
                                 ),
                                 Text(
-                                  event.getTimeString(),
+                                  _getTimeString(event),
                                   style: TextStyle(
                                     color: Color(0xFF666666),
                                     fontSize: 14.0,

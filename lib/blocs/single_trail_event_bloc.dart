@@ -1,6 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
+import 'package:alabama_beer_trail/data/firebase_helper.dart';
 import 'package:alabama_beer_trail/data/trail_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:alabama_beer_trail/blocs/bloc.dart';
@@ -27,7 +28,7 @@ class SingleTrailEventBloc extends Bloc {
   /// Callback when trail is updated
   void _onDataUpdate(DocumentSnapshot querySnapshot) {
     try {
-      TrailEvent newTrailEvent = TrailEvent.buildFromFirebaseDocument(querySnapshot);
+      TrailEvent newTrailEvent = FirebaseHelper.createTrailEventFromFirebaseDoc(querySnapshot);
       trailEvent = newTrailEvent;
       _trailEventController.sink.add(trailEvent);
     } catch (error) {

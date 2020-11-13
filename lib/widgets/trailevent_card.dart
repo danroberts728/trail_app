@@ -40,6 +40,18 @@ class TrailEventCard extends StatefulWidget {
 }
 
 class _TrailEventCard extends State<TrailEventCard> {
+  String _getTimeString(TrailEvent event) {
+    if (event.allDayEvent) {
+      return " (All Day: " + DateFormat("EEEEE").format(event.start) + ") ";
+    } else if (event.hideEndTime) {
+      return DateFormat("h:mm a").format(event.start);
+    } else {
+      return DateFormat("h:mm a").format(event.start) +
+          " - " +
+          DateFormat("h:mm a").format(event.end);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     TrailEventCardBloc _bloc = TrailEventCardBloc(widget.event.id);
@@ -243,7 +255,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                                       ),
                                       // Time
                                       Text(
-                                        widget.event.getTimeString(),
+                                        _getTimeString(widget.event),
                                         style: TextStyle(
                                           color: Color(0xFF666666),
                                           fontSize: 12.0,

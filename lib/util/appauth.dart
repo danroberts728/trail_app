@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:alabama_beer_trail/data/app_user.dart';
+import 'package:alabama_beer_trail/data/firebase_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:apple_sign_in/apple_sign_in.dart';
@@ -48,7 +49,7 @@ class AppAuth {
     if (fbUser == null) {
       this.user = null;
     } else {
-      this.user = AppUser.fromFirebaseUser(fbUser);
+      this.user = FirebaseHelper.appUserfromFirebaseUser(fbUser);
     }
 
     _authStreamController.add(user);
@@ -79,7 +80,7 @@ class AppAuth {
     }
 
     if (user != null) {
-      this.user = AppUser.fromFirebaseUser(fbUser);
+      this.user = FirebaseHelper.appUserfromFirebaseUser(fbUser);
       return AppAuthReturn(
           success: true, errorMessage: errorMessage, user: this.user);
     } else {
@@ -106,7 +107,7 @@ class AppAuth {
     assert(await user.getIdToken() != null);
 
     if (user != null) {
-      this.user = AppUser.fromFirebaseUser(user);
+      this.user = FirebaseHelper.appUserfromFirebaseUser(user);
       print(user.uid);
     }
     return this.user;
@@ -129,7 +130,7 @@ class AppAuth {
           UserCredential authResult =
               await FirebaseAuth.instance.signInWithCredential(credential);
 
-          AppUser user = AppUser.fromFirebaseUser(authResult.user);
+          AppUser user = FirebaseHelper.appUserfromFirebaseUser(authResult.user);
           return AppAuthReturn(errorMessage: null, user: user, success: true);
           break;
         case AuthorizationStatus.cancelled:
@@ -183,7 +184,7 @@ class AppAuth {
     }
 
     if (user != null) {
-      return AppUser.fromFirebaseUser(user);
+      return FirebaseHelper.appUserfromFirebaseUser(user);
     } else {
       return null;
     }
