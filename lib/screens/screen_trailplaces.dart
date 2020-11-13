@@ -1,5 +1,6 @@
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/blocs/screen_trailplaces_bloc.dart';
+import 'package:alabama_beer_trail/blocs/screen_trail_list_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
@@ -16,7 +17,7 @@ class TrailPlacesScreen extends StatefulWidget {
 }
 
 class _TrailPlacesScreen extends State<TrailPlacesScreen> {
-  ScreenTrailListBloc _screenTrailListBloc = ScreenTrailListBloc();
+  ScreenTrailListBloc _screenTrailListBloc = ScreenTrailListBloc(TrailDatabase());
 
   _TrailPlacesScreen();
 

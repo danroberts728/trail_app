@@ -8,7 +8,7 @@ import 'package:alabama_beer_trail/blocs/bloc.dart';
 /// BLoC for ScreenTrailList objects
 class ScreenTrailListBloc extends Bloc {
   /// A reference to the central database
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to trail places data
   StreamSubscription _placesSubscription;
@@ -25,7 +25,8 @@ class ScreenTrailListBloc extends Bloc {
       _placesStreamController.stream;
 
   /// Default constructor
-  ScreenTrailListBloc() {
+  ScreenTrailListBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     trailPlaces = _db.places;
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdate);
   }

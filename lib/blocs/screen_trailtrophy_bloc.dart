@@ -6,9 +6,9 @@ import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 
 /// The BLoC for TrophyDetailScreen objects
-class TrophyDetailScreenBloc extends Bloc {
+class ScreenTrailTrophyBloc extends Bloc {
   /// A reference to the central database
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to the user's data
   StreamSubscription _userDataSubscription;
@@ -23,7 +23,8 @@ class TrophyDetailScreenBloc extends Bloc {
   Stream<Map<String, DateTime>> get stream => _controller.stream;
 
   /// Default constructor
-  TrophyDetailScreenBloc() {
+  ScreenTrailTrophyBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     earnedTrophies = _db.userData.trophies;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }

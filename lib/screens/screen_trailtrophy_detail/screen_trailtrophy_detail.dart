@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/blocs/screen_trailtrophy_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/completed_trophy.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_exact_unique_checkins.dart';
@@ -16,7 +17,7 @@ class TrophyDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TrophyDetailScreenBloc _bloc = TrophyDetailScreenBloc();
+    ScreenTrailTrophyBloc _bloc = ScreenTrailTrophyBloc(TrailDatabase());
 
     var hasTrophy = _bloc.earnedTrophies.keys.contains(trophy.id);
 

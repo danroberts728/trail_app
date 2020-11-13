@@ -8,9 +8,9 @@ import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 
 /// The BLoC for EditProfileScreen objects
-class EditProfileScreenBloc extends Bloc {
+class ScreenEditProfileBloc extends Bloc {
   /// A reference to the central database
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to the user's data
   StreamSubscription _userDataSubscription;
@@ -25,7 +25,8 @@ class EditProfileScreenBloc extends Bloc {
   Stream<UserData> get stream => _controller.stream;
 
   /// Default constructor
-  EditProfileScreenBloc() {
+  ScreenEditProfileBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     userData = _db.userData;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }

@@ -1,4 +1,5 @@
 import 'package:alabama_beer_trail/blocs/screen_edit_profile_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
 import 'package:alabama_beer_trail/widgets/profile_banner.dart';
@@ -16,7 +17,7 @@ class EditProfileScreen extends StatefulWidget {
 /// The state for the user's edit profile screen
 class _EditProfileScreen extends State<EditProfileScreen> {
   /// The user data BLoC
-  EditProfileScreenBloc _bloc = EditProfileScreenBloc();
+  ScreenEditProfileBloc _bloc = ScreenEditProfileBloc(TrailDatabase());
 
   /// The key for the edit form
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();

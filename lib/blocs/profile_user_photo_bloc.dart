@@ -13,7 +13,7 @@ import 'package:alabama_beer_trail/data/user_data.dart';
 /// The BLoC for ProfileUserPhoto objects
 class ProfileUserPhotoBloc extends Bloc {
   /// A reference to the central database
-  final _db = TrailDatabase();
+  TrailDatabase _db;
 
   /// A subscription to the user's data
   StreamSubscription _userDataSubscription;
@@ -28,7 +28,8 @@ class ProfileUserPhotoBloc extends Bloc {
   Stream<String> get stream => _controller.stream;
 
   /// Default constructor
-  ProfileUserPhotoBloc() {
+  ProfileUserPhotoBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     profileImageUrl = _db.userData.profilePhotoUrl;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }
