@@ -1,121 +1,313 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/data/on_tap_beer.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/expandable_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// UI element for a list of taps at a trail place
-class TrailPlaceOnTap extends StatelessWidget {
+class TrailPlaceOnTap extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _TrailPlaceOnTap();
+
   /// The place ID for the taps
-  final List<OnTapBeer> taps;
+  final List<TapListExpansionItem> tapItems;
 
-  const TrailPlaceOnTap({Key key, @required this.taps}) : super(key: key);
+  const TrailPlaceOnTap({Key key, @required this.tapItems}) : super(key: key);
+}
 
+class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: taps.length,
-      itemBuilder: (context, index) {
-        OnTapBeer tap = taps[index];
-        return Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.black12,
-                width: 0.5,
-              ),
-            ),
-          ),
-          padding: EdgeInsets.only(bottom: 8.0),
-          margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              CachedNetworkImage(
-                imageUrl: tap.logoUrl,
-                height: 75.0,
-                width: 75.0,
-                fit: BoxFit.fill,
-              ),
-              SizedBox(
-                width: 16.0,
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Brewery Name
-                    Text(
-                      tap.manufacturer,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black87,
-                        height: 1.0,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    // Beer Name
-                    Text(
-                      tap.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: TrailAppSettings.mainHeadingColor,
-                        height: 1.1,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    // Beer Style
-                    Text(
-                      tap.style != "" ? tap.style : "Unknown Style",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black87,
-                        fontStyle: tap.style != ""
-                            ? FontStyle.normal
-                            : FontStyle.italic,
-                      ),
-                    ),
-                    // ABV and IBU
-                    Wrap(
-                      children: [
+    List<TapListExpansionItem> tapItems = widget.tapItems;
+    return ListView(
+      children: [
+        ExpansionPanelList(
+          animationDuration: Duration(seconds: 1),
+          expansionCallback: (panelIndex, isExpanded) {
+            setState(() {
+              tapItems[panelIndex].isExpanded = !isExpanded;
+            });
+          },
+          children: tapItems.map(
+            (tapItem) {
+              OnTapBeer tap = tapItem.tap;
+              return ExpansionPanel(
+                canTapOnHeader: true,
+                isExpanded: tapItem.isExpanded,
+                headerBuilder: (context, isExpanded) {
+                  return Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
                         Visibility(
-                          visible: tap.abv != null && tap.abv != "",
-                          child: Text(
-                            "ABV ${tap.abv}%",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.black87,
-                            ),
+                          visible:
+                              tap.logoUrl != null && tap.logoUrl.isNotEmpty,
+                          child: CachedNetworkImage(
+                            imageUrl: tap.logoUrl,
+                            height: 40.0,
+                            width: 40.0,
+                            alignment: Alignment.centerLeft,
+                            fit: BoxFit.cover,
                           ),
                         ),
                         Visibility(
-                          visible: tap.abv != null && tap.abv != "",
-                          child: SizedBox(width: 12.0),
+                          visible:
+                              tap.logoUrl != null && tap.logoUrl.isNotEmpty,
+                          child: SizedBox(
+                            width: 16.0,
+                          ),
                         ),
-                        Visibility(
-                          visible: tap.ibu != null && tap.ibu != 0,
-                          child: Text(
-                            "IBU ${tap.ibu.toString()}",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.black87,
-                            ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Brewery Name
+                              // We're going to assume this exists, which may be a mistake...
+                              Text(
+                                tap.manufacturer,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.black87,
+                                  height: 1.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              // Beer Name
+                              // We're going to assume this exists
+                              Text(
+                                tap.name,
+                                maxLines: tapItem.isExpanded ? 4 : 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: TrailAppSettings.mainHeadingColor,
+                                  height: 1.1,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              // ABV, IBU, and style
+                              Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  // ABV
+                                  Visibility(
+                                    visible:
+                                        tap.abv != null && tap.abv.isNotEmpty,
+                                    child: Text(
+                                      "ABV ${tap.abv}%",
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ),
+                                  // Dot (if ABV and either IBU or style)
+                                  Visibility(
+                                    visible: (tap.abv != null &&
+                                            tap.abv.isNotEmpty) &&
+                                        ((tap.ibu != null && tap.ibu != 0) ||
+                                            (tap.style != null &&
+                                                tap.style.isNotEmpty)),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      height: 4.0,
+                                      width: 4.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  // IBU
+                                  Visibility(
+                                    visible: tap.ibu != null && tap.ibu != 0,
+                                    child: Text(
+                                      "IBU ${tap.ibu.toString()}",
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ),
+                                  // Dot (if IBU and style)
+                                  Visibility(
+                                    visible:
+                                        (tap.ibu != null && tap.ibu != 0) &&
+                                            (tap.style != null &&
+                                                tap.style.isNotEmpty),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      height: 4.0,
+                                      width: 4.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  // Beer Style
+                                  Visibility(
+                                    visible: tap.style != null &&
+                                        tap.style.isNotEmpty,
+                                    child: Text(
+                                      tap.style,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.black87,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ],
+                  );
+                },
+                body: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // Description (if present)
+                      Visibility(
+                        visible: tap.description.isNotEmpty,
+                        child: ExpandableText(
+                          text: tap.description,
+                        ),
+                      ),
+                      // Space below description (if present)
+                      Visibility(
+                        visible: tap.description.isNotEmpty,
+                        child: SizedBox(
+                          height: 8.0,
+                        ),
+                      ),
+                      // Pricing
+                      Visibility(
+                        visible: tap.prices.length > 0,
+                        child: Container(
+                          width: double.infinity,
+                          child: Column(
+                            children: tap.prices.map((p) {
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "${p.volumeOz.toStringAsFixed(0)} oz",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 4.0),
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            style: BorderStyle.solid,
+                                            color: Colors.grey[300],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    "\$${p.price.toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      // Untappd Link
+                      Visibility(
+                        visible:
+                            tap.untappdUrl != null && tap.untappdUrl.isNotEmpty,
+                        child: InkWell(
+                          onTap: () {
+                            // Get number part of URL
+                            String untappdBeerId = tap.untappdUrl.split("/").last;
+                            AppLauncher().openUntappdBeer(untappdBeerId);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 8.0),
+                            decoration: BoxDecoration(
+                                border: Border(
+                              top: BorderSide(color: Colors.grey[200]),
+                              bottom: BorderSide(color: Colors.grey[200]),
+                            )),
+                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  FontAwesomeIcons.untappd,
+                                  color: TrailAppSettings.subHeadingColor,
+                                  size: 14.0,
+                                ),
+                                SizedBox(
+                                  width: 14.0,
+                                ),
+                                Text(
+                                  "Open in Untappd",
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                                Spacer(),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 8.0),
+                                  child: Icon(
+                                    Icons.exit_to_app_outlined,
+                                    color: TrailAppSettings.actionLinksColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
-      },
+              );
+            },
+          ).toList(),
+        ),
+      ],
     );
   }
+}
+
+class TapListExpansionItem {
+  final OnTapBeer tap;
+  bool isExpanded;
+
+  TapListExpansionItem({@required this.tap, this.isExpanded = false});
 }

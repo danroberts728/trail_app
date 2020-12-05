@@ -26,7 +26,7 @@ class FirebaseHelper {
   }
 
   /// Creates a beer from a query document snapshot from firebase
-  /// 
+  ///
   /// Returns null if the beer does not find a name or untappd ID
   static Beer createBeerFromFirebase(QueryDocumentSnapshot snapshot) {
     try {
@@ -43,36 +43,48 @@ class FirebaseHelper {
         untappdRatingCount: d['untappd_rating_count'] ?? 0,
         untappdRatingScore: d['untappd_rating_score'] + .0 ?? 0,
       );
-      if(beer.name == "" || beer.untappdId == 0) {
+      if (beer.name == "" || beer.untappdId == 0) {
         return null;
       } else {
         return beer;
       }
-    } catch(err) {
+    } catch (err) {
       return null;
     }
   }
 
   /// Creates an OnTapBeer from a query document snapshot from firebase
-  /// 
+  ///
   /// Returns null if the beer does not find a name or untappd ID
   static OnTapBeer createOnTapBeerFromFirebase(QueryDocumentSnapshot snapshot) {
     try {
       var d = snapshot.data();
       var beer = OnTapBeer(
-        abv: d['abv'] == null ? "N/A" : d['abv'],
+        abv: d['abv'] == null ? "" : d['abv'],
+        beerId: d['beer_id'] == null ? 0 : d['beer_id'],
+        description: d['description'] == null ? "" : d['description'],
+        prices: d['prices'] == null
+            ? List<OnTapPrice>()
+            : List<OnTapPrice>.from(d['prices'].map((item) {
+                return OnTapPrice(
+                    name: item['serving_size_name'],
+                    price: double.tryParse(item['price']),
+                    volumeOz: double.tryParse(item['serving_size_volume_oz']));
+              })),
         ibu: d['ibu'] == null ? 0 : d['ibu'],
-        logoUrl: d['logo_url'] == null ?  "" : d['logo_url'],
-        manufacturer: d['manufacturer_name'] == null ? "" : d['manufacturer_name'],
+        logoUrl: d['logo_url'] == null ? "" : d['logo_url'],
+        manufacturer:
+            d['manufacturer_name'] == null ? "" : d['manufacturer_name'],
         name: d['name'] == null ? "" : d['name'],
         style: d['style'] == null ? "" : d['style'],
+        untappdUrl: d['untappd_url'] == null ? "" : d['untappd_url'],
       );
-      if(beer.name == "") {
+      if (beer.name == "") {
         return null;
       } else {
         return beer;
       }
-    } catch(err) {
+    } catch (err) {
       return null;
     }
   }
@@ -85,7 +97,8 @@ class FirebaseHelper {
   }
 
   /// Build a TrailEvent from a [snapshot]
-  static TrailEvent createTrailEventFromFirebaseQueryDoc(QueryDocumentSnapshot snapshot) {
+  static TrailEvent createTrailEventFromFirebaseQueryDoc(
+      QueryDocumentSnapshot snapshot) {
     var data = snapshot.data();
     var id = snapshot.id;
     return _buildFromSnapshot(id, data);
@@ -101,16 +114,25 @@ class FirebaseHelper {
         color: data['color'] != null ? _fromHex(data['color']) : Colors.black,
         featured: data['featured'] != null ? data['featured'] == 'yes' : false,
         imageUrl: data['image_url'] != null ? data['image_url'] : null,
-        learnMoreLink: data['learnmore_link'] != null ? data['learnmore_link'] : '',
+        learnMoreLink:
+            data['learnmore_link'] != null ? data['learnmore_link'] : '',
         status: data['status'] != null ? data['status'] : '',
-        locationTaxonomy: data['location_tax'] != null ? data['location_tax'] : 0,
-        locationName: data['location_name'] != null ? data['location_name'] : '',
+        locationTaxonomy:
+            data['location_tax'] != null ? data['location_tax'] : 0,
+        locationName:
+            data['location_name'] != null ? data['location_name'] : '',
         locationAddress:
             data['location_address'] != null ? data['location_address'] : '',
-        locationCity: data['location_city'] != null ? data['location_city'] : '',
-        locationState: data['location_state'] != null ? data['location_state'] : '',
-        locationLat: data['location_lat'] != null ? double.tryParse(data['location_lat']) : null,
-        locationLon: data['location_lon'] != null ? double.tryParse(data['location_lon']) : null,
+        locationCity:
+            data['location_city'] != null ? data['location_city'] : '',
+        locationState:
+            data['location_state'] != null ? data['location_state'] : '',
+        locationLat: data['location_lat'] != null
+            ? double.tryParse(data['location_lat'])
+            : null,
+        locationLon: data['location_lon'] != null
+            ? double.tryParse(data['location_lon'])
+            : null,
         start: data['start_timestamp_seconds'] != null
             ? Timestamp(data['start_timestamp_seconds'], 0)
                 .toDate()
@@ -121,14 +143,17 @@ class FirebaseHelper {
                 .toDate()
                 .subtract(DateTime.now().timeZoneOffset)
             : null,
-        hideEndTime:
-            data['hide_endtime'] != null ? data['hide_endtime'] == 'yes' : false,
-        allDayEvent:
-            data['all_day_event'] != null ? data['all_day_event'] == "yes" : false,        
+        hideEndTime: data['hide_endtime'] != null
+            ? data['hide_endtime'] == 'yes'
+            : false,
+        allDayEvent: data['all_day_event'] != null
+            ? data['all_day_event'] == "yes"
+            : false,
       );
       // Return null if lat/lon or start time is not set correctly
-      if( trailEvent.locationLat == null || trailEvent.locationLon == null  
-        || trailEvent.start == DateTime(2000)) {
+      if (trailEvent.locationLat == null ||
+          trailEvent.locationLon == null ||
+          trailEvent.start == DateTime(2000)) {
         return null;
       }
       return trailEvent;

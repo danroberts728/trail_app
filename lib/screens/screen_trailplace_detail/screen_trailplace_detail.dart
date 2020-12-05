@@ -73,7 +73,11 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
             // Only show member tap list unless turned off in the settings
             (TrailAppSettings.showNonMemberTapList || place.isMember)) {
           tabs.add(Tab(text: "On Tap Now"));
-          tabChildren.add(TrailPlaceOnTap(taps: taps));
+          tabChildren.add(
+            TrailPlaceOnTap(
+              tapItems: taps.map((t) => TapListExpansionItem(tap: t)).toList(),
+            ),
+          );
         }
         if (events.length > 0) {
           tabs.add(Tab(text: "Upcoming Events"));
