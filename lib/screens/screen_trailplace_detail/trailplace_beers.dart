@@ -1,6 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/data/beer.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/untappd_rating.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -98,13 +99,13 @@ class TrailPlaceBeers extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 8.0),
             margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 CachedNetworkImage(
                   imageUrl: beer.labelUrl,
-                  height: 40.0,
-                  width: 40.0,
+                  height: 55.0,
+                  width: 55.0,
                   fit: BoxFit.fill,
                 ),
                 SizedBox(
@@ -169,6 +170,13 @@ class TrailPlaceBeers extends StatelessWidget {
                       SizedBox(height: 8.0),
                       UntappdRating(rating: beer.untappdRatingScore),
                     ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    Icons.exit_to_app_outlined,
+                    color: TrailAppSettings.actionLinksColor,
                   ),
                 ),
               ],
