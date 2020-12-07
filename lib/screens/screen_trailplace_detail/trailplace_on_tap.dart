@@ -22,6 +22,7 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
   @override
   Widget build(BuildContext context) {
     List<TapListExpansionItem> tapItems = widget.tapItems;
+    // sort prices
     return ListView(
       children: [
         ExpansionPanelList(
@@ -212,7 +213,7 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "${p.volumeOz.toStringAsFixed(0)} oz",
+                                    p.name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.0,
@@ -309,5 +310,7 @@ class TapListExpansionItem {
   final OnTapBeer tap;
   bool isExpanded;
 
-  TapListExpansionItem({@required this.tap, this.isExpanded = false});
+  TapListExpansionItem({@required this.tap, this.isExpanded = false}) {
+    tap.prices.sort((a,b) => a.price.compareTo(b.price));
+  }
 }
