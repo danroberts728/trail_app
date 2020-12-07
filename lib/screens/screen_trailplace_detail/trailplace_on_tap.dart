@@ -25,7 +25,18 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
     // sort prices
     return ListView(
       children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
+          child: Text("This information is provided by the venue's point of sale system. The accuracy of the listings and prices is not guaranteed.",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontStyle: FontStyle.italic,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
         ExpansionPanelList(
+          elevation: 0,
           animationDuration: Duration(seconds: 1),
           expansionCallback: (panelIndex, isExpanded) {
             setState(() {
@@ -98,6 +109,40 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
                               Wrap(
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
+                                  // Beer Style
+                                  Visibility(
+                                    visible: tap.style != null &&
+                                        tap.style.isNotEmpty,
+                                    child: Text(
+                                      tap.style,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.black87,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ),
+                                  // Dot (if style and either ABV or IBU exists)
+                                  Visibility(
+                                    visible: (tap.style != null &&
+                                            tap.style.isNotEmpty) &&
+                                            (
+                                              (tap.abv != null && tap.abv.isNotEmpty) ||
+                                              (tap.ibu != null && tap.ibu != 0)
+                                            ),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      height: 4.0,
+                                      width: 4.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
                                   // ABV
                                   Visibility(
                                     visible:
@@ -110,13 +155,10 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
                                       ),
                                     ),
                                   ),
-                                  // Dot (if ABV and either IBU or style)
+                                  // Dot (if IBU exists)
                                   Visibility(
-                                    visible: (tap.abv != null &&
-                                            tap.abv.isNotEmpty) &&
-                                        ((tap.ibu != null && tap.ibu != 0) ||
-                                            (tap.style != null &&
-                                                tap.style.isNotEmpty)),
+                                    visible: tap.ibu != null &&
+                                            tap.ibu != 0,
                                     child: Container(
                                       alignment: Alignment.center,
                                       margin:
@@ -128,7 +170,7 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
                                         color: Colors.black,
                                       ),
                                     ),
-                                  ),
+                                  ), 
                                   // IBU
                                   Visibility(
                                     visible: tap.ibu != null && tap.ibu != 0,
@@ -137,38 +179,6 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
                                       style: TextStyle(
                                         fontSize: 14.0,
                                         color: Colors.black87,
-                                      ),
-                                    ),
-                                  ),
-                                  // Dot (if IBU and style)
-                                  Visibility(
-                                    visible:
-                                        (tap.ibu != null && tap.ibu != 0) &&
-                                            (tap.style != null &&
-                                                tap.style.isNotEmpty),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
-                                      height: 4.0,
-                                      width: 4.0,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  // Beer Style
-                                  Visibility(
-                                    visible: tap.style != null &&
-                                        tap.style.isNotEmpty,
-                                    child: Text(
-                                      tap.style,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: Colors.black87,
-                                        fontStyle: FontStyle.italic,
                                       ),
                                     ),
                                   ),
