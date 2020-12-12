@@ -184,10 +184,13 @@ class _AppDrawer extends State<AppDrawer> {
                     );
                   }),
               // Log Out
-              AppDrawerMenuItem(
-                iconData: Icons.logout,
-                name: "Log Out",
-                onTap: () => AppAuth().logout(),
+              Visibility(
+                visible: widget.isUserLoggedIn,
+                child: AppDrawerMenuItem(
+                  iconData: Icons.logout,
+                  name: "Log Out",
+                  onTap: () => AppAuth().logout(),
+                ),
               ),
             ],
           ),
