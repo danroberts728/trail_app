@@ -16,7 +16,7 @@ class TrailActivityDetailDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String date = DateFormat("MMMM d, yyyy").format(activity.date);
-    String time = DateFormat("h:m a").format(activity.date);
+    String time = DateFormat("h:mm a").format(activity.date);
 
     return SimpleDialog(
       contentPadding: EdgeInsets.all(16.0),
