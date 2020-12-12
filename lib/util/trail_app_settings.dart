@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 class TrailAppSettings {
   // Primary Colors
-  static final Color mainHeadingColor = Color(0xFF93654E);
-  static final Color subHeadingColor = Color(0xFF4E7C93);
-  static final Color actionLinksColor = Color(0xFF5A934E);
-  static final Color attentionColor = Color(0xFF874E93);
-  static final Color errorColor = Colors.red;
+  static const Color mainHeadingColor = Color(0xFF93654E);
+  static const Color subHeadingColor = Color(0xFF4E7C93);
+  static const Color actionLinksColor = Color(0xFF5A934E);
+  static const Color attentionColor = Color(0xFF874E93);
+  static const Color errorColor = Colors.red;
 
   // Assets
   static final String signInBackgroundAsset = "assets/images/signin_bkg.jpg";
@@ -44,8 +44,8 @@ class TrailAppSettings {
   static final String navBarEventsLabel = "Events";
   static final String navBarNewsTabTitle = "Alabama Beer News";
   static final String navBarNewsLabel = "News";
-  static final String navBarProfileLabel = "Profile";
-  static final String navBarProfileTabTitle = "Your Profile";
+  static final String navBarAchievementsLabel = "Achievements";
+  static final String navBarAchievementsTabTitle = "Achievements";
 
   // Colors
   static final Color first = Color(0xFF93654E);
@@ -57,7 +57,7 @@ class TrailAppSettings {
   static final IconData navBarTrailIcon = Icons.location_on;
   static final IconData navBarEventsIcon = Icons.calendar_today;
   static final IconData navBarNewsIcon = Icons.rss_feed;
-  static final IconData navBarProfileIcon = Icons.person;
+  static final IconData navBarAchievementsIcon = Icons.emoji_events;
 
   // Events Tab Options
   static final List<double> eventFilterDistances = [5, 25, 50, 100];
@@ -102,8 +102,8 @@ class TrailAppSettings {
 
   static final String privacyPolicyHtml = '''
 <div>
-<p><em>This policy may be updated at any time. The latest version can be found <a href="https://freethehops.org/app/alabama-beer-trail-privacy-policy/">here</a></em>.</p>
-<p><strong><span data-custom-class="title">PRIVACY NOTICE   </span>  </strong></p>
+<p>&nbsp;</p>
+<p><center><strong><span data-custom-class="title">PRIVACY NOTICE   </span>  </strong></center></p>
 <p><strong><span data-custom-class="subtitle">Last updated July 03, 2020</span></strong></p>
 <p><span data-custom-class="body_text">Thank you for choosing to be part of our community at Alabama Brewers Guild, Inc, doing business as Free the Hops (“<strong>Free the Hops</strong>”, “<strong>we</strong>”, “<strong>us</strong>”, or “<strong>our</strong>”). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our notice, or our practices with regards to your personal information, please contact us at <a href="mailto:info@freethehops.org">info@freethehops.org</a>.</span></p>
 <p><span data-custom-class="body_text">When you use our mobile application, and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy notice that you do not agree with, please discontinue use of our Apps and our services.</span></p>

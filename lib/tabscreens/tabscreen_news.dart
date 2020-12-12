@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/blocs/tabscreen_news_bloc.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';

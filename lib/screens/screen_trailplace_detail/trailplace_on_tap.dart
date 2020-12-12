@@ -2,7 +2,6 @@
 import 'package:alabama_beer_trail/data/on_tap_beer.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/expandable_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -201,8 +200,10 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
                       // Description (if present)
                       Visibility(
                         visible: tap.description.isNotEmpty,
-                        child: ExpandableText(
-                          text: tap.description,
+                        child: Text(tap.description,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
                         ),
                       ),
                       // Space below description (if present)
@@ -212,7 +213,7 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
                           height: 8.0,
                         ),
                       ),
-                      // Pricing
+                      // Pricing (if present)
                       Visibility(
                         visible: tap.prices.length > 0,
                         child: Container(

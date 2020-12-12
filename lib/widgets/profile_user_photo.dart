@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:io';
 
 import 'package:alabama_beer_trail/blocs/profile_user_photo_bloc.dart';
@@ -10,34 +11,35 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+/// The user's profile photo (circular)
 class ProfileUserPhoto extends StatefulWidget {
   final String imageUrl;
   final ImageProvider backupImage;
   final bool canEdit;
   final Widget placeholder;
+  final double height;
+  final double width;
 
   ProfileUserPhoto(this.imageUrl,
       {@required this.backupImage,
       @required this.canEdit,
-      @required this.placeholder});
+      @required this.placeholder,
+      this.height = 100.0,
+      this.width = 100.0});
 
   @override
-  State<StatefulWidget> createState() => _ProfileUserPhoto(
-      this.imageUrl, this.backupImage, this.canEdit, this.placeholder);
+  State<StatefulWidget> createState() => _ProfileUserPhoto(imageUrl);
 }
 
 class _ProfileUserPhoto extends State<ProfileUserPhoto> {
   String imageUrl;
-  final ImageProvider backupImage;
-  final bool canEdit;
-  Widget placeholder;
 
   var _bloc = ProfileUserPhotoBloc(TrailDatabase());
   final double _maxHeight = 400.0;
   final int _imageQuality = 75;
 
   _ProfileUserPhoto(
-      this.imageUrl, this.backupImage, this.canEdit, this.placeholder);
+      this.imageUrl);
 
   @override
   void initState() {
@@ -53,8 +55,8 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
         ? CachedNetworkImage(
             imageUrl: this.imageUrl,
             imageBuilder: (context, imageProvider) => Container(
-                  width: 100,
-                  height: 100,
+                  width: widget.width,
+                  height: widget.height,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 3.0),
@@ -63,21 +65,21 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
                   ),
                 ),
             placeholder: (context, url) => Container(
-                width: 100.0,
-                height: 100.0,
-                child: Center(child: this.placeholder)),
+                width: widget.width,
+                height: widget.height,
+                child: Center(child: widget.placeholder)),
             errorWidget: (context, url, error) => Icon(Icons.error))
         : Container(
-            width: 100,
-            height: 100,
+            width: widget.width,
+                height: widget.height,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 3.0),
                 image: DecorationImage(
-                    image: this.backupImage, fit: BoxFit.cover)));
+                    image: widget.backupImage, fit: BoxFit.cover)));
 
     var stackedWidgets = <Widget>[imageProvider];
-    if (this.canEdit) {
+    if (widget.canEdit) {
       stackedWidgets.add(editButton());
     }
 

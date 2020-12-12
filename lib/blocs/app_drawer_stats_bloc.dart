@@ -8,7 +8,7 @@ import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 
 /// The BLoC for ProfileStatsArea objects
-class ProfileStatsAreaBloc extends Bloc {
+class AppDrawerStatsBloc extends Bloc {
   /// A reference to the central database.
   TrailDatabase _db;
 
@@ -41,7 +41,7 @@ class ProfileStatsAreaBloc extends Bloc {
   get stream => _streamController.stream;
 
   /// Default constructor
-  ProfileStatsAreaBloc(TrailDatabase db) : assert(db != null) {
+  AppDrawerStatsBloc(TrailDatabase db) : assert(db != null) {
     _db = db;
     _places = _db.places;
     _checkIns = _db.checkIns;

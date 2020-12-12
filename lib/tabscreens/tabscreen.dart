@@ -1,11 +1,14 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:flutter/material.dart';
 
+/// A tabscreen for the trail app
+/// [child] is the actual screen
+/// [appBarTitle] is the text to put in the title bar
 class TabScreen extends StatelessWidget {
   final Widget child;
   final String appBarTitle;
-  final FloatingActionButton floatingActionButton;
 
-  TabScreen({this.child, this.appBarTitle, this.floatingActionButton});
+  TabScreen({this.child, this.appBarTitle});
 
   @override
   Widget build(BuildContext context) {

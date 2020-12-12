@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_edit_profile.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
@@ -8,14 +9,14 @@ import 'package:alabama_beer_trail/widgets/profile_banner.dart';
 import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
 import 'package:flutter/material.dart';
 
+/// The top area of the user profile, including the banner
+/// image, the user profile photo, name, and start date
 class ProfileTopArea extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ProfileTopArea();
 }
 
 class _ProfileTopArea extends State<ProfileTopArea> {
-  String userEmail = AppAuth().user.email;
-
   @override
   Widget build(BuildContext context) {
     final _profileTopAreaBloc = ProfileTopAreaBloc(TrailDatabase());
@@ -48,33 +49,59 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                 child: Column(
                   children: <Widget>[
                     Stack(
-                      alignment: Alignment.bottomRight,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            ProfileBanner(
-                              userData.bannerImageUrl,
-                              backupImage: AssetImage(TrailAppSettings
-                                  .defaultBannerImageAssetLocation),
-                              canEdit: false,
-                              placeholder: CircularProgressIndicator(),
-                            ),
-                            SizedBox(
-                              height: 74,
-                            ),
-                          ],
-                        ),
+                      children: [
+                        /// Profile Banner, name, and Since date
                         Positioned(
-                          bottom: 0.0,
-                          left: 16.0,
-                          child: ProfileUserPhoto(
-                            userData.profilePhotoUrl,
-                            backupImage: AssetImage(
-                                'assets/images/defaultprofilephoto.png'),
-                            canEdit: false,
-                            placeholder: CircularProgressIndicator(),
+                          child: Column(
+                            children: <Widget>[
+                              ProfileBanner(
+                                userData.bannerImageUrl,
+                                backupImage: AssetImage(TrailAppSettings
+                                    .defaultBannerImageAssetLocation),
+                                canEdit: false,
+                                placeholder: CircularProgressIndicator(),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    right: 16.0,
+                                    left: constraints.maxWidth * .4),
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  userData.displayName != null &&
+                                          userData.displayName.isNotEmpty
+                                      ? userData.displayName
+                                      : TrailAppSettings.defaultDisplayName,
+                                  maxLines: 3,
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    color: TrailAppSettings.mainHeadingColor,
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(right: 16.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.date_range,
+                                      color: TrailAppSettings.subHeadingColor,
+                                    ),
+                                    Text(
+                                      " Since ${AppAuth().user.createdDate}",
+                                      style: TextStyle(
+                                        color: TrailAppSettings.subHeadingColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        // Edit Profile Button
                         Positioned(
                           top: profileImageHeight - 55,
                           right: 16.0,
@@ -105,50 +132,18 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                             },
                           ),
                         ),
+                        // Profile Photo
                         Positioned(
-                          top: profileImageHeight,
-                          right: 16.0,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                userData.displayName != null &&
-                                        userData.displayName.isNotEmpty
-                                    ? userData.displayName
-                                    : TrailAppSettings.defaultDisplayName,
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  color: TrailAppSettings.mainHeadingColor,
-                                  fontSize: 22.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                userEmail,
-                                style: TextStyle(
-                                  color: TrailAppSettings.subHeadingColor,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 4.0,
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.date_range,
-                                    color: Colors.grey,
-                                  ),
-                                  Text(
-                                    " Since ${AppAuth().user.createdDate}",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          top: profileImageHeight - 40,
+                          left: 16.0,
+                          child: ProfileUserPhoto(
+                            userData.profilePhotoUrl,
+                            backupImage: AssetImage(
+                                'assets/images/defaultprofilephoto.png'),
+                            canEdit: false,
+                            placeholder: CircularProgressIndicator(),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     SizedBox(height: 5.0),

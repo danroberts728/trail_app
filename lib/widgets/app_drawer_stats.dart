@@ -1,19 +1,22 @@
-import 'package:alabama_beer_trail/blocs/profile_stats_area_bloc.dart';
+// Copyright (c) 2020, Fermented Software.
+import 'package:alabama_beer_trail/blocs/app_drawer_stats_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplaces.dart';
 import 'package:alabama_beer_trail/widgets/profile_stat.dart';
 import 'package:flutter/material.dart';
 
-class ProfileStatsArea extends StatefulWidget {
+/// The stats for the app's drawer. Includes the # checked in,
+/// # not checked in, and the # favorites
+class AppDrawerStats extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _ProfileStatsArea();
+  State<StatefulWidget> createState() => _AppDrawerStats();
 }
 
-class _ProfileStatsArea extends State<ProfileStatsArea> {
-  ProfileStatsAreaBloc _profileStatsAreaBloc;
+class _AppDrawerStats extends State<AppDrawerStats> {
+  AppDrawerStatsBloc _profileStatsAreaBloc;
 
   @override void initState() {
-    _profileStatsAreaBloc = ProfileStatsAreaBloc(TrailDatabase());
+    _profileStatsAreaBloc = AppDrawerStatsBloc(TrailDatabase());
     super.initState();
   }
 
@@ -36,11 +39,11 @@ class _ProfileStatsArea extends State<ProfileStatsArea> {
           List<UserPlaceInformation> favorited =
               userPlacesInformation.where((e) => e.isUserFavorite).toList();
           return Wrap(
-            runAlignment: WrapAlignment.spaceBetween,
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: 4.0,
-            spacing: 4.0,
+            runAlignment: WrapAlignment.start,
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.start,
+            runSpacing: 8.0,
+            spacing: 16.0,
             children: <Widget>[
               ProfileStat(
                 value: visited.length,

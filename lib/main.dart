@@ -1,5 +1,5 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/screens/screen_app_loading.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -9,11 +9,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'util/appauth.dart';
-import 'data/app_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/home.dart';
 
+/// The main function for the app
+/// 
+/// Initialize Widgets, set up Crashlytics,
+/// Force landscape mode, get user location,
+/// then run the app.
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp().then((app) {
@@ -28,13 +32,18 @@ void main() {
   });
 }
 
+/// The main app object
+/// 
+/// Set up analytics. Get FCM token
+/// when auth changes, return the material
+/// app 
 class TrailApp extends StatelessWidget {
   final navigatorKey = GlobalKey<NavigatorState>();
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
 
-  // This widget is the root of your application.
+  // The root of the app
   @override
   Widget build(BuildContext context) {
     AppAuth().onAuthChange.listen((event) {
@@ -50,19 +59,15 @@ class TrailApp extends StatelessWidget {
       title: TrailAppSettings.appName,
       debugShowCheckedModeBanner: true,
       theme: ThemeData(
-          primarySwatch: TrailAppSettings.themePrimarySwatch,
-          hintColor: Colors.white,
-          textTheme: TextTheme(headline6: TextStyle(color: Colors.white))),
-      home: StreamBuilder<AppUser>(
-        initialData: null,
-        stream: AppAuth().onAuthChange,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return AppLoadingScreen();
-          } else {
-            return Home(observer: observer, key: Key('home'));
-          }
-        },
+        primarySwatch: TrailAppSettings.themePrimarySwatch,
+        hintColor: Colors.white,
+        textTheme: TextTheme(
+          headline6: TextStyle(color: Colors.white),
+        ),
+      ),
+      home: Home(
+        observer: observer,
+        key: Key('home'),
       ),
     );
   }

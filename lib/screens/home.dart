@@ -1,32 +1,30 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
 import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
-import 'package:alabama_beer_trail/screens/screen_privacy_policy.dart';
-import 'package:alabama_beer_trail/screens/tabscreen_profile.dart';
+import 'package:alabama_beer_trail/tabscreens/tabscreen_achievements.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
-import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:alabama_beer_trail/screens/tabscreen_events.dart';
-import 'package:alabama_beer_trail/screens/tabscreen_news.dart';
+import 'package:alabama_beer_trail/tabscreens/tabscreen_events.dart';
+import 'package:alabama_beer_trail/tabscreens/tabscreen_news.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/app_drawer.dart';
 import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:alabama_beer_trail/util/appauth.dart';
-import 'tabscreen.dart';
+import '../tabscreens/tabscreen.dart';
 
-import 'tabscreen_trail.dart';
+import '../tabscreens/tabscreen_trail.dart';
 import 'package:flutter/material.dart';
 
 /// The app home screen
 ///
 /// This controls the scaffold for the tabs
-/// and directs the user to the tabs
-/// or the sign in screen
 class Home extends StatefulWidget {
   Home({this.observer, this.key});
 
@@ -87,9 +85,8 @@ class HomeState extends State<Home>
   @override
   void initState() {
     super.initState();
-    _appBarTitle = Text(_appTabs[_currentIndex].appBarTitle,
-      key: Key("MainAppBarTitle")
-    );
+    _appBarTitle =
+        Text(_appTabs[_currentIndex].appBarTitle, key: Key("MainAppBarTitle"));
     _firebaseMessaging.requestNotificationPermissions(
       const IosNotificationSettings(
         sound: true,
@@ -120,8 +117,8 @@ class HomeState extends State<Home>
       child: TabScreenNews(),
     ),
     TabScreen(
-      appBarTitle: TrailAppSettings.navBarProfileTabTitle,
-      child: TabScreenProfile(),
+      appBarTitle: TrailAppSettings.navBarAchievementsTabTitle,
+      child: TabScreenAchievements(),
     ),
   ];
 
@@ -129,6 +126,9 @@ class HomeState extends State<Home>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
+      drawer: AppDrawer(
+        isUserLoggedIn: _userLoggedIn,
+      ),
       appBar: AppBar(
         title: _appBarTitle,
         actions: <Widget>[
@@ -139,69 +139,6 @@ class HomeState extends State<Home>
                 context: context,
                 delegate: TrailSearchDelegate(),
               );
-            },
-          ),
-          PopupMenuButton<PopMenuChoice>(
-            shape: RoundedRectangleBorder(),
-            elevation: 3.2,
-            onSelected: (choice) => choice.action(),
-            itemBuilder: (BuildContext context) {
-              var items = [
-                PopupMenuItem<PopMenuChoice>(
-                  value: PopMenuChoice(
-                    title: "About",
-                    icon: Icons.question_answer,
-                    action: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              settings: RouteSettings(
-                                name: 'About',
-                              ),
-                              builder: (context) => AboutScreen()));
-                    },
-                  ),
-                  child: Container(child: Text("About")),
-                ),
-                PopupMenuItem<PopMenuChoice>(
-                  value: PopMenuChoice(
-                    title: "Submit Feedback",
-                    icon: Icons.email,
-                    action: () {
-                      AppLauncher()
-                          .openWebsite(TrailAppSettings.submitFeedbackUrl);
-                    },
-                  ),
-                  child: Container(child: Text("Submit Feedback")),
-                ),
-                PopupMenuItem<PopMenuChoice>(
-                  value: PopMenuChoice(
-                    title: "Privacy Policy",
-                    icon: Icons.info,
-                    action: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              settings: RouteSettings(
-                                name: '/privacy_policy',
-                              ),
-                              builder: (context) =>
-                                  ScreenPrivacyPolicy()));
-                    },
-                  ),
-                  child: Container(child: Text("Privacy Policy")),
-                ),
-              ];
-              if (_userLoggedIn) {
-                items.add(PopupMenuItem<PopMenuChoice>(
-                    value: PopMenuChoice(
-                      title: "Log Out",
-                      icon: Icons.power_settings_new,
-                      action: () => AppAuth().logout(),
-                    ),
-                    child: Container(child: Text("Log Out"))));
-              }
-              return items;
             },
           ),
         ],
@@ -229,12 +166,12 @@ class HomeState extends State<Home>
             label: TrailAppSettings.navBarEventsLabel,
           ),
           BottomNavigationBarItem(
-              icon: Icon(TrailAppSettings.navBarNewsIcon),
-              label: TrailAppSettings.navBarNewsLabel,
+            icon: Icon(TrailAppSettings.navBarNewsIcon),
+            label: TrailAppSettings.navBarNewsLabel,
           ),
           BottomNavigationBarItem(
-            icon: new Icon(TrailAppSettings.navBarProfileIcon),
-            label: TrailAppSettings.navBarProfileLabel,
+            icon: new Icon(TrailAppSettings.navBarAchievementsIcon),
+            label: TrailAppSettings.navBarAchievementsLabel,
           ),
         ],
       ),
