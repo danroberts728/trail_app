@@ -1,6 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-import 'dart:math' as math;
-
 import 'package:alabama_beer_trail/blocs/tabscreen_achievements_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/screen_trailtrophy_detail.dart';
@@ -80,7 +78,6 @@ class _TabScreenAchievements extends State<TabScreenAchievements> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  //color: TrailAppSettings.actionLinksColor,
                                   fontSize: 14.0,
                                 ),
                               ),
@@ -97,9 +94,6 @@ class _TabScreenAchievements extends State<TabScreenAchievements> {
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 0.0,
                             ),
                           ],
                         ),
