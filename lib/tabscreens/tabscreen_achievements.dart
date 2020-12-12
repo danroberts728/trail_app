@@ -1,4 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
+import 'dart:math' as math;
+
 import 'package:alabama_beer_trail/blocs/tabscreen_achievements_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/screen_trailtrophy_detail.dart';
@@ -25,6 +27,7 @@ class _TabScreenAchievements extends State<TabScreenAchievements> {
         initialData: _tabScreenAchievementsBloc.userTrophyInformation,
         builder: (context, snapshot) {
           List<UserTrophyInformation> trophies = snapshot.data;
+          // Show earned achievements first    
           trophies.sort((a, b) {
             if (a.userEarned == b.userEarned)
               return 0;
@@ -56,7 +59,7 @@ class _TabScreenAchievements extends State<TabScreenAchievements> {
                       },
                       child: Container(
                         padding: EdgeInsets.all(12.0),
-                        width: constraints.maxWidth / _crossAxisCount,
+                        width: (constraints.maxWidth ~/ _crossAxisCount).toDouble(),
                         child: Column(
                           children: <Widget>[
                             CachedNetworkImage(
@@ -92,12 +95,11 @@ class _TabScreenAchievements extends State<TabScreenAchievements> {
                                 style: TextStyle(
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.normal,
-                                  height: 1.5,
                                 ),
                               ),
                             ),
                             SizedBox(
-                              height: 16.0,
+                              height: 0.0,
                             ),
                           ],
                         ),
