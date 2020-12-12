@@ -1,5 +1,7 @@
+// Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/data/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/data/trail_trophy_any_of_places.dart';
 import 'package:alabama_beer_trail/data/trail_trophy_exact_unique_checkins.dart';
 import 'package:alabama_beer_trail/data/trail_trophy_pct_unique_of_total.dart';
 import 'package:alabama_beer_trail/data/trail_trophy_total_checkins_any_place.dart';
@@ -11,7 +13,8 @@ enum TrophyType {
   PercentUniqueOfTotal,
   ExactUniqueCheckins,
   TotalUniqueCheckins,
-  TotalCheckinsAtAnyPlace
+  TotalCheckinsAtAnyPlace,
+  AnyOfPlaces
 }
 
 abstract class TrailTrophy {
@@ -86,6 +89,16 @@ abstract class TrailTrophy {
           name: name,
           description: description,
           checkinCountRequired: d['check_in_count_required'],
+        );
+      } else if (trophyType == "any_of_places") {
+        return TrailTrophyAnyOfPlaces(
+          trophyType: TrophyType.AnyOfPlaces,
+          id: docId,
+          activeImage: activeImage,
+          inactiveImage: inactiveimage,
+          name: name,
+          description: description,
+          possiblePlaces: List<String>.from(d["possible_places"]),
         );
       } else {
         return null;
