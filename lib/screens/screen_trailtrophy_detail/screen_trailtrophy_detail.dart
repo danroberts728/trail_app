@@ -75,7 +75,7 @@ class TrophyDetailScreen extends StatelessWidget {
                 visible: hasTrophy,
                 child: Center(
                   child: Text(
-                    "You have this trophy",
+                    "You have this badge",
                     style: TextStyle(
                       color: TrailAppSettings.subHeadingColor,
                       fontSize: 18.0,
