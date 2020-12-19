@@ -2,6 +2,7 @@ import 'package:alabama_beer_trail/blocs/trophy_progress_checkins_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_trophy_total_unique_checkins.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class TrailTrophyProgressTotalUniqueCheckins extends StatelessWidget {
   final TrailTrophyTotalUniqueCheckins trophy;
@@ -60,7 +61,7 @@ class TrailTrophyProgressTotalUniqueCheckins extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    (requiredCount - currentCount).toString(),
+                    math.max(0, (requiredCount - currentCount)).toString(),
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,

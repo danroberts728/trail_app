@@ -27,6 +27,7 @@ class TrailTrophyProgressTotalCheckinsAnyPlace extends StatelessWidget {
             children: <Widget>[
               Text(
                 "Earn this achievement by checking into a single place at least ${trophy.checkinCountRequired} times.",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18.0,
                 ),

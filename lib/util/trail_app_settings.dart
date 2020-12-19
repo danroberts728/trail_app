@@ -44,7 +44,7 @@ class TrailAppSettings {
   static final String navBarEventsLabel = "Events";
   static final String navBarNewsTabTitle = "Alabama Beer News";
   static final String navBarNewsLabel = "News";
-  static final String navBarAchievementsLabel = "Achievements";
+  static final String navBarAchievementsLabel = "Badges";
   static final String navBarAchievementsTabTitle = "Achievements";
 
   // Colors

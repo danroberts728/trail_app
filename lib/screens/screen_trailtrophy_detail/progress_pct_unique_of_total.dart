@@ -58,30 +58,36 @@ class TrailTrophyProgressPctUniqueOfTotal extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 18.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Reach ",
-                    style: TextStyle(
-                      fontSize: 18.0,
+              Visibility(
+                visible: userPercentage < requiredPercentage,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Reach ",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
                     ),
-                  ),
-                  Text(
-                    requiredPercentage.toString() + "%",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
-              ),
-              Text(
-                "to win this trophy",
-                style: TextStyle(
-                  fontSize: 18.0,
+                    Text(
+                      requiredPercentage.toString() + "%",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
                 ),
-              )
+              ),
+              Visibility(
+                visible: userPercentage < requiredPercentage,
+                child: Text(
+                  "to win this trophy",
+                  style: TextStyle(
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
             ],
           );
         }

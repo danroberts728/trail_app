@@ -39,7 +39,8 @@ class TrophyDetailScreen extends StatelessWidget {
                       CircularProgressIndicator(
                           value: downloadProgress.progress),
                   fit: BoxFit.contain,
-                  imageUrl: trophy.activeImage,
+                  imageUrl:
+                      hasTrophy ? trophy.activeImage : trophy.inactiveImage,
                 ),
               ),
               Center(
@@ -70,9 +71,36 @@ class TrophyDetailScreen extends StatelessWidget {
               Divider(
                 color: TrailAppSettings.second,
               ),
+              Visibility(
+                visible: hasTrophy,
+                child: Center(
+                  child: Text(
+                    "You have this trophy",
+                    style: TextStyle(
+                      color: TrailAppSettings.subHeadingColor,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: hasTrophy,
+                child: CompletedTrophy(
+                    completedDate: _bloc.earnedTrophies[trophy.id]),
+              ),
+              Visibility(
+                visible: hasTrophy,
+                child: Divider(
+                  color: TrailAppSettings.second,
+                ),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               Center(
                 child: Text(
-                  hasTrophy ? "You have this trophy!" : "Your Progress",
+                  "Your Progress",
                   style: TextStyle(
                     color: TrailAppSettings.subHeadingColor,
                     fontSize: 18.0,
@@ -80,16 +108,10 @@ class TrophyDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 8.0,
-              ),
+              // Progress
               Builder(
                 builder: (context) {
-                  if (hasTrophy) {
-                    var completedDate = _bloc.earnedTrophies[trophy.id];
-                    return CompletedTrophy(completedDate: completedDate);
-                  } else if (trophy.trophyType ==
-                      TrophyType.ExactUniqueCheckins) {
+                  if (trophy.trophyType == TrophyType.ExactUniqueCheckins) {
                     return TrailTrophyProgressExactUniqueCheckins(
                       trophy: trophy,
                     );
