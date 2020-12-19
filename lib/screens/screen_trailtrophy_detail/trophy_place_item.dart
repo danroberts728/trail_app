@@ -24,13 +24,14 @@ class TrophyPlaceItem extends StatelessWidget {
           isChecked
               ? Icon(Icons.check, color: Colors.green)
               : Icon(Icons.close, color: Colors.red),
+          SizedBox(width: 4.0),
           Expanded(
             child: Container(
               child: TrialPlaceHeader(
                 name: place.name,
                 categories: [place.city],
-                titleFontSize: 16.0,
-                categoriesFontSize: 12.0,
+                titleFontSize: 18.0,
+                categoriesFontSize: 16.0,
                 titleOverflow: TextOverflow.ellipsis,
                 alphaValue: 0,
                 logo: CachedNetworkImage(
@@ -39,8 +40,8 @@ class TrophyPlaceItem extends StatelessWidget {
                       CircularProgressIndicator(
                           value: downloadProgress.progress),
                   errorWidget: (context, url, error) => Icon(Icons.error),
-                  width: 25.0,
-                  height: 25.0,
+                  width: 35.0,
+                  height: 35.0,
                 ),
               ),
             ),
