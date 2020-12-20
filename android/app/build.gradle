@@ -62,6 +62,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            dimension "default"
+            applicationIdSuffix ".dv"
+        }
+        prod {
+            dimension "default"
+        }
+    }
 }
 
 flutter {
