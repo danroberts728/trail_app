@@ -51,7 +51,7 @@
 
         <!-- Google Maps API -->
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC6SCgVDgMC2wAUYMaVcCy1fHF2AiDzd-g"/>
+            android:value="@string/google_maps_api_key"/>
 
         <!-- Facebook Login configuration -->
         <meta-data android:name="com.facebook.sdk.ApplicationId"

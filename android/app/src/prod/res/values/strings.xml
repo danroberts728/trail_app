@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
  <resources>
  <string name="app_name">AL Beer</string>
+  <string name="google_maps_api_key">AIzaSyC6SCgVDgMC2wAUYMaVcCy1fHF2AiDzd-g</string>
  </resources>
