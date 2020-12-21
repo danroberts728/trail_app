@@ -59,7 +59,7 @@ class ProfileEarnedAchievementsBloc extends Bloc {
   /// Build and send the stream to subscribers
   _buildAndSendStream() {
     if(userEarnedTrophies == null) {
-      userEarnedTrophies = List<TrailTrophy>();
+      userEarnedTrophies = [];
     } 
     _allTrophies.forEach((t) {
       if (_userData.trophies.keys.contains(t.id) &&

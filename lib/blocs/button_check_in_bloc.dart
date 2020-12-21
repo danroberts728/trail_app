@@ -26,13 +26,13 @@ class ButtonCheckInBloc extends Bloc {
   StreamSubscription _userDataSubscription;
 
   /// The user's check in's
-  var checkIns = List<CheckIn>();
+  List<CheckIn> checkIns = [];
 
   /// All published trophies
-  var _allTrophies = List<TrailTrophy>();
+  List<TrailTrophy> _allTrophies = [];
 
   /// All published places
-  var _places = List<TrailPlace>();
+  List<TrailPlace> _places = [];
 
   /// The current User's user data
   var _userData = UserData();
@@ -81,7 +81,7 @@ class ButtonCheckInBloc extends Bloc {
     // Only update if user has not checked in today already
     if (!isCheckedInToday(placeId)) {
       _db.checkInNow(placeId).then((value) {
-        var earnedTrophies = List<TrailTrophy>();
+        List<TrailTrophy> earnedTrophies = [];
         // See if user has earned any NEW trophies
         _allTrophies.forEach((t) {
           if (t.conditionsMet(checkIns, _places) &&

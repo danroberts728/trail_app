@@ -52,7 +52,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
     placeDetail = PlaceDetail(
       place: _db.places.firstWhere((p) => p.id == _placeId),
       checkInsCount: _db.checkIns.where((c) => c.placeId == _placeId).length,
-      taps: List<OnTapBeer>(),
+      taps: [],
     );
     placeDetail.events = _getPlaceUpcomingEvents(_db.events);
 

@@ -22,17 +22,16 @@ class AppDrawerStatsBloc extends Bloc {
   StreamSubscription _userDataSubscription;
 
   /// The current user places information
-  List<UserPlaceInformation> userPlacesInformation =
-      List<UserPlaceInformation>();
+  List<UserPlaceInformation> userPlacesInformation = [];
 
   /// The current list of places
-  var _places = List<TrailPlace>();
+  List<TrailPlace> _places = [];
 
   /// The current list of the user's checkins
-  var _checkIns = List<CheckIn>();
+  List<CheckIn> _checkIns = [];
 
   /// The current list of the user's favorites
-  var _favorites = List<String>();
+  List<String> _favorites = [];
 
   /// The controller for this BLoC's stream
   final _streamController = StreamController<List<UserPlaceInformation>>();
@@ -45,7 +44,7 @@ class AppDrawerStatsBloc extends Bloc {
     _db = db;
     _places = _db.places;
     _checkIns = _db.checkIns;
-    _favorites = _db.userData.favorites ?? List<String>();
+    _favorites = _db.userData.favorites ??[];
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdated);
     _checkInSubscription = _db.checkInStream.listen(_onCheckInsUpdated);
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdated);
@@ -55,7 +54,7 @@ class AppDrawerStatsBloc extends Bloc {
   /// Buil a list of UserPlaceInformation objects that can be sent to the stream
   List<UserPlaceInformation> _buildStream(
       List<TrailPlace> places, List<CheckIn> checkIns, List<String> favorites) {
-    List<UserPlaceInformation> retval = List<UserPlaceInformation>();
+    List<UserPlaceInformation> retval = [];
     places.forEach((p) {
       retval.add(UserPlaceInformation(
           p, checkIns.any((c) => c.placeId == p.id), favorites.contains(p.id)));
@@ -81,7 +80,7 @@ class AppDrawerStatsBloc extends Bloc {
 
   /// Callback when the user data gets new data
   void _onUserDataUpdated(UserData userData) {
-    _favorites = userData.favorites ?? List<String>();
+    _favorites = userData.favorites ?? [];
     userPlacesInformation = _buildStream(_places, _checkIns, _favorites);
     _streamController.add(null);
     _streamController.sink.add(userPlacesInformation);

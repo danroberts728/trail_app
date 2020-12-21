@@ -14,7 +14,7 @@ class ScreenTrailListBloc extends Bloc {
   StreamSubscription _placesSubscription;
 
   /// The current list of trail places
-  List<TrailPlace> trailPlaces = List<TrailPlace>();
+  List<TrailPlace> trailPlaces = [];
 
   /// Controller for this BLoC's stream
   final StreamController<List<TrailPlace>> _placesStreamController =

@@ -224,7 +224,7 @@ class HomeState extends State<Home>
 
     if (gotoPlace != null) {
       SingleTrailPlaceBloc trailPlaceBloc = SingleTrailPlaceBloc(gotoPlace);
-      trailPlaceBloc.trailPlaceStream.listen((place) {
+      trailPlaceBloc.trailPlaceStream.listen((place) {        
         Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
           content: Text(title),
           duration: Duration(seconds: 5),

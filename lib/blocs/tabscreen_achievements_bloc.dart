@@ -47,9 +47,9 @@ class TabScreenAchievementsBloc extends Bloc {
   List<UserTrophyInformation> _buildTrophyStreamData(
       List<TrailTrophy> trophies, UserData userData) {
     if (trophies == null || userData == null || userData.trophies == null) {
-      return List<UserTrophyInformation>();
+      return [];
     }
-    var retval = List<UserTrophyInformation>();
+    List<UserTrophyInformation> retval = [];
     for (var trophy in trophies) {
       bool earned = userData.trophies.containsKey(trophy.id);
       retval.add(UserTrophyInformation(

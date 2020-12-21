@@ -14,7 +14,7 @@ class TabScreenNewsBloc extends Bloc {
     });    
   }
 
-  List<RssItem> newsItems = List<RssItem>();
+  List<RssItem> newsItems = [];
   final _trailNewsController = StreamController<List<RssItem>>.broadcast();
   Stream<List<RssItem>> get trailNewsStream => _trailNewsController.stream;
 

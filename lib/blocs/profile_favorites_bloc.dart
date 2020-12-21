@@ -20,7 +20,7 @@ class ProfileFavoritesBloc extends Bloc {
   List<String> _favoriteIds;
 
   /// A list of all places in the trail
-  List<TrailPlace> _places = List<TrailPlace>();
+  List<TrailPlace> _places = [];
 
   /// Subscription to the User Data stream
   StreamSubscription _userDataSubscription;
