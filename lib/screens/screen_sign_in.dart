@@ -190,7 +190,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                                                 PasswordResetScreen()))
                                     .then((emailAddress) {
                                   if (emailAddress != null) {
-                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                       content: Text(
                                           "Password reset sent to $emailAddress"),
                                     ));

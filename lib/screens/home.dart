@@ -225,7 +225,7 @@ class HomeState extends State<Home>
     if (gotoPlace != null) {
       SingleTrailPlaceBloc trailPlaceBloc = SingleTrailPlaceBloc(gotoPlace);
       trailPlaceBloc.trailPlaceStream.listen((place) {        
-        Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
           content: Text(title),
           duration: Duration(seconds: 5),
           action: SnackBarAction(
@@ -249,7 +249,7 @@ class HomeState extends State<Home>
     } else if (gotoEvent != null) {
       SingleTrailEventBloc trailEventBloc = SingleTrailEventBloc(gotoEvent);
       trailEventBloc.trailEventStream.listen((event) {
-        Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
           content: Text(title),
           duration: Duration(seconds: 5),
           action: SnackBarAction(
@@ -271,7 +271,7 @@ class HomeState extends State<Home>
         ));
       });
     } else if (gotoLink != null) {
-      Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
         content: Text(title),
         duration: Duration(seconds: 5),
         action: SnackBarAction(

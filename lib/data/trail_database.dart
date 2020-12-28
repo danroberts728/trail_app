@@ -31,19 +31,19 @@ class TrailDatabase {
   StreamSubscription _checkInsSubscription;
 
   /// The list of events from Firebase
-  var events = List<TrailEvent>();
+  var events = <TrailEvent>[];
 
   /// The list of places from Firebase
-  var places = List<TrailPlace>();
+  var places = <TrailPlace>[];
 
   /// The list of all trophies from Firebase
-  var trophies = List<TrailTrophy>();
+  var trophies = <TrailTrophy>[];
 
   /// The current user's data
   var userData = UserData.createBlank();
 
   /// The current user's check ins
-  var checkIns = List<CheckIn>();
+  var checkIns = <CheckIn>[];
 
   final _eventsStreamController =
       StreamController<List<TrailEvent>>.broadcast();
@@ -146,7 +146,7 @@ class TrailDatabase {
   /// Handle updates to events data
   void _onEventsDataUpdate(QuerySnapshot snapshot) {
     var newDocs = snapshot.docs;
-    var newEvents = List<TrailEvent>();
+    var newEvents = <TrailEvent>[];
     newDocs.forEach((d) {
       TrailEvent event = FirebaseHelper.createTrailEventFromFirebaseQueryDoc(d);
       try {
@@ -164,7 +164,7 @@ class TrailDatabase {
   /// Handle updates to places data
   void _onPlacesDataUpdate(QuerySnapshot snapshot) {
     var newDocs = snapshot.docs;
-    var newPlaces = List<TrailPlace>();
+    var newPlaces = <TrailPlace>[];
     newDocs.forEach((d) {
       TrailPlace place = TrailPlace.createFromFirebase(d);
       try {
@@ -182,7 +182,7 @@ class TrailDatabase {
   /// Handle updates to trophy data
   void _onTrophiesDataUpdate(QuerySnapshot snapshot) {
     var newDocs = snapshot.docs;
-    var newTrophies = List<TrailTrophy>();
+    var newTrophies = <TrailTrophy>[];
     newDocs.forEach((d) {
       TrailTrophy trophy = TrailTrophy.createFromFirebase(d);
       try {
@@ -212,11 +212,11 @@ class TrailDatabase {
   /// Handle updates to events data
   void _onCheckInsUpdate(QuerySnapshot snapshot) {
     if (snapshot == null) {
-      checkIns = List<CheckIn>();
+      checkIns = <CheckIn>[];
       _checkInsStreamController.sink.add(checkIns);
     } else {
       var newDocs = snapshot.docs;
-      var newCheckIns = List<CheckIn>();
+      var newCheckIns = <CheckIn>[];
       newDocs.forEach((d) {
         try {
           var data = d.data();
@@ -275,7 +275,7 @@ class TrailDatabase {
         .collection('all_beers')
         .get()
         .then((QuerySnapshot snapshot) {
-      List<Beer> popularBeers = List<Beer>();
+      List<Beer> popularBeers = <Beer>[];
       snapshot.docs.forEach((b) {
         popularBeers.add(FirebaseHelper.createBeerFromFirebase(b));
       });
@@ -296,7 +296,7 @@ class TrailDatabase {
         .collection('on_tap')
         .get()
         .then((QuerySnapshot snapshot) {
-      List<OnTapBeer> taps = List<OnTapBeer>();
+      List<OnTapBeer> taps = <OnTapBeer>[];
       snapshot.docs.forEach((b) {
         taps.add(FirebaseHelper.createOnTapBeerFromFirebase(b));
       });

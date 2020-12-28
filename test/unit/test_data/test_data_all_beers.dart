@@ -21,7 +21,7 @@ class TestDataAllBeers {
         ),
       ];
     } else {
-      return List<Beer>();
+      return <Beer>[];
     }
   }
 }

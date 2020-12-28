@@ -35,9 +35,9 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
 
   TabScreenTrailMapBloc _tabScreenTrailMapBloc = TabScreenTrailMapBloc();
 
-  List<ClusterItem<TrailPlace>> items = List<ClusterItem<TrailPlace>>();
+  List<ClusterItem<TrailPlace>> items = <ClusterItem<TrailPlace>>[];
 
-  List<TrailPlace> _selectedPlaces = List<TrailPlace>();
+  List<TrailPlace> _selectedPlaces = <TrailPlace>[];
 
   String _selectedMarkerId;
 

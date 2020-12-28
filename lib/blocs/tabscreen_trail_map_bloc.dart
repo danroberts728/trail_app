@@ -11,7 +11,7 @@ class TabScreenTrailMapBloc extends Bloc {
   StreamSubscription _placeFilterSubscription;
   StreamSubscription _placesSubscription;
 
-  List<TrailPlace> allTrailPlaces = List<TrailPlace>();
+  List<TrailPlace> allTrailPlaces = <TrailPlace>[];
 
   final _allPlacesStreamController = StreamController<List<TrailPlace>>();
   Stream<List<TrailPlace>> get allTrailPlaceStream =>

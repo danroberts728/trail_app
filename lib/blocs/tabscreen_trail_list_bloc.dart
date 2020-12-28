@@ -16,7 +16,7 @@ class TabScreenTrailListBloc extends Bloc {
   PlaceFilter _placeFilter;
   LocationService _locationService = LocationService();
 
-  List<TrailPlace> allTrailPlaces = List<TrailPlace>();
+  List<TrailPlace> allTrailPlaces = <TrailPlace>[];
   List<TrailPlace> get filteredTrailPlaces =>
     _placeFilter.applyFilter(allPlaces: allTrailPlaces);
 

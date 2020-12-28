@@ -64,8 +64,8 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
         TrailPlace place = placeDetail.place;
         List<TrailEvent> events = placeDetail.events;
         int checkInsCount = placeDetail.checkInsCount ?? 0;
-        List<OnTapBeer> taps = placeDetail.taps ?? List<OnTapBeer>();
-        List<Beer> allBeers = placeDetail.place.allBeers ?? List<Beer>();
+        List<OnTapBeer> taps = placeDetail.taps ?? <OnTapBeer>[];
+        List<Beer> allBeers = placeDetail.place.allBeers ?? <Beer>[];
 
         List<Widget> tabs = [Tab(text: "Details")];
         List<Widget> tabChildren = [TrailPlaceDetails(place: place)];

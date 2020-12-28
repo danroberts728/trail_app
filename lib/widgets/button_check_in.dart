@@ -141,7 +141,7 @@ class _CheckinButton extends State<CheckinButton> {
                           // Check In
                           _bloc.checkIn(widget.place.id).then((newTrophies) {
                             newTrophies.forEach((t) {
-                              Scaffold.of(context).showSnackBar(SnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(
                                   "You earned a new achievement: " + t.name,
                                 ),

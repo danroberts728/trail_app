@@ -8,7 +8,7 @@ class TrailSearchBloc extends Bloc {
   final _db = TrailDatabase();
   StreamSubscription _placesSubscription;
 
-  List<TrailPlace> places = List<TrailPlace>();
+  List<TrailPlace> places = <TrailPlace>[];
 
   final _controller = StreamController<List<TrailPlace>>();
   Stream<List<TrailPlace>> get stream => _controller.stream;

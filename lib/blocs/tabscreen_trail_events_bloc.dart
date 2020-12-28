@@ -18,8 +18,8 @@ class TabScreenTrailEventsBloc extends Bloc {
   StreamSubscription _locationSubscription;
   StreamSubscription _eventFilterServiceSubscription;
 
-  List<TrailEvent> _allTrailEvents = List<TrailEvent>();
-  List<TrailEvent> filteredTrailEvents = List<TrailEvent>();
+  List<TrailEvent> _allTrailEvents = <TrailEvent>[];
+  List<TrailEvent> filteredTrailEvents = <TrailEvent>[];
   EventFilter _filter;
   Point lastLocation;
 

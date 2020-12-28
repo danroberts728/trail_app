@@ -28,8 +28,8 @@ class TrailPlace {
   final Map<String, String> phones;
   final bool isMember;
   final int locationTaxonomy;
-  List<Beer> allBeers = List<Beer>();
-  List<OnTapBeer> onTap = List<OnTapBeer>();
+  List<Beer> allBeers = <Beer>[];
+  List<OnTapBeer> onTap = <OnTapBeer>[];
 
   /// Default constructor
   TrailPlace(
@@ -67,10 +67,10 @@ class TrailPlace {
           logoUrl: d['logo_img'],
           featuredImgUrl: d['featured_img'],
           galleryUrls: d['gallery_urls'] == null
-              ? List<String>()
+              ? <String>[]
               : List<String>.from(d['gallery_urls']),
           categories: d['categories'] == null
-              ? List<String>()
+              ? <String>[]
               : List<String>.from(d['categories']),
           connections: d['connections'] == null
               ? Map<String, String>()
@@ -79,7 +79,7 @@ class TrailPlace {
               ? Map<String, String>()
               : Map<String, String>.from(d['hours']),
           hoursDetail: d['hours_detail'] == null
-              ? List<Map<String, dynamic>>()
+              ? <Map<String, dynamic>>[]
               : List<Map<String, dynamic>>.from(d['hours_detail']),
           location: Point(d['location'].latitude, d['location'].longitude),
           description: d['description'],
@@ -110,10 +110,10 @@ class TrailPlace {
           logoUrl: d['logo_img'],
           featuredImgUrl: d['featured_img'],
           galleryUrls: d['gallery_urls'] == null
-              ? List<String>()
+              ? <String>[]
               : List<String>.from(d['gallery_urls']),
           categories: d['categories'] == null
-              ? List<String>()
+              ? <String>[]
               : List<String>.from(d['categories']),
           connections: d['connections'] == null
               ? Map<String, String>()
@@ -122,7 +122,7 @@ class TrailPlace {
               ? Map<String, String>()
               : Map<String, String>.from(d['hours']),
           hoursDetail: d['hours_detail'] == null
-              ? List<Map<String, dynamic>>()
+              ? <Map<String, dynamic>>[]
               : List<Map<String, dynamic>>.from(d['hours_detail']),
           location: Point(d['location'].latitude, d['location'].longitude),
           description: d['description'],

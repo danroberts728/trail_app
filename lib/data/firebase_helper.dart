@@ -64,7 +64,7 @@ class FirebaseHelper {
         beerId: d['beer_id'] == null ? 0 : d['beer_id'],
         description: d['description'] == null ? "" : d['description'],
         prices: d['prices'] == null
-            ? List<OnTapPrice>()
+            ? <OnTapPrice>[]
             : List<OnTapPrice>.from(d['prices'].map((item) {
                 return OnTapPrice(
                     name: item['serving_size_name'],

@@ -89,7 +89,7 @@ class TrailActivityLogBloc extends Bloc {
 
   /// Build and send the stream to subscribers
   List<ActivityItem> _buildActivityItemList() {
-    activities = List<ActivityItem>();
+    activities = <ActivityItem>[];
 
     (_checkIns..sort((a, b) => b.timestamp.compareTo(a.timestamp)))
         .sublist(0, math.min(limit, _checkIns.length))

@@ -97,7 +97,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
   /// Handle refresh pulldown
   Future<void> _refreshPulled() {
     return _tabScreenTrailEventsBloc.refreshLocation().then((_) {
-      Scaffold.of(context)
+      ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Events updated.")));
     });
   }

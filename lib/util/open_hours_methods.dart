@@ -137,14 +137,14 @@ class OpenHoursMethods {
   /// Gets the open/close periods that that are include the [now] day of the week.
   /// Returns an empty list if no open/close periods match
   static List<Map<String, dynamic>> _getOpenDaysPeriod(List<Map<String,dynamic>> hours, DateTime now) {
-    List<Map<String, dynamic>> retval = List<Map<String,dynamic>>();
+    List<Map<String, dynamic>> retval = <Map<String,dynamic>>[];
     int nowDayGoogle = _googleWeekdays.indexOf(_nowDayIso8601(now));
     for(int i = 0; i < hours.length; i++) {
       Map<String, dynamic> period = hours[i];
       int openDay = period['open']['day'];
       int closeDay = period['close']['day'];
 
-      List<int> openDays = List<int>();
+      List<int> openDays = <int>[];
       if(closeDay >= openDay) {
         openDays = List<int>.generate(closeDay - openDay + 1, (i) => openDay + i);
       } else {

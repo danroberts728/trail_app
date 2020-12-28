@@ -15,7 +15,7 @@ class TestDataTaps {
             style: "Porter"),
       ];
     } else {
-      return List<OnTapBeer>();
+      return <OnTapBeer>[];
     }
   }
 }

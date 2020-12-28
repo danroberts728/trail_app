@@ -25,7 +25,7 @@ class TrailPlaceHours extends StatelessWidget {
   }
 
   List<Widget> _buildHoursList() {
-    List<Widget> retval = List<Widget>();
+    List<Widget> retval = <Widget>[];
 
     if (hours == null || hours.length == 0) {
       return retval;

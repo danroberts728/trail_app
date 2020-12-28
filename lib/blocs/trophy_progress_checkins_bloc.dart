@@ -40,7 +40,7 @@ class TrophyProgressCheckinsBloc extends Bloc {
   }
 
   void _buildAndStreamPlaceStatuses() {
-    var newPlaceStatuses = List<TrailPlaceCheckInStatus>();
+    var newPlaceStatuses = <TrailPlaceCheckInStatus>[];
     _places.forEach((p) { 
       newPlaceStatuses.add(TrailPlaceCheckInStatus(
         place: p,

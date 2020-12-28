@@ -28,7 +28,7 @@ class UserData {
       bannerImageUrl: "",
       birthDay: null,
       displayName: "",
-      favorites: List<String>(),
+      favorites: <String>[],
       location: "",
       profilePhotoUrl: "",
       trophies: Map<String, DateTime>(),
@@ -64,7 +64,7 @@ class UserData {
           displayName: d['displayName'],
           favorites: d['favorites'] != null
             ? List<String>.from(d['favorites'])
-            : List<String>(),
+            : <String>[],
           trophies: d['trophies'] != null
             ? Map<String,Timestamp>.from(d['trophies']).map((key, value) => MapEntry(key, value.toDate()))
             : Map<String,DateTime>(),
@@ -77,7 +77,7 @@ class UserData {
         bannerImageUrl: null,
         birthDay: DateTime.now(),
         displayName: null,
-        favorites: List<String>(),
+        favorites: <String>[],
         trophies: Map<String,DateTime>(),
         location: null,
         profilePhotoUrl: null);
