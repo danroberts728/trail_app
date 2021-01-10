@@ -9,17 +9,12 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
 import 'package:test/test.dart';
 
+import '../test_data/test_data_checkins.dart' as testCheckins;
+
 class TrailDatabaseMock extends Mock implements TrailDatabase {}
 class StreamMock<T> extends Mock implements Stream<T> {}
 
-List<CheckIn> testCheckIns = [
-  CheckIn('avondale', DateTime.parse("2019-10-12 13:27:00")),
-  CheckIn('avondale', DateTime.parse("2019-10-14 18:27:00")),
-  CheckIn('avondale', DateTime.parse("2019-10-16 15:27:00")),
-  CheckIn('cahaba', DateTime.parse("2019-10-16 16:16:00")),
-  CheckIn('true-story', DateTime.parse("2019-10-17 14:16:00")),
-  CheckIn('sta', DateTime.parse("2019-12-29 22:11:00")),
-];
+List<CheckIn> testCheckinData = testCheckins.TestDataCheckIns.checkIns;
 
 /// Tests for Check in Button BLoC
 void main() {
@@ -28,7 +23,7 @@ void main() {
   tearDown(resetMockitoState);
 
   setUp(() {
-    when(databaseMock.checkIns).thenReturn(testCheckIns);
+    when(databaseMock.checkIns).thenReturn(testCheckinData);
     when(databaseMock.checkInStream).thenAnswer((_) => StreamMock());
     when(databaseMock.eventsStream).thenAnswer((_) => StreamMock());
     when(databaseMock.placesStream).thenAnswer((_) => StreamMock());
@@ -43,10 +38,10 @@ void main() {
     test('Initialize checkIns', () {
       var bloc = ButtonCheckInBloc(databaseMock);
       var initialCheckIns = bloc.checkIns;
-      expect(initialCheckIns.length, testCheckIns.length);
+      expect(initialCheckIns.length, testCheckinData.length);
       for(int i = 0; i < initialCheckIns.length; i++) {
-        expect(initialCheckIns[i].placeId, testCheckIns[i].placeId);
-        expect(initialCheckIns[i].timestamp, testCheckIns[i].timestamp);
+        expect(initialCheckIns[i].placeId, testCheckinData[i].placeId);
+        expect(initialCheckIns[i].timestamp, testCheckinData[i].timestamp);
       }
     });
   });
@@ -57,7 +52,7 @@ void main() {
     });
     test('Has checked in', () {
       var bloc = ButtonCheckInBloc(databaseMock);
-      expect(bloc.isCheckedInToday('avondale', today: DateTime.parse("2019-10-16 19:27:00")),
+      expect(bloc.isCheckedInToday('avondale', today: DateTime.parse("2020-08-17 19:27:00")),
         true
       );
     });

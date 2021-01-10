@@ -3,6 +3,9 @@ import 'dart:math';
 
 import 'package:alabama_beer_trail/data/trail_place.dart';
 
+/// To use:
+/// import '../test_data/test_data_places.dart' as testPlaces;
+/// List<TrailPlace> testPlacesData = testPlaces.TestDataPlaces.places;
 class TestDataPlaces {
   static List<TrailPlace> places = [
     TrailPlace(
