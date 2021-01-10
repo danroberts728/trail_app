@@ -53,7 +53,7 @@ class _FavoriteButton extends State<FavoriteButton> {
                   if (_bloc.toggleFavorite()) {
                     setState(() {
                       isFavorite = !isFavorite;
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      Scaffold.of(context).showSnackBar(SnackBar(
                           content: isFavorite
                               ? Text("${widget.place.name} added to favorites")
                               : Text(

@@ -130,7 +130,7 @@ class HomeState extends State<Home>
         isUserLoggedIn: _userLoggedIn,
       ),
       appBar: AppBar(
-        title: _appBarTitle,
+        title: Center(child: _appBarTitle),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -225,7 +225,7 @@ class HomeState extends State<Home>
     if (gotoPlace != null) {
       SingleTrailPlaceBloc trailPlaceBloc = SingleTrailPlaceBloc(gotoPlace);
       trailPlaceBloc.trailPlaceStream.listen((place) {        
-        ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
+        Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
           content: Text(title),
           duration: Duration(seconds: 5),
           action: SnackBarAction(
@@ -249,7 +249,7 @@ class HomeState extends State<Home>
     } else if (gotoEvent != null) {
       SingleTrailEventBloc trailEventBloc = SingleTrailEventBloc(gotoEvent);
       trailEventBloc.trailEventStream.listen((event) {
-        ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
+        Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
           content: Text(title),
           duration: Duration(seconds: 5),
           action: SnackBarAction(
@@ -271,7 +271,7 @@ class HomeState extends State<Home>
         ));
       });
     } else if (gotoLink != null) {
-      ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
+      Scaffold.of(_stackKey.currentContext).showSnackBar(SnackBar(
         content: Text(title),
         duration: Duration(seconds: 5),
         action: SnackBarAction(

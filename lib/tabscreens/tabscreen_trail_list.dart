@@ -80,7 +80,7 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
 
   Future<void> _refreshPulled() {
     return _bloc.refreshPulled().then((_) {
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
           .showSnackBar(SnackBar(content: Text("Places updated.")));
     });
   }

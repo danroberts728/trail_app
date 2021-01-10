@@ -80,7 +80,7 @@ class _TabScreenNews extends State<TabScreenNews>
 
   Future<void> _refreshPulled() {
     return _trailNewsBloc.onReadTimer().then((_) {
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
           .showSnackBar(SnackBar(content: Text("News updated.")));
     });
   }
