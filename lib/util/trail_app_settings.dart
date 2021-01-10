@@ -72,7 +72,7 @@ class TrailAppSettings {
       'https://freethehops.org/category/app-publish/feed/';
   static final String defaultNewsThumbnailAsset =
       'assets/images/newsfeed_empty_image.jpg';
-  static final int locationUpdatesIntervalMs = 30000;
+  static final int locationUpdatesIntervalMs = 5000;
   static final double locationUpdatesDisplacementThreshold = 10;
   static final double minDistanceToCheckin = 0.10;
   static final List<TrailPlaceCategory> filterStrings = <TrailPlaceCategory>[
