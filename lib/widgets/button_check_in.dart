@@ -17,8 +17,7 @@ class CheckinButton extends StatefulWidget {
       {@required this.bloc,
       @required this.place,
       this.canCheckin = false,
-      this.showAlways = false,
-      })
+      this.showAlways = false,})
       : assert(bloc != null),
         assert(place != null);
 
@@ -45,6 +44,7 @@ class _CheckinButton extends State<CheckinButton> {
           initialData: _bloc.checkIns,
           builder: (context, snapshot) {
             bool isCheckedIn = _bloc.isCheckedInToday(widget.place.id);
+            bool isStamped = _bloc.isStamped(widget.place.id);
             return Container(
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
@@ -61,7 +61,11 @@ class _CheckinButton extends State<CheckinButton> {
                   children: <Widget>[
                     Center(
                       child: Text(
-                        isCheckedIn ? "CHECKED IN" : "CHECK IN",
+                        isCheckedIn 
+                          ? "CHECKED IN" 
+                          : isStamped
+                            ? "CHECK IN"
+                            : "STAMP PASSPORT",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

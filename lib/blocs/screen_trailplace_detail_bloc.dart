@@ -48,10 +48,14 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
     _placeId = placeId;
     _db = db;
 
+    List<CheckIn> placeCheckIns = _db.checkIns.where((c) => c.placeId == _placeId).toList();
     // Initial data
     placeDetail = PlaceDetail(
       place: _db.places.firstWhere((p) => p.id == _placeId),
-      checkInsCount: _db.checkIns.where((c) => c.placeId == _placeId).length,
+      checkInsCount: placeCheckIns.length,
+      firstCheckIn: placeCheckIns.length != 0
+        ? (placeCheckIns..sort((a,b) => a.timestamp.compareTo(b.timestamp)))[0].timestamp
+        : DateTime.now(),
       taps: [],
     );
     placeDetail.events = _getPlaceUpcomingEvents(_db.events);
@@ -106,6 +110,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
         place: placeDetail.place,
         events: placeDetail.events,
         checkInsCount: newCheckInsCount,
+        firstCheckIn: (event..sort((a,b) => a.timestamp.compareTo(b.timestamp)))[0].timestamp,
         taps: placeDetail.taps,
         popularBeers: placeDetail.popularBeers,
       );
@@ -120,6 +125,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
       place: placeDetail.place,
       events: placeDetail.events,
       checkInsCount: placeDetail.checkInsCount,
+      firstCheckIn: placeDetail.firstCheckIn,
       taps: newTaps,
       popularBeers: placeDetail.popularBeers,
     );
@@ -133,6 +139,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
       place: placeDetail.place,
       events: placeDetail.events,
       checkInsCount: placeDetail.checkInsCount,
+      firstCheckIn: placeDetail.firstCheckIn,
       taps: placeDetail.taps,
       popularBeers: newBeers,
     );
@@ -169,10 +176,14 @@ class PlaceDetail {
   /// The number of times the current user has checked in
   int checkInsCount;
 
+  /// The date of the first check in
+  DateTime firstCheckIn;
+
   /// Default constructor
   PlaceDetail(
       {this.place,
       this.checkInsCount,
+      this.firstCheckIn,
       this.taps,
       this.events,
       this.popularBeers});

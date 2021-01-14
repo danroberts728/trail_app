@@ -67,7 +67,7 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
                     Icons.access_time,

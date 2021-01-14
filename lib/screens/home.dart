@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
 import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
-import 'package:alabama_beer_trail/tabscreens/tabscreen_achievements.dart';
+import 'package:alabama_beer_trail/tabscreens/tabscreen_badges.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
@@ -118,7 +118,7 @@ class HomeState extends State<Home>
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarAchievementsTabTitle,
-      child: TabScreenAchievements(),
+      child: TabScreenBadges(),
     ),
   ];
 

@@ -75,6 +75,10 @@ class ButtonCheckInBloc extends Bloc {
         0;
   }
 
+  bool isStamped(String placeId) {
+    return checkIns.any((c) => c.placeId == placeId);
+  }
+
   /// Checks the current user into [placeId] now
   Future<List<TrailTrophy>> checkIn(String placeId) async {
     var completer = Completer<List<TrailTrophy>>();

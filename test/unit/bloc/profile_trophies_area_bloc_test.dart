@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/blocs/tabscreen_achievements_bloc.dart';
+import 'package:alabama_beer_trail/blocs/tabscreen_badges_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -13,7 +13,7 @@ void main() {
 
   group("Constructor tests", () {
     test("Database cannot be null", () {
-      expect(() => TabScreenAchievementsBloc(null),
+      expect(() => TabScreenBadgesBloc(null),
           throwsA(anything));
     });
   });

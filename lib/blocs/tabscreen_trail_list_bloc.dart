@@ -1,3 +1,4 @@
+// Copyright (c) 2021, Fermented Software.
 import 'dart:async';
 import 'dart:math';
 
@@ -25,7 +26,7 @@ class TabScreenTrailListBloc extends Bloc {
       _allPlacesStreamController.stream;
 
   final _filteredPlacesStreamController = StreamController<List<TrailPlace>>();
-  Stream<List<TrailPlace>> get filteredTraiilPlacesStream =>
+  Stream<List<TrailPlace>> get filteredTrailPlacesStream =>
       _filteredPlacesStreamController.stream;
 
   TabScreenTrailListBloc(PlaceFilter filter) {

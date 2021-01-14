@@ -5,6 +5,7 @@ import 'package:alabama_beer_trail/screens/screen_about.dart';
 import 'package:alabama_beer_trail/screens/screen_privacy_policy.dart';
 import 'package:alabama_beer_trail/screens/screen_profile/screen_profile.dart';
 import 'package:alabama_beer_trail/screens/screen_sign_in.dart';
+import 'package:alabama_beer_trail/screens/screen_passport.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -135,6 +136,23 @@ class _AppDrawer extends State<AppDrawer> {
                         MaterialPageRoute(
                           settings: RouteSettings(name: 'Profile'),
                           builder: (context) => ScreenProfile(),
+                        ),
+                      );
+                    }),
+              ),
+              // Passport
+              Visibility(
+                visible: widget.isUserLoggedIn,
+                child: AppDrawerMenuItem(
+                    iconData: Icons.book,
+                    name: "Passport",
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          settings: RouteSettings(name: 'Passport'),
+                          builder: (context) => ScreenPassport(),
                         ),
                       );
                     }),

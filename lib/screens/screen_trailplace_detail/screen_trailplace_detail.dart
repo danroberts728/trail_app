@@ -16,6 +16,7 @@ import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_o
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/favorite_button.dart';
 import 'package:alabama_beer_trail/widgets/guild_badge.dart';
+import 'package:alabama_beer_trail/widgets/stamped_place_icon.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +117,19 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
                               ),
                             ),
                             Positioned(
+                              top: 8,
+                              right: 8,
+                              child: Visibility(
+                                visible: placeDetail.checkInsCount != 0,
+                                child: StampedPlaceIcon(
+                                  count: placeDetail.checkInsCount,
+                                  place: place,
+                                  firstCheckIn: placeDetail.firstCheckIn,
+                                  tilt: 12,
+                                ),
+                              ),
+                            ),
+                            Positioned(
                               bottom: 8.0,
                               right: 16.0,
                               child: FavoriteButton(
@@ -155,9 +169,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
                               TrailPlaceCheckinArea(
                                 place: place,
                                 checkInsCount: checkInsCount,
-                              ),
-                              Divider(
-                                color: TrailAppSettings.attentionColor,
                               ),
                               // Hours Area
                               TrailPlaceArea(

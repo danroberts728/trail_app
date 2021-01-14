@@ -1,4 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
+import 'package:alabama_beer_trail/screens/screen_passport.dart';
 import 'package:alabama_beer_trail/screens/screen_profile/profile_earned_achievements.dart';
 import 'package:alabama_beer_trail/screens/screen_profile/profile_favorites.dart';
 import 'package:alabama_beer_trail/screens/screen_profile/proflie_top_area.dart';
@@ -20,6 +21,7 @@ class _ScreenProfile extends State<ScreenProfile> {
   final ScrollController _controller = ScrollController();
 
   bool _loadingFullActivity = false;
+  bool _loadingPassport = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,31 @@ class _ScreenProfile extends State<ScreenProfile> {
             SizedBox(height: 8.0),
             // Progress Bar
             TrailProgressBar(),
+            Container(
+              width: double.infinity,
+              alignment: Alignment.bottomRight,
+              child: FlatButton(
+                onPressed: () {
+                  setState(() => _loadingPassport = true);
+                  Feedback.forTap(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          settings: RouteSettings(
+                            name: 'Passport',
+                          ),
+                          builder: (context) => ScreenPassport()))
+                          .then((value) => setState((){_loadingPassport = false;}));
+                },
+                child: Text(_loadingPassport
+                  ? "Loading..."
+                  : "OPEN PASSPORT",
+                  style: TextStyle(
+                    color: TrailAppSettings.actionLinksColor,
+                  ),
+                ),
+              )
+            ),
             // Divider Line
             Divider(
               color: TrailAppSettings.subHeadingColor,
@@ -60,7 +87,7 @@ class _ScreenProfile extends State<ScreenProfile> {
             ),
             // Achievements header
             Text(
-              "Earned Achievements",
+              "Achievements",
               overflow: TextOverflow.fade,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -90,7 +117,7 @@ class _ScreenProfile extends State<ScreenProfile> {
               ),
             ),
             SizedBox(height: 8.0),
-            // Earned Achievements
+            // Favorites
             ProfileFavorites(),
             // Divider Line
             Divider(
@@ -120,6 +147,7 @@ class _ScreenProfile extends State<ScreenProfile> {
             // See All Activity
             Container(
               width: double.infinity,
+              alignment: Alignment.bottomRight,
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
               child: FlatButton(
                 onPressed: () {
@@ -135,7 +163,7 @@ class _ScreenProfile extends State<ScreenProfile> {
                 child: Text(
                   _loadingFullActivity
                     ? "Loading..."
-                    : "See All Activity",
+                    : "SEE ALL",
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     color: TrailAppSettings.actionLinksColor,

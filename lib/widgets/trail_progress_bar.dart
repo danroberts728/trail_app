@@ -33,12 +33,12 @@ class TrailProgressBar extends StatelessWidget {
                           ? snapshot.data.percentProgress
                           : 0,
                       valueColor: AlwaysStoppedAnimation<Color>(
-                          TrailAppSettings.subHeadingColor),
-                      backgroundColor: Colors.grey),
+                          TrailAppSettings.attentionColor),
+                      backgroundColor: Colors.black12),
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  "${progress.uniqueCheckIns} of ${progress.totalPlaces} places",
+                  "${progress.uniqueCheckIns} of ${progress.totalPlaces} Stamps",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16.0,
@@ -47,8 +47,9 @@ class TrailProgressBar extends StatelessWidget {
                 ),
                 Text(
                   progress.percentProgress.isFinite
-                      ? "You have checked into ${(progress.percentProgress * 100).toStringAsFixed(1)}% of the trail"
+                      ? "You have visited ${(progress.percentProgress * 100).toStringAsFixed(1)}% of the trail"
                       : "You must be signed in to check in.",
+                  maxLines: 3,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16.0,

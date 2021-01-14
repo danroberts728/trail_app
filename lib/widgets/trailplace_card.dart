@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 import 'dart:math';
 
@@ -9,11 +10,11 @@ import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trail
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/button_check_in.dart';
+import 'package:alabama_beer_trail/widgets/stamped_place_icon.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'check_in_count_widget.dart';
 
 import '../data/trail_place.dart';
 
@@ -31,6 +32,7 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
   final TrailPlace place;
   double _distance = double.infinity;
   int _checkInsCount = 0;
+  DateTime _firstCheckIn;
 
   final _locationService = LocationService();
   StreamSubscription<Point> _streamSub;
@@ -41,11 +43,13 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
   @override
   void initState() {
     this._distance = _getDistance();
-    var bloc = TrailPlaceCardBloc(place.id);
+    var bloc = TrailPlaceCardBloc(TrailDatabase(), place.id);
     _checkInsCount = bloc.checkInsCount;
+    _firstCheckIn = bloc.getFirstCheckIn();
     _checkInSubscription = bloc.stream.listen((data) {
       setState(() {
         this._checkInsCount = data;
+        this._firstCheckIn = bloc.getFirstCheckIn();
       });
     });
 
@@ -74,124 +78,144 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
           margin:
               EdgeInsets.only(bottom: 12.0, top: 2.0, left: 8.0, right: 8.0),
           elevation: 12.0,
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: constraints.maxWidth,
-                height:
-                    constraints.maxWidth * (9 / 16), // Force 16:9 image ratio
-                padding: EdgeInsets.all(0.0),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                      this.place.featuredImgUrl,
-                    ),
-                    fit: BoxFit.cover,
-                    repeat: ImageRepeat.noRepeat,
-                    alignment: Alignment.center,
-                  ),
-                  color: Color(0xFFFFFFFF),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      color: Colors.transparent,
-                      child: TrialPlaceHeader(
-                        name: this.place.name,
-                        leadingSpace: 4.0,
-                        categories: this.place.categories,
-                        logo: CachedNetworkImage(
-                          imageUrl: this.place.logoUrl,
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                          width: 40.0,
-                          height: 40.0,
+          child: Stack(
+            children: [
+              Column(
+                children: <Widget>[
+                  Container(
+                    width: constraints.maxWidth,
+                    height: constraints.maxWidth *
+                        (9 / 16), // Force 16:9 image ratio
+                    padding: EdgeInsets.all(0.0),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          this.place.featuredImgUrl,
                         ),
-                        backgroundColor: Colors.white,
-                        alphaValue: 225,
+                        fit: BoxFit.cover,
+                        repeat: ImageRepeat.noRepeat,
+                        alignment: Alignment.center,
                       ),
+                      color: Color(0xFFFFFFFF),
                     ),
-                    Container(
-                      // Location and action buttons
-                      height: 50.0,
-                      width: constraints.maxWidth,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 0.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black38,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          color: Colors.transparent,
+                          child: TrialPlaceHeader(
+                            name: this.place.name,
+                            leadingSpace: 4.0,
+                            categories: this.place.categories,
+                            logo: CachedNetworkImage(
+                              imageUrl: this.place.logoUrl,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                              width: 40.0,
+                              height: 40.0,
+                            ),
+                            backgroundColor: Colors.white,
+                            alphaValue: 225,
+                          ),
+                        ),
+                        Container(
+                          // Location and action buttons
+                          height: 50.0,
+                          width: constraints.maxWidth,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                            vertical: 0.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black38,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.location_on,
-                                        color: Colors.white,
-                                        size: 18.0,
-                                      ),
-                                      SizedBox(width: 4.0),
-                                      Text(
-                                        this._locationService.lastLocation !=
-                                                    null &&
-                                                this.place.city != null
-                                            ? this.place.city +
-                                                " " +
-                                                GeoMethods
-                                                    .toFriendlyDistanceString(
-                                                        this._distance) +
-                                                " mi"
-                                            : this.place.city ?? "",
-                                        style: TextStyle(
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.location_on,
                                             color: Colors.white,
-                                            fontSize: 14.0),
+                                            size: 18.0,
+                                          ),
+                                          SizedBox(width: 4.0),
+                                          Text(
+                                            this
+                                                            ._locationService
+                                                            .lastLocation !=
+                                                        null &&
+                                                    this.place.city != null
+                                                ? this.place.city +
+                                                    " " +
+                                                    GeoMethods
+                                                        .toFriendlyDistanceString(
+                                                            this._distance) +
+                                                    " mi"
+                                                : this.place.city ?? "",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14.0),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                  CheckInCountWidget(
-                                    count: _checkInsCount,
-                                    visible: _checkInsCount != 0,
-                                    icon: Icons.check,
-                                    iconColor: Colors.white.withAlpha(200),
-                                    fontColor: Colors.white.withAlpha(200),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                              TrailPlaceActionButtonWidget(
+                                place: this.place,
+                                mapIconColor: TrailAppSettings.subHeadingColor,
+                              ),
+                            ],
                           ),
-                          TrailPlaceActionButtonWidget(
-                            place: this.place,
-                            mapIconColor: TrailAppSettings.subHeadingColor,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: CheckinButton(
+                      bloc: ButtonCheckInBloc(TrailDatabase()),
+                      showAlways: false,
+                      canCheckin: this._distance != null &&
+                          this._distance <=
+                              TrailAppSettings.minDistanceToCheckin,
+                      place: this.place,
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 4.0),
-                child: CheckinButton(
-                  bloc: ButtonCheckInBloc(TrailDatabase()),
-                  showAlways: false,
-                  canCheckin: this._distance != null &&
-                      this._distance <= TrailAppSettings.minDistanceToCheckin,
-                  place: this.place,
-                ),
+              Positioned(
+                top: 4,
+                right: 4,
+                child: _firstCheckIn != null
+                    ? StampedPlaceIcon(
+                        count: _checkInsCount,
+                        place: place,
+                        firstCheckIn: _firstCheckIn,
+                        diameter: 75,
+                        tilt: 12,
+                        backgroundColor: Colors.white60,
+                        dateFontSize: 7.0,
+                        nameFontSize: 24.0,
+                        cityFontSize: 20.0,
+                        bottomDateMargin: 24,
+                        padding: 8,
+                      )
+                    : Container(),
               ),
             ],
           ),

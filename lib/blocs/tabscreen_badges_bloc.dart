@@ -1,4 +1,4 @@
-// Copyright (c) 2020, Fermented Software.
+// Copyright (c) 2021, Fermented Software.
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
@@ -6,8 +6,8 @@ import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
 
-/// The BLoC for ProfileTrophyArea objects
-class TabScreenAchievementsBloc extends Bloc {
+/// The BLoC for Badges tabscreen
+class TabScreenBadgesBloc extends Bloc {
   /// A reference to the central database
   TrailDatabase _db;
 
@@ -30,16 +30,16 @@ class TabScreenAchievementsBloc extends Bloc {
   final _trophyInformationStreamController = StreamController<List<UserTrophyInformation>>();
 
   /// The stream for this BLoC's UserTrophyInformation
-  get stream => _trophyInformationStreamController.stream;
+  get userTrophyInformationStream => _trophyInformationStreamController.stream;
 
   /// Default constructor
-  TabScreenAchievementsBloc(TrailDatabase db) : assert(db != null) {
+  TabScreenBadgesBloc(TrailDatabase db) : assert(db != null) {
     _db = db;
     _trailTrophies = _db.trophies;
-    _userData = _db.userData;    
+    _userData = _db.userData;
     userTrophyInformation = _buildTrophyStreamData(_trailTrophies, _userData);
     _trophiesSubscription = _db.trophiesStream.listen(_onTrophiesUpdate);
-    _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);    
+    _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }
 
   /// Builds the list of UserTrophyInformation to be sent to subscribers
@@ -70,7 +70,6 @@ class TabScreenAchievementsBloc extends Bloc {
   /// Callback when user's data is updated
   void _onUserDataUpdate(UserData data) {
     _userData = data;
-
     userTrophyInformation = _buildTrophyStreamData(_trailTrophies, _userData);
     _trophyInformationStreamController.add(userTrophyInformation);
   }
@@ -100,5 +99,4 @@ class UserTrophyInformation {
   /// Default constructor
   UserTrophyInformation(this.trophy, this.userEarned, this.earnedDate);
 }
-
 

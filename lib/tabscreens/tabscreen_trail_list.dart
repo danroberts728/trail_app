@@ -39,7 +39,7 @@ class _TabScreenTrailList extends State<TabScreenTrailList>
   Widget build(BuildContext context) {
     super.build(context);
     return StreamBuilder(
-      stream: _bloc.filteredTraiilPlacesStream,
+      stream: _bloc.filteredTrailPlacesStream,
       initialData: _bloc.filteredTrailPlaces,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

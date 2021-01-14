@@ -47,14 +47,14 @@ class _AppDrawerStats extends State<AppDrawerStats> {
             children: <Widget>[
               ProfileStat(
                 value: visited.length,
-                postText: "Visited",
+                postText: "Stamps",
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       settings: RouteSettings(name: 'Visited'),
                       builder: (context) => TrailPlacesScreen(
-                        appBarTitle: "Visited",
+                        appBarTitle: "Stamped Places",
                         placeIds: visited.map((e) => e.place.id).toList(),
                       ),
                     ),

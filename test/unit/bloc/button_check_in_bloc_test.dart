@@ -63,4 +63,19 @@ void main() {
       );
     });
   });
+
+  group("isStamped test", () {
+    test('True if 1 check ins', () {
+      var bloc = ButtonCheckInBloc(databaseMock);
+      expect(bloc.isStamped('cahaba'), true);
+    });
+    test('True if 2 check ins', () {
+      var bloc = ButtonCheckInBloc(databaseMock);
+      expect(bloc.isStamped('avondale'), true);
+    });
+    test('False if 0 check ins', () {
+      var bloc = ButtonCheckInBloc(databaseMock);
+      expect(bloc.isStamped('doesnt-exist'), false);
+    });
+  });
 }
