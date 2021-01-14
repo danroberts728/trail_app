@@ -8,7 +8,7 @@ class TabScreenNewsBloc extends Bloc {
   final String feedUrl;
   Timer _timer;
 
-  TabScreenNewsBloc(this.feedUrl) {
+  TabScreenNewsBloc(this.feedUrl) : assert(feedUrl != null) {
     onReadTimer().then((_) {
       _timer = Timer(Duration(seconds: 120), onReadTimer);
     });    
