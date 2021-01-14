@@ -114,7 +114,7 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
           bottom: 5.0,
           left: 0,
           right: 0,
-          child: MapInfoCardSlider(
+          child: MapInfoCardCarousel(
             places: _selectedPlaces,
             initialCard: 0,
           ),

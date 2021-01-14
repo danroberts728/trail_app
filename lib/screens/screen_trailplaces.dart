@@ -47,7 +47,7 @@ class _TrailPlacesScreen extends State<TrailPlacesScreen> {
                 return a.name.compareTo(b.name);
               }
             });
-            return TrailListView(
+            return TrailList(
               places: placesToShow.toList(),
             );
           }

@@ -48,7 +48,7 @@ class TrailSearchDelegate extends SearchDelegate {
             p.city.toLowerCase().contains(query.toLowerCase()) ||
             p.address.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    return TrailListView(
+    return TrailList(
       places: result,
     );
   }

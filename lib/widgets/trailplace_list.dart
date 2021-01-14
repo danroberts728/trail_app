@@ -8,17 +8,17 @@ import 'package:alabama_beer_trail/widgets/trailplace_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class TrailListView extends StatefulWidget {
+class TrailList extends StatefulWidget {
   final List<TrailPlace> places;
   final Key key;
 
-  const TrailListView({this.key, this.places}) : super(key: key);
+  const TrailList({this.key, this.places}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => TrailListViewState();
+  State<StatefulWidget> createState() => TrailListState();
 }
 
-class TrailListViewState extends State<TrailListView> {
+class TrailListState extends State<TrailList> {
   bool _showUpdate;
 
   final ScrollController _controller = ScrollController();

@@ -3,18 +3,18 @@ import 'package:alabama_beer_trail/widgets/trailplace_map_info.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class MapInfoCardSlider extends StatefulWidget {
+class MapInfoCardCarousel extends StatefulWidget {
   final List<TrailPlace> places;
   final int initialCard;
 
-  const MapInfoCardSlider({Key key, @required this.places, this.initialCard})
+  const MapInfoCardCarousel({Key key, @required this.places, this.initialCard})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MapInfoCardSlider();
+  State<StatefulWidget> createState() => _MapInfoCardCarousel();
 }
 
-class _MapInfoCardSlider extends State<MapInfoCardSlider> {
+class _MapInfoCardCarousel extends State<MapInfoCardCarousel> {
   CarouselController _controller = CarouselController();
 
   @override
@@ -52,7 +52,7 @@ class _MapInfoCardSlider extends State<MapInfoCardSlider> {
   /// When the state is changed, test to see if the places are identical.
   /// If not, reset the page to 0 (start with left-most)
   @override
-  void didUpdateWidget(MapInfoCardSlider oldWidget) {
+  void didUpdateWidget(MapInfoCardCarousel oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.places != null &&
