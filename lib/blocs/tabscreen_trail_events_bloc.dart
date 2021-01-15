@@ -11,8 +11,8 @@ import 'package:alabama_beer_trail/data/trail_event.dart';
 
 /// BLoC for the Trail Events Tab screen
 class TabScreenTrailEventsBloc extends Bloc {
-  final TrailDatabase _db = TrailDatabase();
-  final LocationService _location = LocationService();
+  TrailDatabase _db;
+  LocationService _location;
 
   StreamSubscription _eventsSubscription;
   StreamSubscription _locationSubscription;
@@ -30,13 +30,19 @@ class TabScreenTrailEventsBloc extends Bloc {
 
   /// Default constructor
   /// [filter] is required for this to work properly
-  TabScreenTrailEventsBloc(EventFilter filter) {
+  TabScreenTrailEventsBloc(
+      TrailDatabase db, EventFilter filter, LocationService locationService)
+      : assert(db != null && filter != null && locationService != null) {
+    _db = db;
     _filter = filter;
+    _location = locationService;
     _allTrailEvents = _db.events;
     _eventsSubscription = _db.eventsStream.listen(_onEventsUpdate);
     _locationSubscription = _location.locationStream.listen(_onLocationUpdate);
-    _eventFilterServiceSubscription =
-        filter.stream.listen(_onFilterUpdate);
+    _eventFilterServiceSubscription = filter.stream.listen(_onFilterUpdate);
+    
+    lastLocation = _location.lastLocation;
+    filteredTrailEvents = _getFilteredEvents();
   }
 
   /// Handles an update to the events database table
@@ -57,7 +63,7 @@ class TabScreenTrailEventsBloc extends Bloc {
   }
 
   /// Handles an update to the event filter
-  void _onFilterUpdate(EventFilter event) {
+  void _onFilterUpdate(event) {
     _filter = event;
     filteredTrailEvents = _getFilteredEvents();
     _eventsController.add(null);
@@ -72,8 +78,9 @@ class TabScreenTrailEventsBloc extends Bloc {
       double distance =
           GeoMethods.calculateDistance(lastLocation, eventLocation);
       // Show if distance is unkown, it's a featured event, or its within filter
-      return distance == null || e.featured || distance <= (_filter?.distance ??
-          double.infinity);
+      return distance == null ||
+          e.featured ||
+          distance <= (_filter?.distance ?? double.infinity);
     }).toList());
   }
 

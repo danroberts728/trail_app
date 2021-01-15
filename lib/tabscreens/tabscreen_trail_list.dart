@@ -1,5 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_list_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/util/place_filter.dart';
 import 'package:alabama_beer_trail/widgets/top_list_sort_and_filter.dart';
@@ -19,7 +20,7 @@ class TabScreenTrailList extends StatefulWidget {
 class _TabScreenTrailList extends State<TabScreenTrailList>
     with AutomaticKeepAliveClientMixin<TabScreenTrailList> {
   _TabScreenTrailList() {
-    _bloc = TabScreenTrailListBloc(_placeFilter);
+    _bloc = TabScreenTrailListBloc(_placeFilter, TrailDatabase());
     _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
   }
 

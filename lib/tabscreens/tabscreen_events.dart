@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_events_bloc.dart';
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/util/event_filter.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/widgets/dropdown_event_filter.dart';
@@ -33,7 +34,7 @@ class _TabScreenTrailEvents extends State<TabScreenTrailEvents> {
   /// Default constructor
   _TabScreenTrailEvents() {
     _filter = EventFilter(locationService: LocationService());
-    _tabScreenTrailEventsBloc = TabScreenTrailEventsBloc(_filter);
+    _tabScreenTrailEventsBloc = TabScreenTrailEventsBloc(TrailDatabase(), _filter, LocationService());
     _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
   }
 
