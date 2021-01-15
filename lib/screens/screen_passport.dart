@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/screen_passport_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 
+/// The passport screen
 class ScreenPassport extends StatelessWidget {
   final ScreenPassportBloc _bloc = ScreenPassportBloc(TrailDatabase());
 
