@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/blocs/screen_passport_bloc.dart';
+import 'package:alabama_beer_trail/blocs/trail_passport_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -25,12 +25,12 @@ void main() {
 
   group('Constructor tests', () {
     test("Database cannot be null", () {
-      expect(() => ScreenPassportBloc(null),
+      expect(() => TrailPassportBloc(null),
           throwsA(anything));
     });
 
     test("Constructor populates data", () {
-      var bloc = ScreenPassportBloc(databaseMock);
+      var bloc = TrailPassportBloc(databaseMock);
       expect(bloc.stampInformation == null, false);
     });
   });

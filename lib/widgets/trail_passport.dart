@@ -1,7 +1,7 @@
 // Copyright (c) 2021, Fermented Software.
 import 'dart:math';
 
-import 'package:alabama_beer_trail/blocs/screen_passport_bloc.dart';
+import 'package:alabama_beer_trail/blocs/trail_passport_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:alabama_beer_trail/widgets/stamped_place_icon.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 /// Intended to be a full-screen overlay
 class TrailPassport extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
-  final ScreenPassportBloc _bloc = ScreenPassportBloc(TrailDatabase());
+  final TrailPassportBloc _bloc = TrailPassportBloc(TrailDatabase());
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class TrailPassport extends StatelessWidget {
                                                 place: s.place,
                                                 firstCheckIn: s.stampDate,
                                                 tilt: tilt,
-                                                count: 1),
+                                                count: s.checkInCount),
                                           )
                                         : Container(),
                                   ],

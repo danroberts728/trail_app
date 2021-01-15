@@ -8,7 +8,7 @@ import 'bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 
 /// A BLoC for ScreenStamps objects
-class ScreenPassportBloc extends Bloc {
+class TrailPassportBloc extends Bloc {
   TrailDatabase _db;
 
   List<TrailPlace> _places;
@@ -26,7 +26,7 @@ class ScreenPassportBloc extends Bloc {
 
   Stream<List<StampInformation>> get stream => _streamController.stream;
 
-  ScreenPassportBloc(TrailDatabase db) {
+  TrailPassportBloc(TrailDatabase db) {
     _db = db;
     _places = _db.places;
     _checkIns = _db.checkIns;
