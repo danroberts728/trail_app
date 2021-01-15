@@ -54,7 +54,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
       place: _db.places.firstWhere((p) => p.id == _placeId),
       checkInsCount: placeCheckIns.length,
       firstCheckIn: placeCheckIns.length != 0
-        ? (placeCheckIns..sort((a,b) => a.timestamp.compareTo(b.timestamp)))[0].timestamp
+        ? (placeCheckIns..sort((a,b) => a.timestamp.compareTo(b.timestamp))).first.timestamp
         : DateTime.now(),
       taps: [],
     );
@@ -110,7 +110,7 @@ class ScreenTrailPlaceDetailBloc extends Bloc {
         place: placeDetail.place,
         events: placeDetail.events,
         checkInsCount: newCheckInsCount,
-        firstCheckIn: (event..sort((a,b) => a.timestamp.compareTo(b.timestamp)))[0].timestamp,
+        firstCheckIn: (event..sort((a,b) => a.timestamp.compareTo(b.timestamp))).first.timestamp,
         taps: placeDetail.taps,
         popularBeers: placeDetail.popularBeers,
       );

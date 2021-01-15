@@ -56,7 +56,7 @@ class TrailPlaceCardBloc extends Bloc {
   /// Returns null if there are no check ins
   DateTime getFirstCheckIn() {
     return _checkIns.length > 0
-      ? (_checkIns..sort((a,b) => a.timestamp.compareTo(b.timestamp)))[0].timestamp
+      ? (_checkIns..sort((a,b) => a.timestamp.compareTo(b.timestamp))).first.timestamp
       : null;
   }
 

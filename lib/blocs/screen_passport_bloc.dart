@@ -44,7 +44,7 @@ class ScreenPassportBloc extends Bloc {
       var thisPlaceCheckIns = _checkIns.where((c) => c.placeId == p.id).toList();
       bool isStamped = thisPlaceCheckIns.isNotEmpty;
       DateTime stampedDate = isStamped
-        ? (thisPlaceCheckIns..sort((a,b) => b.timestamp.compareTo(a.timestamp))).first.timestamp
+        ? (thisPlaceCheckIns..sort((a,b) => a.timestamp.compareTo(b.timestamp))).first.timestamp
         : null;
       var checkInCount = thisPlaceCheckIns.length;
 

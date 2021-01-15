@@ -54,10 +54,9 @@ class ScreenPassport extends StatelessWidget {
                           runSpacing: 0,
                           spacing: 0,
                           children: stampedPlaces.map((s) {
-                            Random rand = Random(s.place.address.length +
-                                s.place.id.length +
+                            Random rand = Random(
                                 (s.stampDate != null
-                                    ? s.stampDate.millisecondsSinceEpoch
+                                    ? s.stampDate.millisecond
                                     : 0));
                             double boxSize = constraints.maxWidth / 3;
                             double leftStampMargin =

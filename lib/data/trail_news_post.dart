@@ -32,7 +32,7 @@ class TrailNewsPost {
       link: rss.link,
       imageThumbnail: rss.media == null || rss.media.thumbnails.length != 0
           ? CachedNetworkImageProvider(
-              rss.media.thumbnails[0].url,
+              rss.media.thumbnails.first.url,
             )
           : AssetImage(
               TrailAppSettings.defaultNewsThumbnailAsset,
