@@ -144,7 +144,7 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Row(
+                                      Wrap(
                                         children: <Widget>[
                                           Icon(
                                             Icons.location_on,

@@ -51,33 +51,38 @@ class UntappdRating extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("Rating: ",
-            style: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
+    return LayoutBuilder(builder: (context, constraints) {
+      return Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Visibility(
+              visible: constraints.maxWidth > 215,
+              child: Text(
+                "Rating: ",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-          _getARatingBubble(rating >= 1.0 ? 1.0 : rating),
-          _getARatingBubble(rating >= 2.0 ? 1.0 : rating - 1),
-          _getARatingBubble(rating >= 3.0 ? 1.0 : rating - 2),
-          _getARatingBubble(rating >= 4.0 ? 1.0 : rating - 3),
-          _getARatingBubble(rating >= 5.0 ? 1.0 : rating - 4),
-          Text(
-            rating == 0
-            ? " None"
-            : " ${rating.toStringAsPrecision(3)} Avg",
-            style: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
+            _getARatingBubble(rating >= 1.0 ? 1.0 : rating),
+            _getARatingBubble(rating >= 2.0 ? 1.0 : rating - 1),
+            _getARatingBubble(rating >= 3.0 ? 1.0 : rating - 2),
+            _getARatingBubble(rating >= 4.0 ? 1.0 : rating - 3),
+            _getARatingBubble(rating >= 5.0 ? 1.0 : rating - 4),
+            Text(
+              rating == 0 ? " None" : " ${rating.toStringAsPrecision(3)} Avg",
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }

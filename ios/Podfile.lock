@@ -212,7 +212,7 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
-  - add_2_calendar (0.0.1):
+  - add_to_calendar (0.0.1):
     - Flutter
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
@@ -275,7 +275,7 @@ PODS:
     - Fabric
     - Firebase/Core
     - Flutter
-  - firebase_messaging (7.0.0):
+  - firebase_messaging (7.0.2):
     - Firebase/CoreOnly (~> 6.26.0)
     - Firebase/Messaging (~> 6.26.0)
     - firebase_core
@@ -489,7 +489,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - add_2_calendar (from `.symlinks/plugins/add_2_calendar/ios`)
+  - add_to_calendar (from `.symlinks/plugins/add_to_calendar/ios`)
   - apple_sign_in (from `.symlinks/plugins/apple_sign_in/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -552,8 +552,8 @@ SPEC REPOS:
     - TOCropViewController
 
 EXTERNAL SOURCES:
-  add_2_calendar:
-    :path: ".symlinks/plugins/add_2_calendar/ios"
+  add_to_calendar:
+    :path: ".symlinks/plugins/add_to_calendar/ios"
   apple_sign_in:
     :path: ".symlinks/plugins/apple_sign_in/ios"
   cloud_firestore:
@@ -595,7 +595,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
-  add_2_calendar: c201b1c7dc0299280f1b1a8158aa80e15a8f8912
+  add_to_calendar: 8d1fe5bc868c1393584ab74165be36ee30c9bc4b
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   apple_sign_in: 7716c7ddfa195aeab7dec0dc374ef4ff45d1adb4
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
@@ -607,7 +607,7 @@ SPEC CHECKSUMS:
   firebase_auth: c42c06a212439824b5da53437da905931e8e6b9a
   firebase_core: 3134fe79d257d430f163b558caf52a10a87efe8a
   firebase_crashlytics: cc468e94e5a637364aeeeec5c8a96d92ea75ec7b
-  firebase_messaging: 6061cbdfe4463502a0d4d7049820c25d1757a095
+  firebase_messaging: 2844c37f9ce87c0904b38fe435223161b1a71528
   firebase_performance: 485c41797720010a4722a4016ba341537c58a330
   firebase_storage: 760ea52570d1896e3b08e2815f1123e61f25e685
   FirebaseABTesting: 821a3a3e4a145987e80fee3657c4de1cb9adf693
