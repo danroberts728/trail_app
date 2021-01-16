@@ -12,6 +12,7 @@ google-services.json
 key.properties
 keystore.jks
 upload_certificate.pem
+coverage/lcov*.info
 
 
 # IntelliJ related

@@ -1,3 +1,4 @@
+// Copyright (c) 2020, Fermented Software.
 import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_list_bloc.dart';
