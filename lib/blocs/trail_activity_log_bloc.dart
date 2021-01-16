@@ -54,7 +54,7 @@ class TrailActivityLogBloc extends Bloc {
   /// Constructor
   TrailActivityLogBloc(TrailDatabase db, this.limit)
       : assert(db != null),
-        assert(limit > 0) {
+        assert(limit == null || limit > 0) {
     _db = db;
     _checkIns = _db.checkIns;
     _userData = _db.userData;
