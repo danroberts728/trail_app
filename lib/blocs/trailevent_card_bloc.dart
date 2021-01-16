@@ -3,7 +3,7 @@ import 'package:html/dom.dart' as htmlParser;
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/model/trail_event.dart';
 import 'package:add_to_calendar/add_to_calendar.dart';
 
 class TrailEventCardBloc extends Bloc {

@@ -2,18 +2,18 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/model/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
-import 'package:alabama_beer_trail/util/activity_item.dart';
+import 'package:alabama_beer_trail/model/activity_item.dart';
 
 import 'bloc.dart';
 
 /// BLoC for the TrailActivityLog widget
 class TrailActivityLogBloc extends Bloc {
   /// The limit of the activities to return
-  /// 
+  ///
   /// The object will return this or the total
   /// number of activities, whichever is smaller
   int limit;
@@ -46,18 +46,20 @@ class TrailActivityLogBloc extends Bloc {
   StreamController<List<ActivityItem>> _controller =
       StreamController<List<ActivityItem>>();
 
-  /// The stream for this BLoC that contains a list of 
+  /// The stream for this BLoC that contains a list of
   /// the user's activity, bounded by [limit] and sorted
   /// by date (newest first)
   get stream => _controller.stream;
 
   /// Constructor
-  TrailActivityLogBloc(TrailDatabase db, this.limit) {
+  TrailActivityLogBloc(TrailDatabase db, this.limit)
+      : assert(db != null),
+        assert(limit > 0) {
     _db = db;
     _checkIns = _db.checkIns;
     _userData = _db.userData;
     _places = _db.places;
-    if(limit == null) {
+    if (limit == null) {
       limit = _checkIns.length;
     }
     activities = _buildActivityItemList();
@@ -94,16 +96,18 @@ class TrailActivityLogBloc extends Bloc {
     (_checkIns..sort((a, b) => b.timestamp.compareTo(a.timestamp)))
         .sublist(0, math.min(limit, _checkIns.length))
         .forEach((c) {
-      activities.add(
-        ActivityItem(
-          date: c.timestamp,
-          place: _places.firstWhere((p) => p.id == c.placeId),
-          trophy: null,
-          type: ActivityType.CheckIn,
-          userImageUrl: _userData.profilePhotoUrl,
-          userDisplayName: _userData.displayName,
-        ),
-      );
+      if (_places.any((p) => p.id == c.placeId)) {
+        activities.add(
+          ActivityItem(
+            date: c.timestamp,
+            place: _places.firstWhere((p) => p.id == c.placeId),
+            trophy: null,
+            type: ActivityType.CheckIn,
+            userImageUrl: _userData.profilePhotoUrl,
+            userDisplayName: _userData.displayName,
+          ),
+        );
+      }
     });
 
     return activities;

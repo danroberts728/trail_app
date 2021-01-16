@@ -2,7 +2,7 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/data/firebase_helper.dart';
-import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/model/trail_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 

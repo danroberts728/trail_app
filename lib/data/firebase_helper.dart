@@ -1,15 +1,15 @@
 import 'dart:ui';
 
-import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/model/trail_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'app_user.dart';
+import 'package:alabama_beer_trail/model/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'beer.dart';
-import 'on_tap_beer.dart';
+import 'package:alabama_beer_trail/model/beer.dart';
+import 'package:alabama_beer_trail/model/on_tap_beer.dart';
 
 class FirebaseHelper {
   static AppUser appUserfromFirebaseUser(User user) {

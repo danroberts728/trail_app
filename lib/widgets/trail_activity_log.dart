@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/blocs/trail_activity_log_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/util/activity_item.dart';
+import 'package:alabama_beer_trail/model/activity_item.dart';
 import 'package:alabama_beer_trail/widgets/trail_activity_card.dart';
 import 'package:flutter/material.dart';
 

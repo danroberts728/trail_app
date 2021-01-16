@@ -7,8 +7,7 @@ import 'bloc.dart';
 
 /// BLoC for the Trail List Tab screen
 class TabScreenTrailMapBloc extends Bloc {
-  TrailDatabase _db = TrailDatabase();
-  StreamSubscription _placeFilterSubscription;
+  TrailDatabase _db;
   StreamSubscription _placesSubscription;
 
   List<TrailPlace> allTrailPlaces = <TrailPlace>[];
@@ -21,7 +20,8 @@ class TabScreenTrailMapBloc extends Bloc {
   Stream<List<TrailPlace>> get filteredTraiilPlacesStream =>
       _filteredPlacesStreamController.stream;
 
-  TabScreenTrailMapBloc() {
+  TabScreenTrailMapBloc(TrailDatabase db) : assert(db != null) {
+    _db = db;
     allTrailPlaces = _db.places;
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdate);
   }
@@ -35,7 +35,6 @@ class TabScreenTrailMapBloc extends Bloc {
 
   @override
   void dispose() {
-    _placeFilterSubscription.cancel();
     _placesSubscription.cancel();
     _filteredPlacesStreamController.close();
   }

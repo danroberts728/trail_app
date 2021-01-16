@@ -1,9 +1,9 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/blocs/screen_trailplace_detail_bloc.dart';
-import 'package:alabama_beer_trail/data/beer.dart';
-import 'package:alabama_beer_trail/data/on_tap_beer.dart';
+import 'package:alabama_beer_trail/model/beer.dart';
+import 'package:alabama_beer_trail/model/on_tap_beer.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/model/trail_event.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_beers.dart';
 import 'package:alabama_beer_trail/screens/screen_trailplace_detail/trailplace_details.dart';

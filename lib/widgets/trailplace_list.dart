@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/data/trail_place_category.dart';
+import 'package:alabama_beer_trail/model/trail_place_category.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_card.dart';
 import 'package:flutter/material.dart';

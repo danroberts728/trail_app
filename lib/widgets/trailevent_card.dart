@@ -1,5 +1,5 @@
 import 'package:alabama_beer_trail/blocs/trailevent_card_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/model/trail_event.dart';
 import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';

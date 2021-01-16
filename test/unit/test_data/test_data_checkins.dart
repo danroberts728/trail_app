@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/model/check_in.dart';
 
 /// To use:
 /// import '../test_data/test_data_checkins.dart' as testCheckins;
@@ -12,5 +12,6 @@ class TestDataCheckIns {
     CheckIn('true-story', DateTime(2020, 8, 17)),
     CheckIn('sta', DateTime(2020, 10, 2)),
     CheckIn('yellowhammer', DateTime(2020, 10, 3)),
+    CheckIn('cahaba', DateTime(2020, 12, 1)),
   ];
 }

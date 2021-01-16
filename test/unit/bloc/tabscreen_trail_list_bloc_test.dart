@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_list_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/place_filter.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -8,13 +11,18 @@ import 'package:flutter_test/flutter_test.dart' as flutter_test;
 import '../test_data/test_data_places.dart';
 
 class TrailDatabaseMock extends Mock implements TrailDatabase {}
+
 class StreamMock<T> extends Mock implements Stream<T> {}
+
 class PlaceFilterMock extends Mock implements PlaceFilter {}
+
+class LocationServiceMock extends Mock implements LocationService {}
 
 void main() {
   flutter_test.TestWidgetsFlutterBinding.ensureInitialized();
   TrailDatabaseMock databaseMock = TrailDatabaseMock();
   PlaceFilterMock placeFilterMock = PlaceFilterMock();
+  LocationServiceMock locationServiceMock = LocationServiceMock();
 
   setUp(() {
     when(databaseMock.places).thenReturn(TestDataPlaces.places);
@@ -24,22 +32,36 @@ void main() {
       sort: SortOrder.ALPHABETICAL,
     ));
     when(placeFilterMock.stream).thenAnswer((_) => StreamMock());
+    when(placeFilterMock.filterCriteria)
+        .thenReturn(PlaceFilterCriteria(sort: SortOrder.ALPHABETICAL));
+    when(locationServiceMock.lastLocation)
+        .thenReturn(Point(33.5275743, -86.7651301));
+    when(locationServiceMock.locationStream).thenAnswer((_) => StreamMock());
   });
 
   group("Constructor tests", () {
     test("Filter cannot be null", () {
-      expect(() => TabScreenTrailListBloc(null, databaseMock),
+      expect(
+          () => TabScreenTrailListBloc(null, databaseMock, locationServiceMock),
           throwsA(anything));
     });
 
     test("DB cannot be null", () {
-      expect(() => TabScreenTrailListBloc(placeFilterMock, null),
+      expect(
+          () => TabScreenTrailListBloc(
+              placeFilterMock, null, locationServiceMock),
+          throwsA(anything));
+    });
+
+    test("Location service cannot be null", () {
+      expect(() => TabScreenTrailListBloc(placeFilterMock, databaseMock, null),
           throwsA(anything));
     });
 
     test("Initializes", () {
-      var bloc = TabScreenTrailListBloc(placeFilterMock, databaseMock);
-      expect(bloc.allTrailPlaces.length, 2);
+      var bloc = TabScreenTrailListBloc(
+          placeFilterMock, databaseMock, locationServiceMock);
+      expect(bloc.allTrailPlaces.length, 3);
     });
   });
 }

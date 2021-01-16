@@ -15,7 +15,7 @@ class TabScreenTrailListBloc extends Bloc {
   StreamSubscription _placesSubscription;
   StreamSubscription _placeFilterSubscription;
   PlaceFilter _placeFilter;
-  LocationService _locationService = LocationService();
+  LocationService _locationService;
 
   List<TrailPlace> allTrailPlaces = <TrailPlace>[];
   List<TrailPlace> get filteredTrailPlaces =>
@@ -29,10 +29,11 @@ class TabScreenTrailListBloc extends Bloc {
   Stream<List<TrailPlace>> get filteredTrailPlacesStream =>
       _filteredPlacesStreamController.stream;
 
-  TabScreenTrailListBloc(PlaceFilter filter, TrailDatabase db)
-      : assert(filter != null && db != null) {
+  TabScreenTrailListBloc(PlaceFilter filter, TrailDatabase db, LocationService locationService)
+      : assert(filter != null), assert(db != null) {
     _db = db;
     _placeFilter = filter;
+    _locationService = locationService;
     _locationService.locationStream.listen(_onLocationUpdate);
     allTrailPlaces = _db.places;
     _placesSubscription = _db.placesStream.listen(_onPlacesUpdate);

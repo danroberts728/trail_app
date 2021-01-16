@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/model/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:flutter/material.dart';
 

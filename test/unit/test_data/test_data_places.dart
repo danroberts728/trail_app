@@ -104,84 +104,42 @@ class TestDataPlaces {
       ],
       hours: {
         "tuesday": "11:00 AM – 9:00 PM",
-            "wednesday": "11:00 AM – 9:00 PM",
-            "thursday": "11:00 AM – 9:00 PM",
-            "sunday": "11:00 AM – 8:00 PM",
-            "saturday": "11:00 AM – 9:00 PM",
-            "monday": "11:00 AM – 9:00 PM",
-            "friday": "11:00 AM – 9:00 PM"
+        "wednesday": "11:00 AM – 9:00 PM",
+        "thursday": "11:00 AM – 9:00 PM",
+        "sunday": "11:00 AM – 8:00 PM",
+        "saturday": "11:00 AM – 9:00 PM",
+        "monday": "11:00 AM – 9:00 PM",
+        "friday": "11:00 AM – 9:00 PM"
       },
       hoursDetail: [
         {
-                "open": {
-                    "day": 0,
-                    "time": "1100"
-                },
-                "close": {
-                    "day": 0,
-                    "time": "2000"
-                }
-            },
-            {
-                "close": {
-                    "time": "2100",
-                    "day": 1
-                },
-                "open": {
-                    "day": 1,
-                    "time": "1100"
-                }
-            },
-            {
-                "open": {
-                    "day": 2,
-                    "time": "1100"
-                },
-                "close": {
-                    "day": 2,
-                    "time": "2100"
-                }
-            },
-            {
-                "open": {
-                    "day": 3,
-                    "time": "1100"
-                },
-                "close": {
-                    "day": 3,
-                    "time": "2100"
-                }
-            },
-            {
-                "open": {
-                    "day": 4,
-                    "time": "1100"
-                },
-                "close": {
-                    "day": 4,
-                    "time": "2100"
-                }
-            },
-            {
-                "close": {
-                    "day": 5,
-                    "time": "2100"
-                },
-                "open": {
-                    "day": 5,
-                    "time": "1100"
-                }
-            },
-            {
-                "open": {
-                    "time": "1100",
-                    "day": 6
-                },
-                "close": {
-                    "day": 6,
-                    "time": "2100"
-                }
-            }
+          "open": {"day": 0, "time": "1100"},
+          "close": {"day": 0, "time": "2000"}
+        },
+        {
+          "close": {"time": "2100", "day": 1},
+          "open": {"day": 1, "time": "1100"}
+        },
+        {
+          "open": {"day": 2, "time": "1100"},
+          "close": {"day": 2, "time": "2100"}
+        },
+        {
+          "open": {"day": 3, "time": "1100"},
+          "close": {"day": 3, "time": "2100"}
+        },
+        {
+          "open": {"day": 4, "time": "1100"},
+          "close": {"day": 4, "time": "2100"}
+        },
+        {
+          "close": {"day": 5, "time": "2100"},
+          "open": {"day": 5, "time": "1100"}
+        },
+        {
+          "open": {"time": "1100", "day": 6},
+          "close": {"day": 6, "time": "2100"}
+        }
       ],
       isMember: true,
       location: Point(34.720852, -86.607087),
@@ -191,6 +149,40 @@ class TestDataPlaces {
       phones: {"Taproom": "(256) 801-9650"},
       state: "AL",
       zip: "35805",
+    ),
+    TrailPlace(
+      id: 'braided-river',
+      name: 'Braided River Brewing Co',
+      address: "420 St Louis St",
+      categories: ["Brewery", "Tasting Room"],
+      city: "Mobile",
+      connections: {
+        'facebook': '',
+        'instagram': '',
+        'twitter': '',
+        'untappd': '',
+        'website': '',
+      },
+      description:
+          "Braided River makes flavorful craft beer designed to pair with the Gulf Coast lifestyle. We want beer that goes along no matter where the adventure takes us, and that doesn’t make us choose between great beer and drinkability.",
+      emails: {},
+      featuredImgUrl:
+          "https://firebasestorage.googleapis.com/v0/b/alabama-beer-trail-dab63.appspot.com/o/gallery%2Fsta-tasters.jpg?alt=media&token=8efe474b-f9b7-4d03-b690-8419f7f629d2",
+      galleryUrls: [
+        "https://firebasestorage.googleapis.com/v0/b/alabama-beer-trail-dab63.appspot.com/o/gallery%2Fofest.jpg?alt=media&token=2e114981-c8f4-47a7-a5dd-0d7b1e99980d",
+        "https://firebasestorage.googleapis.com/v0/b/alabama-beer-trail-dab63.appspot.com/o/gallery%2Fsta-cans.jpg?alt=media&token=278fb56d-ac1e-4836-9527-e8052d6ca218",
+        "https://firebasestorage.googleapis.com/v0/b/alabama-beer-trail-dab63.appspot.com/o/gallery%2Fcafe.jpg?alt=media&token=7f57f9d2-fa6a-429f-bfc1-7b77ac2cb384",
+      ],
+      hours: null,
+      hoursDetail: null,
+      isMember: true,
+      location: Point(30.692714, -88.048255),
+      locationTaxonomy: 85,
+      logoUrl:
+          "https://firebasestorage.googleapis.com/v0/b/alabama-beer-trail-dab63.appspot.com/o/logos%2Fstraighttoale-logo.png?alt=media&token=1cc44bc9-7f38-46ff-b394-475143bdaf89",
+      phones: null,
+      state: "AL",
+      zip: "36602",
     ),
   ];
 }

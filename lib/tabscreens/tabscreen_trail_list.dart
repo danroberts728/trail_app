@@ -2,6 +2,7 @@
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_list_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/place_filter.dart';
 import 'package:alabama_beer_trail/widgets/top_list_sort_and_filter.dart';
 import 'package:alabama_beer_trail/widgets/trailplace_card.dart';
@@ -20,7 +21,7 @@ class TabScreenTrailList extends StatefulWidget {
 class _TabScreenTrailList extends State<TabScreenTrailList>
     with AutomaticKeepAliveClientMixin<TabScreenTrailList> {
   _TabScreenTrailList() {
-    _bloc = TabScreenTrailListBloc(_placeFilter, TrailDatabase());
+    _bloc = TabScreenTrailListBloc(_placeFilter, TrailDatabase(), LocationService());
     _tabSelectionService.tabSelectionStream.listen(_scrollToTop);
   }
 

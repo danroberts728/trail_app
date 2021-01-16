@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/model/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 
@@ -28,13 +28,14 @@ class TrailProgressBarBloc extends Bloc {
   StreamSubscription _checkInsSubscription;
 
   /// Controller for this BLoC's progress information stream
-  final _progressInformationStreamController = StreamController<ProgressInformation>();
+  final _progressInformationStreamController =
+      StreamController<ProgressInformation>();
 
   /// The stream for this BLoC's ProgressInformation
   get stream => _progressInformationStreamController.stream;
 
   /// Constructor
-  TrailProgressBarBloc(TrailDatabase db) {
+  TrailProgressBarBloc(TrailDatabase db) : assert(db != null) {
     _db = db;
     _checkIns = _db.checkIns;
     _places = _db.places;
@@ -44,8 +45,14 @@ class TrailProgressBarBloc extends Bloc {
   }
 
   /// Build the progress information data for the stream
-  ProgressInformation _buildProgressStreamData(List<CheckIn> checkIns, List<TrailPlace> places) {
-     return ProgressInformation(_db.checkIns.map((c) => c.placeId).toSet().length, _db.places.length);
+  ProgressInformation _buildProgressStreamData(
+      List<CheckIn> checkIns, List<TrailPlace> places) {
+    // Filter out any checkins where place is no longer valid
+    var placeIds = places.map((p) => p.id).toList();
+    var actualCheckIns = checkIns.where((c) => placeIds.contains(c.placeId));
+    var uniqueCheckInsCount = actualCheckIns.map((e) => e.placeId).toSet().length;
+    return ProgressInformation(
+        uniqueCheckInsCount, _db.places.length);
   }
 
   /// Callback when check in data is updated
@@ -68,7 +75,6 @@ class TrailProgressBarBloc extends Bloc {
     _checkInsSubscription.cancel();
     _placesSubscription.cancel();
   }
-
 }
 
 /// The user's trail progress, including
@@ -87,5 +93,4 @@ class ProgressInformation {
 
   /// Constructor
   ProgressInformation(this.uniqueCheckIns, this.totalPlaces);
-  
 }

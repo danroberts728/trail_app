@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/model/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 

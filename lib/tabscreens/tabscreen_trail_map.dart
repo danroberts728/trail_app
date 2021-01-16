@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/blocs/tabscreen_trail_map_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
@@ -33,7 +34,7 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
 
   Set<Marker> _markers = Set();
 
-  TabScreenTrailMapBloc _tabScreenTrailMapBloc = TabScreenTrailMapBloc();
+  TabScreenTrailMapBloc _tabScreenTrailMapBloc = TabScreenTrailMapBloc(TrailDatabase());
 
   List<ClusterItem<TrailPlace>> items = <ClusterItem<TrailPlace>>[];
 

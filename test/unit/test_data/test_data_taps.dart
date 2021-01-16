@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/data/on_tap_beer.dart';
+import 'package:alabama_beer_trail/model/on_tap_beer.dart';
 
 class TestDataTaps {
   static List<OnTapBeer> getTaps(String placeId) {

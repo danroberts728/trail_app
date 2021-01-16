@@ -6,7 +6,7 @@ import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/util/event_filter.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/widgets/dropdown_event_filter.dart';
-import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/model/trail_event.dart';
 import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';

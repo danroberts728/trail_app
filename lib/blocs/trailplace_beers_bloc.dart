@@ -2,7 +2,7 @@
 import 'dart:async';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/data/beer.dart';
+import 'package:alabama_beer_trail/model/beer.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 
 /// BLoC for a TrailPlaceBeers screen

@@ -1,5 +1,5 @@
 import 'package:alabama_beer_trail/blocs/app_drawer_stats_bloc.dart';
-import 'package:alabama_beer_trail/data/check_in.dart';
+import 'package:alabama_beer_trail/model/check_in.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';

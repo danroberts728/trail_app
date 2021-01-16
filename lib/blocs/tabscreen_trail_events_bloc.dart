@@ -7,7 +7,7 @@ import 'package:alabama_beer_trail/util/event_filter.dart';
 import 'package:alabama_beer_trail/util/geo_methods.dart';
 import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_event.dart';
+import 'package:alabama_beer_trail/model/trail_event.dart';
 
 /// BLoC for the Trail Events Tab screen
 class TabScreenTrailEventsBloc extends Bloc {
@@ -32,7 +32,9 @@ class TabScreenTrailEventsBloc extends Bloc {
   /// [filter] is required for this to work properly
   TabScreenTrailEventsBloc(
       TrailDatabase db, EventFilter filter, LocationService locationService)
-      : assert(db != null && filter != null && locationService != null) {
+      : assert(db != null),
+        assert(filter != null),
+        assert(locationService != null) {
     _db = db;
     _filter = filter;
     _location = locationService;
@@ -40,7 +42,7 @@ class TabScreenTrailEventsBloc extends Bloc {
     _eventsSubscription = _db.eventsStream.listen(_onEventsUpdate);
     _locationSubscription = _location.locationStream.listen(_onLocationUpdate);
     _eventFilterServiceSubscription = filter.stream.listen(_onFilterUpdate);
-    
+
     lastLocation = _location.lastLocation;
     filteredTrailEvents = _getFilteredEvents();
   }
