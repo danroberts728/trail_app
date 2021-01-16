@@ -11,7 +11,10 @@ import 'package:alabama_beer_trail/util/open_hours_methods.dart';
 class PlaceFilter {
   /// The filter criteria
   PlaceFilterCriteria filterCriteria = PlaceFilterCriteria(
-      sort: SortOrder.DISTANCE, hoursOption: HoursOption.ALL);
+      sort: LocationService().lastLocation != null
+          ? SortOrder.DISTANCE
+          : SortOrder.ALPHABETICAL,
+      hoursOption: HoursOption.ALL);
   LocationService _locationService = LocationService();
 
   final StreamController<PlaceFilterCriteria> _controller =
@@ -22,7 +25,7 @@ class PlaceFilter {
   void updateSort(SortOrder sortOrder) {
     if (sortOrder == SortOrder.DISTANCE &&
         _locationService.lastLocation == null) {
-      _locationService.refreshLocation().then((value) {
+        _locationService.refreshLocation().then((value) {
         filterCriteria.sort =
             value == null ? SortOrder.ALPHABETICAL : SortOrder.DISTANCE;
       });
@@ -39,7 +42,7 @@ class PlaceFilter {
   }
 
   /// Applies the filter to the list of [allPlaces]
-  /// Returns a list sorted and filtered accroding to the 
+  /// Returns a list sorted and filtered accroding to the
   /// filter criteria
   List<TrailPlace> applyFilter(
       {List<TrailPlace> allPlaces,

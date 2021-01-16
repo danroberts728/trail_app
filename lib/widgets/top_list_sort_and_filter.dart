@@ -1,5 +1,7 @@
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/place_filter.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
 import 'package:flutter/material.dart';
 
 class TopListSortAndFilter extends StatefulWidget {
@@ -15,7 +17,8 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
-      child: Wrap(  // Keeping this here so it's extensible
+      child: Wrap(
+        // Keeping this here so it's extensible
         alignment: WrapAlignment.start,
         direction: Axis.horizontal,
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -40,8 +43,21 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
                   color: Colors.black54,
                 ),
                 value: widget.filter.filterCriteria.sort,
-                onChanged: (value) => widget.filter.updateSort(value),
-                items: [                  
+                onChanged: (value) {
+                  widget.filter.updateSort(value);
+                  Future.delayed(Duration(seconds: 2), () {
+                    if (value == SortOrder.DISTANCE &&
+                        LocationService().lastLocation == null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => LocationOffDialog(
+                            message:
+                                "You must allow location permissions to sort by distance"),
+                      );
+                    }
+                  });
+                },
+                items: [
                   DropdownMenuItem(
                     child: Text("Alphabetical "),
                     value: SortOrder.ALPHABETICAL,
@@ -54,7 +70,9 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
               ),
             ),
           ),
-          SizedBox(width: 4.0,),
+          SizedBox(
+            width: 4.0,
+          ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 4.0),
             child: Container(
@@ -76,11 +94,9 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
                 ),
                 value: widget.filter.filterCriteria.hoursOption,
                 onChanged: (value) => widget.filter.updateHoursOption(value),
-                items: [                  
+                items: [
                   DropdownMenuItem(
-                    child: Text("Any Hours "),
-                    value: HoursOption.ALL
-                  ),
+                      child: Text("Any Hours "), value: HoursOption.ALL),
                   DropdownMenuItem(
                     child: Text("Open Now "),
                     value: HoursOption.OPEN_NOW,

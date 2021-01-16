@@ -152,22 +152,28 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
                                             size: 18.0,
                                           ),
                                           SizedBox(width: 4.0),
+                                          // City
                                           Text(
-                                            this
-                                                            ._locationService
-                                                            .lastLocation !=
-                                                        null &&
-                                                    this.place.city != null
-                                                ? this.place.city +
-                                                    " " +
-                                                    GeoMethods
-                                                        .toFriendlyDistanceString(
-                                                            this._distance) +
-                                                    " mi"
-                                                : this.place.city ?? "",
+                                            place.city + " ",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 14.0),
+                                          ),
+
+                                          /// Show distance if location available
+                                          Visibility(
+                                            visible:
+                                                _locationService.lastLocation !=
+                                                    null,
+                                            child: Text(
+                                              GeoMethods
+                                                      .toFriendlyDistanceString(
+                                                          _distance) +
+                                                  " mi",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14.0),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -190,9 +196,6 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
                     child: CheckinButton(
                       bloc: ButtonCheckInBloc(TrailDatabase()),
                       showAlways: false,
-                      canCheckin: this._distance != null &&
-                          this._distance <=
-                              TrailAppSettings.minDistanceToCheckin,
                       place: this.place,
                     ),
                   ),

@@ -1,5 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
+import 'dart:math';
 
 import 'package:alabama_beer_trail/blocs/bloc.dart';
 import 'package:alabama_beer_trail/model/check_in.dart';
@@ -7,6 +8,9 @@ import 'package:alabama_beer_trail/data/trail_database.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/data/trail_trophy.dart';
 import 'package:alabama_beer_trail/data/user_data.dart';
+import 'package:alabama_beer_trail/util/geo_methods.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
 /// A BLoC for ButtonCheckIn objects
 class ButtonCheckInBloc extends Bloc {
@@ -100,6 +104,14 @@ class ButtonCheckInBloc extends Bloc {
     return completer.future;
   }
 
+  bool isLocationOn() {
+    return LocationService().lastLocation != null;
+  }
+
+  bool isCloseEnoughToCheckIn(Point placeLocation) {
+    return _getDistance(placeLocation) <= TrailAppSettings.minDistanceToCheckin;
+  }
+
   /// Callback when the check in subscription gets
   /// new data
   void _onCheckInsUpdate(List<CheckIn> event) {
@@ -133,5 +145,14 @@ class ButtonCheckInBloc extends Bloc {
     _placeSubscription.cancel();
     _userDataSubscription.cancel();
     _streamController.close();
+  }
+
+  double _getDistance(Point placeLocation) {
+    if (LocationService().lastLocation != null) {
+      return GeoMethods.calculateDistance(
+          LocationService().lastLocation, placeLocation);
+    } else {
+      return double.infinity;
+    }
   }
 }

@@ -30,7 +30,7 @@ class GeoMethods {
 
   static String toFriendlyDistanceString(double d) {
     // In checkin distance, show 0
-    if (d == null) {
+    if (d == null || d == double.nan || d == double.infinity || d == double.negativeInfinity) {
       return '';
     }
     if (d < TrailAppSettings.minDistanceToCheckin) 

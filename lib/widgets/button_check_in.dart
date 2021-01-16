@@ -4,12 +4,12 @@ import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_new_badge.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
 import 'package:alabama_beer_trail/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CheckinButton extends StatefulWidget {
-  final bool canCheckin;
   final TrailPlace place;
   final bool showAlways;
   final ButtonCheckInBloc bloc;
@@ -17,7 +17,6 @@ class CheckinButton extends StatefulWidget {
   CheckinButton({
     @required this.bloc,
     @required this.place,
-    this.canCheckin = false,
     this.showAlways = false,
   })  : assert(bloc != null),
         assert(place != null);
@@ -39,7 +38,7 @@ class _CheckinButton extends State<CheckinButton> {
   Widget build(BuildContext context) {
     return Visibility(
       // Check in button
-      visible: widget.canCheckin || widget.showAlways,
+      visible: _bloc.isCloseEnoughToCheckIn(widget.place.location) || widget.showAlways,
       child: StreamBuilder(
         stream: _bloc.stream,
         initialData: _bloc.checkIns,
@@ -96,51 +95,30 @@ class _CheckinButton extends State<CheckinButton> {
                             message: "You must be signed in to check in.",
                           ),
                         );
-                      } else if (!widget.canCheckin) {
+                      } else if (!_bloc.isLocationOn()) {
                         showDialog(
                           context: context,
-                          builder: (context) => Dialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)),
-                            child: Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          "You are not close enough to check in to " +
-                                              widget.place.name,
-                                          style: TextStyle(),
-                                          maxLines: 10,
-                                          overflow: TextOverflow.visible,
-                                        ),
-                                        FlatButton(
-                                          child: Text(
-                                            "Dismiss",
-                                            style: TextStyle(
-                                              color: TrailAppSettings
-                                                  .actionLinksColor,
-                                            ),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          builder: (context) => LocationOffDialog(
+                            message: "You must allow location permissions to check in to " +
+                                  widget.place.name,
                           ),
+                        );
+                      } else if (!_bloc.isCloseEnoughToCheckIn(widget.place.location)) {
+                        _showCheckInButtonDialog(
+                          context: context,
+                          message: "You are not close enough to check in to " +
+                              widget.place.name,
+                          actions: [
+                            FlatButton(
+                              child: Text(
+                                "Dismiss",
+                                style: TextStyle(
+                                  color: TrailAppSettings.actionLinksColor,
+                                ),
+                              ),
+                              onPressed: () => Navigator.of(context).pop(),
+                            )
+                          ],
                         );
                       } else {
                         // Check In
@@ -148,13 +126,14 @@ class _CheckinButton extends State<CheckinButton> {
                           (newTrophies) {
                             if (newTrophies.isNotEmpty) {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      settings:
-                                          RouteSettings(name: '/newbadges'),
-                                      builder: (context) => ScreenNewBadges(
-                                            newTrophies: newTrophies,
-                                          )));
+                                context,
+                                MaterialPageRoute(
+                                  settings: RouteSettings(name: '/newbadges'),
+                                  builder: (context) => ScreenNewBadges(
+                                    newTrophies: newTrophies,
+                                  ),
+                                ),
+                              );
                             }
                           },
                         );
@@ -163,6 +142,39 @@ class _CheckinButton extends State<CheckinButton> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Future<Dialog> _showCheckInButtonDialog(
+      {@required BuildContext context,
+      @required String message,
+      List<FlatButton> actions}) {
+    return showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                message,
+                style: TextStyle(),
+                maxLines: 10,
+                overflow: TextOverflow.visible,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: actions,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
