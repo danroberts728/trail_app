@@ -1,0 +1,20 @@
+Profile
+Edit Profile
+About
+Forgot Password
+New Badge
+Passport
+Privacy Policy
+Register
+Sign In
+Trail Event Detail
+Trail Place Detail
+Trail Trophy Detail
+Trail News Detail
+Trail Places (From Stats in Drawer)
+Badges Tab Screen
+Events Tab Screen
+News Tab Screen
+Trail List Tab Screen
+Tab Map Tab Screen
+Trail Tab Screen

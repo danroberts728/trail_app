@@ -47,6 +47,7 @@ class _CheckinButton extends State<CheckinButton> {
           bool isStamped = _bloc.isStamped(widget.place.id);
           return Container(
             child: RaisedButton(
+              key: ValueKey("${widget.place.id}-checkin-key"),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4.0),
                 side: BorderSide(
