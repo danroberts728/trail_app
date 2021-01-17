@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 
 class LocationOffDialog extends StatelessWidget {
   final String message;
-  final List<FlatButton> actions;
+  final LocationService locationService;
 
-  const LocationOffDialog({Key key, this.message, this.actions})
-      : super(key: key);
+  const LocationOffDialog({
+    Key key,
+    @required this.locationService,
+    @required this.message,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +41,13 @@ class LocationOffDialog extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    LocationService().refreshLocation().then((location) {
+                    locationService.refreshLocation().then((location) {
                       if (location == null) {
                         showDialog(
                           context: context,
                           builder: (context) {
                             return Dialog(
+                              key: ValueKey('unable-to-allow-location-dialog'),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0)),
                               child: Padding(

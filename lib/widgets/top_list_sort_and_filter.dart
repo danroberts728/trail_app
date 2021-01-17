@@ -51,6 +51,7 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
                       showDialog(
                         context: context,
                         builder: (context) => LocationOffDialog(
+                            locationService: LocationService(),
                             message:
                                 "You must allow location permissions to sort by distance"),
                       );

@@ -3,6 +3,7 @@ import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
 import 'package:alabama_beer_trail/data/trail_place.dart';
 import 'package:alabama_beer_trail/screens/screen_new_badge.dart';
 import 'package:alabama_beer_trail/util/appauth.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
 import 'package:alabama_beer_trail/widgets/must_check_in_dialog.dart';
@@ -12,14 +13,17 @@ import 'package:flutter/widgets.dart';
 class CheckinButton extends StatefulWidget {
   final TrailPlace place;
   final bool showAlways;
+  final AppAuth appAuth;
   final ButtonCheckInBloc bloc;
 
   CheckinButton({
     @required this.bloc,
     @required this.place,
+    @required this.appAuth,
     this.showAlways = false,
   })  : assert(bloc != null),
-        assert(place != null);
+        assert(place != null),
+        assert(appAuth != null);
 
   @override
   State<StatefulWidget> createState() => _CheckinButton();
@@ -89,7 +93,7 @@ class _CheckinButton extends State<CheckinButton> {
               onPressed: isCheckedIn
                   ? null
                   : () {
-                      if (AppAuth().user == null) {
+                      if (widget.appAuth.user == null) {
                         showDialog(
                           context: context,
                           builder: (context) => MustCheckInDialog(
@@ -100,6 +104,7 @@ class _CheckinButton extends State<CheckinButton> {
                         showDialog(
                           context: context,
                           builder: (context) => LocationOffDialog(
+                            locationService: LocationService(),
                             message: "You must allow location permissions to check in to " +
                                   widget.place.name,
                           ),
