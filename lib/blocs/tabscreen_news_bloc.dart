@@ -26,7 +26,7 @@ class TabScreenNewsBloc extends Bloc {
         _trailNewsController.add(newNews.items);
       },
     ).timeout(Duration(seconds: 115), onTimeout: () {
-      _trailNewsController.addError("Unable to get news");
+      _trailNewsController.addError("We're having a hard time getting the news. It may be a problem with the Internet connection.");
     });
     return Future.value();
   }

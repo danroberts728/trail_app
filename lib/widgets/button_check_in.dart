@@ -97,7 +97,7 @@ class _CheckinButton extends State<CheckinButton> {
                         showDialog(
                           context: context,
                           builder: (context) => MustCheckInDialog(
-                            message: "You must be signed in to check in.",
+                            message: "It looks like you aren't signed in. Please sign in to check in.",
                           ),
                         );
                       } else if (!_bloc.isLocationOn()) {
@@ -105,15 +105,13 @@ class _CheckinButton extends State<CheckinButton> {
                           context: context,
                           builder: (context) => LocationOffDialog(
                             locationService: LocationService(),
-                            message: "You must allow location permissions to check in to " +
-                                  widget.place.name,
+                            message: "It looks like we can't access your location. Please turn on location to check in to ${widget.place.name}",
                           ),
                         );
                       } else if (!_bloc.isCloseEnoughToCheckIn(widget.place.location)) {
                         _showCheckInButtonDialog(
                           context: context,
-                          message: "You are not close enough to check in to " +
-                              widget.place.name,
+                          message: "It looks like you're not at ${widget.place.name} yet. Please try again when you get closer.",
                           actions: [
                             FlatButton(
                               child: Text(

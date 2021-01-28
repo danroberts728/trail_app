@@ -33,7 +33,7 @@ class FirebaseHelper {
       var d = snapshot.data();
       var beer = Beer(
         abv: d['beer_abv'] + 0.0 ?? 0.0,
-        description: d['be er_description'] ?? "",
+        description: d['beer_description'] ?? "",
         ibu: d['beer_ibu'] ?? 0,
         labelUrl: d['beer_label'] ?? "",
         name: d['beer_name'] ?? "",

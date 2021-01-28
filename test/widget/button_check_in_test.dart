@@ -301,7 +301,7 @@ void main() {
       await tester.tap(theButton);
       await tester.pumpAndSettle();
       final theDialog =
-          find.text("You are not close enough to check in to Mock Brewing Co");
+          find.text("It looks like you're not at Mock Brewing Co yet. Please try again when you get closer.");
       expect(theDialog, findsOneWidget);
     });
 
