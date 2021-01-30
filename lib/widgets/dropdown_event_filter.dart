@@ -1,6 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/util/event_filter.dart';
+import 'package:alabama_beer_trail/util/location_service.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
 import 'package:flutter/material.dart';
 
 /// A dropdown filter widget for events
@@ -18,13 +20,15 @@ class DropDownEventFilter extends StatefulWidget {
 /// State for DropDownEventFilter
 class _DropDownEventFilter extends State<DropDownEventFilter> {
   /// Filter distance selection options
-  final List<double> _options = TrailAppSettings.eventFilterDistances..add(double.infinity);
+  final List<double> _options = TrailAppSettings.eventFilterDistances
+    ..add(double.infinity);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
-      child: Wrap(  // Keeping this here so it's extensible
+      child: Wrap(
+        // Keeping this here so it's extensible
         alignment: WrapAlignment.start,
         direction: Axis.horizontal,
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -49,21 +53,33 @@ class _DropDownEventFilter extends State<DropDownEventFilter> {
                   color: Colors.black54,
                 ),
                 value: widget.filter.distance,
-                onChanged: (value) => widget.filter.updateFilter(distance: value),
+                onChanged: (value) {
+                  widget.filter.updateFilter(distance: value);
+                  if (value < double.infinity &&
+                      LocationService().lastLocation == null) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => LocationOffDialog(
+                        locationService: LocationService(),
+                        message:
+                            "It looks like we can't access your location in order to filter nearby events. Please turn on location.",
+                      ),
+                    );
+                  }
+                },
                 items: _options.map((double d) {
-                    return DropdownMenuItem(
-                      child: d == double.infinity
+                  return DropdownMenuItem(
+                    child: d == double.infinity
                         ? Text("Any miles ")
                         : Text("${d.toStringAsFixed(0)} miles "),
-                      value: d,
-                    );
-                  }).toList(),
-                selectedItemBuilder: (context) => 
-                  _options.map((d) {
-                    return d == double.infinity
+                    value: d,
+                  );
+                }).toList(),
+                selectedItemBuilder: (context) => _options.map((d) {
+                  return d == double.infinity
                       ? Text("All events ")
                       : Text("Events within ${d.toStringAsFixed(0)} miles ");
-                  }).toList(),
+                }).toList(),
               ),
             ),
           ),

@@ -29,8 +29,8 @@ class LocationOffDialog extends StatelessWidget {
               maxLines: 10,
               overflow: TextOverflow.visible,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Wrap(
+              alignment: WrapAlignment.end,
               children: [
                 FlatButton(
                   child: Text(
