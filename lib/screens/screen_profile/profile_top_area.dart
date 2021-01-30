@@ -134,7 +134,7 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                         ),
                         // Profile Photo
                         Positioned(
-                          top: profileImageHeight - 40,
+                          top: profileImageHeight - 43,
                           left: 16.0,
                           child: ProfileUserPhoto(
                             userData.profilePhotoUrl,

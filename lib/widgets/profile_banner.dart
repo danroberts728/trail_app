@@ -185,16 +185,15 @@ class _ProfileBanner extends State<ProfileBanner> {
         backgroundColor: TrailAppSettings.second.withAlpha(125),
         child: Icon(Icons.add_a_photo),
         onPressed: () {
-          PermissionHandler()
-              .checkPermissionStatus(PermissionGroup.camera)
-              .then((status) {
+          Permission.camera.status.then((status) {
             if (status == PermissionStatus.granted) {
               this.showBottomModalSelector();
             } else {
-              PermissionHandler()
-                  .requestPermissions([PermissionGroup.camera]).then((status) {
+              Permission.camera.request().then((status) {
                 print(status);
-                this.showBottomModalSelector();
+                if (status == PermissionStatus.granted) {
+                  showBottomModalSelector();
+                }
               });
             }
           });

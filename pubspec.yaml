@@ -2,7 +2,7 @@ name: alabama_beer_trail
 description: The Alabama Beer Trail. See nearby craft beer destinations and find nearby events.
 author: Dan Roberts <droberts@alabamabrewers.org>
 
-version: 1.4.0+18
+version: 1.4.1+19
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
@@ -36,8 +36,8 @@ dependencies:
   image_cropper: ^1.3.1
   image_picker: ^0.6.7+10
   intl: ^0.16.1
-  location: ^3.0.2
-  permission_handler: ^3.2.2
+  location: ^3.2.4
+  permission_handler: ^5.0.1+1
   timeago: ^2.0.29
   url_launcher: ^5.4.11
   webfeed: ^0.6.0
@@ -55,11 +55,8 @@ flutter:
 
   assets:
     - assets/images/defaultprofilephoto.png
-    - assets/images/fth_black.png    
     - assets/images/fthglasses.jpg
-    - assets/images/guild_logo_square.png
     - assets/images/guild_logo_square_color.png
-    - assets/images/guild_logo_state.png
     - assets/images/newsfeed_empty_image.jpg
     - assets/images/signin_bkg.jpg
     - assets/images/stamp_outline.png

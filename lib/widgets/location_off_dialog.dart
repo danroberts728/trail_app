@@ -58,7 +58,7 @@ class LocationOffDialog extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                        "Unable to allow location. This usually means location permission was denied forever. Open app settings on device to change."),
+                                        "Unable to allow location. This usually means location permission was permanently denied. Open app settings on device to change."),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [

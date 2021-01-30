@@ -38,8 +38,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
   final double _maxHeight = 400.0;
   final int _imageQuality = 75;
 
-  _ProfileUserPhoto(
-      this.imageUrl);
+  _ProfileUserPhoto(this.imageUrl);
 
   @override
   void initState() {
@@ -71,7 +70,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
             errorWidget: (context, url, error) => Icon(Icons.error))
         : Container(
             width: widget.width,
-                height: widget.height,
+            height: widget.height,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 3.0),
@@ -186,15 +185,15 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
             Icons.add_a_photo,
           ),
           onPressed: () {
-            PermissionHandler()
-                .checkPermissionStatus(PermissionGroup.camera)
-                .then((status) {
+            Permission.camera.status.then((status) {
               if (status == PermissionStatus.granted) {
                 this.showBottomModalSelector();
               } else {
-                PermissionHandler().requestPermissions(
-                    [PermissionGroup.camera]).then((status) {
-                  this.showBottomModalSelector();
+                Permission.camera.request().then((status) {
+                  print(status);
+                  if (status == PermissionStatus.granted) {
+                    showBottomModalSelector();
+                  }
                 });
               }
             });

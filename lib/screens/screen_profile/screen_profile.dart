@@ -2,7 +2,7 @@
 import 'package:alabama_beer_trail/screens/screen_passport.dart';
 import 'package:alabama_beer_trail/screens/screen_profile/profile_earned_achievements.dart';
 import 'package:alabama_beer_trail/screens/screen_profile/profile_favorites.dart';
-import 'package:alabama_beer_trail/screens/screen_profile/proflie_top_area.dart';
+import 'package:alabama_beer_trail/screens/screen_profile/profile_top_area.dart';
 import 'package:alabama_beer_trail/screens/screen_profile/screen_full_activity_log.dart';
 import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 
