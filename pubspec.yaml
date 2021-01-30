@@ -2,7 +2,7 @@ name: alabama_beer_trail
 description: The Alabama Beer Trail. See nearby craft beer destinations and find nearby events.
 author: Dan Roberts <droberts@alabamabrewers.org>
 
-version: 1.4.1+19
+version: 2.0.0+20
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
