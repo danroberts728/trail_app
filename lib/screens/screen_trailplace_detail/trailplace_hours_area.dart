@@ -93,7 +93,8 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
           },
           body: Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: widget.iconSize + 4.0, vertical: 0),
+            padding: EdgeInsets.symmetric(
+                horizontal: widget.iconSize + 4.0, vertical: 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -110,7 +111,7 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
                     Text(
                       key[0].toUpperCase() + key.substring(1) + ": ",
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         height: 1.5,
                         fontWeight: key == _nowDay
                             ? FontWeight.bold
@@ -122,7 +123,7 @@ class _TrailPlaceHoursArea extends State<TrailPlaceHoursArea> {
                     Text(
                       widget.place.hours[key],
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         height: 1.5,
                         fontWeight: key == _nowDay
                             ? FontWeight.bold
