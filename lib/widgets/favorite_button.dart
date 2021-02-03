@@ -1,7 +1,7 @@
-import 'package:alabama_beer_trail/blocs/favorite_button_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/widgets/must_check_in_dialog.dart';
+import 'package:beer_trail_app/blocs/favorite_button_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteButton extends StatefulWidget {

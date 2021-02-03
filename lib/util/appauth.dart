@@ -2,8 +2,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:alabama_beer_trail/model/app_user.dart';
-import 'package:alabama_beer_trail/data/firebase_helper.dart';
+import 'package:beer_trail_app/model/app_user.dart';
+import 'package:beer_trail_app/data/firebase_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:apple_sign_in/apple_sign_in.dart';

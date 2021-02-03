@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/widgets/location_off_dialog.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

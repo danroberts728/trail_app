@@ -1,6 +1,6 @@
-import 'package:alabama_beer_trail/data/trail_news_post.dart';
-import 'package:alabama_beer_trail/screens/screen_trailnews_post.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/data/trail_news_post.dart';
+import 'package:beer_trail_app/screens/screen_trailnews_post.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:webfeed/domain/rss_item.dart';

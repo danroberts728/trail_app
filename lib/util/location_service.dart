@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:location/location.dart';
 
 class LocationService {

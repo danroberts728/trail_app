@@ -1,17 +1,17 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/user_data.dart';
-import 'package:alabama_beer_trail/screens/screen_about.dart';
-import 'package:alabama_beer_trail/screens/screen_privacy_policy.dart';
-import 'package:alabama_beer_trail/screens/screen_profile/screen_profile.dart';
-import 'package:alabama_beer_trail/screens/screen_sign_in.dart';
-import 'package:alabama_beer_trail/screens/screen_passport.dart';
-import 'package:alabama_beer_trail/util/app_launcher.dart';
-import 'package:alabama_beer_trail/util/appauth.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/app_drawer_menu_item.dart';
-import 'package:alabama_beer_trail/widgets/app_drawer_stats.dart';
-import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/data/user_data.dart';
+import 'package:beer_trail_app/screens/screen_about.dart';
+import 'package:beer_trail_app/screens/screen_privacy_policy.dart';
+import 'package:beer_trail_app/screens/screen_profile/screen_profile.dart';
+import 'package:beer_trail_app/screens/screen_sign_in.dart';
+import 'package:beer_trail_app/screens/screen_passport.dart';
+import 'package:beer_trail_app/util/app_launcher.dart';
+import 'package:beer_trail_app/util/appauth.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/app_drawer_menu_item.dart';
+import 'package:beer_trail_app/widgets/app_drawer_stats.dart';
+import 'package:beer_trail_app/widgets/profile_user_photo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

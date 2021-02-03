@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/data/user_data.dart';
+import 'package:beer_trail_app/data/user_data.dart';
 
 /// To use:
 /// import '../test_data/test_data_user_data.dart' as testDataUserData;

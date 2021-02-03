@@ -1,14 +1,14 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/blocs/screen_trailtrophy_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_trophy.dart';
-import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/completed_trophy.dart';
-import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_any_of_places.dart';
-import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_exact_unique_checkins.dart';
-import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_pct_unique_of_total.dart';
-import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_total_checkins_any_place.dart';
-import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/progress_total_unique_checkins.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/blocs/screen_trailtrophy_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/data/trail_trophy.dart';
+import 'package:beer_trail_app/screens/screen_trailtrophy_detail/completed_trophy.dart';
+import 'package:beer_trail_app/screens/screen_trailtrophy_detail/progress_any_of_places.dart';
+import 'package:beer_trail_app/screens/screen_trailtrophy_detail/progress_exact_unique_checkins.dart';
+import 'package:beer_trail_app/screens/screen_trailtrophy_detail/progress_pct_unique_of_total.dart';
+import 'package:beer_trail_app/screens/screen_trailtrophy_detail/progress_total_checkins_any_place.dart';
+import 'package:beer_trail_app/screens/screen_trailtrophy_detail/progress_total_unique_checkins.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

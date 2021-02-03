@@ -1,9 +1,9 @@
 // Copyright (c) 2021, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/model/check_in.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
+import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/model/check_in.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
 
 /// BLoC for the Trail Place Card
 class TrailPlaceCardBloc extends Bloc {

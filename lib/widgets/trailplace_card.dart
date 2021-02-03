@@ -2,18 +2,18 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
-import 'package:alabama_beer_trail/blocs/trailplace_card_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/util/appauth.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:alabama_beer_trail/util/geo_methods.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/button_check_in.dart';
-import 'package:alabama_beer_trail/widgets/stamped_place_icon.dart';
-import 'package:alabama_beer_trail/widgets/trailplace_action_button_widget.dart';
-import 'package:alabama_beer_trail/widgets/trailplace_header.dart';
+import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
+import 'package:beer_trail_app/blocs/trailplace_card_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/util/appauth.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
+import 'package:beer_trail_app/util/geo_methods.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/button_check_in.dart';
+import 'package:beer_trail_app/widgets/stamped_place_icon.dart';
+import 'package:beer_trail_app/widgets/trailplace_action_button_widget.dart';
+import 'package:beer_trail_app/widgets/trailplace_header.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

@@ -2,10 +2,10 @@
 import 'dart:io';
 import 'dart:async';
 
-import 'package:alabama_beer_trail/screens/screen_forgot_password.dart';
-import 'package:alabama_beer_trail/screens/screen_register.dart';
-import 'package:alabama_beer_trail/util/appauth.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/screens/screen_forgot_password.dart';
+import 'package:beer_trail_app/screens/screen_register.dart';
+import 'package:beer_trail_app/util/appauth.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 

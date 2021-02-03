@@ -1,8 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:math';
 
-import 'package:alabama_beer_trail/util/geo_methods.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/util/geo_methods.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
 import 'package:test/test.dart';
 

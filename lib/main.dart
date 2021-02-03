@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';

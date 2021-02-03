@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/blocs/trailplace_card_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
+import 'package:beer_trail_app/blocs/trailplace_card_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;

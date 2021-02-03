@@ -1,8 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/util/event_filter.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
+import 'package:beer_trail_app/util/event_filter.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/location_off_dialog.dart';
 import 'package:flutter/material.dart';
 
 /// A dropdown filter widget for events

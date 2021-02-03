@@ -1,8 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:math';
 
-import 'package:alabama_beer_trail/model/beer.dart';
-import 'package:alabama_beer_trail/model/on_tap_beer.dart';
+import 'package:beer_trail_app/model/beer.dart';
+import 'package:beer_trail_app/model/on_tap_beer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

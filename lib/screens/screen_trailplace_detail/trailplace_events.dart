@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/model/trail_event.dart';
-import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
+import 'package:beer_trail_app/model/trail_event.dart';
+import 'package:beer_trail_app/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
 /// UI element for a list of events at a trail place

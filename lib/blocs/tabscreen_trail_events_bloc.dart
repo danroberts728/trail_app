@@ -2,12 +2,12 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/util/event_filter.dart';
-import 'package:alabama_beer_trail/util/geo_methods.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/model/trail_event.dart';
+import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/util/event_filter.dart';
+import 'package:beer_trail_app/util/geo_methods.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/model/trail_event.dart';
 
 /// BLoC for the Trail Events Tab screen
 class TabScreenTrailEventsBloc extends Bloc {

@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/model/trail_event.dart';
+import 'package:beer_trail_app/model/trail_event.dart';
 import 'package:flutter/material.dart';
 
 /// Note: DateTime.now is notoriously impossible to mock. See https://github.com/dart-lang/sdk/issues/28985

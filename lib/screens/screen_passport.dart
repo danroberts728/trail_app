@@ -1,5 +1,5 @@
 // Copyright (c) 2021, Fermented Software.
-import 'package:alabama_beer_trail/widgets/trail_passport.dart';
+import 'package:beer_trail_app/widgets/trail_passport.dart';
 import 'package:flutter/material.dart';
 
 /// The passport screen

@@ -1,5 +1,5 @@
-import 'package:alabama_beer_trail/blocs/trophy_progress_checkins_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_trophy_total_checkins_any_place.dart';
+import 'package:beer_trail_app/blocs/trophy_progress_checkins_bloc.dart';
+import 'package:beer_trail_app/data/trail_trophy_total_checkins_any_place.dart';
 import 'package:flutter/material.dart';
 
 class TrailTrophyProgressTotalCheckinsAnyPlace extends StatelessWidget {

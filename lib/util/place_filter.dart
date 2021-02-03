@@ -1,10 +1,10 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
-import 'package:alabama_beer_trail/model/check_in.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/util/geo_methods.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/util/open_hours_methods.dart';
+import 'package:beer_trail_app/model/check_in.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/util/geo_methods.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/util/open_hours_methods.dart';
 
 /// A place filter with filter criteria and methods for sorting
 /// and filtering a list of places to match the criteria

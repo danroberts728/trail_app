@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/model/beer.dart';
+import 'package:beer_trail_app/model/beer.dart';
 
 class TestDataAllBeers {
   static List<Beer> getPopularBeers(String placeId) {

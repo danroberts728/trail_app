@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/widgets/trail_activity_log.dart';
+import 'package:beer_trail_app/widgets/trail_activity_log.dart';
 import 'package:flutter/material.dart';
 
 /// A full-screen activity log

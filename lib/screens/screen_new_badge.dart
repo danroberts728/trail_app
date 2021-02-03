@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/data/trail_trophy.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/data/trail_trophy.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';

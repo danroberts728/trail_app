@@ -1,10 +1,10 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/data/firebase_helper.dart';
-import 'package:alabama_beer_trail/model/trail_event.dart';
+import 'package:beer_trail_app/data/firebase_helper.dart';
+import 'package:beer_trail_app/model/trail_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:alabama_beer_trail/blocs/bloc.dart';
+import 'package:beer_trail_app/blocs/bloc.dart';
 
 /// The BLoC for SingleTrailEvent objects
 class SingleTrailEventBloc extends Bloc {

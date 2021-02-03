@@ -1,5 +1,5 @@
-import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/util/open_hours_methods.dart';
+import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/util/open_hours_methods.dart';
 
 class TrailPlaceHoursAreaBloc extends Bloc {
   bool isOpenNow(List<Map<String,dynamic>> hours) {

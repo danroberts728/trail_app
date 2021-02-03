@@ -1,8 +1,8 @@
-import 'package:alabama_beer_trail/blocs/screen_edit_profile_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/profile_user_photo.dart';
-import 'package:alabama_beer_trail/widgets/profile_banner.dart';
+import 'package:beer_trail_app/blocs/screen_edit_profile_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/profile_user_photo.dart';
+import 'package:beer_trail_app/widgets/profile_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';

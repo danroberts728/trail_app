@@ -1,13 +1,13 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 import 'dart:math';
-import 'package:alabama_beer_trail/util/location_service.dart';
+import 'package:beer_trail_app/util/location_service.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
 import 'package:test/test.dart';
 
-import 'package:alabama_beer_trail/util/event_filter.dart';
+import 'package:beer_trail_app/util/event_filter.dart';
 
 class LocationServiceMock extends Mock implements LocationService {}
 

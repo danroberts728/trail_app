@@ -1,7 +1,7 @@
-import 'package:alabama_beer_trail/blocs/trophy_progress_checkins_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_trophy_exact_unique_checkins.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:alabama_beer_trail/screens/screen_trailtrophy_detail/trophy_place_item.dart';
+import 'package:beer_trail_app/blocs/trophy_progress_checkins_bloc.dart';
+import 'package:beer_trail_app/data/trail_trophy_exact_unique_checkins.dart';
+import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
+import 'package:beer_trail_app/screens/screen_trailtrophy_detail/trophy_place_item.dart';
 import 'package:flutter/material.dart';
 
 class TrailTrophyProgressExactUniqueCheckins extends StatelessWidget {

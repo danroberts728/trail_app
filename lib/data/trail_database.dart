@@ -1,16 +1,16 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/model/beer.dart';
-import 'package:alabama_beer_trail/model/check_in.dart';
-import 'package:alabama_beer_trail/data/firebase_helper.dart';
-import 'package:alabama_beer_trail/model/on_tap_beer.dart';
-import 'package:alabama_beer_trail/model/trail_event.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/data/trail_trophy.dart';
-import 'package:alabama_beer_trail/data/user_data.dart';
+import 'package:beer_trail_app/model/beer.dart';
+import 'package:beer_trail_app/model/check_in.dart';
+import 'package:beer_trail_app/data/firebase_helper.dart';
+import 'package:beer_trail_app/model/on_tap_beer.dart';
+import 'package:beer_trail_app/model/trail_event.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/data/trail_trophy.dart';
+import 'package:beer_trail_app/data/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:alabama_beer_trail/util/appauth.dart';
+import 'package:beer_trail_app/util/appauth.dart';
 
 /// An abstraction to reduce the number of calls to
 /// the flutter firestore and to allow easier changing

@@ -1,7 +1,7 @@
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:alabama_beer_trail/widgets/trailplace_list.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
+import 'package:beer_trail_app/widgets/trailplace_list.dart';
 import 'package:flutter/material.dart';
 
 class TrailSearchDelegate extends SearchDelegate {

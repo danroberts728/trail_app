@@ -1,10 +1,10 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:math';
 
-import 'package:alabama_beer_trail/blocs/tabscreen_trail_events_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/util/event_filter.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
+import 'package:beer_trail_app/blocs/tabscreen_trail_events_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/util/event_filter.dart';
+import 'package:beer_trail_app/util/location_service.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;

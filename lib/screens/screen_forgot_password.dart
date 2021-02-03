@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/util/appauth.dart';
+import 'package:beer_trail_app/util/appauth.dart';
 import 'package:flutter/material.dart';
 
 class PasswordResetScreen extends StatefulWidget {

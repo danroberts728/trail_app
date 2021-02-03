@@ -1,10 +1,10 @@
 // Copyright (c) 2021, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_trophy.dart';
-import 'package:alabama_beer_trail/data/user_data.dart';
+import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/data/trail_trophy.dart';
+import 'package:beer_trail_app/data/user_data.dart';
 
 /// The BLoC for Badges tabscreen
 class TabScreenBadgesBloc extends Bloc {

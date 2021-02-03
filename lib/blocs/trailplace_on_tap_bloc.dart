@@ -1,9 +1,9 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/model/on_tap_beer.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
+import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/model/on_tap_beer.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
 
 /// BLoC for a TrailPlaceOnTap screen
 class TrailPlaceOnTapBloc extends Bloc {

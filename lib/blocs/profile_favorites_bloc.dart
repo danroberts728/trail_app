@@ -1,10 +1,10 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/data/user_data.dart';
+import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/data/user_data.dart';
 
 /// The BLoC for the ProfileFaorites screen
 class ProfileFavoritesBloc extends Bloc {

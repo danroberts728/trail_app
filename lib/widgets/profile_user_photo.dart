@@ -1,9 +1,9 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:io';
 
-import 'package:alabama_beer_trail/blocs/profile_user_photo_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/blocs/profile_user_photo_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart';

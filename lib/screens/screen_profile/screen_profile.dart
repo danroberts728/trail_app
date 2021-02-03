@@ -1,13 +1,13 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/screens/screen_passport.dart';
-import 'package:alabama_beer_trail/screens/screen_profile/profile_earned_achievements.dart';
-import 'package:alabama_beer_trail/screens/screen_profile/profile_favorites.dart';
-import 'package:alabama_beer_trail/screens/screen_profile/profile_top_area.dart';
-import 'package:alabama_beer_trail/screens/screen_profile/screen_full_activity_log.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/screens/screen_passport.dart';
+import 'package:beer_trail_app/screens/screen_profile/profile_earned_achievements.dart';
+import 'package:beer_trail_app/screens/screen_profile/profile_favorites.dart';
+import 'package:beer_trail_app/screens/screen_profile/profile_top_area.dart';
+import 'package:beer_trail_app/screens/screen_profile/screen_full_activity_log.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 
-import 'package:alabama_beer_trail/widgets/trail_activity_log.dart';
-import 'package:alabama_beer_trail/widgets/trail_progress_bar.dart';
+import 'package:beer_trail_app/widgets/trail_activity_log.dart';
+import 'package:beer_trail_app/widgets/trail_progress_bar.dart';
 
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,7 @@
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/util/place_filter.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/util/place_filter.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/location_off_dialog.dart';
 import 'package:flutter/material.dart';
 
 class TopListSortAndFilter extends StatefulWidget {

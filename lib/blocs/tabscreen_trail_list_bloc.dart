@@ -2,10 +2,10 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/util/place_filter.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/util/place_filter.dart';
+import 'package:beer_trail_app/util/location_service.dart';
 
 import 'bloc.dart';
 

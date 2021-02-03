@@ -1,8 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/blocs/app_drawer_stats_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplaces.dart';
-import 'package:alabama_beer_trail/widgets/profile_stat.dart';
+import 'package:beer_trail_app/blocs/app_drawer_stats_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/screens/screen_trailplaces.dart';
+import 'package:beer_trail_app/widgets/profile_stat.dart';
 import 'package:flutter/material.dart';
 
 /// The stats for the app's drawer. Includes the # checked in,

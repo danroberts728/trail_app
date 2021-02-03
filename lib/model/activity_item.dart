@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/data/trail_trophy.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/data/trail_trophy.dart';
 
 /// A simple data object representing an
 /// activity

@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/tabscreens/tabscreen_trail_list.dart';
-import 'package:alabama_beer_trail/tabscreens/tabscreen_trail_map.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/tabscreens/tabscreen_trail_list.dart';
+import 'package:beer_trail_app/tabscreens/tabscreen_trail_map.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 /// The tab screen for the Trail

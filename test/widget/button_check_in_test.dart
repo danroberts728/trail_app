@@ -1,14 +1,14 @@
 import 'dart:math';
 
-import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/data/trail_trophy.dart';
-import 'package:alabama_beer_trail/model/app_user.dart';
-import 'package:alabama_beer_trail/model/check_in.dart';
-import 'package:alabama_beer_trail/util/appauth.dart';
-import 'package:alabama_beer_trail/widgets/button_check_in.dart';
-import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
-import 'package:alabama_beer_trail/widgets/must_check_in_dialog.dart';
+import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/data/trail_trophy.dart';
+import 'package:beer_trail_app/model/app_user.dart';
+import 'package:beer_trail_app/model/check_in.dart';
+import 'package:beer_trail_app/util/appauth.dart';
+import 'package:beer_trail_app/widgets/button_check_in.dart';
+import 'package:beer_trail_app/widgets/location_off_dialog.dart';
+import 'package:beer_trail_app/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

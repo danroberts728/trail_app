@@ -1,8 +1,8 @@
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/util/app_launcher.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/favorite_button.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/util/app_launcher.dart';
+import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/favorite_button.dart';
 import 'package:flutter/material.dart';
 
 class TrailPlaceActionButtonWidget extends StatefulWidget {

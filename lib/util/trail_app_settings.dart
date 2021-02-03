@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/model/trail_place_category.dart';
+import 'package:beer_trail_app/model/trail_place_category.dart';
 import 'package:flutter/material.dart';
 
 class TrailAppSettings {

@@ -1,6 +1,6 @@
-import 'package:alabama_beer_trail/blocs/trophy_progress_checkins_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_trophy_pct_unique_of_total.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/blocs/trophy_progress_checkins_bloc.dart';
+import 'package:beer_trail_app/data/trail_trophy_pct_unique_of_total.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 class TrailTrophyProgressPctUniqueOfTotal extends StatelessWidget {

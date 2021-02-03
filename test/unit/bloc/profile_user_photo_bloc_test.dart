@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/blocs/profile_user_photo_bloc.dart';
+import 'package:beer_trail_app/blocs/profile_user_photo_bloc.dart';
 import 'package:test/test.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
 

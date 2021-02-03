@@ -2,11 +2,11 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/blocs/tabscreen_trail_map_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/map_info_card_carousel.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/blocs/tabscreen_trail_map_bloc.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/map_info_card_carousel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

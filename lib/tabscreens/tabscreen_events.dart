@@ -1,14 +1,14 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/tabscreen_trail_events_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/util/event_filter.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/widgets/dropdown_event_filter.dart';
-import 'package:alabama_beer_trail/model/trail_event.dart';
-import 'package:alabama_beer_trail/util/tabselection_service.dart';
-import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
+import 'package:beer_trail_app/blocs/tabscreen_trail_events_bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/util/event_filter.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/widgets/dropdown_event_filter.dart';
+import 'package:beer_trail_app/model/trail_event.dart';
+import 'package:beer_trail_app/util/tabselection_service.dart';
+import 'package:beer_trail_app/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 
 /// The Trail Events tab screen

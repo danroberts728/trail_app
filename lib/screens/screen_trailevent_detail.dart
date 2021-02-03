@@ -1,8 +1,8 @@
-import 'package:alabama_beer_trail/model/trail_event.dart';
+import 'package:beer_trail_app/model/trail_event.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:alabama_beer_trail/util/app_launcher.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/trailevent_card.dart';
+import 'package:beer_trail_app/util/app_launcher.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';

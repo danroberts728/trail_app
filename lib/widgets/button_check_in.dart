@@ -1,12 +1,12 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/blocs/button_check_in_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/screens/screen_new_badge.dart';
-import 'package:alabama_beer_trail/util/appauth.dart';
-import 'package:alabama_beer_trail/util/location_service.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/location_off_dialog.dart';
-import 'package:alabama_beer_trail/widgets/must_check_in_dialog.dart';
+import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/screens/screen_new_badge.dart';
+import 'package:beer_trail_app/util/appauth.dart';
+import 'package:beer_trail_app/util/location_service.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/location_off_dialog.dart';
+import 'package:beer_trail_app/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:math';
 
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:intl/intl.dart';
 
 /// Static methods for geographic calculations

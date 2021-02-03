@@ -6,9 +6,9 @@ import 'dart:math';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
-import 'package:alabama_beer_trail/blocs/bloc.dart';
-import 'package:alabama_beer_trail/data/trail_database.dart';
-import 'package:alabama_beer_trail/data/user_data.dart';
+import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:beer_trail_app/data/user_data.dart';
 
 /// A BLoC for ProfileBanner objects
 class ProfileBannerBloc extends Bloc {

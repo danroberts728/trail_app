@@ -1,8 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/blocs/trailplace_hours_area_bloc.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/util/open_hours_methods.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:beer_trail_app/blocs/trailplace_hours_area_bloc.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/util/open_hours_methods.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 /// List of hours for the trail place screen

@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/util/open_hours_methods.dart';
+import 'package:beer_trail_app/util/open_hours_methods.dart';
 import 'package:test/test.dart';
 
 List<Map<String, dynamic>> testHours = [

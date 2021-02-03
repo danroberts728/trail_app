@@ -1,11 +1,11 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/model/check_in.dart';
-import 'package:alabama_beer_trail/data/trail_place.dart';
-import 'package:alabama_beer_trail/data/trail_trophy_any_of_places.dart';
-import 'package:alabama_beer_trail/data/trail_trophy_exact_unique_checkins.dart';
-import 'package:alabama_beer_trail/data/trail_trophy_pct_unique_of_total.dart';
-import 'package:alabama_beer_trail/data/trail_trophy_total_checkins_any_place.dart';
-import 'package:alabama_beer_trail/data/trail_trophy_total_unique_checkins.dart';
+import 'package:beer_trail_app/model/check_in.dart';
+import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:beer_trail_app/data/trail_trophy_any_of_places.dart';
+import 'package:beer_trail_app/data/trail_trophy_exact_unique_checkins.dart';
+import 'package:beer_trail_app/data/trail_trophy_pct_unique_of_total.dart';
+import 'package:beer_trail_app/data/trail_trophy_total_checkins_any_place.dart';
+import 'package:beer_trail_app/data/trail_trophy_total_unique_checkins.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

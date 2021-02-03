@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
-import 'package:alabama_beer_trail/util/location_service.dart';
+import 'package:beer_trail_app/util/location_service.dart';
 
 /// A filter for trail events
 class EventFilter {

@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/util/tabselection_service.dart';
+import 'package:beer_trail_app/util/tabselection_service.dart';
 import 'package:test/test.dart';
 
 /// Test for the Tab Selection Service utility class

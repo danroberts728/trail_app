@@ -1,22 +1,22 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:alabama_beer_trail/blocs/single_trail_event_bloc.dart';
-import 'package:alabama_beer_trail/blocs/single_trail_place_bloc.dart';
-import 'package:alabama_beer_trail/tabscreens/tabscreen_badges.dart';
-import 'package:alabama_beer_trail/util/tabselection_service.dart';
-import 'package:alabama_beer_trail/screens/screen_trailevent_detail.dart';
-import 'package:alabama_beer_trail/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:alabama_beer_trail/tabscreens/tabscreen_events.dart';
-import 'package:alabama_beer_trail/tabscreens/tabscreen_news.dart';
-import 'package:alabama_beer_trail/util/app_launcher.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
-import 'package:alabama_beer_trail/widgets/app_drawer.dart';
-import 'package:alabama_beer_trail/widgets/trail_search_delegate.dart';
+import 'package:beer_trail_app/blocs/single_trail_event_bloc.dart';
+import 'package:beer_trail_app/blocs/single_trail_place_bloc.dart';
+import 'package:beer_trail_app/tabscreens/tabscreen_badges.dart';
+import 'package:beer_trail_app/util/tabselection_service.dart';
+import 'package:beer_trail_app/screens/screen_trailevent_detail.dart';
+import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
+import 'package:beer_trail_app/tabscreens/tabscreen_events.dart';
+import 'package:beer_trail_app/tabscreens/tabscreen_news.dart';
+import 'package:beer_trail_app/util/app_launcher.dart';
+import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:beer_trail_app/widgets/app_drawer.dart';
+import 'package:beer_trail_app/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:alabama_beer_trail/util/appauth.dart';
+import 'package:beer_trail_app/util/appauth.dart';
 import '../tabscreens/tabscreen.dart';
 
 import '../tabscreens/tabscreen_trail.dart';
