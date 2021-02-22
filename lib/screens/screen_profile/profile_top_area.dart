@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/data/trail_database.dart';
 import 'package:beer_trail_app/screens/screen_edit_profile.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/data/user_data.dart';
 import 'package:beer_trail_app/blocs/profile_top_area_bloc.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
@@ -90,7 +90,7 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                                       color: TrailAppSettings.subHeadingColor,
                                     ),
                                     Text(
-                                      " Since ${AppAuth().user.createdDate}",
+                                      " Since ${TrailAuth().user.createdDate}",
                                       style: TextStyle(
                                         color: TrailAppSettings.subHeadingColor,
                                       ),

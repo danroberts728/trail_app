@@ -2,7 +2,7 @@
 import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
 import 'package:beer_trail_app/data/trail_place.dart';
 import 'package:beer_trail_app/screens/screen_new_badge.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/location_off_dialog.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/widgets.dart';
 class CheckinButton extends StatefulWidget {
   final TrailPlace place;
   final bool showAlways;
-  final AppAuth appAuth;
+  final TrailAuth appAuth;
   final ButtonCheckInBloc bloc;
 
   CheckinButton({

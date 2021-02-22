@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
 import 'package:beer_trail_app/blocs/trailplace_card_bloc.dart';
 import 'package:beer_trail_app/data/trail_database.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:beer_trail_app/util/geo_methods.dart';
@@ -196,7 +196,7 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
                     margin: EdgeInsets.symmetric(horizontal: 4.0),
                     child: CheckinButton(
                       bloc: ButtonCheckInBloc(TrailDatabase()),
-                      appAuth: AppAuth(),
+                      appAuth: TrailAuth(),
                       showAlways: false,
                       place: this.place,
                     ),

@@ -10,7 +10,7 @@ import 'package:beer_trail_app/data/trail_place.dart';
 import 'package:beer_trail_app/data/trail_trophy.dart';
 import 'package:beer_trail_app/data/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 
 /// An abstraction to reduce the number of calls to
 /// the flutter firestore and to allow easier changing
@@ -80,7 +80,7 @@ class TrailDatabase {
 
   /// Singleton pattern private constructor.
   TrailDatabase._internal() {
-    AppAuth().onAuthChange.listen((event) {
+    TrailAuth().onAuthChange.listen((event) {
       _knowUserDataExists = false;
       _subscribeToUserData();
     });
@@ -124,16 +124,16 @@ class TrailDatabase {
     if (_checkInsSubscription != null) {
       _checkInsSubscription.cancel();
     }
-    if (AppAuth().user != null) {
+    if (TrailAuth().user != null) {
       _userDataSubscription = FirebaseFirestore.instance
           .collection('user_data')
-          .doc(AppAuth().user.uid)
+          .doc(TrailAuth().user.uid)
           .snapshots()
           .listen(_onUserDataUpdate);
 
       _checkInsSubscription = FirebaseFirestore.instance
           .collection('user_data')
-          .doc(AppAuth().user.uid)
+          .doc(TrailAuth().user.uid)
           .collection('check_ins')
           .snapshots()
           .listen(_onCheckInsUpdate);
@@ -236,7 +236,7 @@ class TrailDatabase {
   Future<void> checkInNow(placeId) {
     return FirebaseFirestore.instance
         .collection('user_data')
-        .doc(AppAuth().user.uid)
+        .doc(TrailAuth().user.uid)
         .collection('check_ins')
         .add({
       'place_id': placeId,
@@ -250,7 +250,7 @@ class TrailDatabase {
     if (!trophyList.containsKey(trophy.id)) {
       trophyList[trophy.id] = DateTime.now();
       FirebaseFirestore.instance
-          .doc('user_data/${AppAuth().user.uid}')
+          .doc('user_data/${TrailAuth().user.uid}')
           .update({'trophies': trophyList});
     }
   }
@@ -313,13 +313,13 @@ class TrailDatabase {
     } else {
       var userDataCollection =
           FirebaseFirestore.instance.collection('user_data');
-      userDataCollection.doc(AppAuth().user.uid).get().then((value) {
+      userDataCollection.doc(TrailAuth().user.uid).get().then((value) {
         if (value.exists) {
           _knowUserDataExists = true;
           _doUserDataUpdate(data);
         } else {
           userDataCollection
-              .doc(AppAuth().user.uid)
+              .doc(TrailAuth().user.uid)
               .set(UserData.createBlank().toMap())
               .then((value) {
             _knowUserDataExists = true;
@@ -333,7 +333,7 @@ class TrailDatabase {
   void _doUserDataUpdate(Object data) {
     FirebaseFirestore.instance
         .collection('user_data')
-        .doc(AppAuth().user.uid)
+        .doc(TrailAuth().user.uid)
         .update(data);
   }
 

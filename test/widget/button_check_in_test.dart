@@ -3,9 +3,8 @@ import 'dart:math';
 import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
 import 'package:beer_trail_app/data/trail_place.dart';
 import 'package:beer_trail_app/data/trail_trophy.dart';
-import 'package:beer_trail_app/model/app_user.dart';
 import 'package:beer_trail_app/model/check_in.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/widgets/button_check_in.dart';
 import 'package:beer_trail_app/widgets/location_off_dialog.dart';
 import 'package:beer_trail_app/widgets/must_check_in_dialog.dart';
@@ -15,7 +14,7 @@ import 'package:mockito/mockito.dart';
 
 class ButtonCheckInBlocMock extends Mock implements ButtonCheckInBloc {}
 
-class AppAuthMock extends Mock implements AppAuth {}
+class TrailAuthMock extends Mock implements TrailAuth {}
 
 class TrailPlaceMock extends Mock implements TrailPlace {}
 
@@ -24,7 +23,7 @@ class StreamMock<T> extends Mock implements Stream<T> {}
 void main() {
   ButtonCheckInBlocMock mockBloc = ButtonCheckInBlocMock();
   TrailPlaceMock mockPlace = TrailPlaceMock();
-  AppAuthMock mockAuth = AppAuthMock();
+  TrailAuthMock mockAuth = TrailAuthMock();
   AppUser mockUser = AppUser(
     uid: 'mock',
     createdDate: 'mockdate',

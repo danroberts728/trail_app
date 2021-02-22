@@ -39,6 +39,9 @@ dependencies:
   location: ^3.2.4
   permission_handler: ^5.0.1+1
   timeago: ^2.0.29
+  trail_auth:
+    git:
+      url: https://github.com/danroberts728/trail_auth
   url_launcher: ^5.4.11
   webfeed: ^0.6.0
 

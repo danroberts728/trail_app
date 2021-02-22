@@ -1,6 +1,6 @@
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
-import '../util//appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _RegisterScreen();
@@ -123,7 +123,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             RaisedButton(
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-                                  AppAuth()
+                                  TrailAuth()
                                       .register(_emailController.text,
                                           _passwordController.text)
                                       .then((user) {
@@ -166,9 +166,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                               child: Text(
                                 _success == null
                                     ? ''
-                                    : AppAuth().registrationUserError == null
+                                    : TrailAuth().registrationUserError == null
                                         ? "Registration Failed"
-                                        : AppAuth().registrationUserError,
+                                        : TrailAuth().registrationUserError,
                                 style: TextStyle(color: Colors.red),
                               ),
                             ),

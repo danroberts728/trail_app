@@ -7,7 +7,7 @@ import 'package:beer_trail_app/screens/screen_profile/screen_profile.dart';
 import 'package:beer_trail_app/screens/screen_sign_in.dart';
 import 'package:beer_trail_app/screens/screen_passport.dart';
 import 'package:beer_trail_app/util/app_launcher.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/app_drawer_menu_item.dart';
 import 'package:beer_trail_app/widgets/app_drawer_stats.dart';
@@ -72,7 +72,7 @@ class _AppDrawer extends State<AppDrawer> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    AppAuth().user != null ? AppAuth().user.email : "",
+                    TrailAuth().user != null ? TrailAuth().user.email : "",
                     maxLines: 3,
                     style: TextStyle(
                       height: 1.5,
@@ -207,7 +207,7 @@ class _AppDrawer extends State<AppDrawer> {
                 child: AppDrawerMenuItem(
                   iconData: Icons.logout,
                   name: "Log Out",
-                  onTap: () => AppAuth().logout(),
+                  onTap: () => TrailAuth().logout(),
                 ),
               ),
             ],

@@ -2,7 +2,7 @@
 import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
 import 'package:beer_trail_app/data/trail_database.dart';
 import 'package:beer_trail_app/data/trail_place.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/widgets/button_check_in.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +33,7 @@ class TrailPlaceCheckinArea extends StatelessWidget {
         ),
         child: CheckinButton(
           bloc: ButtonCheckInBloc(TrailDatabase()),
-          appAuth: AppAuth(),
+          appAuth: TrailAuth(),
           showAlways: true,
           place: this.place,
         ),

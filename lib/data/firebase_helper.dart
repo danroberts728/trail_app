@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:beer_trail_app/model/app_user.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:beer_trail_app/model/beer.dart';

@@ -8,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/home.dart';
@@ -46,8 +46,8 @@ class TrailApp extends StatelessWidget {
   // The root of the app
   @override
   Widget build(BuildContext context) {
-    AppAuth().onAuthChange.listen((event) {
-      if (AppAuth().user != null && AppAuth().user.uid.isNotEmpty) {
+    TrailAuth().onAuthChange.listen((event) {
+      if (TrailAuth().user != null && TrailAuth().user.uid.isNotEmpty) {
         FirebaseMessaging().getToken().then((token) {
           TrailDatabase().saveFcmToken(token);
         });

@@ -857,6 +857,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.29"
+  trail_auth:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "4999c97770aaf2e2eae1fe205b2c006f7e343cc9"
+      url: "https://github.com/danroberts728/trail_auth"
+    source: git
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:

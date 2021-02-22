@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:beer_trail_app/blocs/bloc.dart';
 import 'package:beer_trail_app/data/trail_database.dart';
 import 'package:beer_trail_app/data/user_data.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 
 /// A BLoC for FavoriteButton objects
 class FavoriteButtonBloc extends Bloc {
@@ -48,7 +48,7 @@ class FavoriteButtonBloc extends Bloc {
   /// Callback when the user data gets new data
   void _onUserDataUpdate(UserData event) {
     var isItNow = _db.userData.favorites.contains(_placeId);
-    if (isItNow != isFavorite || AppAuth().user == null) {
+    if (isItNow != isFavorite || TrailAuth().user == null) {
       isFavorite = _db.userData.favorites.contains(_placeId);
       _controller.sink.add(isFavorite);
     }
@@ -57,7 +57,7 @@ class FavoriteButtonBloc extends Bloc {
   /// Toggle the favorite on/off. If the user is not
   /// logged in, returns false. Otherwise returns true
   bool toggleFavorite() {
-    if (AppAuth().user == null) {
+    if (TrailAuth().user == null) {
       return false;
     }
     List<String> allFavorites = List<String>.from(_db.userData.favorites);

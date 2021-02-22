@@ -16,7 +16,7 @@ import 'package:beer_trail_app/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import '../tabscreens/tabscreen.dart';
 
 import '../tabscreens/tabscreen_trail.dart';
@@ -44,7 +44,7 @@ class HomeState extends State<Home>
   final _tabSelectionBloc = TabSelectionService();
 
   HomeState() {
-    AppAuth().onAuthChange.listen((event) {
+    TrailAuth().onAuthChange.listen((event) {
       setState(() {
         _userLoggedIn = event != null;
       });

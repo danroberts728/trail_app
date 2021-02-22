@@ -1,4 +1,4 @@
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:flutter/material.dart';
 
 class PasswordResetScreen extends StatefulWidget {
@@ -76,7 +76,7 @@ class _PasswordResetScreen extends State<PasswordResetScreen> {
                             RaisedButton(
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  AppAuth()
+                                  TrailAuth()
                                       .resetPassword(_emailController.text);
                                   Navigator.pop(context, _emailController.text);
                                 }

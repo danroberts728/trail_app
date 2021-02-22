@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:beer_trail_app/screens/screen_forgot_password.dart';
 import 'package:beer_trail_app/screens/screen_register.dart';
-import 'package:beer_trail_app/util/appauth.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
@@ -34,7 +34,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
 
   @override
   void initState() {
-    _authSubscription = AppAuth().onAuthChange.listen((user) {
+    _authSubscription = TrailAuth().onAuthChange.listen((user) {
       if (Navigator.canPop(context)) {
         Navigator.popUntil(context, (route) => route.isFirst);
       }
@@ -61,7 +61,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                 FittedBox(
                   child: GoogleSignInButton(
                     onPressed: () {
-                      AppAuth().signInWithGoogle();
+                      TrailAuth().signInWithGoogle();
                     },
                     borderRadius: 10.0,
                     darkMode: true,
@@ -75,7 +75,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                         child: AppleSignInButton(
                         borderRadius: 10.0,
                         onPressed: () {
-                          AppAuth().signInWithApple();
+                          TrailAuth().signInWithApple();
                         },
                       ))
                     : SizedBox(height: 0),
@@ -144,7 +144,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                               setState(() {
                                 _submitButtonState = SubmitButtonState.Working;
                               });
-                              AppAuth()
+                              TrailAuth()
                                   .signInWithEmailAndPassword(
                                       _emailController.text,
                                       _passwordController.text)
