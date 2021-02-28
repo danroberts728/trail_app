@@ -871,7 +871,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: aca5296b8d425a6f354b4ae9481109e04a221b93
+      resolved-ref: "500104a4c1537eedb73d9a235b0e43e63dd6017b"
       url: "https://github.com/danroberts728/trail_database.git"
     source: git
     version: "0.0.1"
