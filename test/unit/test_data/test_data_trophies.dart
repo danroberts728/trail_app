@@ -1,24 +1,19 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/data/trail_trophy.dart';
-import 'package:beer_trail_app/data/trail_trophy_any_of_places.dart';
-import 'package:beer_trail_app/data/trail_trophy_exact_unique_checkins.dart';
-import 'package:beer_trail_app/data/trail_trophy_pct_unique_of_total.dart';
-import 'package:beer_trail_app/data/trail_trophy_total_checkins_any_place.dart';
-import 'package:beer_trail_app/data/trail_trophy_total_unique_checkins.dart';
+import 'package:trail_database/domain/trail_trophy.dart';
 
 /// To use:
 /// import '../test_data/test_data_trophies.dart' as testDataTrophies;
 /// List<TrailTrophy> testTrophyData = testDataTrophies.TestDataTrophies.trophies;
 class TestDataTrophies {
   static List<TrailTrophy> trophies = [
-    TrailTrophyExactUniqueCheckins(
-      trophyType: TrophyType.ExactUniqueCheckins,
+    TrailTrophy.create(
+      trophyType: "exact_unique_checkins",
       id: 'bhm-brewery-crawler',
       activeImage: "http://freethehops.org/active.png",
       inactiveImage: "http://freethehops.org/inactive.png",
       name: "Iron City Brewery Crawler",
       description: "Check in to every brewery in the City of Birmingham.",
-      requiredCheckins: <String>[
+      requiredCheckIns: <String>[
         'avondale',
         'b40-bham',
         'bham-district',
@@ -31,8 +26,8 @@ class TestDataTrophies {
         'monday-night',
       ],
     ),
-    TrailTrophyPctUniqueOfTotal(
-      trophyType: TrophyType.PercentUniqueOfTotal,
+    TrailTrophy.create(
+      trophyType: "pct_unique_of_total",
       id: 'champion',
       activeImage: "http://freethehops.org/active.png",
       inactiveImage: "http://freethehops.org/inactive.png",
@@ -40,8 +35,8 @@ class TestDataTrophies {
       description: "Visit Every Alabama brewery",
       percentRequired: 100,
     ),
-    TrailTrophyTotalCheckinsAnyPlace(
-      trophyType: TrophyType.AnyOfPlaces,
+    TrailTrophy.create(
+      trophyType: "any_of_places",
       id: 'favorite_watering_hole',
       activeImage: "http://freethehops.org/active.png",
       inactiveImage: "http://freethehops.org/inactive.png",
@@ -49,8 +44,8 @@ class TestDataTrophies {
       description: "Check into any single brewery at least 25 times",
       checkinCountRequired: 25,
     ),
-    TrailTrophyTotalUniqueCheckins(
-      trophyType: TrophyType.TotalUniqueCheckins,
+    TrailTrophy.create(
+      trophyType: "total_unique_checkins",
       id: 'journey-begins',
       activeImage: "http://freethehops.org/active.png",
       inactiveImage: "http://freethehops.org/inactive.png",
@@ -58,8 +53,8 @@ class TestDataTrophies {
       description: "Check into your first brewery",
       uniqueCountRequired: 1,
     ),
-    TrailTrophyAnyOfPlaces(
-        trophyType: TrophyType.AnyOfPlaces,
+    TrailTrophy.create(
+        trophyType: "any_of_places",
         id: 'off-the-beaten-path',
         activeImage: "http://freethehops.org/active.png",
         inactiveImage: "http://freethehops.org/inactive.png",

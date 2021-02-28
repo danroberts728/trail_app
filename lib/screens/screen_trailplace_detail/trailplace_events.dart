@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/model/trail_event.dart';
+import 'package:trail_database/domain/trail_event.dart';
 import 'package:beer_trail_app/widgets/trailevent_card.dart';
 import 'package:flutter/material.dart';
 

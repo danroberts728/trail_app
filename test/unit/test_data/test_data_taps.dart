@@ -1,11 +1,11 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/model/on_tap_beer.dart';
+import 'package:trail_database/domain/on_tap_beer.dart';
 
 class TestDataTaps {
   static List<OnTapBeer> getTaps(String placeId) {
     if (placeId == 'sta') {
       return [
-        OnTapBeer(
+        OnTapBeer.create(
             abv: "9.2",
             ibu: 0,
             logoUrl:

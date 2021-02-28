@@ -2,7 +2,7 @@
 import 'dart:math';
 
 import 'package:beer_trail_app/blocs/tabscreen_trail_list_bloc.dart';
-import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 import 'package:beer_trail_app/util/place_filter.dart';
 import 'package:mockito/mockito.dart';

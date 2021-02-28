@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/model/on_tap_beer.dart';
+import 'package:trail_database/domain/on_tap_beer.dart';
 import 'package:beer_trail_app/util/app_launcher.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';

@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
-import 'package:beer_trail_app/model/check_in.dart';
-import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:trail_database/domain/check_in.dart';
+import 'package:trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/util/geo_methods.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 import 'package:beer_trail_app/util/open_hours_methods.dart';

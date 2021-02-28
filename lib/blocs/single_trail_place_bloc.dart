@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:trail_database/domain/trail_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:beer_trail_app/blocs/bloc.dart';
 
@@ -27,7 +27,7 @@ class SingleTrailPlaceBloc extends Bloc {
   /// Callback when trail place is updated
   void _onDataUpdate(DocumentSnapshot querySnapshot) {
     try {
-      TrailPlace newTrailPlace = TrailPlace.createFromFirebaseDocument(querySnapshot);
+      TrailPlace newTrailPlace = TrailPlace.fromFirebase(querySnapshot);
       trailPlace = newTrailPlace;
       _trailPlaceController.sink.add(trailPlace);
     } catch (error) {

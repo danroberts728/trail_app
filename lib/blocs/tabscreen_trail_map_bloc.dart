@@ -1,7 +1,8 @@
+// Copyright (c) 2021, Fermented Software.
 import 'dart:async';
 
-import 'package:beer_trail_app/data/trail_database.dart';
-import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:trail_database/trail_database.dart';
+import 'package:trail_database/domain/trail_place.dart';
 
 import 'bloc.dart';
 

@@ -1,3 +1,4 @@
+// Copyright (c) 2021, Fermented Software.
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

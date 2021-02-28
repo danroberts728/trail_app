@@ -2,8 +2,8 @@
 import 'dart:async';
 
 import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
-import 'package:beer_trail_app/model/check_in.dart';
-import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:trail_database/domain/check_in.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:flutter_test/flutter_test.dart' as flutter_test;

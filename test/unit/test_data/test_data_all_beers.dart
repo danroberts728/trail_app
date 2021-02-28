@@ -1,11 +1,11 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/model/beer.dart';
+import 'package:trail_database/domain/beer.dart';
 
 class TestDataAllBeers {
   static List<Beer> getPopularBeers(String placeId) {
     if (placeId == 'sta') {
       return [
-        Beer(
+        Beer.create(
           abv: 4.2,
           description:
               "From 1948-1952 Six Primates all named Albert were used in Pioneering Space Travel, this is Straight to Ale's brew used to Pioneer a path for  flavorful Session IPA in the craft scene.Full of Citra & Amarillo Hops w/ a Huge Tropical Fruit Nose.",

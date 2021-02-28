@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/blocs/stamped_place_icon_bloc.dart';
-import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 
 import 'package:flutter/material.dart';

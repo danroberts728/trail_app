@@ -1,6 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/model/trail_event.dart';
-import 'package:flutter/material.dart';
+import 'package:trail_database/domain/trail_event.dart';
 
 /// Note: DateTime.now is notoriously impossible to mock. See https://github.com/dart-lang/sdk/issues/28985
 /// 
@@ -8,9 +7,9 @@ import 'package:flutter/material.dart';
 /// are set in the far future, unless we want them to be in the past.
 class TestDataEvents {
   static List<TrailEvent> events = [
-    TrailEvent(
+    TrailEvent.create(
       allDayEvent: false,
-      color: Color(0xff206177),
+      color: "0xff206177",
       details: "<p>Make plans now to see Otha Allen live the day before Thanksgiving!<br />We know everyone will have family in town so bring the whole fam and we will take care of everything else.<br />This is an outdoor event, please feel free to bring your own chairs.</p>",
       end: DateTime(2099, 10, 21, 0, 0),
       featured: false,
@@ -29,9 +28,9 @@ class TestDataEvents {
       start: DateTime(2099, 10, 20, 19, 0),
       status: 'publish',
     ),
-    TrailEvent(
+    TrailEvent.create(
       allDayEvent: false,
-      color: Color(0xff206177),
+      color: "0xff206177",
       details: "<p>Thirsty Thursdays just got spookier! Join us as we celebrate the Halloween season with some spooky crafts. We will have Halloween wood burnt magnets, resin skulls, and skeleton figures. In addition we will have other vendors carrying a variety of crafts, coasters, and more. Shop local while enjoying some great food and brews from Straight to Ale! Wear your mask and practice social distancing!</p>",
       end: DateTime(2099, 10, 16, 22, 0),
       featured: false,
@@ -50,9 +49,9 @@ class TestDataEvents {
       start: DateTime(2099, 10, 16, 19, 0),
       status: 'publish',
     ),
-    TrailEvent(
+    TrailEvent.create(
       allDayEvent: false,
-      color: Color(0xff206177),
+      color: "0xff206177",
       details: "<p>Make plans now to see Otha Allen live the day before Thanksgiving!<br />We know everyone will have family in town so bring the whole fam and we will take care of everything else.<br />This is an outdoor event, please feel free to bring your own chairs.</p>",
       end: DateTime(2099, 10, 21, 0, 0),
       featured: false,

@@ -7,8 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
 import 'package:beer_trail_app/blocs/bloc.dart';
-import 'package:beer_trail_app/data/trail_database.dart';
-import 'package:beer_trail_app/data/user_data.dart';
+import 'package:trail_database/trail_database.dart';
+import 'package:trail_database/domain/user_data.dart';
 
 /// A BLoC for ProfileBanner objects
 class ProfileBannerBloc extends Bloc {

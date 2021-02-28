@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/blocs/screen_trailtrophy_bloc.dart';
-import 'package:beer_trail_app/data/trail_database.dart';
-import 'package:beer_trail_app/data/trail_trophy.dart';
+import 'package:trail_database/trail_database.dart';
+import 'package:trail_database/domain/trail_trophy.dart';
 import 'package:beer_trail_app/screens/screen_trailtrophy_detail/completed_trophy.dart';
 import 'package:beer_trail_app/screens/screen_trailtrophy_detail/progress_any_of_places.dart';
 import 'package:beer_trail_app/screens/screen_trailtrophy_detail/progress_exact_unique_checkins.dart';
@@ -111,26 +111,26 @@ class TrophyDetailScreen extends StatelessWidget {
               // Progress
               Builder(
                 builder: (context) {
-                  if (trophy.trophyType == TrophyType.ExactUniqueCheckins) {
+                  if (trophy.type== TrophyType.ExactUniqueCheckins) {
                     return TrailTrophyProgressExactUniqueCheckins(
                       trophy: trophy,
                     );
-                  } else if (trophy.trophyType ==
+                  } else if (trophy.type ==
                       TrophyType.PercentUniqueOfTotal) {
                     return TrailTrophyProgressPctUniqueOfTotal(
                       trophy: trophy,
                     );
-                  } else if (trophy.trophyType ==
+                  } else if (trophy.type ==
                       TrophyType.TotalCheckinsAtAnyPlace) {
                     return TrailTrophyProgressTotalCheckinsAnyPlace(
                       trophy: trophy,
                     );
-                  } else if (trophy.trophyType ==
+                  } else if (trophy.type ==
                       TrophyType.TotalUniqueCheckins) {
                     return TrailTrophyProgressTotalUniqueCheckins(
                       trophy: trophy,
                     );
-                  } else if (trophy.trophyType == TrophyType.AnyOfPlaces) {
+                  } else if (trophy.type == TrophyType.AnyOfPlaces) {
                     return TrailTrophyProgressAnyOfPlaces(
                       trophy: trophy,
                     );

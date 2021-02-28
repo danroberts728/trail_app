@@ -2,9 +2,9 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:beer_trail_app/blocs/tabscreen_trail_map_bloc.dart';
-import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/map_info_card_carousel.dart';
 import 'package:flutter/foundation.dart';

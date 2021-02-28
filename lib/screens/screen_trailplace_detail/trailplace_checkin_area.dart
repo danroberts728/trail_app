@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
-import 'package:beer_trail_app/data/trail_database.dart';
-import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:trail_database/trail_database.dart';
+import 'package:trail_database/domain/trail_place.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/widgets/button_check_in.dart';
 import 'package:flutter/material.dart';

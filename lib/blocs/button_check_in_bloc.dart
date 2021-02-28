@@ -3,11 +3,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:beer_trail_app/blocs/bloc.dart';
-import 'package:beer_trail_app/model/check_in.dart';
-import 'package:beer_trail_app/data/trail_database.dart';
-import 'package:beer_trail_app/data/trail_place.dart';
-import 'package:beer_trail_app/data/trail_trophy.dart';
-import 'package:beer_trail_app/data/user_data.dart';
+import 'package:trail_database/domain/check_in.dart';
+import 'package:trail_database/trail_database.dart';
+import 'package:trail_database/domain/trail_place.dart';
+import 'package:trail_database/domain/trail_trophy.dart';
+import 'package:trail_database/domain/user_data.dart';
 import 'package:beer_trail_app/util/geo_methods.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';

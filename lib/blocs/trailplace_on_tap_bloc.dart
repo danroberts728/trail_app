@@ -2,8 +2,8 @@
 import 'dart:async';
 
 import 'package:beer_trail_app/blocs/bloc.dart';
-import 'package:beer_trail_app/model/on_tap_beer.dart';
-import 'package:beer_trail_app/data/trail_database.dart';
+import 'package:trail_database/domain/on_tap_beer.dart';
+import 'package:trail_database/trail_database.dart';
 
 /// BLoC for a TrailPlaceOnTap screen
 class TrailPlaceOnTapBloc extends Bloc {

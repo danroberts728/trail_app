@@ -1,5 +1,6 @@
+// Copyright (c) 2021, Fermented Software.
 import 'package:beer_trail_app/blocs/trailevent_card_bloc.dart';
-import 'package:beer_trail_app/model/trail_event.dart';
+import 'package:trail_database/domain/trail_event.dart';
 import 'package:beer_trail_app/screens/screen_trailevent_detail.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';

@@ -866,6 +866,15 @@ packages:
       url: "https://github.com/danroberts728/trail_auth"
     source: git
     version: "0.0.1"
+  trail_database:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: aca5296b8d425a6f354b4ae9481109e04a221b93
+      url: "https://github.com/danroberts728/trail_database.git"
+    source: git
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:

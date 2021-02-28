@@ -1,14 +1,14 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:math';
 
-import 'package:beer_trail_app/data/trail_place.dart';
+import 'package:trail_database/domain/trail_place.dart';
 
 /// To use:
 /// import '../test_data/test_data_places.dart' as testPlaces;
 /// List<TrailPlace> testPlacesData = testPlaces.TestDataPlaces.places;
 class TestDataPlaces {
   static List<TrailPlace> places = [
-    TrailPlace(
+    TrailPlace.create(
       id: 'cahaba',
       name: 'Cahaba Brewing Co',
       address: "405 5th Ave S BLDG C",
@@ -79,7 +79,7 @@ class TestDataPlaces {
       state: "AL",
       zip: "35222",
     ),
-    TrailPlace(
+    TrailPlace.create(
       id: 'sta',
       name: 'Straight to Ale',
       address: "2610 Clinton Ave",
@@ -150,7 +150,7 @@ class TestDataPlaces {
       state: "AL",
       zip: "35805",
     ),
-    TrailPlace(
+    TrailPlace.create(
       id: 'braided-river',
       name: 'Braided River Brewing Co',
       address: "420 St Louis St",

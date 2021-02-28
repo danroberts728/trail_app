@@ -42,6 +42,9 @@ dependencies:
   trail_auth:
     git:
       url: https://github.com/danroberts728/trail_auth
+  trail_database:
+    git:
+      url: https://github.com/danroberts728/trail_database.git
   url_launcher: ^5.4.11
   webfeed: ^0.6.0
 

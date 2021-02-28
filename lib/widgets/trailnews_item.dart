@@ -1,4 +1,5 @@
-import 'package:beer_trail_app/data/trail_news_post.dart';
+// Copyright (c) 2021, Fermented Software.
+import 'package:beer_trail_app/model/trail_news_post.dart';
 import 'package:beer_trail_app/screens/screen_trailnews_post.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';

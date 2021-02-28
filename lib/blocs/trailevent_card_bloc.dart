@@ -1,9 +1,10 @@
+// Copyright (c) 2021, Fermented Software.
 import 'dart:async';
 import 'package:html/dom.dart' as htmlParser;
 
 import 'package:beer_trail_app/blocs/bloc.dart';
-import 'package:beer_trail_app/data/trail_database.dart';
-import 'package:beer_trail_app/model/trail_event.dart';
+import 'package:trail_database/trail_database.dart';
+import 'package:trail_database/domain/trail_event.dart';
 import 'package:add_to_calendar/add_to_calendar.dart';
 
 class TrailEventCardBloc extends Bloc {

@@ -3,7 +3,7 @@ import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplac
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../data/trail_place.dart';
+import 'package:trail_database/domain/trail_place.dart';
 
 /// Place information element intended for use
 /// on the map screen
