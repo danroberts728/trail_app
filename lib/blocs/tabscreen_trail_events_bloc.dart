@@ -6,8 +6,8 @@ import 'package:beer_trail_app/blocs/bloc.dart';
 import 'package:beer_trail_app/util/event_filter.dart';
 import 'package:beer_trail_app/util/geo_methods.dart';
 import 'package:beer_trail_app/util/location_service.dart';
-import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_event.dart';
+import 'package:beer_trail_database/trail_database.dart';
+import 'package:beer_trail_database/domain/trail_event.dart';
 
 /// BLoC for the Trail Events Tab screen
 class TabScreenTrailEventsBloc extends Bloc {

@@ -42,9 +42,11 @@ dependencies:
   trail_auth:
     git:
       url: https://github.com/danroberts728/trail_auth
-  trail_database:
+  beer_trail_database:
     git:
-      url: https://github.com/danroberts728/trail_database.git
+      url: https://github.com/danroberts728/beer_trail_packages.git
+      path: packages/beer_trail_database
+      ref: f3beed6886fd11fe8ef7e713def8b037aad70fd5
   url_launcher: ^5.4.11
   webfeed: ^0.6.0
 

@@ -1,10 +1,10 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/blocs/screen_trailplace_detail_bloc.dart';
-import 'package:trail_database/domain/beer.dart';
-import 'package:trail_database/domain/on_tap_beer.dart';
-import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_event.dart';
-import 'package:trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/domain/beer.dart';
+import 'package:beer_trail_database/domain/on_tap_beer.dart';
+import 'package:beer_trail_database/trail_database.dart';
+import 'package:beer_trail_database/domain/trail_event.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/screens/screen_trailplace_detail/trailplace_beers.dart';
 import 'package:beer_trail_app/screens/screen_trailplace_detail/trailplace_details.dart';
 import 'package:beer_trail_app/screens/screen_trailplace_detail/trailplace_area.dart';

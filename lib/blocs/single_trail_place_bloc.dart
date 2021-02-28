@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:beer_trail_app/blocs/bloc.dart';
 

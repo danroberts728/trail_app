@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/blocs/tabscreen_trail_list_bloc.dart';
-import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/trail_database.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 import 'package:beer_trail_app/util/place_filter.dart';
 import 'package:beer_trail_app/widgets/top_list_sort_and_filter.dart';

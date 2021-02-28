@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:trail_database/domain/trail_trophy.dart';
+import 'package:beer_trail_database/domain/trail_trophy.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:confetti/confetti.dart';

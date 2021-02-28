@@ -1,6 +1,6 @@
 // Copyright (c) 2021, Fermented Software.
 import 'package:beer_trail_app/blocs/trophy_progress_checkins_bloc.dart';
-import 'package:trail_database/domain/trail_trophy_unique_pct_of_total.dart';
+import 'package:beer_trail_database/domain/trail_trophy_unique_pct_of_total.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 

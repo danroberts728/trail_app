@@ -2,10 +2,10 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:trail_database/domain/check_in.dart';
-import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_place.dart';
-import 'package:trail_database/domain/user_data.dart';
+import 'package:beer_trail_database/domain/check_in.dart';
+import 'package:beer_trail_database/trail_database.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/domain/user_data.dart';
 import 'package:beer_trail_app/model/activity_item.dart';
 
 import 'bloc.dart';

@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
 import 'package:beer_trail_app/blocs/trailplace_card_bloc.dart';
-import 'package:trail_database/trail_database.dart';
+import 'package:beer_trail_database/trail_database.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
@@ -17,7 +17,7 @@ import 'package:beer_trail_app/widgets/trailplace_header.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
 
 class TrailPlaceCard extends StatefulWidget {
   final ValueKey key;

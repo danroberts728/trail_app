@@ -1,10 +1,10 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:async';
 
-import 'package:trail_database/domain/user_data.dart';
+import 'package:beer_trail_database/domain/user_data.dart';
 import 'package:beer_trail_app/blocs/bloc.dart';
-import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/trail_database.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
 
 /// The BLoC for ProfileStatsArea objects
 class AppDrawerStatsBloc extends Bloc {

@@ -2,8 +2,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/trail_database.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/util/place_filter.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 

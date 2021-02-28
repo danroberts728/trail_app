@@ -2,9 +2,9 @@
 import 'dart:math';
 
 import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
-import 'package:trail_database/domain/trail_place.dart';
-import 'package:trail_database/domain/trail_trophy.dart';
-import 'package:trail_database/domain/check_in.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/domain/trail_trophy.dart';
+import 'package:beer_trail_database/domain/check_in.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/widgets/button_check_in.dart';
 import 'package:beer_trail_app/widgets/location_off_dialog.dart';

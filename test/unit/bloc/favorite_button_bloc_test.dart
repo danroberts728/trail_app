@@ -2,8 +2,8 @@
 import 'dart:async';
 
 import 'package:beer_trail_app/blocs/favorite_button_bloc.dart';
-import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/user_data.dart';
+import 'package:beer_trail_database/trail_database.dart';
+import 'package:beer_trail_database/domain/user_data.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:flutter_test/flutter_test.dart' as flutter_test;

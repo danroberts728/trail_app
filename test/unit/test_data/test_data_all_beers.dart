@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:trail_database/domain/beer.dart';
+import 'package:beer_trail_database/domain/beer.dart';
 
 class TestDataAllBeers {
   static List<Beer> getPopularBeers(String placeId) {

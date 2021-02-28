@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'dart:math';
 
-import 'package:trail_database/domain/trail_place.dart';
+import 'package:beer_trail_database/domain/trail_place.dart';
 
 /// To use:
 /// import '../test_data/test_data_places.dart' as testPlaces;
