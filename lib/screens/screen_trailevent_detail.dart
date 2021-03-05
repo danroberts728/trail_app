@@ -78,9 +78,11 @@ class TrailEventDetailScreen extends StatelessWidget {
                                   event.learnMoreLink != "",
                               child: SizedBox(
                                 width: double.infinity,
-                                child: RaisedButton(
-                                  color: TrailAppSettings.actionLinksColor,
-                                  textColor: Colors.white,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: TrailAppSettings.actionLinksColor,
+                                    onPrimary: Colors.white,
+                                  ),
                                   onPressed: () {
                                     AppLauncher()
                                         .openWebsite(event.learnMoreLink);
@@ -233,8 +235,10 @@ class TrailEventDetailScreen extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: FlatButton(
-                                padding: EdgeInsets.all(0),
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.all(0),
+                                ),
                                 onPressed: () {
                                   AppLauncher().openDirections(
                                       event.locationName +

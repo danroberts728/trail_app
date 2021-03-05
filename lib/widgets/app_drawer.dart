@@ -100,9 +100,11 @@ class _AppDrawer extends State<AppDrawer> {
                 visible: !widget.isUserLoggedIn,
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: RaisedButton(
-                    color: TrailAppSettings.actionLinksColor,
-                    elevation: 8.0,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: TrailAppSettings.actionLinksColor,
+                      elevation: 8.0,
+                    ),
                     child: Text(
                       "Sign In",
                       style: TextStyle(

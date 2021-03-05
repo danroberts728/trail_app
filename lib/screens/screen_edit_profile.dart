@@ -5,6 +5,7 @@ import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/profile_user_photo.dart';
 import 'package:beer_trail_app/widgets/profile_banner.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -107,7 +108,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   ),
                                   initialValue: userData.displayName,
                                   maxLength: 100,
-                                  maxLengthEnforced: true,
+                                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                   onSaved: (value) =>
                                       _bloc.updateDisplayName(value),
                                 ),
@@ -169,7 +170,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                                   ),
                                   initialValue: userData.aboutYou,
                                   maxLines: 5,
-                                  maxLengthEnforced: true,
+                                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                   minLines: 1,
                                   maxLength: 140,
                                   onSaved: (value) =>

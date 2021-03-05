@@ -32,7 +32,7 @@ class LocationOffDialog extends StatelessWidget {
             Wrap(
               alignment: WrapAlignment.end,
               children: [
-                FlatButton(
+                TextButton(
                   child: Text(
                     "Allow Location",
                     style: TextStyle(
@@ -62,7 +62,7 @@ class LocationOffDialog extends StatelessWidget {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        FlatButton(
+                                        TextButton(
                                           child: Text(
                                             "Dismiss",
                                             style: TextStyle(
@@ -87,7 +87,7 @@ class LocationOffDialog extends StatelessWidget {
                     });
                   },
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     "Dismiss",
                     style: TextStyle(

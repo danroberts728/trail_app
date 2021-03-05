@@ -26,7 +26,6 @@ class TrailPlaceActionButtonWidget extends StatefulWidget {
 
 class _TrailPlaceActionButtonWidget
     extends State<TrailPlaceActionButtonWidget> {
-
   @override
   Widget build(BuildContext context) {
     return ButtonBarTheme(
@@ -37,15 +36,17 @@ class _TrailPlaceActionButtonWidget
           // Info
           Container(
             width: 32.0,
-            child: RaisedButton(
-              elevation: 6.0,
-              shape: CircleBorder(
-                side: BorderSide(
-                  color: TrailAppSettings.actionLinksColor,
-                  width: 2.0,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 6.0,
+                shape: CircleBorder(
+                  side: BorderSide(
+                    color: TrailAppSettings.actionLinksColor,
+                    width: 2.0,
+                  ),
                 ),
+                padding: EdgeInsets.all(0),
               ),
-              padding: EdgeInsets.all(0),
               onPressed: () {
                 Feedback.forTap(context);
                 Navigator.push(
@@ -67,16 +68,18 @@ class _TrailPlaceActionButtonWidget
           // Map
           Container(
             width: 32.0,
-            child: RaisedButton(
-              elevation: 6.0,
-              shape: BeveledRectangleBorder(
-                borderRadius: BorderRadius.circular(double.infinity),
-                side: BorderSide(
-                  color: TrailAppSettings.actionLinksColor,
-                  width: 2.0,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 6.0,
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(double.infinity),
+                  side: BorderSide(
+                    color: TrailAppSettings.actionLinksColor,
+                    width: 2.0,
+                  ),
                 ),
+                padding: EdgeInsets.all(0),
               ),
-              padding: EdgeInsets.all(0),
               onPressed: () {
                 String address =
                     '${widget.place.name}, ${widget.place.address}, ${widget.place.city}, ${widget.place.state} ${widget.place.zip}';

@@ -33,7 +33,7 @@ class MustCheckInDialog extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      FlatButton(
+                      TextButton(
                           child: Text(
                             "Sign In",
                             style: TextStyle(
@@ -50,7 +50,7 @@ class MustCheckInDialog extends StatelessWidget {
                                     ),
                                     builder: (context) => ScreenSignIn()));
                           }),
-                      FlatButton(
+                      TextButton(
                         child: Text(
                           "Dismiss",
                           style: TextStyle(

@@ -19,7 +19,8 @@ class FavoriteButton extends StatefulWidget {
 class _FavoriteButton extends State<FavoriteButton> {
   @override
   Widget build(BuildContext context) {
-    FavoriteButtonBloc _bloc = FavoriteButtonBloc(TrailDatabase(), widget.place.id);
+    FavoriteButtonBloc _bloc =
+        FavoriteButtonBloc(TrailDatabase(), widget.place.id);
     // Favorite
     return StreamBuilder(
       stream: _bloc.stream,
@@ -41,10 +42,11 @@ class _FavoriteButton extends State<FavoriteButton> {
             Container(
               width: widget.iconSize,
               height: widget.iconSize,
-              child: FlatButton(
-                shape: CircleBorder(),
-                color: Colors.transparent,
-                padding: EdgeInsets.all(0),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(0),
+                ),
                 child: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
                   color: Colors.red,
@@ -54,7 +56,7 @@ class _FavoriteButton extends State<FavoriteButton> {
                   if (_bloc.toggleFavorite()) {
                     setState(() {
                       isFavorite = !isFavorite;
-                      Scaffold.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: isFavorite
                               ? Text("${widget.place.name} added to favorites")
                               : Text(
@@ -63,8 +65,9 @@ class _FavoriteButton extends State<FavoriteButton> {
                   } else {
                     showDialog(
                       context: context,
-                      builder: (context) => 
-                        MustCheckInDialog(message: "You must be signed in to select favorites.",),
+                      builder: (context) => MustCheckInDialog(
+                        message: "You must be signed in to select favorites.",
+                      ),
                     );
                   }
                 },

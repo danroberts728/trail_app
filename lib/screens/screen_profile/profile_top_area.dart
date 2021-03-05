@@ -105,12 +105,14 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                         Positioned(
                           top: profileImageHeight - 55,
                           right: 16.0,
-                          child: RaisedButton(
-                            color: Colors.white54,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(
-                                color: TrailAppSettings.actionLinksColor,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white54,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(
+                                  color: TrailAppSettings.actionLinksColor,
+                                ),
                               ),
                             ),
                             child: Text(

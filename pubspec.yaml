@@ -1,6 +1,7 @@
 name: beer_trail_app
 description: Beer Trail App. See nearby craft beer destinations and find nearby events.
 author: Dan Roberts <droberts@alabamabrewers.org>
+publish_to: none
 
 version: 2.0.0+20
 

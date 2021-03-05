@@ -17,8 +17,7 @@ class GuildBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      child: FlatButton(
-        padding: EdgeInsets.all(0),
+      child: TextButton(
         child: Image(
           image: AssetImage(assetNameIcon),
           width: width,
@@ -47,7 +46,7 @@ class GuildBadge extends StatelessWidget {
                           maxLines: 10,
                           overflow: TextOverflow.visible,
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             "Dismiss",
                             style: TextStyle(

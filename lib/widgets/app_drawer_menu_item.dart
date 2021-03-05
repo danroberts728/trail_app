@@ -25,7 +25,7 @@ class AppDrawerMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8.0),

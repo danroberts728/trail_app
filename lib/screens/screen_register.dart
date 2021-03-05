@@ -120,7 +120,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             SizedBox(
                               height: 6.0,
                             ),
-                            RaisedButton(
+                            ElevatedButton(
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
                                   TrailAuth()
@@ -135,23 +135,26 @@ class _RegisterScreen extends State<RegisterScreen> {
                                       setState(() {
                                         _success = true;
                                       });
-                                      Navigator.popUntil(context, (route) => route.isFirst);
+                                      Navigator.popUntil(
+                                          context, (route) => route.isFirst);
                                     }
                                   });
                                 }
                               },
-                              color: Colors.green,
-                              textTheme: ButtonTextTheme.primary,
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                padding: EdgeInsets.symmetric(horizontal: 80.0),
+                              ),
                               child: Text("Register"),
-                              padding: EdgeInsets.symmetric(horizontal: 80.0),
                             ),
                             SizedBox(
                               height: 6.0,
                             ),
                             Text("Have an account?"),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
-                                Navigator.popUntil(context, (route) => route.isFirst);
+                                Navigator.popUntil(
+                                    context, (route) => route.isFirst);
                               },
                               child: Text(
                                 "Sign in",
@@ -159,7 +162,8 @@ class _RegisterScreen extends State<RegisterScreen> {
                                   fontSize: 16.0,
                                 ),
                               ),
-                              textColor: TrailAppSettings.second,
+                              style: TextButton.styleFrom(
+                                  primary: TrailAppSettings.second),
                             ),
                             Container(
                               alignment: Alignment.center,

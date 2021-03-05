@@ -42,7 +42,8 @@ class _CheckinButton extends State<CheckinButton> {
   Widget build(BuildContext context) {
     return Visibility(
       // Check in button
-      visible: _bloc.isCloseEnoughToCheckIn(widget.place.location) || widget.showAlways,
+      visible: _bloc.isCloseEnoughToCheckIn(widget.place.location) ||
+          widget.showAlways,
       child: StreamBuilder(
         stream: _bloc.stream,
         initialData: _bloc.checkIns,
@@ -50,18 +51,28 @@ class _CheckinButton extends State<CheckinButton> {
           bool isCheckedIn = _bloc.isCheckedInToday(widget.place.id);
           bool isStamped = _bloc.isStamped(widget.place.id);
           return Container(
-            child: RaisedButton(
+            child: ElevatedButton(
               key: ValueKey("${widget.place.id}-checkin-key"),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4.0),
-                side: BorderSide(
-                  color: Colors.black,
+              style: ButtonStyle(
+                
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                  if (isCheckedIn)
+                    return TrailAppSettings.fourth;
+                  else
+                    return TrailAppSettings.actionLinksColor; // Defer to the widget's default.
+                }),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                    side: BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
+                elevation: MaterialStateProperty.all(4.0),
+                padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 8.0)),
               ),
-              elevation: 4.0,
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
-              color: TrailAppSettings.actionLinksColor,
-              disabledColor: TrailAppSettings.fourth,
               child: Stack(
                 children: <Widget>[
                   Center(
@@ -97,7 +108,8 @@ class _CheckinButton extends State<CheckinButton> {
                         showDialog(
                           context: context,
                           builder: (context) => MustCheckInDialog(
-                            message: "It looks like you aren't signed in. Please sign in to check in.",
+                            message:
+                                "It looks like you aren't signed in. Please sign in to check in.",
                           ),
                         );
                       } else if (!_bloc.isLocationOn()) {
@@ -105,15 +117,18 @@ class _CheckinButton extends State<CheckinButton> {
                           context: context,
                           builder: (context) => LocationOffDialog(
                             locationService: LocationService(),
-                            message: "It looks like we can't access your location. Please turn on location to check in to ${widget.place.name}",
+                            message:
+                                "It looks like we can't access your location. Please turn on location to check in to ${widget.place.name}",
                           ),
                         );
-                      } else if (!_bloc.isCloseEnoughToCheckIn(widget.place.location)) {
+                      } else if (!_bloc
+                          .isCloseEnoughToCheckIn(widget.place.location)) {
                         _showCheckInButtonDialog(
                           context: context,
-                          message: "It looks like you're not at ${widget.place.name} yet. Please try again when you get closer.",
+                          message:
+                              "It looks like you're not at ${widget.place.name} yet. Please try again when you get closer.",
                           actions: [
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 "Dismiss",
                                 style: TextStyle(
@@ -153,7 +168,7 @@ class _CheckinButton extends State<CheckinButton> {
   Future<Dialog> _showCheckInButtonDialog(
       {@required BuildContext context,
       @required String message,
-      List<FlatButton> actions}) {
+      List<TextButton> actions}) {
     return showDialog(
       context: context,
       builder: (context) => Dialog(

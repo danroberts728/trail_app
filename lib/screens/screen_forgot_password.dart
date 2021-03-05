@@ -73,7 +73,7 @@ class _PasswordResetScreen extends State<PasswordResetScreen> {
                             SizedBox(
                               height: 6.0,
                             ),
-                            RaisedButton(
+                            ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   TrailAuth()
@@ -81,9 +81,10 @@ class _PasswordResetScreen extends State<PasswordResetScreen> {
                                   Navigator.pop(context, _emailController.text);
                                 }
                               },
-                              color: Colors.green,
-                              textTheme: ButtonTextTheme.primary,
-                              padding: EdgeInsets.symmetric(horizontal: 80.0),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                padding: EdgeInsets.symmetric(horizontal: 80.0),
+                              ),
                               child: Text("Reset Password"),
                             ),
                           ],

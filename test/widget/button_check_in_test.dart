@@ -39,7 +39,7 @@ void main() {
     when(mockPlace.location).thenReturn(Point(1, 1));
     when(mockBloc.isCloseEnoughToCheckIn(Point(1, 1))).thenAnswer((_) => true);
     when(mockBloc.isLocationOn()).thenAnswer((_) => true);
-    when(mockBloc.checkIns).thenAnswer((_) => List<CheckIn>());
+    when(mockBloc.checkIns).thenAnswer((_) => <CheckIn>[]);
     when(mockBloc.isCheckedInToday('mock-id')).thenAnswer((_) => true);
     when(mockBloc.stream).thenAnswer((_) => StreamMock<List<CheckIn>>());
     when(mockBloc.isCheckedInToday('mock-id')).thenAnswer((_) => false);
@@ -233,7 +233,7 @@ void main() {
       await tester.pumpWidget(testCheckInButton);
       expect(
           tester
-              .widget<RaisedButton>(find.byKey(ValueKey('mock-id-checkin-key')))
+              .widget<ElevatedButton>(find.byKey(ValueKey('mock-id-checkin-key')))
               .enabled,
           isFalse);
     });

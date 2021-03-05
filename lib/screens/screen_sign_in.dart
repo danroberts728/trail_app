@@ -138,7 +138,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                           },
                         ),
                         SizedBox(height: 6.0),
-                        RaisedButton(
+                        ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
                               setState(() {
@@ -159,9 +159,10 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                               });
                             }
                           },
-                          color: TrailAppSettings.signInSignInButtonColor,
-                          textTheme: ButtonTextTheme.primary,
-                          padding: EdgeInsets.symmetric(horizontal: 80.0),
+                          style: ElevatedButton.styleFrom(
+                            primary: TrailAppSettings.signInSignInButtonColor,
+                            padding: EdgeInsets.symmetric(horizontal: 80.0),
+                          ),
                           child: _submitButtonState == SubmitButtonState.Waiting
                               ? Text(TrailAppSettings.signInButtonText)
                               : CircularProgressIndicator(
@@ -190,7 +191,8 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                                                 PasswordResetScreen()))
                                     .then((emailAddress) {
                                   if (emailAddress != null) {
-                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
                                       content: Text(
                                           "Password reset sent to $emailAddress"),
                                     ));
@@ -234,7 +236,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                             fontSize: 16.0,
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -250,7 +252,9 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                               fontSize: 16.0,
                             ),
                           ),
-                          textColor: TrailAppSettings.actionLinksColor,
+                          style: TextButton.styleFrom(
+                            primary: TrailAppSettings.actionLinksColor,
+                          ),
                         ),
                       ],
                     ),

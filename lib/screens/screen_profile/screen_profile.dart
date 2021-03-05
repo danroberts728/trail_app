@@ -57,7 +57,7 @@ class _ScreenProfile extends State<ScreenProfile> {
             Container(
               width: double.infinity,
               alignment: Alignment.bottomRight,
-              child: FlatButton(
+              child: TextButton(
                 onPressed: () {
                   setState(() => _loadingPassport = true);
                   Feedback.forTap(context);
@@ -149,7 +149,7 @@ class _ScreenProfile extends State<ScreenProfile> {
               width: double.infinity,
               alignment: Alignment.bottomRight,
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-              child: FlatButton(
+              child: TextButton(
                 onPressed: () {
                   setState(() => _loadingFullActivity = true);
                   Future.delayed(Duration(milliseconds: 50), () => Navigator.push(

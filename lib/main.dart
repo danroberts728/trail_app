@@ -59,6 +59,7 @@ class TrailApp extends StatelessWidget {
       title: TrailAppSettings.appName,
       debugShowCheckedModeBanner: true,
       theme: ThemeData(
+        brightness: Brightness.light,
         primarySwatch: TrailAppSettings.themePrimarySwatch,
         hintColor: Colors.white,
         textTheme: TextTheme(
