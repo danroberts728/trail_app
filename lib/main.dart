@@ -1,4 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
+import 'package:beer_trail_app/default_theme.dart';
 import 'package:beer_trail_database/trail_database.dart';
 import 'package:beer_trail_app/util/location_service.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
@@ -58,14 +59,7 @@ class TrailApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       title: TrailAppSettings.appName,
       debugShowCheckedModeBanner: true,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: TrailAppSettings.themePrimarySwatch,
-        hintColor: Colors.white,
-        textTheme: TextTheme(
-          headline6: TextStyle(color: Colors.white),
-        ),
-      ),
+      theme: defaultTheme,
       home: Home(
         observer: observer,
         key: Key('home'),

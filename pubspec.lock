@@ -873,7 +873,7 @@ packages:
     description:
       path: "packages/trailtab_wordpress_news"
       ref: HEAD
-      resolved-ref: e7920fc0f8ce5a8edbb39e9ecb2d70fe2ac539a1
+      resolved-ref: "6e1cdf63a65610055bc9fc5513aef4218458aa70"
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
