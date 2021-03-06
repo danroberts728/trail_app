@@ -6,7 +6,8 @@ publish_to: none
 version: 2.0.0+20
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
 
 dependencies:
   flutter:
@@ -47,9 +48,11 @@ dependencies:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git
       path: packages/beer_trail_database
-      ref: f3beed6886fd11fe8ef7e713def8b037aad70fd5
+  trailtab_wordpress_news:
+    git:
+      url: https://github.com/danroberts728/beer_trail_packages.git
+      path: packages/trailtab_wordpress_news
   url_launcher: ^5.4.11
-  webfeed: ^0.6.0
 
 dev_dependencies:
   test: any
@@ -67,6 +70,5 @@ flutter:
     - assets/images/fth_black.png
     - assets/images/fthglasses.jpg
     - assets/images/guild_logo_square_color.png
-    - assets/images/newsfeed_empty_image.jpg
     - assets/images/signin_bkg.jpg
     - assets/images/stamp_outline.png

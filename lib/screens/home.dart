@@ -8,7 +8,6 @@ import 'package:beer_trail_app/util/tabselection_service.dart';
 import 'package:beer_trail_app/screens/screen_trailevent_detail.dart';
 import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
 import 'package:beer_trail_app/tabscreens/tabscreen_events.dart';
-import 'package:beer_trail_app/tabscreens/tabscreen_news.dart';
 import 'package:beer_trail_app/util/app_launcher.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/app_drawer.dart';
@@ -16,7 +15,9 @@ import 'package:beer_trail_app/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+
 import 'package:trail_auth/trail_auth.dart';
+import 'package:trailtab_wordpress_news/trailtab_wordpress_news.dart';
 import '../tabscreens/tabscreen.dart';
 
 import '../tabscreens/tabscreen_trail.dart';
@@ -114,7 +115,12 @@ class HomeState extends State<Home>
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarNewsTabTitle,
-      child: TabScreenNews(),
+      child: TrailTabWordpressNews(
+        rssFeed: 'https://freethehops.org/category/app-publish/feed/',
+        updateFrequencySeconds: 120,
+        readTimeoutSeconds: 115,
+        timeoutErrorMessage: "We're having a hard time getting the news. It may be a problem with the Internet connection.",
+      ),
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarAchievementsTabTitle,

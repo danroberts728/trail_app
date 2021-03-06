@@ -54,8 +54,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/beer_trail_database"
-      ref: f3beed6886fd11fe8ef7e713def8b037aad70fd5
-      resolved-ref: f3beed6886fd11fe8ef7e713def8b037aad70fd5
+      ref: HEAD
+      resolved-ref: e7920fc0f8ce5a8edbb39e9ecb2d70fe2ac539a1
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -868,6 +868,15 @@ packages:
       url: "https://github.com/danroberts728/trail_auth"
     source: git
     version: "0.0.1"
+  trailtab_wordpress_news:
+    dependency: "direct main"
+    description:
+      path: "packages/trailtab_wordpress_news"
+      ref: HEAD
+      resolved-ref: e7920fc0f8ce5a8edbb39e9ecb2d70fe2ac539a1
+      url: "https://github.com/danroberts728/beer_trail_packages.git"
+    source: git
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -953,7 +962,7 @@ packages:
     source: hosted
     version: "2.1.2"
   webfeed:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: webfeed
       url: "https://pub.dartlang.org"
