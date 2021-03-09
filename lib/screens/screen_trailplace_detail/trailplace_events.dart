@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_database/domain/trail_event.dart';
-import 'package:beer_trail_app/widgets/trailevent_card.dart';
+import 'package:trailtab_events/trailtab_events.dart';
 import 'package:flutter/material.dart';
 
 /// UI element for a list of events at a trail place

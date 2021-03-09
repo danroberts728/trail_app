@@ -48,6 +48,10 @@ dependencies:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git
       path: packages/beer_trail_database
+  trailtab_events:
+    git:
+      url: https://github.com/danroberts728/beer_trail_packages.git
+      path: packages/trailtab_events
   trailtab_wordpress_news:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git

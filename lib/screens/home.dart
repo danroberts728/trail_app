@@ -5,9 +5,8 @@ import 'package:beer_trail_app/blocs/single_trail_event_bloc.dart';
 import 'package:beer_trail_app/blocs/single_trail_place_bloc.dart';
 import 'package:beer_trail_app/tabscreens/tabscreen_badges.dart';
 import 'package:beer_trail_app/util/tabselection_service.dart';
-import 'package:beer_trail_app/screens/screen_trailevent_detail.dart';
 import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:beer_trail_app/tabscreens/tabscreen_events.dart';
+import 'package:trailtab_events/trailtab_events.dart';
 import 'package:beer_trail_app/util/app_launcher.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/app_drawer.dart';
@@ -111,7 +110,9 @@ class HomeState extends State<Home>
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarEventsTabTitle,
-      child: TabScreenTrailEvents(),
+      child: TrailTabEvents(
+        filterDistanceOptions: [5, 25, 50, 100],
+      ),
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarNewsTabTitle,

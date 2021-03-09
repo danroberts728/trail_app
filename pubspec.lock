@@ -868,6 +868,24 @@ packages:
       url: "https://github.com/danroberts728/trail_auth"
     source: git
     version: "0.0.1"
+  trail_location_service:
+    dependency: transitive
+    description:
+      path: "packages/trail_location_service"
+      ref: HEAD
+      resolved-ref: "365598fd9f294f10490e637c81109461f7517b07"
+      url: "https://github.com/danroberts728/beer_trail_packages.git"
+    source: git
+    version: "0.0.1"
+  trailtab_events:
+    dependency: "direct main"
+    description:
+      path: "packages/trailtab_events"
+      ref: HEAD
+      resolved-ref: "365598fd9f294f10490e637c81109461f7517b07"
+      url: "https://github.com/danroberts728/beer_trail_packages.git"
+    source: git
+    version: "0.0.1"
   trailtab_wordpress_news:
     dependency: "direct main"
     description:

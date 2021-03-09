@@ -5,6 +5,7 @@ Color _subTitleColor = Color(0xFF4E7C93);
 
 var defaultTheme = ThemeData(
   brightness: Brightness.light,
+  buttonColor: Color(0xFF5A934E),
   primarySwatch: MaterialColor(_mainHeadingColor.value, {
     50: _mainHeadingColor.withOpacity(0.1),
     100: _mainHeadingColor.withOpacity(0.2),
@@ -32,7 +33,11 @@ var defaultTheme = ThemeData(
         fontSize: 18.0,
         fontWeight: FontWeight.bold,
       ),
-      headline3: TextStyle(color: _mainHeadingColor),
+      headline3: TextStyle(
+        color: _mainHeadingColor,
+        fontSize: 16.0,
+        fontWeight: FontWeight.bold,
+      ),
       headline4: TextStyle(color: _mainHeadingColor),
       headline5: TextStyle(color: _mainHeadingColor),
       headline6: TextStyle(color: _mainHeadingColor),
