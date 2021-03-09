@@ -16,7 +16,18 @@ class TrailSearchDelegate extends SearchDelegate {
     assert(context != null);
     final ThemeData theme = Theme.of(context);
     assert(theme != null);
-    return theme;
+    return theme.copyWith(
+      textTheme: TextTheme(
+        headline6: TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: InputBorder.none,
+      ),
+    );
   }
 
   @override
@@ -74,7 +85,12 @@ class TrailSearchDelegate extends SearchDelegate {
               width: double.infinity,
               margin: EdgeInsets.all(8.0),
               padding: EdgeInsets.all(8.0),
-              child: Text(result[index].name),
+              child: Text(
+                result[index].name,
+                style: TextStyle(
+                  color: Colors.black87,
+                ),
+              ),
             ),
             onTap: () {
               Future.delayed(Duration(milliseconds: 300)).then((value) =>
