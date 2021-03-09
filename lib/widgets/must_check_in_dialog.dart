@@ -1,4 +1,4 @@
-import 'package:beer_trail_app/screens/screen_sign_in.dart';
+import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 

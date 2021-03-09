@@ -4,7 +4,6 @@ import 'package:beer_trail_database/domain/user_data.dart';
 import 'package:beer_trail_app/screens/screen_about.dart';
 import 'package:beer_trail_app/screens/screen_privacy_policy.dart';
 import 'package:beer_trail_app/screens/screen_profile/screen_profile.dart';
-import 'package:beer_trail_app/screens/screen_sign_in.dart';
 import 'package:beer_trail_app/screens/screen_passport.dart';
 import 'package:beer_trail_app/util/app_launcher.dart';
 import 'package:trail_auth/trail_auth.dart';
