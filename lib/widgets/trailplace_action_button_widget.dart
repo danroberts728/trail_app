@@ -38,6 +38,7 @@ class _TrailPlaceActionButtonWidget
             width: 32.0,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
+                primary: Colors.white,
                 elevation: 6.0,
                 shape: CircleBorder(
                   side: BorderSide(
@@ -70,6 +71,7 @@ class _TrailPlaceActionButtonWidget
             width: 32.0,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
+                primary: Colors.white,
                 elevation: 6.0,
                 shape: BeveledRectangleBorder(
                   borderRadius: BorderRadius.circular(double.infinity),

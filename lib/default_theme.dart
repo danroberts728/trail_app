@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 Color _mainHeadingColor = Color(0xFF93654E);
+Color _subTitleColor = Color(0xFF4E7C93); 
 
 var defaultTheme = ThemeData(
   brightness: Brightness.light,
@@ -22,26 +23,28 @@ var defaultTheme = ThemeData(
   hintColor: Colors.white,
   textTheme: TextTheme(
       headline1: TextStyle(
-        color: Color(0xFF93654E),
+        color: _mainHeadingColor,
         fontSize: 22.0,
         fontWeight: FontWeight.bold,
       ),
       headline2: TextStyle(
-        color: Color(0xFF93654E),
+        color: _mainHeadingColor,
         fontSize: 18.0,
         fontWeight: FontWeight.bold,
       ),
-      headline3: TextStyle(color: Color(0xFF93654E)),
-      headline4: TextStyle(color: Color(0xFF93654E)),
-      headline5: TextStyle(color: Color(0xFF93654E)),
-      headline6: TextStyle(color: Colors.white),
+      headline3: TextStyle(color: _mainHeadingColor),
+      headline4: TextStyle(color: _mainHeadingColor),
+      headline5: TextStyle(color: _mainHeadingColor),
+      headline6: TextStyle(color: _mainHeadingColor),
       subtitle1: TextStyle(
-        color: Color(0xFF4E7C93),
+        color: _subTitleColor,
         fontSize: 14.0,
+        fontWeight: FontWeight.w600,
       ),
       subtitle2: TextStyle(
-        color: Color(0xFF4E7C93),
+        color: _subTitleColor,
         fontSize: 12.0,
+        fontWeight: FontWeight.w500,
       ),
   ),
 );
