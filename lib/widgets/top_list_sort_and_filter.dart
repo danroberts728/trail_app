@@ -1,7 +1,6 @@
-import 'package:beer_trail_app/util/location_service.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_app/util/place_filter.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
-import 'package:beer_trail_app/widgets/location_off_dialog.dart';
 import 'package:flutter/material.dart';
 
 class TopListSortAndFilter extends StatefulWidget {
@@ -47,11 +46,11 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
                   widget.filter.updateSort(value);
                   Future.delayed(Duration(seconds: 2), () {
                     if (value == SortOrder.DISTANCE &&
-                        LocationService().lastLocation == null) {
+                        TrailLocationService().lastLocation == null) {
                       showDialog(
                         context: context,
                         builder: (context) => LocationOffDialog(
-                            locationService: LocationService(),
+                            locationService: TrailLocationService(),
                             message:
                                 "You must allow location permissions to sort by distance"),
                       );

@@ -869,7 +869,7 @@ packages:
     source: git
     version: "0.0.1"
   trail_location_service:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/trail_location_service"
       ref: HEAD

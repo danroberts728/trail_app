@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:beer_trail_app/blocs/tabscreen_trail_list_bloc.dart';
 import 'package:beer_trail_database/trail_database.dart';
-import 'package:beer_trail_app/util/location_service.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_app/util/place_filter.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -17,7 +17,7 @@ class StreamMock<T> extends Mock implements Stream<T> {}
 
 class PlaceFilterMock extends Mock implements PlaceFilter {}
 
-class LocationServiceMock extends Mock implements LocationService {}
+class LocationServiceMock extends Mock implements TrailLocationService {}
 
 void main() {
   flutter_test.TestWidgetsFlutterBinding.ensureInitialized();

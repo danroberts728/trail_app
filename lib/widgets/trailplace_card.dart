@@ -6,9 +6,8 @@ import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
 import 'package:beer_trail_app/blocs/trailplace_card_bloc.dart';
 import 'package:beer_trail_database/trail_database.dart';
 import 'package:trail_auth/trail_auth.dart';
-import 'package:beer_trail_app/util/location_service.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:beer_trail_app/util/geo_methods.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/button_check_in.dart';
 import 'package:beer_trail_app/widgets/stamped_place_icon.dart';
@@ -35,7 +34,7 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
   int _checkInsCount = 0;
   DateTime _firstCheckIn;
 
-  final _locationService = LocationService();
+  final _locationService = TrailLocationService();
   StreamSubscription<Point> _streamSub;
   StreamSubscription<int> _checkInSubscription;
 
@@ -169,7 +168,7 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
                                             child: Text(
                                               GeoMethods
                                                       .toFriendlyDistanceString(
-                                                          _distance) +
+                                                          _distance, TrailAppSettings.minDistanceToCheckin) +
                                                   " mi",
                                               style: TextStyle(
                                                   color: Colors.white,

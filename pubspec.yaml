@@ -44,6 +44,10 @@ dependencies:
   trail_auth:
     git:
       url: https://github.com/danroberts728/trail_auth
+  trail_location_service:
+    git:
+      url: https://github.com/danroberts728/beer_trail_packages.git
+      path: packages/trail_location_service
   beer_trail_database:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git

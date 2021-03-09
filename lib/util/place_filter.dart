@@ -2,8 +2,7 @@
 import 'dart:async';
 import 'package:beer_trail_database/domain/check_in.dart';
 import 'package:beer_trail_database/domain/trail_place.dart';
-import 'package:beer_trail_app/util/geo_methods.dart';
-import 'package:beer_trail_app/util/location_service.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_app/util/open_hours_methods.dart';
 
 /// A place filter with filter criteria and methods for sorting
@@ -11,11 +10,11 @@ import 'package:beer_trail_app/util/open_hours_methods.dart';
 class PlaceFilter {
   /// The filter criteria
   PlaceFilterCriteria filterCriteria = PlaceFilterCriteria(
-      sort: LocationService().lastLocation != null
+      sort: TrailLocationService().lastLocation != null
           ? SortOrder.DISTANCE
           : SortOrder.ALPHABETICAL,
       hoursOption: HoursOption.ALL);
-  LocationService _locationService = LocationService();
+  TrailLocationService _locationService = TrailLocationService();
 
   final StreamController<PlaceFilterCriteria> _controller =
       StreamController<PlaceFilterCriteria>.broadcast();

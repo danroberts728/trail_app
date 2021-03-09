@@ -7,7 +7,7 @@ import 'package:beer_trail_database/domain/trail_trophy.dart';
 import 'package:beer_trail_database/domain/check_in.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:beer_trail_app/widgets/button_check_in.dart';
-import 'package:beer_trail_app/widgets/location_off_dialog.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_app/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

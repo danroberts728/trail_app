@@ -8,8 +8,7 @@ import 'package:beer_trail_database/trail_database.dart';
 import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:beer_trail_database/domain/trail_trophy.dart';
 import 'package:beer_trail_database/domain/user_data.dart';
-import 'package:beer_trail_app/util/geo_methods.dart';
-import 'package:beer_trail_app/util/location_service.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 
 /// A BLoC for ButtonCheckIn objects
@@ -105,7 +104,7 @@ class ButtonCheckInBloc extends Bloc {
   }
 
   bool isLocationOn() {
-    return LocationService().lastLocation != null;
+    return TrailLocationService().lastLocation != null;
   }
 
   bool isCloseEnoughToCheckIn(Point placeLocation) {
@@ -148,9 +147,9 @@ class ButtonCheckInBloc extends Bloc {
   }
 
   double _getDistance(Point placeLocation) {
-    if (LocationService().lastLocation != null) {
+    if (TrailLocationService().lastLocation != null) {
       return GeoMethods.calculateDistance(
-          LocationService().lastLocation, placeLocation);
+          TrailLocationService().lastLocation, placeLocation);
     } else {
       return double.infinity;
     }

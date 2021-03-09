@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:beer_trail_database/trail_database.dart';
 import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/util/place_filter.dart';
-import 'package:beer_trail_app/util/location_service.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 
 import 'bloc.dart';
 
@@ -15,7 +15,7 @@ class TabScreenTrailListBloc extends Bloc {
   StreamSubscription _placesSubscription;
   StreamSubscription _placeFilterSubscription;
   PlaceFilter _placeFilter;
-  LocationService _locationService;
+  TrailLocationService _locationService;
 
   List<TrailPlace> allTrailPlaces = <TrailPlace>[];
   List<TrailPlace> get filteredTrailPlaces =>
@@ -29,7 +29,7 @@ class TabScreenTrailListBloc extends Bloc {
   Stream<List<TrailPlace>> get filteredTrailPlacesStream =>
       _filteredPlacesStreamController.stream;
 
-  TabScreenTrailListBloc(PlaceFilter filter, TrailDatabase db, LocationService locationService)
+  TabScreenTrailListBloc(PlaceFilter filter, TrailDatabase db, TrailLocationService locationService)
       : assert(filter != null), assert(db != null) {
     _db = db;
     _placeFilter = filter;

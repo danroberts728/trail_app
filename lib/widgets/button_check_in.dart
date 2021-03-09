@@ -3,9 +3,8 @@ import 'package:beer_trail_app/blocs/button_check_in_bloc.dart';
 import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/screens/screen_new_badge.dart';
 import 'package:trail_auth/trail_auth.dart';
-import 'package:beer_trail_app/util/location_service.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
-import 'package:beer_trail_app/widgets/location_off_dialog.dart';
 import 'package:beer_trail_app/widgets/must_check_in_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -116,7 +115,7 @@ class _CheckinButton extends State<CheckinButton> {
                         showDialog(
                           context: context,
                           builder: (context) => LocationOffDialog(
-                            locationService: LocationService(),
+                            locationService: TrailLocationService(),
                             message:
                                 "It looks like we can't access your location. Please turn on location to check in to ${widget.place.name}",
                           ),

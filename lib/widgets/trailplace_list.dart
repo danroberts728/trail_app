@@ -1,7 +1,7 @@
 // Copyright (c) 2021, Fermented Software.
 import 'dart:math';
 
-import 'package:beer_trail_app/util/location_service.dart';
+import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/model/trail_place_category.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
@@ -28,7 +28,7 @@ class TrailListState extends State<TrailList> {
     _controller.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
   }
 
-  var _locationBloc = LocationService();
+  var _locationBloc = TrailLocationService();
 
   void _refreshScreen() {
     if(!this.mounted) {
