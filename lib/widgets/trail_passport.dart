@@ -2,7 +2,7 @@
 import 'dart:math';
 
 import 'package:beer_trail_app/blocs/trail_passport_bloc.dart';
-import 'package:beer_trail_database/trail_database.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_places/trailtab_places.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

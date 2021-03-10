@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/blocs/trail_activity_log_bloc.dart';
-import 'package:beer_trail_database/trail_database.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;

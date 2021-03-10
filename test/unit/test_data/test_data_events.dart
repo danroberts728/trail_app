@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_database/domain/trail_event.dart';
+import 'package:trail_database/domain/trail_event.dart';
 
 /// Note: DateTime.now is notoriously impossible to mock. See https://github.com/dart-lang/sdk/issues/28985
 /// 

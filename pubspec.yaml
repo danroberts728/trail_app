@@ -43,15 +43,16 @@ dependencies:
   timeago: ^2.0.29
   trail_auth:
     git: 
-      url: https://github.com/danroberts728/trail_auth
+      url: https://github.com/danroberts728/beer_trail_packages.git
+      path: packages/trail_auth
   trail_location_service:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git
       path: packages/trail_location_service
-  beer_trail_database:
+  trail_database:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git
-      path: packages/beer_trail_database
+      path: packages/trail_database
   trailtab_events:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git

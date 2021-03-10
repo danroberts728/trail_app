@@ -1,6 +1,6 @@
 // Copyright (c) 2021, Fermented Software.
 import 'package:beer_trail_app/blocs/trophy_progress_checkins_bloc.dart';
-import 'package:beer_trail_database/domain/trail_trophy_total_checkins_any_place.dart';
+import 'package:trail_database/domain/trail_trophy_total_checkins_any_place.dart';
 import 'package:flutter/material.dart';
 
 class TrailTrophyProgressTotalCheckinsAnyPlace extends StatelessWidget {

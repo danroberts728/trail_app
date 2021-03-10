@@ -1,5 +1,5 @@
 // Copyright (c) 2021, Fermented Software.
-import 'package:beer_trail_database/domain/trail_place.dart';
+import 'package:trail_database/domain/trail_place.dart';
 import 'package:trailtab_places/trailtab_places.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

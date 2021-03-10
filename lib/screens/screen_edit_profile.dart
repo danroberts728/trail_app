@@ -1,6 +1,6 @@
 // Copyright (c) 2021, Fermented Software.
 import 'package:beer_trail_app/blocs/screen_edit_profile_bloc.dart';
-import 'package:beer_trail_database/trail_database.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/profile_user_photo.dart';
 import 'package:beer_trail_app/widgets/profile_banner.dart';

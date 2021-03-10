@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/default_theme.dart';
-import 'package:beer_trail_database/trail_database.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';

@@ -1,8 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_database/trail_database.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:beer_trail_app/screens/screen_edit_profile.dart';
 import 'package:trail_auth/trail_auth.dart';
-import 'package:beer_trail_database/domain/user_data.dart';
+import 'package:trail_database/domain/user_data.dart';
 import 'package:beer_trail_app/blocs/profile_top_area_bloc.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/profile_banner.dart';

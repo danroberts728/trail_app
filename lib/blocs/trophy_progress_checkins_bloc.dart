@@ -2,9 +2,9 @@
 import 'dart:async';
 
 import 'package:beer_trail_app/blocs/bloc.dart';
-import 'package:beer_trail_database/domain/check_in.dart';
-import 'package:beer_trail_database/trail_database.dart';
-import 'package:beer_trail_database/domain/trail_place.dart';
+import 'package:trail_database/domain/check_in.dart';
+import 'package:trail_database/trail_database.dart';
+import 'package:trail_database/domain/trail_place.dart';
 
 /// This BLoC is used by multiple extensions of 
 /// the trophy progress screens. This somewhat breaks

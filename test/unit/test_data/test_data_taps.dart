@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_database/domain/on_tap_beer.dart';
+import 'package:trail_database/domain/on_tap_beer.dart';
 
 class TestDataTaps {
   static List<OnTapBeer> getTaps(String placeId) {
