@@ -60,6 +60,10 @@ dependencies:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git
       path: packages/trailtab_wordpress_news
+  trailtab_places:
+    git:
+      url: https://github.com/danroberts728/beer_trail_packages.git
+      path: packages/trailtab_places
   url_launcher: ^5.4.11
 
 dev_dependencies:

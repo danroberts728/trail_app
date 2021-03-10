@@ -5,7 +5,7 @@ import 'package:beer_trail_app/blocs/single_trail_event_bloc.dart';
 import 'package:beer_trail_app/blocs/single_trail_place_bloc.dart';
 import 'package:beer_trail_app/tabscreens/tabscreen_badges.dart';
 import 'package:beer_trail_app/util/tabselection_service.dart';
-import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
+import 'package:trailtab_places/trailtab_places.dart';
 import 'package:trailtab_events/trailtab_events.dart';
 import 'package:beer_trail_app/util/app_launcher.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
@@ -19,7 +19,6 @@ import 'package:trail_auth/trail_auth.dart';
 import 'package:trailtab_wordpress_news/trailtab_wordpress_news.dart';
 import '../tabscreens/tabscreen.dart';
 
-import '../tabscreens/tabscreen_trail.dart';
 import 'package:flutter/material.dart';
 
 /// The app home screen
@@ -106,7 +105,10 @@ class HomeState extends State<Home>
   final List<TabScreen> _appTabs = [
     TabScreen(
       appBarTitle: TrailAppSettings.navBarTrailTabTitle,
-      child: TabScreenTrail(),
+      child: TrailTabPlaces(
+        minDistanceToCheckIn: 0.15,
+        showNonMemberTapList: false,
+      ),
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarEventsTabTitle,

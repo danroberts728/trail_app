@@ -55,7 +55,7 @@ packages:
     description:
       path: "packages/beer_trail_database"
       ref: HEAD
-      resolved-ref: b6c7581a92558febba249b48016bb34126b96b49
+      resolved-ref: b7f264529039d6d12d74634fba30815e5c89cb49
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -915,7 +915,7 @@ packages:
     description:
       path: "packages/trail_location_service"
       ref: HEAD
-      resolved-ref: b6c7581a92558febba249b48016bb34126b96b49
+      resolved-ref: b7f264529039d6d12d74634fba30815e5c89cb49
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -924,7 +924,16 @@ packages:
     description:
       path: "packages/trailtab_events"
       ref: HEAD
-      resolved-ref: b6c7581a92558febba249b48016bb34126b96b49
+      resolved-ref: b7f264529039d6d12d74634fba30815e5c89cb49
+      url: "https://github.com/danroberts728/beer_trail_packages.git"
+    source: git
+    version: "0.0.1"
+  trailtab_places:
+    dependency: "direct main"
+    description:
+      path: "packages/trailtab_places"
+      ref: HEAD
+      resolved-ref: b7f264529039d6d12d74634fba30815e5c89cb49
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -933,7 +942,7 @@ packages:
     description:
       path: "packages/trailtab_wordpress_news"
       ref: HEAD
-      resolved-ref: b6c7581a92558febba249b48016bb34126b96b49
+      resolved-ref: b7f264529039d6d12d74634fba30815e5c89cb49
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"

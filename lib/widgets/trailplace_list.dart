@@ -5,7 +5,7 @@ import 'package:trail_location_service/trail_location_service.dart';
 import 'package:beer_trail_database/domain/trail_place.dart';
 import 'package:beer_trail_app/model/trail_place_category.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
-import 'package:beer_trail_app/widgets/trailplace_card.dart';
+import 'package:trailtab_places/trailtab_places.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

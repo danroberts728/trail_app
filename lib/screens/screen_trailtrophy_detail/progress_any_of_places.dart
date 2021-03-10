@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:beer_trail_app/blocs/trophy_progress_checkins_bloc.dart';
 import 'package:beer_trail_database/domain/trail_trophy_any_of_places.dart';
-import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
+import 'package:trailtab_places/trailtab_places.dart';
 import 'package:beer_trail_app/screens/screen_trailtrophy_detail/trophy_place_item.dart';
 import 'package:flutter/material.dart';
 

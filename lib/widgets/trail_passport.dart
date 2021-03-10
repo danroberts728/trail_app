@@ -3,8 +3,7 @@ import 'dart:math';
 
 import 'package:beer_trail_app/blocs/trail_passport_bloc.dart';
 import 'package:beer_trail_database/trail_database.dart';
-import 'package:beer_trail_app/screens/screen_trailplace_detail/screen_trailplace_detail.dart';
-import 'package:beer_trail_app/widgets/stamped_place_icon.dart';
+import 'package:trailtab_places/trailtab_places.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -111,6 +110,7 @@ class TrailPassport extends StatelessWidget {
                                             top: topStampMargin,
                                             left: leftStampMargin,
                                             child: StampedPlaceIcon(
+                                                color: Theme.of(context).disabledColor,
                                                 place: s.place,
                                                 firstCheckIn: s.stampDate,
                                                 tilt: tilt,
