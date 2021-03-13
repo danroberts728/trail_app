@@ -1,19 +1,15 @@
 // Copyright (c) 2020, Fermented Software.
-import 'dart:async';
-
-import 'package:beer_trail_app/blocs/single_trail_event_bloc.dart';
-import 'package:beer_trail_app/blocs/single_trail_place_bloc.dart';
 import 'package:beer_trail_app/tabscreens/tabscreen_badges.dart';
+import 'package:beer_trail_app/util/notification_handler.dart';
 import 'package:beer_trail_app/util/tabselection_service.dart';
+import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_places/trailtab_places.dart';
 import 'package:trailtab_events/trailtab_events.dart';
-import 'package:beer_trail_app/util/app_launcher.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/app_drawer.dart';
 import 'package:beer_trail_app/widgets/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 
 import 'package:trail_auth/trail_auth.dart';
 import 'package:trailtab_wordpress_news/trailtab_wordpress_news.dart';
@@ -41,6 +37,8 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home>
     with SingleTickerProviderStateMixin, RouteAware {
   final _tabSelectionBloc = TabSelectionService();
+
+  NotificationHandler _notificationHandler = NotificationHandler(TrailDatabase());
 
   HomeState() {
     TrailAuth().onAuthChange.listen((event) {
@@ -95,9 +93,9 @@ class HomeState extends State<Home>
       ),
     );
     _firebaseMessaging.configure(
-      onMessage: _handleNotificationMessage,
-      onLaunch: _handleNotificationLaunch,
-      onResume: _handleNotificationResume,
+      onMessage: (message) => _notificationHandler.handleNotificationMessage(context, message),
+      onLaunch: (message) => _notificationHandler.handleNotificationLaunch(context, message),
+      onResume: (message) => _notificationHandler.handleNotificationResume(context, message),
     );
   }
 
@@ -108,6 +106,7 @@ class HomeState extends State<Home>
       child: TrailTabPlaces(
         minDistanceToCheckIn: 0.15,
         showNonMemberTapList: false,
+        membershipLogoAsset: 'assets/images/guild_logo_square_color.png',
       ),
     ),
     TabScreen(
@@ -122,7 +121,8 @@ class HomeState extends State<Home>
         rssFeed: 'https://freethehops.org/category/app-publish/feed/',
         updateFrequencySeconds: 120,
         readTimeoutSeconds: 115,
-        timeoutErrorMessage: "We're having a hard time getting the news. It may be a problem with the Internet connection.",
+        timeoutErrorMessage:
+            "We're having a hard time getting the news. It may be a problem with the Internet connection.",
       ),
     ),
     TabScreen(
@@ -211,130 +211,4 @@ class HomeState extends State<Home>
       screenName: 'tab/$_currentIndex',
     );
   }
-
-  Future _handleNotificationLaunch(Map<String, dynamic> message) {
-    return _navigateNotificationRoute(message);
-  }
-
-  Future _handleNotificationMessage(Map<String, dynamic> message) {
-    return _showNotificationSnackBar(message);
-  }
-
-  Future _handleNotificationResume(Map<String, dynamic> message) {
-    return _navigateNotificationRoute(message);
-  }
-
-  Future<void> _showNotificationSnackBar(Map<dynamic, dynamic> message) async {
-    var data = message['data'] ?? message;
-    String gotoPlace = data['gotoPlace'];
-    String gotoEvent = data['gotoEvent'];
-    String gotoLink = data['gotoLink'];
-    String title = message['notification']['title'];
-
-    if (gotoPlace != null) {
-      SingleTrailPlaceBloc trailPlaceBloc = SingleTrailPlaceBloc(gotoPlace);
-      trailPlaceBloc.trailPlaceStream.listen((place) {        
-        ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
-          content: Text(title),
-          duration: Duration(seconds: 5),
-          action: SnackBarAction(
-            label: 'Go',
-            textColor: TrailAppSettings.actionLinksColor,
-            onPressed: () {
-              Navigator.of(_stackKey.currentContext)
-                  .popUntil((route) => route.isFirst);
-              Navigator.push(
-                  _stackKey.currentContext,
-                  MaterialPageRoute(
-                      settings: RouteSettings(
-                        name: '/place/$gotoPlace',
-                      ),
-                      builder: (context) =>
-                          TrailPlaceDetailScreen(place: place)));
-            },
-          ),
-        ));
-      });
-    } else if (gotoEvent != null) {
-      SingleTrailEventBloc trailEventBloc = SingleTrailEventBloc(gotoEvent);
-      trailEventBloc.trailEventStream.listen((event) {
-        ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
-          content: Text(title),
-          duration: Duration(seconds: 5),
-          action: SnackBarAction(
-            label: 'Go',
-            textColor: TrailAppSettings.actionLinksColor,
-            onPressed: () {
-              Navigator.of(_stackKey.currentContext)
-                  .popUntil((route) => route.isFirst);
-              Navigator.push(
-                  _stackKey.currentContext,
-                  MaterialPageRoute(
-                      settings: RouteSettings(
-                        name: '/event/$gotoEvent',
-                      ),
-                      builder: (context) =>
-                          TrailEventDetailScreen(event: event)));
-            },
-          ),
-        ));
-      });
-    } else if (gotoLink != null) {
-      ScaffoldMessenger.of(_stackKey.currentContext).showSnackBar(SnackBar(
-        content: Text(title),
-        duration: Duration(seconds: 5),
-        action: SnackBarAction(
-          label: 'Go',
-          textColor: TrailAppSettings.actionLinksColor,
-          onPressed: () {
-            AppLauncher().openWebsite(gotoLink);
-          },
-        ),
-      ));
-    }
-  }
-
-  Future<void> _navigateNotificationRoute(Map<dynamic, dynamic> message) async {
-    var data = message['data'] ?? message;
-    String gotoPlace = data['gotoPlace'];
-    String gotoEvent = data['gotoEvent'];
-    String gotoLink = data['gotoLink'];
-
-    if (gotoPlace != null) {
-      SingleTrailPlaceBloc trailPlaceBloc = SingleTrailPlaceBloc(gotoPlace);
-      trailPlaceBloc.trailPlaceStream.listen((place) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                settings: RouteSettings(
-                  name: '/place/$gotoPlace',
-                ),
-                builder: (context) => TrailPlaceDetailScreen(place: place)));
-      });
-    } else if (gotoEvent != null) {
-      SingleTrailEventBloc trailEventBloc = SingleTrailEventBloc(gotoEvent);
-      trailEventBloc.trailEventStream.listen((event) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                settings: RouteSettings(
-                  name: '/event/$gotoEvent',
-                ),
-                builder: (context) => TrailEventDetailScreen(event: event)));
-      });
-    } else if (gotoLink != null) {
-      AppLauncher().openWebsite(gotoLink);
-    }
-  }
-}
-
-/// A pop menu item
-class PopMenuChoice {
-  const PopMenuChoice({this.title, this.icon, this.action});
-
-  final String title;
-  final IconData icon;
-  final Function action;
 }

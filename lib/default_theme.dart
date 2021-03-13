@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 Color _mainHeadingColor = Color(0xFF93654E);
 Color _subTitleColor = Color(0xFF4E7C93);
+Color _actionColor = Color(0xFF5A934E);
+Color _highlightColor = Color(0xFF874E93);
 
 var defaultTheme = ThemeData(
   brightness: Brightness.light,
-  buttonColor: Color(0xFF5A934E),
-  disabledColor: Color(0xFF874E93),
+  highlightColor: _highlightColor,
+  buttonColor: _actionColor,
   primarySwatch: MaterialColor(_mainHeadingColor.value, {
     50: _mainHeadingColor.withOpacity(0.1),
     100: _mainHeadingColor.withOpacity(0.2),

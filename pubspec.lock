@@ -147,7 +147,7 @@ packages:
       name: code_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.6.0"
+    version: "3.7.0"
   collection:
     dependency: transitive
     description:
@@ -814,7 +814,7 @@ packages:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0+1"
+    version: "2.0.0+2"
   stack_trace:
     dependency: transitive
     description:
@@ -897,7 +897,7 @@ packages:
     description:
       path: "packages/trail_auth"
       ref: HEAD
-      resolved-ref: f2c462579cc0c59b5d33a8566d6e3b63c4840436
+      resolved-ref: a24e1db8de57458f6118e2d698207da7c50dc510
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -906,7 +906,7 @@ packages:
     description:
       path: "packages/trail_database"
       ref: HEAD
-      resolved-ref: f2c462579cc0c59b5d33a8566d6e3b63c4840436
+      resolved-ref: a24e1db8de57458f6118e2d698207da7c50dc510
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -915,7 +915,7 @@ packages:
     description:
       path: "packages/trail_location_service"
       ref: HEAD
-      resolved-ref: f2c462579cc0c59b5d33a8566d6e3b63c4840436
+      resolved-ref: a24e1db8de57458f6118e2d698207da7c50dc510
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -924,7 +924,7 @@ packages:
     description:
       path: "packages/trailtab_events"
       ref: HEAD
-      resolved-ref: f2c462579cc0c59b5d33a8566d6e3b63c4840436
+      resolved-ref: a24e1db8de57458f6118e2d698207da7c50dc510
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -933,7 +933,7 @@ packages:
     description:
       path: "packages/trailtab_places"
       ref: HEAD
-      resolved-ref: f2c462579cc0c59b5d33a8566d6e3b63c4840436
+      resolved-ref: a24e1db8de57458f6118e2d698207da7c50dc510
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -942,7 +942,7 @@ packages:
     description:
       path: "packages/trailtab_wordpress_news"
       ref: HEAD
-      resolved-ref: f2c462579cc0c59b5d33a8566d6e3b63c4840436
+      resolved-ref: a24e1db8de57458f6118e2d698207da7c50dc510
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -1057,7 +1057,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.3"
   xdg_directories:
     dependency: transitive
     description:
@@ -1080,5 +1080,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.12.0-259.9.beta <3.0.0"
+  dart: ">=2.12.0 <3.0.0"
   flutter: ">=1.24.0-10"

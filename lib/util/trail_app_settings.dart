@@ -1,5 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/model/trail_place_category.dart';
 import 'package:flutter/material.dart';
 
 class TrailAppSettings {
@@ -75,16 +74,7 @@ class TrailAppSettings {
   static final int locationUpdatesIntervalMs = 5000;
   static final double locationUpdatesDisplacementThreshold = 10;
   static final double minDistanceToCheckin = 0.10;
-  static final List<TrailPlaceCategory> filterStrings = <TrailPlaceCategory>[
-    TrailPlaceCategory("Brewery", "Breweries"),
-    TrailPlaceCategory("Distillery", "Distilleries"),
-    TrailPlaceCategory("Tasting Room", "Tasting Rooms",
-      description: "A Tasting Room means that the brewery or distillery is licensed to sell only alcoholic beverages that it manufactures on location."),    
-    TrailPlaceCategory("Open Bar", "Open Bars",
-      description: "An Open Bar means that the brewery or distillery is licensed to have guest taps and to sell other alcoholic beverages"),
-    TrailPlaceCategory("Restaurant", "Restaurants",
-      description: "Within the app, a Restaurant means a full kitchen, menu, and table service"),
-  ];
+  
   static final String defaultBannerImageAssetLocation =
       'assets/images/fthglasses.jpg';
   static final String defaultDisplayName = " ";

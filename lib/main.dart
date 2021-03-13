@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/home.dart';
 
+
 /// The main function for the app
 /// 
 /// Initialize Widgets, set up Crashlytics,

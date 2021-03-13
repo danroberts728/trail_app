@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/screens/screen_passport.dart';
+import 'package:trailtab_places/trailtab_places.dart';
 import 'package:beer_trail_app/screens/screen_profile/profile_earned_achievements.dart';
 import 'package:beer_trail_app/screens/screen_profile/profile_favorites.dart';
 import 'package:beer_trail_app/screens/screen_profile/profile_top_area.dart';
