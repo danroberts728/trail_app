@@ -1,3 +1,4 @@
+// Copyright (c) 2021, Fermented Software
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:trail_database/trail_database.dart';

@@ -1,3 +1,4 @@
+// Copyright (c) 2021, Fermented Software
 import 'package:flutter/material.dart';
 
 Color _mainHeadingColor = Color(0xFF93654E);
