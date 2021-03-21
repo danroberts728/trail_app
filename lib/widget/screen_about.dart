@@ -1,6 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:alabama_beer_trail/util/app_launcher.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -90,25 +89,25 @@ class AboutScreen extends StatelessWidget {
                           color: Color(0xff3b5998),
                         ),
                         onTap: () => AppLauncher().openFacebookPage(
-                            TrailAppSettings.aboutScreenFbPageId),
+                            '178685318846986',),
                       ),
                       InkWell(
                         child: Icon(FontAwesomeIcons.twitter,
                             color: Color(0xff1da1f2)),
                         onTap: () => AppLauncher().openWebsite(
-                            TrailAppSettings.aboutScreenTwitterLink),
+                            'https://twitter.com/freethehops',),
                       ),
                       InkWell(
                         child: Icon(FontAwesomeIcons.instagram,
                             color: Color(0xffc13584)),
                         onTap: () => AppLauncher().openWebsite(
-                            TrailAppSettings.aboutScreenInstagramLink),
+                            'https://www.instagram.com/freethehops/',),
                       ),
                       InkWell(
                         child:
                             Icon(FontAwesomeIcons.link, color: Colors.blueGrey),
                         onTap: () => AppLauncher().openWebsite(
-                            TrailAppSettings.aboutScreenWebsiteLink),
+                            'https://freethehops.org',),
                       ),
                     ],
                   ),

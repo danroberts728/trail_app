@@ -5,7 +5,6 @@ import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_places/trailtab_places.dart';
 import 'package:trailtab_events/trailtab_events.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widget/app_drawer.dart';
 import 'package:alabama_beer_trail/widget/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -102,7 +101,7 @@ class HomeState extends State<Home>
   /// A list of the tabs.
   final List<TabScreen> _appTabs = [
     TabScreen(
-      appBarTitle: TrailAppSettings.navBarTrailTabTitle,
+      appBarTitle: "Alabama Beer Trail",
       child: TrailTabPlaces(
         minDistanceToCheckIn: 0.15,
         showNonMemberTapList: false,
@@ -110,13 +109,13 @@ class HomeState extends State<Home>
       ),
     ),
     TabScreen(
-      appBarTitle: TrailAppSettings.navBarEventsTabTitle,
+      appBarTitle: "Alabama Beer Events",
       child: TrailTabEvents(
         filterDistanceOptions: [5, 25, 50, 100],
       ),
     ),
     TabScreen(
-      appBarTitle: TrailAppSettings.navBarNewsTabTitle,
+      appBarTitle: "Alabama Beer News",
       child: TrailTabWordpressNews(
         rssFeed: 'https://freethehops.org/category/app-publish/feed/',
         updateFrequencySeconds: 120,
@@ -126,7 +125,7 @@ class HomeState extends State<Home>
       ),
     ),
     TabScreen(
-      appBarTitle: TrailAppSettings.navBarAchievementsTabTitle,
+      appBarTitle: "Badges",
       child: TrailTabBadges(),
     ),
   ];
@@ -160,27 +159,27 @@ class HomeState extends State<Home>
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onTabTapped,
         currentIndex: _currentIndex,
-        backgroundColor: TrailAppSettings.navBarBackgroundColor,
+        backgroundColor: Theme.of(context).primaryColor,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: TrailAppSettings.navBarSelectedItemColor,
-        showUnselectedLabels: TrailAppSettings.navBarShowUnselectedLabels,
-        showSelectedLabels: TrailAppSettings.navBarShowSelectedLabels,
+        selectedItemColor: Colors.white70,
+        showUnselectedLabels: false,
+        showSelectedLabels: true,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(TrailAppSettings.navBarTrailIcon),
-            label: TrailAppSettings.navBarTrailLabel,
+            icon: new Icon(Icons.location_on),
+            label: "Trail",
           ),
           BottomNavigationBarItem(
-            icon: Icon(TrailAppSettings.navBarEventsIcon),
-            label: TrailAppSettings.navBarEventsLabel,
+            icon: Icon(Icons.calendar_today),
+            label: "Events",
           ),
           BottomNavigationBarItem(
-            icon: Icon(TrailAppSettings.navBarNewsIcon),
-            label: TrailAppSettings.navBarNewsLabel,
+            icon: Icon(Icons.rss_feed),
+            label: "News",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(TrailAppSettings.navBarAchievementsIcon),
-            label: TrailAppSettings.navBarAchievementsLabel,
+            icon: new Icon(Icons.emoji_events),
+            label: "Badges",
           ),
         ],
       ),

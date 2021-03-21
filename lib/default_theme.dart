@@ -48,6 +48,7 @@ var defaultTheme = ThemeData(
       color: _subTitleColor,
       fontSize: 14.0,
       fontWeight: FontWeight.w600,
+      height: 1.5,
     ),
     subtitle2: TextStyle(
       color: _subTitleColor,

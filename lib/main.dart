@@ -2,7 +2,6 @@
 import 'package:alabama_beer_trail/default_theme.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_location_service/trail_location_service.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -58,7 +57,7 @@ class TrailApp extends StatelessWidget {
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
       navigatorKey: navigatorKey,
-      title: TrailAppSettings.appName,
+      title: "Alabama Beer Trail",
       debugShowCheckedModeBanner: true,
       theme: defaultTheme,
       home: Home(

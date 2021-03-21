@@ -1,5 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/material.dart';
 
 /// A statistic for the app, designed for use in the app's drawer
@@ -30,7 +29,7 @@ class ProfileStat extends StatelessWidget {
             TextSpan(
               text: " ${this.postText}",
               style: TextStyle(
-                color: TrailAppSettings.actionLinksColor,
+                color: Theme.of(context).buttonColor,
                 fontWeight: FontWeight.normal,
                 fontSize: 18.0,
                 height: 1.5,

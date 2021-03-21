@@ -7,7 +7,6 @@ import 'package:trail_profile/trail_profile.dart';
 import 'package:trailtab_places/trailtab_places.dart';
 import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:trail_auth/trail_auth.dart';
-import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:alabama_beer_trail/widget/app_drawer_menu_item.dart';
 import 'package:alabama_beer_trail/widget/app_drawer_stats.dart';
 import 'package:trail_profile/widget/profile_user_photo.dart';
@@ -73,12 +72,7 @@ class _AppDrawer extends State<AppDrawer> {
                   child: Text(
                     TrailAuth().user != null ? TrailAuth().user.email : "",
                     maxLines: 3,
-                    style: TextStyle(
-                      height: 1.5,
-                      fontSize: 14.0,
-                      color: TrailAppSettings.subHeadingColor,
-                      fontWeight: FontWeight.normal,
-                    ),
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
               ),
@@ -101,7 +95,7 @@ class _AppDrawer extends State<AppDrawer> {
                   margin: EdgeInsets.symmetric(horizontal: 16.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: TrailAppSettings.actionLinksColor,
+                      primary: Theme.of(context).buttonColor,
                       elevation: 8.0,
                     ),
                     child: Text(
@@ -128,6 +122,7 @@ class _AppDrawer extends State<AppDrawer> {
               Visibility(
                 visible: widget.isUserLoggedIn,
                 child: AppDrawerMenuItem(
+                    iconColor: Theme.of(context).buttonColor,
                     iconData: Icons.person,
                     name: "Profile",
                     onTap: () {
@@ -151,6 +146,7 @@ class _AppDrawer extends State<AppDrawer> {
               Visibility(
                 visible: widget.isUserLoggedIn,
                 child: AppDrawerMenuItem(
+                  iconColor: Theme.of(context).buttonColor,
                     iconData: Icons.book,
                     name: "Passport",
                     onTap: () {
@@ -173,6 +169,7 @@ class _AppDrawer extends State<AppDrawer> {
               ),
               // About
               AppDrawerMenuItem(
+                iconColor: Theme.of(context).buttonColor,
                   iconData: Icons.info,
                   name: "About",
                   onTap: () {
@@ -187,15 +184,17 @@ class _AppDrawer extends State<AppDrawer> {
                   }),
               // Submit Feedback
               AppDrawerMenuItem(
+                iconColor: Theme.of(context).buttonColor,
                   iconData: Icons.chat,
                   name: "Submit Feedback",
                   onTap: () {
                     Navigator.pop(context);
-                    AppLauncher()
-                        .openWebsite(TrailAppSettings.submitFeedbackUrl);
+                    AppLauncher().openWebsite(
+                        "https://freethehops.org/apps/submit-feedback/");
                   }),
               // Privacy Policy
               AppDrawerMenuItem(
+                iconColor: Theme.of(context).buttonColor,
                   iconData: Icons.privacy_tip,
                   name: "Privacy Policy",
                   onTap: () {
@@ -212,6 +211,7 @@ class _AppDrawer extends State<AppDrawer> {
               Visibility(
                 visible: widget.isUserLoggedIn,
                 child: AppDrawerMenuItem(
+                  iconColor: Theme.of(context).buttonColor,
                   iconData: Icons.logout,
                   name: "Log Out",
                   onTap: () => TrailAuth().logout(),
