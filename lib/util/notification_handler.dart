@@ -1,4 +1,4 @@
-import 'package:beer_trail_app/util/app_launcher.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_events/trailtab_events.dart';

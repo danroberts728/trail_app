@@ -1,13 +1,13 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:trailtab_badges/trailtab_badges.dart';
-import 'package:beer_trail_app/util/notification_handler.dart';
-import 'package:beer_trail_app/util/tabselection_service.dart';
+import 'package:alabama_beer_trail/util/notification_handler.dart';
+import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_places/trailtab_places.dart';
 import 'package:trailtab_events/trailtab_events.dart';
-import 'package:beer_trail_app/util/trail_app_settings.dart';
-import 'package:beer_trail_app/widgets/app_drawer.dart';
-import 'package:beer_trail_app/widgets/trail_search_delegate.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widget/app_drawer.dart';
+import 'package:alabama_beer_trail/widget/trail_search_delegate.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 

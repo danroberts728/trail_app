@@ -1,8 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/default_theme.dart';
+import 'package:alabama_beer_trail/default_theme.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_location_service/trail_location_service.dart';
-import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,7 +12,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/home.dart';
+import 'widget/home.dart';
 
 
 /// The main function for the app

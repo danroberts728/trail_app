@@ -1,6 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/util/app_launcher.dart';
-import 'package:beer_trail_app/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

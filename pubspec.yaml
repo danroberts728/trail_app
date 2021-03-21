@@ -1,5 +1,5 @@
-name: beer_trail_app
-description: Beer Trail App. See nearby craft beer destinations and find nearby events.
+name: alabama_beer_trail
+description: Alabama Beer Trail. See nearby craft beer destinations and find nearby events.
 author: Dan Roberts <droberts@alabamabrewers.org>
 publish_to: none
 
@@ -12,35 +12,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  add_to_calendar: ^1.2.0+1
-  apple_sign_in: ^0.1.0
-  cached_network_image: ^2.3.2+1
-  carousel_slider: ^2.2.1
-  cloud_firestore: ^0.14.0+2
-  confetti: ^0.5.4+1
   firebase_analytics: ^6.0.0
-  firebase_auth: ^0.18.0+1
   firebase_core: ^0.5.0
   firebase_crashlytics: ^0.1.4+1
   firebase_messaging: ^7.0.0
-  firebase_performance: ^0.4.0
-  firebase_storage: ^4.0.0
-  flutter_auth_buttons: ^0.10.0
-  flutter_circular_text: ^0.3.0
   flutter_widget_from_html_core: ^0.5.0+3
   font_awesome_flutter: ^8.8.1  
-  google_maps_cluster_manager: ^0.1.0
-  google_maps_flutter: ^0.5.32
-  google_sign_in: ^4.5.3
-  html_unescape: ^1.0.2
   http: ^0.12.2
   image: ^2.1.17
-  image_cropper: ^1.3.1
-  image_picker: ^0.6.7+10
-  intl: ^0.16.1
   location: ^3.2.4
-  permission_handler: ^5.0.1+1
-  timeago: ^2.0.29
   trail_auth:
     git: 
       url: https://github.com/danroberts728/beer_trail_packages.git
@@ -69,6 +49,10 @@ dependencies:
     git:
       url: https://github.com/danroberts728/beer_trail_packages.git
       path: packages/trailtab_badges
+  trail_profile:
+    git:
+      url: https://github.com/danroberts728/beer_trail_packages.git
+      path: packages/trail_profile
   url_launcher: ^5.4.11
 
 dev_dependencies:

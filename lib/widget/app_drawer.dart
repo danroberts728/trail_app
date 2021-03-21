@@ -1,16 +1,16 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_database/domain/user_data.dart';
-import 'package:beer_trail_app/screens/screen_about.dart';
-import 'package:beer_trail_app/screens/screen_privacy_policy.dart';
-import 'package:beer_trail_app/screens/screen_profile/screen_profile.dart';
+import 'package:alabama_beer_trail/widget/screen_about.dart';
+import 'package:alabama_beer_trail/widget/screen_privacy_policy.dart';
+import 'package:trail_profile/trail_profile.dart';
 import 'package:trailtab_places/trailtab_places.dart';
-import 'package:beer_trail_app/util/app_launcher.dart';
+import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:trail_auth/trail_auth.dart';
-import 'package:beer_trail_app/util/trail_app_settings.dart';
-import 'package:beer_trail_app/widgets/app_drawer_menu_item.dart';
-import 'package:beer_trail_app/widgets/app_drawer_stats.dart';
-import 'package:beer_trail_app/widgets/profile_user_photo.dart';
+import 'package:alabama_beer_trail/util/trail_app_settings.dart';
+import 'package:alabama_beer_trail/widget/app_drawer_menu_item.dart';
+import 'package:alabama_beer_trail/widget/app_drawer_stats.dart';
+import 'package:trail_profile/widget/profile_user_photo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -136,7 +136,13 @@ class _AppDrawer extends State<AppDrawer> {
                         context,
                         MaterialPageRoute(
                           settings: RouteSettings(name: 'Profile'),
-                          builder: (context) => ScreenProfile(),
+                          builder: (context) => TrailProfile(
+                            defaultBannerImageAssetName:
+                                'assets/images/fthglasses.jpg',
+                            defaultDisplayName: " ",
+                            defaultProfilePhotoAssetName:
+                                'assets/images/defaultprofilephoto.png',
+                          ),
                         ),
                       );
                     }),
