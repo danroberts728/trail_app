@@ -1,7 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:trailtab_badges/trailtab_badges.dart';
 import 'package:alabama_beer_trail/util/notification_handler.dart';
-import 'package:alabama_beer_trail/util/tabselection_service.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_places/trailtab_places.dart';
 import 'package:trailtab_events/trailtab_events.dart';
@@ -35,9 +34,8 @@ class Home extends StatefulWidget {
 ///
 class HomeState extends State<Home>
     with SingleTickerProviderStateMixin, RouteAware {
-  final _tabSelectionBloc = TabSelectionService();
-
-  NotificationHandler _notificationHandler = NotificationHandler(TrailDatabase());
+  NotificationHandler _notificationHandler =
+      NotificationHandler(TrailDatabase());
 
   HomeState() {
     TrailAuth().onAuthChange.listen((event) {
@@ -92,9 +90,12 @@ class HomeState extends State<Home>
       ),
     );
     _firebaseMessaging.configure(
-      onMessage: (message) => _notificationHandler.handleNotificationMessage(context, message),
-      onLaunch: (message) => _notificationHandler.handleNotificationLaunch(context, message),
-      onResume: (message) => _notificationHandler.handleNotificationResume(context, message),
+      onMessage: (message) =>
+          _notificationHandler.handleNotificationMessage(context, message),
+      onLaunch: (message) =>
+          _notificationHandler.handleNotificationLaunch(context, message),
+      onResume: (message) =>
+          _notificationHandler.handleNotificationResume(context, message),
     );
   }
 
@@ -200,7 +201,6 @@ class HomeState extends State<Home>
         _appBarTitle = Text(_appTabs[index].appBarTitle);
         _sendCurrentTabToAnalytics();
       }
-      _tabSelectionBloc.updateTabSelection(index);
     });
   }
 

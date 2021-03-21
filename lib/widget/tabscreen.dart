@@ -16,5 +16,4 @@ class TabScreen extends StatelessWidget {
       child: this.child,
     );
   }
-
 }
