@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 
 /// A statistic for the app, designed for use in the app's drawer
-class ProfileStat extends StatelessWidget {
+class AppDrawerStat extends StatelessWidget {
   final String postText;
   final int value;
   final Function onPressed;
 
-  ProfileStat(
+  AppDrawerStat(
       {@required this.postText,
       @required this.value,
       @required this.onPressed});

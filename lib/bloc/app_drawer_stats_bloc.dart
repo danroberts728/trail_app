@@ -2,12 +2,11 @@
 import 'dart:async';
 
 import 'package:trail_database/domain/user_data.dart';
-import 'package:alabama_beer_trail/bloc/bloc.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_database/domain/trail_place.dart';
 
 /// The BLoC for ProfileStatsArea objects
-class AppDrawerStatsBloc extends Bloc {
+class AppDrawerStatsBloc {
   /// A reference to the central database.
   TrailDatabase _db;
 
@@ -86,7 +85,6 @@ class AppDrawerStatsBloc extends Bloc {
   }
 
   /// Dispose object
-  @override
   void dispose() {
     _streamController.close();
     _checkInSubscription.cancel();

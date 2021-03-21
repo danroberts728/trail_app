@@ -2,7 +2,7 @@
 import 'package:alabama_beer_trail/bloc/app_drawer_stats_bloc.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_places/trailtab_places.dart';
-import 'package:alabama_beer_trail/widget/profile_stat.dart';
+import 'package:alabama_beer_trail/widget/app_drawer_stat.dart';
 import 'package:flutter/material.dart';
 
 /// The stats for the app's drawer. Includes the # checked in,
@@ -45,7 +45,7 @@ class _AppDrawerStats extends State<AppDrawerStats> {
             runSpacing: 8.0,
             spacing: 16.0,
             children: <Widget>[
-              ProfileStat(
+              AppDrawerStat(
                 value: visited.length,
                 postText: "Stamps",
                 onPressed: () {
@@ -61,7 +61,7 @@ class _AppDrawerStats extends State<AppDrawerStats> {
                   );
                 },
               ),
-              ProfileStat(
+              AppDrawerStat(
                 value: notVisited.length,
                 postText: "Not Visited",
                 onPressed: () {
@@ -77,7 +77,7 @@ class _AppDrawerStats extends State<AppDrawerStats> {
                   );
                 },
               ),
-              ProfileStat(
+              AppDrawerStat(
                 value: favorited.length,
                 postText: "Favorites",
                 onPressed: () {
