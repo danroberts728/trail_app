@@ -1,4 +1,4 @@
-import 'package:alabama_beer_trail/util/app_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_events/trailtab_events.dart';
@@ -71,7 +71,7 @@ class NotificationHandler {
           label: 'Go',
           textColor: Theme.of(context).buttonColor,
           onPressed: () {
-            AppLauncher().openWebsite(gotoLink);
+            launch(gotoLink);
           },
         ),
       ));
@@ -108,7 +108,7 @@ class NotificationHandler {
         });
       }
     } else if (gotoLink != null) {
-      AppLauncher().openWebsite(gotoLink);
+      launch(gotoLink);
     }
   }
 

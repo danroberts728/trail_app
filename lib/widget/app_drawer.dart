@@ -5,7 +5,7 @@ import 'package:alabama_beer_trail/widget/screen_about.dart';
 import 'package:alabama_beer_trail/widget/screen_privacy_policy.dart';
 import 'package:trail_profile/trail_profile.dart';
 import 'package:trailtab_places/trailtab_places.dart';
-import 'package:alabama_beer_trail/util/app_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:alabama_beer_trail/widget/app_drawer_menu_item.dart';
 import 'package:alabama_beer_trail/widget/app_drawer_stats.dart';
@@ -146,7 +146,7 @@ class _AppDrawer extends State<AppDrawer> {
               Visibility(
                 visible: widget.isUserLoggedIn,
                 child: AppDrawerMenuItem(
-                  iconColor: Theme.of(context).buttonColor,
+                    iconColor: Theme.of(context).buttonColor,
                     iconData: Icons.book,
                     name: "Passport",
                     onTap: () {
@@ -169,7 +169,7 @@ class _AppDrawer extends State<AppDrawer> {
               ),
               // About
               AppDrawerMenuItem(
-                iconColor: Theme.of(context).buttonColor,
+                  iconColor: Theme.of(context).buttonColor,
                   iconData: Icons.info,
                   name: "About",
                   onTap: () {
@@ -185,16 +185,16 @@ class _AppDrawer extends State<AppDrawer> {
               // Submit Feedback
               AppDrawerMenuItem(
                 iconColor: Theme.of(context).buttonColor,
-                  iconData: Icons.chat,
-                  name: "Submit Feedback",
-                  onTap: () {
-                    Navigator.pop(context);
-                    AppLauncher().openWebsite(
-                        "https://freethehops.org/apps/submit-feedback/");
-                  }),
+                iconData: Icons.chat,
+                name: "Submit Feedback",
+                onTap: () {
+                  Navigator.pop(context);
+                  launch("https://freethehops.org/apps/submit-feedback");
+                },
+              ),
               // Privacy Policy
               AppDrawerMenuItem(
-                iconColor: Theme.of(context).buttonColor,
+                  iconColor: Theme.of(context).buttonColor,
                   iconData: Icons.privacy_tip,
                   name: "Privacy Policy",
                   onTap: () {

@@ -1,5 +1,6 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/util/app_launcher.dart';
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -88,26 +89,30 @@ class AboutScreen extends StatelessWidget {
                           FontAwesomeIcons.facebook,
                           color: Color(0xff3b5998),
                         ),
-                        onTap: () => AppLauncher().openFacebookPage(
-                            '178685318846986',),
+                        onTap: () => _openFacebookPage(
+                          '178685318846986',
+                        ),
                       ),
                       InkWell(
                         child: Icon(FontAwesomeIcons.twitter,
                             color: Color(0xff1da1f2)),
-                        onTap: () => AppLauncher().openWebsite(
-                            'https://twitter.com/freethehops',),
+                        onTap: () => launch(
+                          'https://twitter.com/freethehops',
+                        ),
                       ),
                       InkWell(
                         child: Icon(FontAwesomeIcons.instagram,
                             color: Color(0xffc13584)),
-                        onTap: () => AppLauncher().openWebsite(
-                            'https://www.instagram.com/freethehops/',),
+                        onTap: () => launch(
+                          'https://www.instagram.com/freethehops/',
+                        ),
                       ),
                       InkWell(
                         child:
                             Icon(FontAwesomeIcons.link, color: Colors.blueGrey),
-                        onTap: () => AppLauncher().openWebsite(
-                            'https://freethehops.org',),
+                        onTap: () => launch(
+                          'https://freethehops.org',
+                        ),
                       ),
                     ],
                   ),
@@ -122,5 +127,28 @@ class AboutScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  static void _openFacebookPage(String pageId) async {
+    String fbProtocolUrl;
+    String fallbackUrl = "https://www.facebook.com/$pageId";
+    if (Platform.isAndroid) {
+      fbProtocolUrl = "fb://page/$pageId";
+    } else if (Platform.isIOS) {
+      fbProtocolUrl = "fb://profile/$pageId";
+    } else {
+      fbProtocolUrl = fallbackUrl;
+    }
+    try {
+      canLaunch(fbProtocolUrl).then((bool yes) {
+        if (yes) {
+          launch(fbProtocolUrl);
+        } else {
+          launch(fallbackUrl);
+        }
+      });
+    } catch (e) {
+      await launch(fallbackUrl);
+    }
   }
 }

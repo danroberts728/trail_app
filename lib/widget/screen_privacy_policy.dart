@@ -1,7 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:alabama_beer_trail/util/app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScreenPrivacyPolicy extends StatelessWidget {
   @override
@@ -32,9 +32,9 @@ class ScreenPrivacyPolicy extends StatelessWidget {
 
   void _onTapUrl(url) {
     if (url.contains('mailto:')) {
-      AppLauncher().email(url.replaceFirst('mailto:', ''));
+      launch(url.replaceFirst('mailto:', ''));
     } else {
-      AppLauncher().openWebsite(url);
+      launch(url);
     }
   }
 
