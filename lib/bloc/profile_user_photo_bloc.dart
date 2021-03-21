@@ -6,47 +6,47 @@ import 'dart:math';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
-import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/bloc/bloc.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_database/domain/user_data.dart';
 
-/// A BLoC for ProfileBanner objects
-class ProfileBannerBloc extends Bloc {
-  /// A reference to the central database.
+/// The BLoC for ProfileUserPhoto objects
+class ProfileUserPhotoBloc extends Bloc {
+  /// A reference to the central database
   TrailDatabase _db;
 
-  /// A subscription to the user data data stream
+  /// A subscription to the user's data
   StreamSubscription _userDataSubscription;
 
-  /// The banner Image URL for the current user
-  String bannerImageUrl;
+  /// The current user's profile image
+  String profileImageUrl;
 
-  /// The controller for this BLoC's stream
+  /// Controller for this BLoC's stream
   final _controller = StreamController<String>();
 
-  /// The stream for the user's banner Image URL
+  /// The stream for this BLoC's profile image URL
   Stream<String> get stream => _controller.stream;
 
   /// Default constructor
-  ProfileBannerBloc(TrailDatabase db) : assert(db != null) {
+  ProfileUserPhotoBloc(TrailDatabase db) : assert(db != null) {
     _db = db;
-    bannerImageUrl = _db.userData.bannerImageUrl;
+    profileImageUrl = _db.userData.profilePhotoUrl;
     _userDataSubscription = _db.userDataStream.listen(_onUserDataUpdate);
   }
 
-  /// Callback when the user data gets new data
+  /// Callback when user's data is updated
   void _onUserDataUpdate(UserData event) {
-    var newBannerImage = event.bannerImageUrl;
-    if (newBannerImage != bannerImageUrl) {
-      bannerImageUrl = newBannerImage;
-      _controller.sink.add(bannerImageUrl);
+    var newProfileImage = event.profilePhotoUrl;
+    if(newProfileImage != profileImageUrl) {
+      profileImageUrl = newProfileImage;
+      _controller.sink.add(profileImageUrl);
     }
   }
 
-  /// Updates the current user's banner image URL with
-  /// [file]. Uploads the file to cloud storage and sets
-  /// the reference in the user's data.
-  Future<String> updateBannerImage(File file) async {
+  /// Updates the user's profile image with [file]. Uploads
+  /// the [file] to storage and updates the reference in the
+  /// user's data.
+  Future<void> updateProfileImage(File file) async {
     String ext = extension(file.path);
     String storageFileName = Random().nextInt(100000).toString() + '.$ext';
     StorageReference storageRef =
@@ -59,14 +59,14 @@ class ProfileBannerBloc extends Bloc {
     );
     StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     String url = (await downloadUrl.ref.getDownloadURL());
-    _db.updateUserData({'bannerImageUrl': url});
-    return Future.value(url);
+    _db.updateUserData({'profilePhotoUrl': url});
   }
 
-  /// Dispose the object.
+  /// Dipose object
   @override
   void dispose() {
     _userDataSubscription.cancel();
     _controller.close();
   }
+
 }

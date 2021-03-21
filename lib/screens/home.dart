@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/tabscreens/tabscreen_badges.dart';
+import 'package:trailtab_badges/trailtab_badges.dart';
 import 'package:beer_trail_app/util/notification_handler.dart';
 import 'package:beer_trail_app/util/tabselection_service.dart';
 import 'package:trail_database/trail_database.dart';
@@ -13,7 +13,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:trail_auth/trail_auth.dart';
 import 'package:trailtab_wordpress_news/trailtab_wordpress_news.dart';
-import '../tabscreens/tabscreen.dart';
+import 'tabscreen.dart';
 
 import 'package:flutter/material.dart';
 
@@ -127,7 +127,7 @@ class HomeState extends State<Home>
     ),
     TabScreen(
       appBarTitle: TrailAppSettings.navBarAchievementsTabTitle,
-      child: TabScreenBadges(),
+      child: TrailTabBadges(),
     ),
   ];
 

@@ -3,7 +3,7 @@ import 'package:trail_database/trail_database.dart';
 import 'package:beer_trail_app/screens/screen_edit_profile.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:trail_database/domain/user_data.dart';
-import 'package:beer_trail_app/blocs/profile_top_area_bloc.dart';
+import 'package:beer_trail_app/bloc/profile_top_area_bloc.dart';
 import 'package:beer_trail_app/util/trail_app_settings.dart';
 import 'package:beer_trail_app/widgets/profile_banner.dart';
 import 'package:beer_trail_app/widgets/profile_user_photo.dart';

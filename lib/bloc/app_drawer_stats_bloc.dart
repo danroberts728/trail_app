@@ -2,7 +2,7 @@
 import 'dart:async';
 
 import 'package:trail_database/domain/user_data.dart';
-import 'package:beer_trail_app/blocs/bloc.dart';
+import 'package:beer_trail_app/bloc/bloc.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_database/domain/trail_place.dart';
 

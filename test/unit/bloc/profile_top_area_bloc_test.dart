@@ -1,5 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/blocs/profile_top_area_bloc.dart';
+import 'package:beer_trail_app/bloc/profile_top_area_bloc.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';

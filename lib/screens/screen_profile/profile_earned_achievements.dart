@@ -1,8 +1,8 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:beer_trail_app/blocs/profile_earned_achievements_bloc.dart';
+import 'package:beer_trail_app/bloc/profile_earned_achievements_bloc.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_database/domain/trail_trophy.dart';
-import 'package:beer_trail_app/screens/screen_trailtrophy_detail/screen_trailtrophy_detail.dart';
+import 'package:trailtab_badges/trailtab_badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
