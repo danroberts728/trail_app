@@ -46,7 +46,7 @@ class HomeState extends State<Home>
   }
 
   /// Firebase Messaging
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   GlobalKey _stackKey = GlobalKey();
 
@@ -81,22 +81,15 @@ class HomeState extends State<Home>
     super.initState();
     _appBarTitle =
         Text(_appTabs[_currentIndex].appBarTitle, key: Key("MainAppBarTitle"));
-    _firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(
+    _firebaseMessaging.requestPermission(
         sound: true,
         badge: true,
         alert: true,
         provisional: true,
-      ),
     );
-    _firebaseMessaging.configure(
-      onMessage: (message) =>
-          _notificationHandler.handleNotificationMessage(context, message),
-      onLaunch: (message) =>
-          _notificationHandler.handleNotificationLaunch(context, message),
-      onResume: (message) =>
-          _notificationHandler.handleNotificationResume(context, message),
-    );
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) { 
+      _notificationHandler.handleNotificationMessage(context, message);
+    });
   }
 
   /// A list of the tabs.

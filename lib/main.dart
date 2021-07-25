@@ -22,8 +22,7 @@ import 'widget/home.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp().then((app) {
-    Crashlytics.instance.enableInDevMode = true;
-    FlutterError.onError = Crashlytics.instance.recordFlutterError;
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     return SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp]);
   }).then((_) {
@@ -49,7 +48,7 @@ class TrailApp extends StatelessWidget {
   Widget build(BuildContext context) {
     TrailAuth().onAuthChange.listen((event) {
       if (TrailAuth().user != null && TrailAuth().user.uid.isNotEmpty) {
-        FirebaseMessaging().getToken().then((token) {
+        FirebaseMessaging.instance.getToken().then((token) {
           TrailDatabase().saveFcmToken(token);
         });
       }

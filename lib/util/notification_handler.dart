@@ -1,4 +1,5 @@
 // Copyright (c) 2021, Fermented Software
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:trail_database/trail_database.dart';
@@ -16,13 +17,13 @@ class NotificationHandler {
   List<TrailEvent> events = <TrailEvent>[];
 
   Future handleNotificationLaunch(
-      BuildContext context, Map<String, dynamic> message) {
-    return _navigateNotificationRoute(context, message);
+      BuildContext context, RemoteMessage message) {
+    return _navigateNotificationRoute(context, message.data);
   }
 
   Future handleNotificationMessage(
-      BuildContext context, Map<String, dynamic> message) {
-    return _showNotificationSnackBar(context, message);
+      BuildContext context, RemoteMessage message) {
+    return _showNotificationSnackBar(context, message.data);
   }
 
   Future handleNotificationResume(
