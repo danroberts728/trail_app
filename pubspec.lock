@@ -70,14 +70,14 @@ packages:
       name: built_collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.1.0"
   built_value:
     dependency: transitive
     description:
       name: built_value
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.0.3"
+    version: "8.1.1"
   cached_network_image:
     dependency: transitive
     description:
@@ -112,7 +112,7 @@ packages:
       name: cli_util
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
+    version: "0.3.3"
   clock:
     dependency: transitive
     description:
@@ -210,7 +210,7 @@ packages:
       name: ffi
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.2"
   file:
     dependency: transitive
     description:
@@ -403,7 +403,7 @@ packages:
       name: glob
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   google_maps_cluster_manager:
     dependency: transitive
     description:
@@ -473,7 +473,7 @@ packages:
       name: http_multi_server
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   http_parser:
     dependency: transitive
     description:
@@ -494,7 +494,7 @@ packages:
       name: image_cropper
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.0"
+    version: "1.4.1"
   image_picker:
     dependency: transitive
     description:
@@ -522,7 +522,7 @@ packages:
       name: io
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.3"
   js:
     dependency: transitive
     description:
@@ -557,7 +557,7 @@ packages:
       name: logging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   matcher:
     dependency: transitive
     description:
@@ -620,7 +620,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   path_provider_linux:
     dependency: transitive
     description:
@@ -648,14 +648,14 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   pedantic:
     dependency: transitive
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.1"
   permission_handler:
     dependency: transitive
     description:
@@ -890,7 +890,7 @@ packages:
     description:
       path: "packages/trail_auth"
       ref: HEAD
-      resolved-ref: "3c9108de763218c7c9c3663c98982ee224ad2f4b"
+      resolved-ref: e199a0c29e40f8d5ebdc4861191e93b207944476
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -899,7 +899,7 @@ packages:
     description:
       path: "packages/trail_database"
       ref: HEAD
-      resolved-ref: "3c9108de763218c7c9c3663c98982ee224ad2f4b"
+      resolved-ref: e199a0c29e40f8d5ebdc4861191e93b207944476
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -908,7 +908,7 @@ packages:
     description:
       path: "packages/trail_location_service"
       ref: HEAD
-      resolved-ref: "3c9108de763218c7c9c3663c98982ee224ad2f4b"
+      resolved-ref: e199a0c29e40f8d5ebdc4861191e93b207944476
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -917,7 +917,7 @@ packages:
     description:
       path: "packages/trail_profile"
       ref: HEAD
-      resolved-ref: "3c9108de763218c7c9c3663c98982ee224ad2f4b"
+      resolved-ref: e199a0c29e40f8d5ebdc4861191e93b207944476
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -926,7 +926,7 @@ packages:
     description:
       path: "packages/trailtab_badges"
       ref: HEAD
-      resolved-ref: "3c9108de763218c7c9c3663c98982ee224ad2f4b"
+      resolved-ref: e199a0c29e40f8d5ebdc4861191e93b207944476
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -935,7 +935,7 @@ packages:
     description:
       path: "packages/trailtab_events"
       ref: HEAD
-      resolved-ref: "3c9108de763218c7c9c3663c98982ee224ad2f4b"
+      resolved-ref: e199a0c29e40f8d5ebdc4861191e93b207944476
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -944,7 +944,7 @@ packages:
     description:
       path: "packages/trailtab_places"
       ref: HEAD
-      resolved-ref: "3c9108de763218c7c9c3663c98982ee224ad2f4b"
+      resolved-ref: e199a0c29e40f8d5ebdc4861191e93b207944476
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -953,7 +953,7 @@ packages:
     description:
       path: "packages/trailtab_wordpress_news"
       ref: HEAD
-      resolved-ref: "3c9108de763218c7c9c3663c98982ee224ad2f4b"
+      resolved-ref: e199a0c29e40f8d5ebdc4861191e93b207944476
       url: "https://github.com/danroberts728/beer_trail_packages.git"
     source: git
     version: "0.0.1"
@@ -1068,7 +1068,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   xdg_directories:
     dependency: transitive
     description:
