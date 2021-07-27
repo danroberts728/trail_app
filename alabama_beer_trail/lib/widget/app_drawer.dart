@@ -142,24 +142,6 @@ class _AppDrawer extends State<AppDrawer> {
                       );
                     }),
               ),
-              // Passport
-              Visibility(
-                visible: widget.isUserLoggedIn,
-                child: AppDrawerMenuItem(
-                    iconColor: Theme.of(context).buttonColor,
-                    iconData: Icons.book,
-                    name: "Passport",
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          settings: RouteSettings(name: 'Passport'),
-                          builder: (context) => ScreenPassport(),
-                        ),
-                      );
-                    }),
-              ),
               // Line
               Visibility(
                 visible: widget.isUserLoggedIn,
