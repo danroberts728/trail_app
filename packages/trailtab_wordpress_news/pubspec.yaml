@@ -1,0 +1,28 @@
+name: trailtab_wordpress_news
+description: A new Flutter package project.
+version: 0.0.1
+author:
+homepage:
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  webfeed: ^0.7.0
+  url_launcher: ^6.0.9
+  flutter_widget_from_html_core: ^0.5.0+3
+  cached_network_image: ^2.3.2+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  test: any
+  mockito: ^4.1.1
+
+flutter:
+  assets:
+    - assets/newsfeed_empty_image.jpg

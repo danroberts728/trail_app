@@ -1,0 +1,93 @@
+// Copyright (c) 2020, Fermented Software.
+import 'package:trailtab_events/util/event_filter.dart';
+import 'package:trail_location_service/trail_location_service.dart';
+import 'package:flutter/material.dart';
+
+/// A dropdown filter widget for events
+class DropDownEventFilter extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _DropDownEventFilter();
+
+  /// The event filter associated with this widget
+  final EventFilter filter;
+  final List<double> eventFilterDistances;
+
+  /// Default constructor
+  DropDownEventFilter({@required this.filter, @required this.eventFilterDistances});
+}
+
+/// State for DropDownEventFilter
+class _DropDownEventFilter extends State<DropDownEventFilter> {
+  /// Filter distance selection options
+  List<double> _options;
+
+  @override
+  void initState() {
+    _options = widget.eventFilterDistances..add(double.infinity);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      child: Wrap(
+        // Keeping this here so it's extensible
+        alignment: WrapAlignment.start,
+        direction: Axis.horizontal,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 4.0),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(20.0),
+                color: Colors.white54,
+              ),
+              child: DropdownButton(
+                underline: SizedBox(),
+                icon: Icon(Icons.gps_not_fixed),
+                isDense: true,
+                iconSize: 14,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+                value: widget.filter.distance,
+                onChanged: (value) {
+                  widget.filter.updateFilter(distance: value);
+                  if (value < double.infinity &&
+                      TrailLocationService().lastLocation == null) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => LocationOffDialog(
+                        locationService: TrailLocationService(),
+                        message:
+                            "It looks like we can't access your location in order to filter nearby events. Please turn on location.",
+                      ),
+                    );
+                  }
+                },
+                items: _options.map((double d) {
+                  return DropdownMenuItem(
+                    child: d == double.infinity
+                        ? Text("Any miles ")
+                        : Text("${d.toStringAsFixed(0)} miles "),
+                    value: d,
+                  );
+                }).toList(),
+                selectedItemBuilder: (context) => _options.map((d) {
+                  return d == double.infinity
+                      ? Text("All events ")
+                      : Text("Events within ${d.toStringAsFixed(0)} miles ");
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

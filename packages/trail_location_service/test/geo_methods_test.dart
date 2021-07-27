@@ -1,0 +1,63 @@
+// Copyright (c) 2020, Fermented Software.
+import 'dart:math';
+
+import 'package:trail_location_service/geo_methods.dart';
+import 'package:flutter_test/flutter_test.dart' as flutter_test;
+import 'package:test/test.dart';
+
+/// Tests for the GeoMethods utility class
+void main() {
+  flutter_test.TestWidgetsFlutterBinding.ensureInitialized();
+group('Geo Methods', () {
+    test('Calculate distance between two lat/lng points', () {
+      Point a = Point(30.2782023, -87.682762); // Big Beach
+      Point b = Point(34.720852, -86.607087); // Straight to Ale
+      double answer = GeoMethods.calculateDistance(a, b);
+      const double exact = 313.28; // From Google
+      expect(answer, closeTo(exact, 0.5)); // Half mile tolerance.
+    });
+
+    test('Null point1', () {
+      Point b = Point(34.720852, -86.607087); // Straight to Ale
+      double answer = GeoMethods.calculateDistance(null, b);
+      expect(answer, null);
+    });
+
+    test('Null point2', () {
+      Point a = Point(34.720852, -86.607087); // Straight to Ale
+      double answer = GeoMethods.calculateDistance(a, null);
+      expect(answer, null);
+    });
+
+    test('Null distance', () {
+      String answer = GeoMethods.toFriendlyDistanceString(null, .15);
+      expect(answer, '');
+    });
+
+    test('Less than minDistance', () {
+      String answer = GeoMethods.toFriendlyDistanceString(
+          0.15 - 0.00001, 0.15);
+      expect(answer, '0');
+    });
+
+    test('Less than 1', () {
+      String answer = GeoMethods.toFriendlyDistanceString(1 - 0.01, 0.15);
+      expect(answer, '0.99');
+    });
+
+    test('Less than 10', () {
+      String answer = GeoMethods.toFriendlyDistanceString(10 - 0.05, 0.15);
+      expect(answer, '9.9');
+    });
+
+    test('Greater than 10', () {
+      String answer = GeoMethods.toFriendlyDistanceString(10 + 0.01, 0.15);
+      expect(answer, '10');
+    });
+
+    test('Much greater than 10', () {
+      String answer = GeoMethods.toFriendlyDistanceString(10567 + 0.01, 0.15);
+      expect(answer, '10,567');
+    });
+  });
+}

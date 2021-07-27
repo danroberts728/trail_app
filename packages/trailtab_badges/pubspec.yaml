@@ -1,0 +1,27 @@
+name: trailtab_badges
+description: A new Flutter package project.
+version: 0.0.1
+author:
+homepage:
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  trail_database:
+    path: ../../packages/trail_database
+  trailtab_places:
+    path: ../../packages/trailtab_places
+  cached_network_image: ^2.3.2+1
+
+dev_dependencies:
+  test: any
+  flutter_test:
+    sdk: flutter
+  mockito: ^4.1.1
+
+flutter:
