@@ -416,7 +416,7 @@ packages:
     source: hosted
     version: "1.4.1"
   image_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.dartlang.org"
@@ -799,7 +799,7 @@ packages:
     source: hosted
     version: "2.0.30"
   trail_auth:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../trail_auth"
       relative: true

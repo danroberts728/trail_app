@@ -6,11 +6,13 @@ import 'package:trail_database/domain/on_tap_beer.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_database/domain/trail_event.dart';
 import 'package:trail_database/domain/trail_place.dart';
+import 'package:trailtab_places/bloc/textbutton_stamp_bloc.dart';
 import 'package:trailtab_places/util/trailtab_places_settings.dart';
+import 'package:trailtab_places/widget/textbutton_map.dart';
+import 'package:trailtab_places/widget/textbutton_stamp.dart';
 import 'package:trailtab_places/widget/trailplace_detail_tabs/trailplace_beers.dart';
 import 'package:trailtab_places/widget/trailplace_detail_tabs/trailplace_details.dart';
 import 'package:trailtab_places/widget/trailplace_detail_tabs/trailplace_area.dart';
-import 'package:trailtab_places/widget//trailplace_checkin_area.dart';
 import 'package:trailtab_places/widget/trailplace_detail_tabs/trailplace_events.dart';
 import 'package:trailtab_places/widget//trailplace_gallery.dart';
 import 'package:trailtab_places/widget/trailplace_hours_area.dart';
@@ -65,7 +67,6 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
         PlaceDetail placeDetail = snapshot.data;
         TrailPlace place = placeDetail.place;
         List<TrailEvent> events = placeDetail.events;
-        int checkInsCount = placeDetail.checkInsCount ?? 0;
         List<OnTapBeer> taps = placeDetail.taps ?? <OnTapBeer>[];
         List<Beer> allBeers = placeDetail.place.allBeers ?? <Beer>[];
 
@@ -179,10 +180,26 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
                                         height: 60.0,
                                       ),
                               ),
-                              // Check-in Area
-                              TrailPlaceCheckinArea(
-                                place: place,
-                                checkInsCount: checkInsCount,
+                              // Action buttons
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 4.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border(top: BorderSide(color: Colors.grey, width: 0.5)),
+                                ),
+                                child: Row(
+                                  children: [
+                                    TextButtonMap(
+                                      place: place,
+                                    ),
+                                    TextButtonStamp(
+                                      visible: true,
+                                      bloc: TextButtonStampBloc(
+                                          TrailDatabase(), place),
+                                      place: place,
+                                    ),
+                                  ],
+                                ),
                               ),
                               // Hours Area
                               TrailPlaceArea(

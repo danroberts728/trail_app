@@ -34,27 +34,27 @@ void main() {
 
     test("Check ins count is always populated on construction", () {
       var bloc = TrailPlaceCardBloc(databaseMock, 'dummy');
-      expect(bloc.checkInsCount, 0);
+      expect(bloc.trailPlaceCardInfo.checkInsCount, 0);
     });
 
     test("Check ins count is populated on construction", () {
       var bloc = TrailPlaceCardBloc(databaseMock, 'avondale');
-      expect(bloc.checkInsCount, 2);
+      expect(bloc.trailPlaceCardInfo.checkInsCount, 2);
     });
   });
 
-  group("getFirstCheckIn tests", () {
+  group("firstCheckIn tests", () {
     test("Get first check in", () {
       var bloc = TrailPlaceCardBloc(databaseMock, 'avondale');
-      expect(bloc.getFirstCheckIn(), DateTime(2020, 8, 17));
+      expect(bloc.trailPlaceCardInfo.firstCheckin, DateTime(2020, 8, 17));
 
       bloc = TrailPlaceCardBloc(databaseMock, 'cahaba');
-      expect(bloc.getFirstCheckIn(), DateTime(2020, 8, 16));
+      expect(bloc.trailPlaceCardInfo.firstCheckin, DateTime(2020, 8, 16));
     });
 
     test("Return null if no check ins", () {
       var bloc = TrailPlaceCardBloc(databaseMock, 'dont-exist');
-      expect(bloc.getFirstCheckIn(), null);
+      expect(bloc.trailPlaceCardInfo.firstCheckin, null);
     });
   });
 }

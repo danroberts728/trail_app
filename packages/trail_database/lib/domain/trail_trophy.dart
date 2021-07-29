@@ -62,34 +62,41 @@ abstract class TrailTrophy {
         trophyType: trophyType,
         published: published,
       );
+      TrailTrophy trophy;
       if (model.trophyType == "exact_unique_checkins") {
-        return TrailTrophyExactUniqueCheckins(
+        trophy = TrailTrophyExactUniqueCheckins(
           model: model,
           requiredCheckins: requiredCheckIns,
         );
+        trophy.type = TrophyType.ExactUniqueCheckins;
       } else if (model.trophyType == "pct_unique_of_total") {
-        return TrailTrophyPctUniqueOfTotal(
+        trophy = TrailTrophyPctUniqueOfTotal(
           model: model,
           percentRequired: percentRequired,
         );
+        trophy.type = TrophyType.PercentUniqueOfTotal;
       } else if (model.trophyType == "total_unique_checkins") {
-        return TrailTrophyTotalUniqueCheckins(
+        trophy = TrailTrophyTotalUniqueCheckins(
           model: model,
           uniqueCountRequired: uniqueCountRequired,
         );
+        trophy.type = TrophyType.TotalUniqueCheckins;
       } else if (model.trophyType == "total_checkins_any_place") {
-        return TrailTrophyTotalCheckinsAnyPlace(
+        trophy = TrailTrophyTotalCheckinsAnyPlace(
           model: model,
           checkinCountRequired: checkinCountRequired,
         );
+        trophy.type = TrophyType.TotalCheckinsAtAnyPlace;
       } else if (model.trophyType == "any_of_places") {
-        return TrailTrophyAnyOfPlaces(
+        trophy = TrailTrophyAnyOfPlaces(
           model: model,
           possiblePlaces: possiblePlaces,
         );
+        trophy.type = TrophyType.AnyOfPlaces;
       } else {
-        return null;
+        trophy = null;
       }
+      return trophy;
     } catch (e) {
       return null;
     }
@@ -108,34 +115,41 @@ abstract class TrailTrophy {
         published: d['published'] ?? false,
       );
 
+      TrailTrophy trophy;
       if (model.trophyType == "exact_unique_checkins") {
-        return TrailTrophyExactUniqueCheckins(
+        trophy = TrailTrophyExactUniqueCheckins(
           model: model,
           requiredCheckins: List<String>.from(d['req_places']),
         );
+        trophy.type = TrophyType.ExactUniqueCheckins;
       } else if (model.trophyType == "pct_unique_of_total") {
-        return TrailTrophyPctUniqueOfTotal(
+        trophy =  TrailTrophyPctUniqueOfTotal(
           model: model,
           percentRequired: d['required_percent'],
         );
+        trophy.type = TrophyType.PercentUniqueOfTotal;
       } else if (model.trophyType == "total_unique_checkins") {
-        return TrailTrophyTotalUniqueCheckins(
+        trophy =  TrailTrophyTotalUniqueCheckins(
           model: model,
           uniqueCountRequired: d['unique_count_required'],
         );
+        trophy.type = TrophyType.TotalUniqueCheckins;
       } else if (model.trophyType == "total_checkins_any_place") {
-        return TrailTrophyTotalCheckinsAnyPlace(
+        trophy =  TrailTrophyTotalCheckinsAnyPlace(
           model: model,
           checkinCountRequired: d['check_in_count_required'],
         );
+        trophy.type = TrophyType.TotalCheckinsAtAnyPlace;
       } else if (model.trophyType == "any_of_places") {
-        return TrailTrophyAnyOfPlaces(
+        trophy =  TrailTrophyAnyOfPlaces(
           model: model,
           possiblePlaces: List<String>.from(d["possible_places"]),
         );
+        trophy.type = TrophyType.AnyOfPlaces;
       } else {
-        return null;
+        trophy =  null;
       }
+      return trophy;
     } catch (e) {
       return null;
     }

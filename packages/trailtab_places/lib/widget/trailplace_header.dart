@@ -15,6 +15,7 @@ class TrailPlaceHeader extends StatefulWidget {
   final TextOverflow titleOverflow;
   final Color backgroundColor;
   final int alphaValue;
+  final bool showDistance;
 
   TrailPlaceHeader({
     @required this.logo,
@@ -26,6 +27,7 @@ class TrailPlaceHeader extends StatefulWidget {
     this.titleOverflow = TextOverflow.ellipsis,
     this.backgroundColor = Colors.white,
     this.alphaValue = 255,
+    this.showDistance = true,
   });
 
   @override
@@ -86,7 +88,7 @@ class _TrailPlaceHeader extends State<TrailPlaceHeader> {
                           var distance = GeoMethods.calculateDistance(
                               widget.location, snapshot.data);
                           return Visibility(
-                            visible: _locationService.lastLocation != null,
+                            visible: _locationService.lastLocation != null && widget.showDistance,
                             child: Text(
                               GeoMethods.toFriendlyDistanceString(
                                       distance,

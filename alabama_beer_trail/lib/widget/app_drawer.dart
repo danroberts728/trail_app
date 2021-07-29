@@ -4,7 +4,6 @@ import 'package:trail_database/domain/user_data.dart';
 import 'package:alabama_beer_trail/widget/screen_about.dart';
 import 'package:alabama_beer_trail/widget/screen_privacy_policy.dart';
 import 'package:trail_profile/trail_profile.dart';
-import 'package:trailtab_places/trailtab_places.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:alabama_beer_trail/widget/app_drawer_menu_item.dart';

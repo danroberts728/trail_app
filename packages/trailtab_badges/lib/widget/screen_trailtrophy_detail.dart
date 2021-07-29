@@ -18,7 +18,8 @@ class TrophyDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenTrailTrophyDetailBloc _bloc = ScreenTrailTrophyDetailBloc(TrailDatabase());
+    ScreenTrailTrophyDetailBloc _bloc =
+        ScreenTrailTrophyDetailBloc(TrailDatabase());
 
     var hasTrophy = _bloc.earnedTrophies.keys.contains(trophy.id);
 
@@ -93,47 +94,51 @@ class TrophyDetailScreen extends StatelessWidget {
               SizedBox(
                 height: 8.0,
               ),
-              Center(
-                child: Text(
-                  "Your Progress",
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.subtitle1.color,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+              Visibility(
+                visible: !hasTrophy,
+                child: Center(
+                  child: Text(
+                    "Your Progress",
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.subtitle1.color,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
               // Progress
-              Builder(
-                builder: (context) {
-                  if (trophy.type== TrophyType.ExactUniqueCheckins) {
-                    return TrailTrophyProgressExactUniqueCheckins(
-                      trophy: trophy,
-                    );
-                  } else if (trophy.type ==
-                      TrophyType.PercentUniqueOfTotal) {
-                    return TrailTrophyProgressPctUniqueOfTotal(
-                      trophy: trophy,
-                    );
-                  } else if (trophy.type ==
-                      TrophyType.TotalCheckinsAtAnyPlace) {
-                    return TrailTrophyProgressTotalCheckinsAnyPlace(
-                      trophy: trophy,
-                    );
-                  } else if (trophy.type ==
-                      TrophyType.TotalUniqueCheckins) {
-                    return TrailTrophyProgressTotalUniqueCheckins(
-                      trophy: trophy,
-                    );
-                  } else if (trophy.type == TrophyType.AnyOfPlaces) {
-                    return TrailTrophyProgressAnyOfPlaces(
-                      trophy: trophy,
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              )
+              Visibility(
+                visible: !hasTrophy,
+                child: Builder(
+                  builder: (context) {
+                    if (trophy.type == TrophyType.ExactUniqueCheckins) {
+                      return TrailTrophyProgressExactUniqueCheckins(
+                        trophy: trophy,
+                      );
+                    } else if (trophy.type == TrophyType.PercentUniqueOfTotal) {
+                      return TrailTrophyProgressPctUniqueOfTotal(
+                        trophy: trophy,
+                      );
+                    } else if (trophy.type ==
+                        TrophyType.TotalCheckinsAtAnyPlace) {
+                      return TrailTrophyProgressTotalCheckinsAnyPlace(
+                        trophy: trophy,
+                      );
+                    } else if (trophy.type == TrophyType.TotalUniqueCheckins) {
+                      return TrailTrophyProgressTotalUniqueCheckins(
+                        trophy: trophy,
+                      );
+                    } else if (trophy.type == TrophyType.AnyOfPlaces) {
+                      return TrailTrophyProgressAnyOfPlaces(
+                        trophy: trophy,
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

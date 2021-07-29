@@ -119,15 +119,19 @@ class TrailDatabase {
         .snapshots()
         .listen(_onEventsDataUpdate);
 
-    var placesCollection = FirebaseFirestore.instance.collection('places');
+    var placesCollection;
     if (_includeUnPublished) {
-      placesCollection.where('published', isEqualTo: true);
+      placesCollection = FirebaseFirestore.instance.collection('places');
+    } else {
+      placesCollection = FirebaseFirestore.instance.collection('places').where('published', isEqualTo: true);
     }
     placesCollection.snapshots().listen(_onPlacesDataUpdate);
 
-    var trophiesCollection = FirebaseFirestore.instance.collection('trophies');
-    if (_includeUnPublished) {
-      trophiesCollection.where('published', isEqualTo: true);
+    var trophiesCollection;
+    if(_includeUnPublished) {
+      trophiesCollection = FirebaseFirestore.instance.collection('trophies');
+    } else {
+      trophiesCollection = FirebaseFirestore.instance.collection('trophies').where('published', isEqualTo: true);
     }
     trophiesCollection
         .orderBy('sort_order')

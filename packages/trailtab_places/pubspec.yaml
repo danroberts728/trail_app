@@ -21,6 +21,9 @@ dependencies:
   flutter_circular_text: ^0.3.0
   google_maps_cluster_manager: ^1.0.0
   google_maps_flutter: ^2.0.6
+  image_picker: ^0.8.2
+  trail_auth:
+    path: ../../packages/trail_auth
   trailtab_events:
     path: ../../packages/trailtab_events
   trail_database:

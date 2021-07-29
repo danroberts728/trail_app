@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:trail_auth/trail_auth.dart';
 import 'package:trail_database/domain/check_in.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:trail_database/domain/trail_place.dart';
@@ -11,7 +12,7 @@ import 'package:trail_location_service/trail_location_service.dart';
 import 'package:trailtab_places/util/trailtab_places_settings.dart';
 
 /// A BLoC for ButtonCheckIn objects
-class ButtonCheckInBloc {
+class TextButtonStampBloc {
   /// A reference to the central database.
   TrailDatabase _db;
 
@@ -45,8 +46,11 @@ class ButtonCheckInBloc {
   /// The stream of CheckIn data
   get stream => _streamController.stream;
 
+  TrailPlace _place;
+
   /// Default constructor
-  ButtonCheckInBloc(TrailDatabase db) : assert(db != null) {
+  TextButtonStampBloc(TrailDatabase db, TrailPlace place) : assert(db != null, place != null) {
+    _place = place;
     _db = db;
     checkIns = _db.checkIns;
     _allTrophies = _db.trophies;
@@ -61,13 +65,13 @@ class ButtonCheckInBloc {
   /// Returns true if the current user has checked into [placeId] today,
   /// false otherwise.
   /// If [today] is not provided, it will default to DateTime.now()
-  bool isCheckedInToday(String placeId, {DateTime today}) {
+  bool isCheckedInToday({DateTime today}) {
     if(today == null) {
       today = DateTime.now();
     }
     return checkIns
             .where((e) {
-              return e.placeId == placeId &&
+              return e.placeId == _place.id &&
                   today.day == e.timestamp.day &&
                   today.month == e.timestamp.month &&
                   today.year == e.timestamp.year;
@@ -77,16 +81,20 @@ class ButtonCheckInBloc {
         0;
   }
 
-  bool isStamped(String placeId) {
-    return checkIns.any((c) => c.placeId == placeId);
+  bool isStamped() {
+    return checkIns.any((c) => c.placeId == _place.id);
+  }
+
+  bool isSignedIn() {
+    return TrailAuth().user != null;
   }
 
   /// Checks the current user into [placeId] now
-  Future<List<TrailTrophy>> checkIn(String placeId) async {
+  Future<List<TrailTrophy>> checkIn() async {
     var completer = Completer<List<TrailTrophy>>();
     // Only update if user has not checked in today already
-    if (!isCheckedInToday(placeId)) {
-      _db.checkInNow(placeId).then((value) {
+    if (!isCheckedInToday()) {
+      _db.checkInNow(_place.id).then((value) {
         List<TrailTrophy> earnedTrophies = [];
         // See if user has earned any NEW trophies
         _allTrophies.forEach((t) {

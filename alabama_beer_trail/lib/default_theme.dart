@@ -25,7 +25,7 @@ var defaultTheme = ThemeData(
   appBarTheme: AppBarTheme(
     brightness: Brightness.dark,
   ),
-  hintColor: Colors.white,
+  hintColor: Colors.grey,
   textTheme: TextTheme(
     headline1: TextStyle(
       color: _mainHeadingColor,
