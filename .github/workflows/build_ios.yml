@@ -1,8 +1,6 @@
 name: iOS Build
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -18,10 +16,13 @@ jobs:
         java-version: '12.x'
     - uses: subosito/flutter-action@v1
       with:
-        flutter-version: '1.22.1'
+        flutter-version: '2.2.3'
     - name: Decode GoogleService-Info.plist
       env:
         FIREBASE_SECRET: ${{ secrets.GOOGLE_SERVICES_PLIST }}
       run: echo $FIREBASE_SECRET > ./ios/Runner/GoogleService-Info.plist
+      working-directory: ./temp
     - run: flutter pub get
+      working-directory: ./temp
     - run: flutter build ios --release --no-codesign
+      working-directory: ./temp
