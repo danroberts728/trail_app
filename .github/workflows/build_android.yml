@@ -1,8 +1,6 @@
 name: Android Build
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -18,12 +16,14 @@ jobs:
           java-version: '12.x'
     - uses: subosito/flutter-action@v1
       with:
-        flutter-version: '1.22.1'
+        flutter-version: '2.2.3'
     - name: Decode google-services.json
       env:
         FIREBASE_SECRET: ${{ secrets.GOOGLE_SERVICES }}
-      run: echo $FIREBASE_SECRET > ./android/app/google-services.json
+      run: echo $FIREBASE_SECRET > ./alabama-beer-trail/android/app/google-services.json
     - name: Install dependencies
       run: flutter pub get
+      working-directory: ./alabama-beer-trail
     - name: Build
       run: flutter build appbundle --debug --flavor prod
+      working-directory: ./alabama-beer-trail
