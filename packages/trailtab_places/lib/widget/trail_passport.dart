@@ -1,140 +1,99 @@
 // Copyright (c) 2021, Fermented Software.
-import 'dart:math';
-
-import 'package:flutter/foundation.dart';
-import 'package:trailtab_places/bloc/trail_passport_bloc.dart';
-import 'package:trail_database/trail_database.dart';
-import 'package:trailtab_places/trailtab_places.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:trail_database/domain/trail_region.dart';
+import 'package:trail_database/trail_database.dart';
+import 'package:trailtab_places/bloc/trail_passport_bloc.dart';
+import 'package:trailtab_places/widget/trail_passport_region.dart';
+
+class TrailPassport extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _TrailPassport();
+}
 
 /// A resuable trail passport
-/// 
+///
 /// Intended to be a full-screen overlay
-class TrailPassport extends StatelessWidget {
-  final ScrollController _scrollController = ScrollController();
-  final TrailPassportBloc _bloc = TrailPassportBloc(TrailDatabase());
+class _TrailPassport extends State<TrailPassport>
+    with TickerProviderStateMixin {
+  /// The controller for the sub-tab
+  ///
+  /// The tabs switch between the list and map screens
+  TabController _controller;
+
+  TrailPassportBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = TrailPassportBloc(TrailDatabase());
+    _controller = getTabController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      controller: _scrollController,
-      isAlwaysShown: true,
-      child: SingleChildScrollView(
-        controller: _scrollController,
-        child: StreamBuilder(
-          initialData: _bloc.stampInformation,
-          stream: _bloc.stream,
-          builder: (context, snapshot) {
-            List<StampInformation> stampedPlaces = snapshot.data;
-            if (stampedPlaces == null) {
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-                child: LinearProgressIndicator(),
-              );
-            } else if (stampedPlaces.isEmpty) {
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-                child: Text(
-                  "Nothing yet! Earn a stamp by checking into your first brewery.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                  ),
+    return StreamBuilder(
+      stream: _bloc.stream,
+      initialData: _bloc.regions,
+      builder: (context, snapshot) {
+        List<TrailRegion> data = snapshot.data;
+        data.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+        if (_controller.length != data.length) {
+          _controller = getTabController();
+        }
+        return Column(
+          children: [
+            Container(
+              child: TabBar(
+                isScrollable: true,
+                indicatorColor: Theme.of(context).buttonColor,
+                indicatorWeight: 4.0,
+                labelColor: Theme.of(context).textTheme.subtitle1.color,
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            } else {
-              return LayoutBuilder(
-                builder: (context, constraints) {
-                  return Container(
-                    alignment: Alignment.centerLeft,
-                    width: double.infinity,
-                    padding: EdgeInsets.all(0),
-                    child: Column(
-                      children: [
-                        Wrap(
-                          direction: Axis.horizontal,
-                          alignment: WrapAlignment.start,
-                          runAlignment: WrapAlignment.start,
-                          runSpacing: 0,
-                          spacing: 0,
-                          children: stampedPlaces.map((s) {
-                            Random rand = Random((s.stampDate != null
-                                ? s.stampDate.millisecond
-                                : 0));
-                            double boxSize = constraints.maxWidth / 3;
-                            double leftStampMargin =
-                                rand.nextDouble() * (boxSize - 75);
-                            double topStampMargin =
-                                rand.nextDouble() * (boxSize - 75);
-                            double tilt =
-                                ((rand.nextInt(30)) * rand.nextDouble()) *
-                                    (rand.nextBool() ? 1 : -1);
-                            return Container(
-                              width: boxSize,
-                              height: boxSize,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.grey, width: 1.0),
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  Feedback.forTap(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          settings: RouteSettings(
-                                            name:
-                                                'Trail Place - ' + s.place.name,
-                                          ),
-                                          builder: (context) =>
-                                              TrailPlaceDetailScreen(
-                                                  place: s.place)));
-                                },
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.all(32.0),
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          colorFilter: ColorFilter.mode(
-                                              Colors.white.withOpacity(0.7),
-                                              BlendMode.modulate),
-                                          image: kIsWeb
-                                          ? NetworkImage(s.place.logoUrl)
-                                          : CachedNetworkImageProvider(
-                                            s.place.logoUrl,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    s.isStamped
-                                        ? Positioned(
-                                            top: topStampMargin,
-                                            left: leftStampMargin,
-                                            child: StampedPlaceIcon(
-                                                color: Theme.of(context).highlightColor,
-                                                place: s.place,
-                                                firstCheckIn: s.stampDate,
-                                                tilt: tilt,
-                                                count: s.checkInCount),
-                                          )
-                                        : Container(),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            }
-          },
-        ),
-      ),
+                tabs: data.map((e) => Tab(child: Text(e.name))).toList(),
+                controller: _controller,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                child: TabBarView(
+                  controller: _controller,
+                  children: _getWidgets(),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  TabController getTabController() {
+    return TabController(length: _bloc.regions.length, vsync: this)
+      ..addListener(_updatePage);
+  }
+
+  void _updatePage() {
+    setState(() {});
+  }
+
+  List<Widget> _getWidgets() {
+    List<Widget> widgets = <Widget>[];
+    _bloc.regions.forEach((region) {
+      widgets.add(
+        SingleChildScrollView(
+          child: TrailPassportRegion(
+            region: region,
+          ),
+        ),
+      );
+    });
+    return widgets;
+  }
+
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

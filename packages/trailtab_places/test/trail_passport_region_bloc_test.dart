@@ -1,9 +1,9 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:trailtab_places/bloc/trail_passport_bloc.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
+import 'package:trailtab_places/bloc/trail_passport_region_bloc.dart';
 
 import './test_data/test_data_checkins.dart';
 import './test_data/test_data_places.dart';
@@ -25,18 +25,18 @@ void main() {
 
   group("Constructor tests", () {
     test("DB cannot be null", () {
-      expect(() => TrailPassportBloc(null), throwsA(anything));
+      expect(() => TrailPassportRegionBloc(null), throwsA(anything));
     });
 
     test("Initializes data", () {
-      var bloc = TrailPassportBloc(databaseMock);
+      var bloc = TrailPassportRegionBloc(databaseMock);
       expect(bloc.stampInformation.length, 3);
     });
   });
 
   group("Data accuracy", () {
     test("Earliest check in date for stamp", () {
-      var bloc = TrailPassportBloc(databaseMock);
+      var bloc = TrailPassportRegionBloc(databaseMock);
       var cahabaStamp = bloc.stampInformation.firstWhere((s) => s.place.id == 'cahaba');
       expect(cahabaStamp.stampDate.year, 2020);
       expect(cahabaStamp.stampDate.month, 8);
@@ -44,7 +44,7 @@ void main() {
     });
 
     test("isStamped test", () {
-      var bloc = TrailPassportBloc(databaseMock);
+      var bloc = TrailPassportRegionBloc(databaseMock);
       var braidedRiverStamp = bloc.stampInformation.firstWhere((s) => s.place.id == 'braided-river');
       expect(braidedRiverStamp.isStamped, false);
 
@@ -53,7 +53,7 @@ void main() {
     });
 
     test("checkInCount test", () {
-      var bloc = TrailPassportBloc(databaseMock);
+      var bloc = TrailPassportRegionBloc(databaseMock);
       var staStamp = bloc.stampInformation.firstWhere((s) => s.place.id == 'sta');
       expect(staStamp.checkInCount, 1);
 

@@ -18,6 +18,7 @@ import 'package:trail_database/domain/check_in.dart';
 import 'package:trail_database/domain/on_tap_beer.dart';
 import 'package:trail_database/domain/trail_event.dart';
 import 'package:trail_database/domain/trail_place.dart';
+import 'package:trail_database/domain/trail_region.dart';
 import 'package:trail_database/domain/trail_trophy.dart';
 import 'package:trail_database/domain/user_data.dart';
 
@@ -49,6 +50,9 @@ class TrailDatabase {
   /// The list of places from Firebase
   var places = <TrailPlace>[];
 
+  /// The list of regions from Firebase
+  var regions = <TrailRegion>[];
+
   /// The list of all trophies from Firebase
   var trophies = <TrailTrophy>[];
 
@@ -65,6 +69,8 @@ class TrailDatabase {
       StreamController<List<TrailEvent>>.broadcast();
   final _placesStreamController =
       StreamController<List<TrailPlace>>.broadcast();
+  final _regionsStreamController =
+      StreamController<List<TrailRegion>>.broadcast();
   final _trophiesStreamController =
       StreamController<List<TrailTrophy>>.broadcast();
   final _userDataStreamController = StreamController<UserData>.broadcast();
@@ -75,6 +81,10 @@ class TrailDatabase {
 
   /// Stream for trail places from the cloud
   Stream<List<TrailPlace>> get placesStream => _placesStreamController.stream;
+
+  /// Stream for the regions from the cloud
+  Stream<List<TrailRegion>> get regionsStream =>
+      _regionsStreamController.stream;
 
   /// Stream for trail trophies from the cloud
   Stream<List<TrailTrophy>> get trophiesStream =>
@@ -107,10 +117,9 @@ class TrailDatabase {
     int lastWeekTimestampSeconds =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000) - 604800;
     var eventsCollection = FirebaseFirestore.instance.collection('events');
-    var publishStates = _includeUnPublished
-      ? ['publish', 'draft']
-      : ['publish'];
-      
+    var publishStates =
+        _includeUnPublished ? ['publish', 'draft'] : ['publish'];
+
     eventsCollection
         .where('publish_status', whereIn: publishStates)
         .where('start_timestamp_seconds',
@@ -123,15 +132,29 @@ class TrailDatabase {
     if (_includeUnPublished) {
       placesCollection = FirebaseFirestore.instance.collection('places');
     } else {
-      placesCollection = FirebaseFirestore.instance.collection('places').where('published', isEqualTo: true);
+      placesCollection = FirebaseFirestore.instance
+          .collection('places')
+          .where('published', isEqualTo: true);
     }
     placesCollection.snapshots().listen(_onPlacesDataUpdate);
 
+    var regionsCollection;
+    if (_includeUnPublished) {
+      regionsCollection = FirebaseFirestore.instance.collection('regions');
+    } else {
+      regionsCollection = FirebaseFirestore.instance
+          .collection('regions')
+          .where('published', isEqualTo: true);
+    }
+    regionsCollection.snapshots().listen(_onRegionsUpdate);
+
     var trophiesCollection;
-    if(_includeUnPublished) {
+    if (_includeUnPublished) {
       trophiesCollection = FirebaseFirestore.instance.collection('trophies');
     } else {
-      trophiesCollection = FirebaseFirestore.instance.collection('trophies').where('published', isEqualTo: true);
+      trophiesCollection = FirebaseFirestore.instance
+          .collection('trophies')
+          .where('published', isEqualTo: true);
     }
     trophiesCollection
         .orderBy('sort_order')
@@ -204,6 +227,23 @@ class TrailDatabase {
     });
     places = newPlaces;
     _placesStreamController.sink.add(newPlaces);
+  }
+
+  void _onRegionsUpdate(QuerySnapshot snapshot) {
+    var newDocs = snapshot.docs;
+    var newRegions = <TrailRegion>[];
+    newDocs.forEach((r) {
+      TrailRegion region = TrailRegion.fromFirebase(r);
+      try {
+        if (region != null) {
+          newRegions.add(region);
+        }
+      } catch (err) {
+        print(err);
+      }
+    });
+    regions = newRegions;
+    _regionsStreamController.sink.add(regions);
   }
 
   /// Handle updates to trophy data
@@ -367,15 +407,13 @@ class TrailDatabase {
   }
 
   void updatePlace(String id, Map<String, dynamic> data) {
-    FirebaseFirestore.instance
-      .collection('places')
-      .doc(id)
-      .update(data);
+    FirebaseFirestore.instance.collection('places').doc(id).update(data);
   }
 
   void dispose() {
     _eventsStreamController.close();
     _placesStreamController.close();
+    _regionsStreamController.close();
     _trophiesStreamController.close();
     _userDataStreamController.close();
     _checkInsStreamController.close();
