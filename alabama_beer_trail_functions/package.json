@@ -6,7 +6,8 @@
   "dependencies": {
     "firebase-functions": "^3.10.0",
     "node-fetch": "^2.6.0",
-    "xmlhttprequest": "^1.8.0"
+    "xmlhttprequest": "^1.8.0",
+    "lodash": ">=4.17.21"
   },
   "devDependencies": {},
   "scripts": {
