@@ -1,0 +1,52 @@
+name: beer_trail_admin
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  trail_database:
+    git:
+      url: https://github.com/danroberts728/beer_trail_packages.git
+      path: packages/trail_database
+  cached_network_image: ^2.4.1
+  cloud_firestore: ^0.14.4
+  cloud_firestore_web: ^0.2.1+2
+  firebase_core: ^0.5.3
+  firebase_core_web: ^0.2.1+1
+  firebase_auth: ^0.18.4+1
+  firebase_auth_web: ^0.3.2+3
+  firebase_storage: ^5.2.0
+  firebase_storage_web: ^0.1.1+1
+  google_sign_in: ^4.5.3
+  google_sign_in_web: ^0.9.2  
+  image_picker_web: ^1.0.9
+  reorderables: ^0.3.2
+  shared_preferences: ^0.5.12+4
+  sign_button: ^1.0.1
+  universal_html: ^1.2.3
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/defaultprofilephoto.png
+    - assets/images/guild_logo_square_color.png
+    - assets/images/stamp_outline.png
