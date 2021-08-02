@@ -94,7 +94,7 @@ class TrailPassportRegion extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       colorFilter: ColorFilter.mode(
-                                          Colors.white.withOpacity(0.7),
+                                          Colors.white.withOpacity(1.0),
                                           BlendMode.modulate),
                                       image: kIsWeb
                                           ? NetworkImage(s.place.logoUrl)

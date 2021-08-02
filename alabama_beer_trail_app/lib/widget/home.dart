@@ -103,14 +103,14 @@ class HomeState extends State<Home>
       ),
     ),
     TabScreen(
-      appBarTitle: "Alabama Beer Passport",
-      child: TrailPassport(),
-    ),
-    TabScreen(
       appBarTitle: "Alabama Beer Events",
       child: TrailTabEvents(
         filterDistanceOptions: [5, 25, 50, 100],
       ),
+    ),
+    TabScreen(
+      appBarTitle: "Alabama Beer Passport",
+      child: TrailPassport(),
     ),
     TabScreen(
       appBarTitle: "Alabama Beer News",
@@ -168,12 +168,12 @@ class HomeState extends State<Home>
             label: "Trail",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: "Passport",
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
             label: "Events",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: "Passport",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.rss_feed),
