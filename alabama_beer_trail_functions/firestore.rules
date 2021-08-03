@@ -11,7 +11,23 @@ service cloud.firestore {
       allow write: if false;
       allow read: if true;
     }
+    match /places/{place}/all_beers/{beer} {
+      allow write: if false;
+      allow read: if true
+    }
+    match /places/{place}/on_tap/{tap} {
+      allow write: if false;
+      allow read: if true
+    }
     match /events/{event} {
+    	allow write: if false;
+      allow read: if true;
+    }
+    match /trophies/{trophy} {
+    	allow write: if false;
+      allow read: if true;
+    }
+    match /regions/{region} {
     	allow write: if false;
       allow read: if true;
     }

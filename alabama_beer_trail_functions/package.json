@@ -5,13 +5,16 @@
   "main": "./functions/index.js",
   "dependencies": {
     "firebase-functions": "^3.10.0",
+    "lodash": ">=4.17.21",
+    "mocha": "^9.0.3",
     "node-fetch": "^2.6.1",
-    "xmlhttprequest": "^1.8.0",
-    "lodash": ">=4.17.21"
+    "xmlhttprequest": "^1.8.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@firebase/testing": "^0.20.11"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --exit"
   },
   "repository": {
     "type": "git",

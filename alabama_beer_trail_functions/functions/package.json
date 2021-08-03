@@ -3,29 +3,24 @@
   "description": "Cloud Functions for Firebase",
   "scripts": {
     "lint": "eslint .",
-    "serve": "firebase serve --only functions",
+    "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log",
-    "test": "mocha --reporter spec"
+    "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "10"
+    "node": "14"
   },
+  "main": "index.js",
   "dependencies": {
-    "@google-cloud/storage": "^5.2.0",
-    "firebase-admin": "^8.13.0",
-    "firebase-functions": "^3.10.0",
-    "node-firestore-import-export": "^0.14.0",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.5",
-    "xmlhttprequest": "^1.8.0"
+    "firebase-admin": "^9.8.0",
+    "firebase-functions": "^3.14.1"
   },
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "firebase-functions-test": "^0.1.6"
+    "eslint": "^7.6.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
   },
   "private": true
 }
