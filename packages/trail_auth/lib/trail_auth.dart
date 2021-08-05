@@ -69,13 +69,13 @@ class TrailAuth {
               email: email, password: password))
           .user;
     } catch (e) {
-      if (e.code == "ERROR_WRONG_PASSWORD") {
+      if (e.code == "wrong-password") {
         errorMessage = "Password is invalid.";
       }
-      if (e.code == "ERROR_USER_NOT_FOUND") {
+      if (e.code == "user-not-found") {
         errorMessage = "User not found. You may need to register.";
       }
-      if (e.code == "ERROR_USER_DISABLED ") {
+      if (e.code == "user-disabled") {
         errorMessage = "This user has been disabled.";
       } else {
         errorMessage = "Unknown Error.";

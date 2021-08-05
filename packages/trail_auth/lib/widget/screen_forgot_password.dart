@@ -20,78 +20,63 @@ class _PasswordResetScreen extends State<PasswordResetScreen> {
         title: Text("Reset Password"),
       ),
       body: Container(
+        color: Colors.black12,
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/signin_bkg.jpg"),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken),
-        )),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Card(
-            elevation: 16.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16.0))),
-            color: Color.fromARGB(255, 255, 255, 255),
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text(
-                      "Forgot your password? Send us your email below and we'll send you instructions on how to reset.",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Form(
-                        key: _formKey,
-                        child: Column(
-                          children: <Widget>[
-                            TextFormField(
-                              controller: _emailController,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.email),
-                                hintText: "user@mydomain.com",
-                                labelText: "Email Address",
-                              ),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return "Please enter an email address";
-                                } else if (!RegExp(_emailRegex)
-                                    .hasMatch(value)) {
-                                  return "Please enter a valid email address";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            SizedBox(
-                              height: 6.0,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  TrailAuth()
-                                      .resetPassword(_emailController.text);
-                                  Navigator.pop(context, _emailController.text);
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.green,
-                                padding: EdgeInsets.symmetric(horizontal: 80.0),
-                              ),
-                              child: Text("Reset Password"),
-                            ),
-                          ],
-                        ))
-                  ],
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
+                  "Forgot your password? Send us your email below and we'll send you instructions on how to reset.",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.email),
+                          hintText: "user@mydomain.com",
+                          labelText: "Email Address",
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "Please enter an email address";
+                          } else if (!RegExp(_emailRegex).hasMatch(value)) {
+                            return "Please enter a valid email address";
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 6.0,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            TrailAuth().resetPassword(_emailController.text);
+                            Navigator.pop(context, _emailController.text);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          padding: EdgeInsets.symmetric(horizontal: 80.0),
+                        ),
+                        child: Text("Reset Password"),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
