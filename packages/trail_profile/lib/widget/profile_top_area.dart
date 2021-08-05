@@ -133,7 +133,11 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                                   settings: RouteSettings(
                                     name: 'Edit Profile',
                                   ),
-                                  builder: (context) => EditProfileScreen(),
+                                  builder: (context) => EditProfileScreen(
+                                    defaultBannerImageAssetName: widget.defaultBannerImageAssetName,
+                                    defaultDisplayName: widget.defaultDisplayName,
+                                    defaultProfilePhotoAssetName: widget.defaultProfilePhotoAssetName,
+                                  ),
                                 ),
                               );
                             },

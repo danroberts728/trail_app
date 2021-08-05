@@ -41,6 +41,11 @@ class _EditProfileScreen extends State<EditProfileScreen> {
   String _selectedBirthDate;
 
   @override
+  void initState() {
+    _selectedBirthDate = DateFormat("MMM d y").format(_bloc.userData.birthDay);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
