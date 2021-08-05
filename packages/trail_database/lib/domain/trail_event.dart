@@ -101,7 +101,10 @@ class TrailEvent {
         locationTaxonomy:
             data['location_tax'] != null ? data['location_tax'] : 0,
         locationName:
-            data['location_name'] != null ? data['location_name'] : '',
+            data['location_name'] != null 
+              // Fix for certain HTML-based event management systems that export with HTML Codes
+              ? (data['location_name'] as String).replaceAll('&amp;', '&') 
+              : '',
         locationAddress:
             data['location_address'] != null ? data['location_address'] : '',
         locationCity:
