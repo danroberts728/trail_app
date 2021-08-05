@@ -3,7 +3,7 @@ description: Alabama Beer Trail. See nearby craft beer destinations and find nea
 author: Dan Roberts <droberts@alabamabrewers.org>
 publish_to: none
 
-version: 2.0.0+20
+version: 2.1.0+21
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
