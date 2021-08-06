@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Alabama Beer Trail</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -11,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Alabama Beer Trail</string>
+	<string>alabama_beer_trail_app</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -31,32 +33,19 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Required usage description for a Flutter dependency</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Required usage description for a Flutter dependency</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Required usage description for a Flutter dependency</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Required usage description for a Flutter dependency</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used to determine nearby places</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Required usage description for a Flutter dependency</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Used to select optional profile and user photos</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Used to take optional profile and user photos</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Used to take optional profile and user photos</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Required usage description for a Flutter dependency</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Required to export event to calendar</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Required to export event to calednar</string>
+	<string>To take live videos for profile and place photos</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To show nearby places</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To select profile and place photos</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -79,7 +68,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>io.flutter.embedded_views_preview</key>
-	<true/>
 </dict>
 </plist>
