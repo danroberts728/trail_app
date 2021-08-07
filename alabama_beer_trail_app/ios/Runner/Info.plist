@@ -46,6 +46,10 @@
 	<string>To show nearby places</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To select profile and place photos</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>To add events at user's request</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Required by dependency but not requested</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
