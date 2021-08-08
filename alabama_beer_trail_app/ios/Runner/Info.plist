@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Alabama Beer Trail</string>
+	<string>AL Beer</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -40,16 +40,16 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>To add events at user's request</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To take live videos for profile and place photos</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Required by dependency but not requested</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To show nearby places</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To select profile and place photos</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>To add events at user's request</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Required by dependency but not requested</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
