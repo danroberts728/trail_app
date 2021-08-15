@@ -1,4 +1,8 @@
 {
+  "hosting": {
+    "appAssociation": "AUTO",
+    "rewrites": [ { "source": "/link/**", "dynamicLinks": true } ]
+  },
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
