@@ -104,29 +104,34 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Wrap(
-                                  spacing: 4.0,
-                                  children: [
-                                    TextButton(
-                                      child: Text(
-                                        "DETAILS",
-                                        style: TextStyle(
-                                          color: Theme.of(context).buttonColor,
+                                Container(
+                                  width: constraints.maxWidth - 64.0,
+                                  child: Wrap(
+                                    runSpacing: 0.0,
+                                    spacing: 0.0,
+                                    children: [
+                                      TextButton(
+                                        child: Text(
+                                          "DETAILS",
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).buttonColor,
+                                          ),
                                         ),
+                                        onPressed: () {
+                                          goToDetails(context, data.place);
+                                        },
                                       ),
-                                      onPressed: () {
-                                        goToDetails(context, data.place);
-                                      },
-                                    ),
-                                    TextButtonMap(
-                                      place: data.place,
-                                    ),
-                                    TextButtonStamp(
-                                        visible: data.closeEnoughToCheckIn,
-                                        bloc: TextButtonStampBloc(
-                                            TrailDatabase(), data.place),
-                                        place: data.place),
-                                  ],
+                                      TextButtonMap(
+                                        place: data.place,
+                                      ),
+                                      TextButtonStamp(
+                                          visible: data.closeEnoughToCheckIn,
+                                          bloc: TextButtonStampBloc(
+                                              TrailDatabase(), data.place),
+                                          place: data.place),
+                                    ],
+                                  ),
                                 ),
                                 FavoriteButton(
                                   place: data.place,
