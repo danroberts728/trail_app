@@ -42,7 +42,9 @@ class _EditProfileScreen extends State<EditProfileScreen> {
 
   @override
   void initState() {
-    _selectedBirthDate = DateFormat("MMM d y").format(_bloc.userData.birthDay);
+    _selectedBirthDate = _bloc.userData.birthDay != null
+      ? DateFormat("MMM d y").format(_bloc.userData.birthDay)
+      : null;
     super.initState();
   }
 
