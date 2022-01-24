@@ -1,8 +1,6 @@
 name: trail_profile
 description: A new Flutter package project.
 version: 0.0.1
-author:
-homepage:
 publish_to: none
 
 environment:
@@ -24,7 +22,7 @@ dependencies:
 
 dev_dependencies:
   test: any
-  mockito: ^4.1.1
+  mockito: ^5.0.17
   flutter_test:
     sdk: flutter
   flutter_driver:

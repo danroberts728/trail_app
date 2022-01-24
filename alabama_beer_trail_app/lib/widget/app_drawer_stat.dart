@@ -29,7 +29,7 @@ class AppDrawerStat extends StatelessWidget {
             TextSpan(
               text: " ${this.postText}",
               style: TextStyle(
-                color: Theme.of(context).buttonColor,
+                color: Theme.of(context).textTheme.button.color,
                 fontWeight: FontWeight.normal,
                 fontSize: 18.0,
                 height: 1.5,

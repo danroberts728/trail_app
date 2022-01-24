@@ -5,7 +5,6 @@ import 'package:trail_profile/bloc/profile_banner_bloc.dart';
 import 'package:trail_database/trail_database.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -182,7 +181,7 @@ class _ProfileBanner extends State<ProfileBanner> {
       child: FloatingActionButton(
         heroTag: 'changeBannerBtn',
         elevation: 16.0,
-        backgroundColor: Theme.of(context).buttonColor.withAlpha(125),
+        backgroundColor: Theme.of(context).textTheme.button.color.withAlpha(125),
         child: Icon(Icons.add_a_photo),
         onPressed: () {
           Permission.camera.status.then((status) {

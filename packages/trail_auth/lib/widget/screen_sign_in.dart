@@ -2,8 +2,6 @@
 import 'dart:io';
 import 'dart:async';
 
-import 'package:trail_auth/widget/screen_forgot_password.dart';
-import 'package:trail_auth/widget/screen_register.dart';
 import 'package:trail_auth/trail_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
@@ -161,7 +159,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).buttonColor,
+                            primary: Theme.of(context).textTheme.button.color,
                             padding: EdgeInsets.symmetric(horizontal: 80.0),
                           ),
                           child: _submitButtonState == SubmitButtonState.Waiting
@@ -178,7 +176,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                               child: Text(
                                 "Forgot your password?",
                                 style: TextStyle(
-                                  color: Theme.of(context).buttonColor,
+                                  color: Theme.of(context).textTheme.button.color,
                                 ),
                               ),
                               onTap: () {
@@ -257,7 +255,7 @@ class _ScreenSignIn extends State<ScreenSignIn> {
                             ),
                           ),
                           style: TextButton.styleFrom(
-                            primary: Theme.of(context).buttonColor,
+                            primary: Theme.of(context).textTheme.button.color,
                           ),
                         ),
                       ],

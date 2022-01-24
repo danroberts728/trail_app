@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:trail_location_service/trail_location_service.dart';
 import 'package:trailtab_places/util/trailtab_places_settings.dart';
 

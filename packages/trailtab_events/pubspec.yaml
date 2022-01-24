@@ -1,8 +1,6 @@
 name: trailtab_events
 description: A new Flutter package project.
 version: 0.0.1
-author:
-homepage:
 publish_to: none
 
 environment:
@@ -27,7 +25,7 @@ dev_dependencies:
   test: any
   flutter_test:
     sdk: flutter
-  mockito: ^4.1.1
+  mockito: ^5.0.17
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

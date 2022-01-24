@@ -78,7 +78,7 @@ class TrailEventDetailScreen extends StatelessWidget {
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     onPrimary: Colors.white,
-                                    primary: Theme.of(context).buttonColor,
+                                    primary: Theme.of(context).textTheme.button.color,
                                   ),
                                   onPressed: () {
                                     launch(event.learnMoreLink);
@@ -245,14 +245,14 @@ class TrailEventDetailScreen extends StatelessWidget {
                                   children: <Widget>[
                                     Icon(
                                       Icons.directions,
-                                      color: Theme.of(context).buttonColor,
+                                      color: Theme.of(context).textTheme.button.color,
                                       size: 32.0,
                                     ),
                                     Text(
                                       "Directions",
                                       style: TextStyle(
                                         fontSize: 12.0,
-                                        color: Theme.of(context).buttonColor,
+                                        color: Theme.of(context).textTheme.button.color,
                                       ),
                                     ),
                                   ],

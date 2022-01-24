@@ -43,7 +43,7 @@ class _TrailPlaceActionButtonWidget
                 elevation: 6.0,
                 shape: CircleBorder(
                   side: BorderSide(
-                    color: Theme.of(context).buttonColor,
+                    color: Theme.of(context).textTheme.button.color,
                     width: 2.0,
                   ),
                 ),
@@ -77,7 +77,7 @@ class _TrailPlaceActionButtonWidget
                 shape: BeveledRectangleBorder(
                   borderRadius: BorderRadius.circular(double.infinity),
                   side: BorderSide(
-                    color: Theme.of(context).buttonColor,
+                    color: Theme.of(context).textTheme.button.color,
                     width: 2.0,
                   ),
                 ),

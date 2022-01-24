@@ -1,8 +1,6 @@
 name: trailtab_wordpress_news
 description: A new Flutter package project.
 version: 0.0.1
-author:
-homepage:
 publish_to: none
 
 environment:
@@ -21,7 +19,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   test: any
-  mockito: ^4.1.1
+  mockito: ^5.0.17
 
 flutter:
   assets:

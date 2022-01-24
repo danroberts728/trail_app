@@ -85,7 +85,7 @@ class _TrailProfile extends State<TrailProfile> {
                   child: Text(
                     _loadingPassport ? "Loading..." : "OPEN PASSPORT",
                     style: TextStyle(
-                      color: Theme.of(context).buttonColor,
+                      color: Theme.of(context).textTheme.button.color,
                     ),
                   ),
                 )),
@@ -170,7 +170,7 @@ class _TrailProfile extends State<TrailProfile> {
                   _loadingFullActivity ? "Loading..." : "SEE ALL",
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                    color: Theme.of(context).buttonColor,
+                    color: Theme.of(context).textTheme.button.color,
                   ),
                 ),
               ),

@@ -3,10 +3,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:trail_auth/trail_auth.dart';
-import 'package:trail_database/domain/check_in.dart';
 import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_place.dart';
-import 'package:trail_database/domain/trail_trophy.dart';
 import 'package:trail_database/domain/user_data.dart';
 import 'package:trail_location_service/trail_location_service.dart';
 import 'package:trailtab_places/util/trailtab_places_settings.dart';

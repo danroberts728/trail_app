@@ -5,7 +5,6 @@ import 'package:trailtab_wordpress_news/bloc/trailtab_wordpress_news_bloc.dart';
 import 'package:trailtab_wordpress_news/widget/trailnews_item.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:webfeed/webfeed.dart';
 
 /// The screen for a Wordpress news tab

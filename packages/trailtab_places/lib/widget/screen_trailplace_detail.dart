@@ -1,11 +1,7 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:flutter/foundation.dart';
 import 'package:trailtab_places/bloc/screen_trailplace_detail_bloc.dart';
-import 'package:trail_database/domain/beer.dart';
-import 'package:trail_database/domain/on_tap_beer.dart';
 import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_event.dart';
-import 'package:trail_database/domain/trail_place.dart';
 import 'package:trailtab_places/bloc/textbutton_stamp_bloc.dart';
 import 'package:trailtab_places/util/trailtab_places_settings.dart';
 import 'package:trailtab_places/widget/textbutton_map.dart';
@@ -223,7 +219,7 @@ class _TrailPlaceDetailScreen extends State<TrailPlaceDetailScreen>
                             isScrollable: true,
                             labelPadding: EdgeInsets.symmetric(
                                 vertical: 0.0, horizontal: 22.0),
-                            indicatorColor: Theme.of(context).buttonColor,
+                            indicatorColor: Theme.of(context).textTheme.button.color,
                             indicatorWeight: 4.0,
                             labelColor:
                                 Theme.of(context).textTheme.subtitle1.color,

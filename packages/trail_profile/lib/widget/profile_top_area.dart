@@ -116,14 +116,14 @@ class _ProfileTopArea extends State<ProfileTopArea> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                                 side: BorderSide(
-                                  color: Theme.of(context).buttonColor,
+                                  color: Theme.of(context).textTheme.button.color,
                                 ),
                               ),
                             ),
                             child: Text(
                               "Edit Profile",
                               style: TextStyle(
-                                color: Theme.of(context).buttonColor,
+                                color: Theme.of(context).textTheme.button.color,
                               ),
                             ),
                             onPressed: () {

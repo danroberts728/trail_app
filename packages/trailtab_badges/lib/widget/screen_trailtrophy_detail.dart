@@ -1,6 +1,5 @@
 // Copyright (c) 2020, Fermented Software.
 import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_trophy.dart';
 import 'package:trailtab_badges/widget/completed_trophy.dart';
 import 'package:trailtab_badges/widget/progress_any_of_places.dart';
 import 'package:trailtab_badges/widget/progress_exact_unique_checkins.dart';
@@ -65,7 +64,7 @@ class TrophyDetailScreen extends StatelessWidget {
                 ),
               ),
               Divider(
-                color: Theme.of(context).buttonColor,
+                color: Theme.of(context).textTheme.button.color,
               ),
               Visibility(
                 visible: hasTrophy,
@@ -88,7 +87,7 @@ class TrophyDetailScreen extends StatelessWidget {
               Visibility(
                 visible: hasTrophy,
                 child: Divider(
-                  color: Theme.of(context).buttonColor,
+                  color: Theme.of(context).textTheme.button.color,
                 ),
               ),
               SizedBox(

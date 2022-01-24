@@ -34,7 +34,7 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
                 underline: SizedBox(),
                 icon: Icon(Icons.sort),
                 isDense: true,
-                iconEnabledColor: Theme.of(context).buttonColor,
+                iconEnabledColor: Theme.of(context).textTheme.button.color,
                 iconSize: 14,
                 style: TextStyle(
                   fontSize: 14,
@@ -85,7 +85,7 @@ class _TopListSortAndFiltert extends State<TopListSortAndFilter> {
                 underline: SizedBox(),
                 icon: Icon(Icons.access_time),
                 isDense: true,
-                iconEnabledColor: Theme.of(context).buttonColor,
+                iconEnabledColor: Theme.of(context).textTheme.button.color,
                 iconSize: 14,
                 style: TextStyle(
                   fontSize: 14,

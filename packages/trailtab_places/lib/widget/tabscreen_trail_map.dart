@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_places/bloc/tabscreen_trail_map_bloc.dart';
-import 'package:trail_database/domain/trail_place.dart';
 import 'package:trailtab_places/widget/map_info_card_carousel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -83,7 +82,7 @@ class _TabScreenTrailMap extends State<TabScreenTrailMap>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    _buttonColor = Theme.of(context).buttonColor;
+    _buttonColor = Theme.of(context).textTheme.button.color;
     _subHeadingColor = Theme.of(context).textTheme.subtitle1.color;
     return Stack(
       children: [

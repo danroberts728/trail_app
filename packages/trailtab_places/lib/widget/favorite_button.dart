@@ -1,7 +1,6 @@
 // Copyright (c) 2021, Fermented Software.
 import 'package:trailtab_places/bloc/favorite_button_bloc.dart';
 import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_place.dart';
 import 'package:trailtab_places/widget/must_sign_in_dialog.dart';
 import 'package:flutter/material.dart';
 

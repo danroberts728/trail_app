@@ -1,8 +1,7 @@
 name: trail_auth
 description: Handle authentication for Fermented Trail apps
 version: 0.0.1
-author: Dan Roberts
-homepage:
+publish_to: none
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -20,6 +19,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: ^4.1.1
+  mockito: ^5.0.17
 
 flutter:

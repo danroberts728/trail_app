@@ -1,5 +1,4 @@
 // Copyright (c) 2020, Fermented Software.
-import 'package:flutter/foundation.dart';
 import 'package:trailtab_places/bloc/textbutton_stamp_bloc.dart';
 import 'package:trailtab_places/bloc/trailplace_card_bloc.dart';
 import 'package:trail_database/trail_database.dart';
@@ -11,8 +10,6 @@ import 'package:trailtab_places/widget/textbutton_stamp.dart';
 import 'package:trailtab_places/widget/trailplace_header.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:trail_database/domain/trail_place.dart';
 
 /// The card used in a list of places
 class TrailPlaceCard extends StatefulWidget {
@@ -115,7 +112,7 @@ class _TrailPlaceCard extends State<TrailPlaceCard> {
                                           "DETAILS",
                                           style: TextStyle(
                                             color:
-                                                Theme.of(context).buttonColor,
+                                                Theme.of(context).textTheme.button.color,
                                           ),
                                         ),
                                         onPressed: () {

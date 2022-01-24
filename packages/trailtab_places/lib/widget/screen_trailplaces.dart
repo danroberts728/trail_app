@@ -1,7 +1,6 @@
 // Copyright (c) 2021, Fermented Software.
 import 'package:trail_database/trail_database.dart';
 import 'package:trailtab_places/bloc/screen_trailplaces_bloc.dart';
-import 'package:trail_database/domain/trail_place.dart';
 import 'package:trail_location_service/trail_location_service.dart';
 import 'package:trailtab_places/widget/trailplace_list.dart';
 import 'package:flutter/material.dart';

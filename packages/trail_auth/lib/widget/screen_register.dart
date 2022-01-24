@@ -158,7 +158,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                                 ),
                               ),
                               style: TextButton.styleFrom(
-                                  primary: Theme.of(context).buttonColor),
+                                  primary: Theme.of(context).textTheme.button.color),
                             ),
                             Container(
                               alignment: Alignment.center,

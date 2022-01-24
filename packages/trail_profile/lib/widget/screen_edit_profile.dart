@@ -5,7 +5,6 @@ import 'package:trail_profile/widget/profile_user_photo.dart';
 import 'package:trail_profile/widget/profile_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 /// The screen to edit the user's profile

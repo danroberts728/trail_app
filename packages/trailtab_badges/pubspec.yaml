@@ -1,8 +1,6 @@
 name: trailtab_badges
 description: A new Flutter package project.
 version: 0.0.1
-author:
-homepage:
 publish_to: none
 
 environment:
@@ -22,6 +20,6 @@ dev_dependencies:
   test: any
   flutter_test:
     sdk: flutter
-  mockito: ^4.1.1
+  mockito: ^5.0.17
 
 flutter:

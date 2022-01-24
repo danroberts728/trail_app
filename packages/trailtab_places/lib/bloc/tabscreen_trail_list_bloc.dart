@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_place.dart';
 import 'package:trailtab_places/util/place_filter.dart';
 import 'package:trail_location_service/trail_location_service.dart';
 

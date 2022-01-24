@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_trophy.dart';
 import 'package:trail_database/domain/user_data.dart';
 
 /// The BLoC for Badges tabscreen

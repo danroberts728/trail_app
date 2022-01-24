@@ -1,5 +1,6 @@
 // Copyright (c) 2021, Fermented Software
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Color _mainHeadingColor = Color(0xFF93654E);
 Color _subTitleColor = Color(0xFF4E7C93);
@@ -9,7 +10,9 @@ Color _highlightColor = Color(0xFF874E93);
 var defaultTheme = ThemeData(
   brightness: Brightness.light,
   highlightColor: _highlightColor,
-  buttonColor: _actionColor,
+  buttonTheme: ButtonThemeData(
+    buttonColor: _actionColor,
+  ),
   primarySwatch: MaterialColor(_mainHeadingColor.value, {
     50: _mainHeadingColor.withOpacity(0.1),
     100: _mainHeadingColor.withOpacity(0.2),
@@ -23,7 +26,7 @@ var defaultTheme = ThemeData(
     900: _mainHeadingColor.withOpacity(1),
   }),
   appBarTheme: AppBarTheme(
-    brightness: Brightness.dark,
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
   ),
   hintColor: Colors.grey,
   textTheme: TextTheme(
@@ -55,6 +58,9 @@ var defaultTheme = ThemeData(
       color: _subTitleColor,
       fontSize: 12.0,
       fontWeight: FontWeight.w500,
+    ),
+    button: TextStyle(
+      color: _actionColor,
     ),
   ),
 );

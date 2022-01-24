@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trail_database/domain/trail_place.dart';
-import 'package:trail_location_service/location_off_dialog.dart';
 import 'package:trail_location_service/trail_location_service.dart';
 import 'package:trailtab_places/bloc/textbutton_stamp_bloc.dart';
 import 'package:trailtab_places/widget/must_sign_in_dialog.dart';
@@ -27,7 +26,7 @@ class TextButtonStamp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String buttonLabel = stampLabel;
-    Color labelColor = Theme.of(context).buttonColor;
+    Color labelColor = Theme.of(context).textTheme.button.color;
 
     if(bloc.isStamped() && !bloc.isCheckedInToday()) {
       buttonLabel = checkinLabel;
@@ -85,7 +84,7 @@ class TextButtonStamp extends StatelessWidget {
             child: Text(
               "Dismiss",
               style: TextStyle(
-                color: Theme.of(context).buttonColor,
+                color: Theme.of(context).textTheme.button.color,
               ),
             ),
             onPressed: () => Navigator.of(context).pop(),

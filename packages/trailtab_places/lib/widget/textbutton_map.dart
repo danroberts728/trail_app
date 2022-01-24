@@ -15,7 +15,7 @@ class TextButtonMap extends StatelessWidget {
       child: Text(
         "MAP",
         style: TextStyle(
-          color: Theme.of(context).buttonColor,
+          color: Theme.of(context).textTheme.button.color,
         ),
       ),
       onPressed: () async {

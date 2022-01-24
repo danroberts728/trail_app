@@ -56,7 +56,7 @@ class _TrailTabPlaces extends State<TrailTabPlaces>
           child: TabBar(
             isScrollable: false,
             labelPadding: EdgeInsets.symmetric(vertical: 0.0),
-            indicatorColor: Theme.of(context).buttonColor,
+            indicatorColor: Theme.of(context).textTheme.button.color,
             indicatorWeight: 4.0,
             labelColor: Theme.of(context).textTheme.subtitle1.color,
             labelStyle: TextStyle(

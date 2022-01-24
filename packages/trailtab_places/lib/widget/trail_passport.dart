@@ -45,7 +45,7 @@ class _TrailPassport extends State<TrailPassport>
             Container(
               child: TabBar(
                 isScrollable: true,
-                indicatorColor: Theme.of(context).buttonColor,
+                indicatorColor: Theme.of(context).textTheme.button.color,
                 indicatorWeight: 4.0,
                 labelColor: Theme.of(context).textTheme.subtitle1.color,
                 labelStyle: TextStyle(

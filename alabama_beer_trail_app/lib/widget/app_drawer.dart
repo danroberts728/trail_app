@@ -9,7 +9,6 @@ import 'package:trail_auth/trail_auth.dart';
 import 'package:alabama_beer_trail/widget/app_drawer_menu_item.dart';
 import 'package:alabama_beer_trail/widget/app_drawer_stats.dart';
 import 'package:trail_profile/widget/profile_user_photo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// The main drawer for the app
@@ -94,7 +93,7 @@ class _AppDrawer extends State<AppDrawer> {
                   margin: EdgeInsets.symmetric(horizontal: 16.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).buttonColor,
+                      primary: Theme.of(context).textTheme.button.color,
                       elevation: 8.0,
                     ),
                     child: Text(
@@ -121,7 +120,7 @@ class _AppDrawer extends State<AppDrawer> {
               Visibility(
                 visible: widget.isUserLoggedIn,
                 child: AppDrawerMenuItem(
-                    iconColor: Theme.of(context).buttonColor,
+                    iconColor: Theme.of(context).textTheme.button.color,
                     iconData: Icons.person,
                     name: "Profile",
                     onTap: () {
@@ -150,7 +149,7 @@ class _AppDrawer extends State<AppDrawer> {
               ),
               // About
               AppDrawerMenuItem(
-                  iconColor: Theme.of(context).buttonColor,
+                  iconColor: Theme.of(context).textTheme.button.color,
                   iconData: Icons.info,
                   name: "About",
                   onTap: () {
@@ -165,7 +164,7 @@ class _AppDrawer extends State<AppDrawer> {
                   }),
               // Submit Feedback
               AppDrawerMenuItem(
-                iconColor: Theme.of(context).buttonColor,
+                iconColor: Theme.of(context).textTheme.button.color,
                 iconData: Icons.chat,
                 name: "Submit Feedback",
                 onTap: () {
@@ -175,7 +174,7 @@ class _AppDrawer extends State<AppDrawer> {
               ),
               // Privacy Policy
               AppDrawerMenuItem(
-                  iconColor: Theme.of(context).buttonColor,
+                  iconColor: Theme.of(context).textTheme.button.color,
                   iconData: Icons.privacy_tip,
                   name: "Privacy Policy",
                   onTap: () {
@@ -192,7 +191,7 @@ class _AppDrawer extends State<AppDrawer> {
               Visibility(
                 visible: widget.isUserLoggedIn,
                 child: AppDrawerMenuItem(
-                  iconColor: Theme.of(context).buttonColor,
+                  iconColor: Theme.of(context).textTheme.button.color,
                   iconData: Icons.logout,
                   name: "Log Out",
                   onTap: () => TrailAuth().logout(),

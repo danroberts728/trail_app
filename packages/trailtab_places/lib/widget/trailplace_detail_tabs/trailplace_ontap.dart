@@ -317,7 +317,7 @@ class _TrailPlaceOnTap extends State<TrailPlaceOnTap> {
                                   padding: EdgeInsets.only(right: 8.0),
                                   child: Icon(
                                     Icons.exit_to_app_outlined,
-                                    color: Theme.of(context).buttonColor,
+                                    color: Theme.of(context).textTheme.button.color,
                                   ),
                                 ),
                               ],

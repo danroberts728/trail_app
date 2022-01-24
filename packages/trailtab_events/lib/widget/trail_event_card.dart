@@ -4,7 +4,6 @@ import 'package:trail_database/domain/trail_event.dart';
 import 'package:trailtab_events/widget/screen_trail_event_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
@@ -294,7 +293,7 @@ class _TrailEventCard extends State<TrailEventCard> {
                             IconButton(
                               icon: Icon(
                                 FontAwesomeIcons.calendarPlus,
-                                color: Theme.of(context).buttonColor,
+                                color: Theme.of(context).textTheme.button.color,
                               ),
                               onPressed: () => _bloc.exportToCalendar(),
                             ),

@@ -179,7 +179,7 @@ class _ProfileUserPhoto extends State<ProfileUserPhoto> {
           heroTag: 'ProfilePhotoEditButton',
           mini: true,
           elevation: 16.0,
-          backgroundColor: Theme.of(context).buttonColor.withAlpha(125),
+          backgroundColor: Theme.of(context).textTheme.button.color.withAlpha(125),
           child: Icon(
             Icons.add_a_photo,
           ),

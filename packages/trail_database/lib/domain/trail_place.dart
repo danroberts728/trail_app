@@ -1,8 +1,6 @@
 // Copyright (c) 2021, Fermented Software.
 import 'dart:math';
 
-import 'package:trail_database/domain/beer.dart';
-import 'package:trail_database/domain/on_tap_beer.dart';
 import 'package:trail_database/model/trail_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:trail_database/trail_database.dart';

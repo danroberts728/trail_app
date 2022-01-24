@@ -61,7 +61,7 @@ class NotificationHandler {
         duration: Duration(seconds: 5),
         action: SnackBarAction(
           label: 'Go',
-          textColor: Theme.of(context).buttonColor,
+          textColor: Theme.of(context).textTheme.button.color,
           onPressed: () => _openEvent(context, event),
         ),
       ));
@@ -71,7 +71,7 @@ class NotificationHandler {
         duration: Duration(seconds: 5),
         action: SnackBarAction(
           label: 'Go',
-          textColor: Theme.of(context).buttonColor,
+          textColor: Theme.of(context).textTheme.button.color,
           onPressed: () {
             launch(gotoLink);
           },

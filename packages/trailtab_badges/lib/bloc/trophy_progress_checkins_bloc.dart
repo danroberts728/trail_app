@@ -1,9 +1,7 @@
 // Copyright (c) 2021, Fermented Software.
 import 'dart:async';
 
-import 'package:trail_database/domain/check_in.dart';
 import 'package:trail_database/trail_database.dart';
-import 'package:trail_database/domain/trail_place.dart';
 
 /// This BLoC is used by multiple extensions of 
 /// the trophy progress screens. This somewhat breaks

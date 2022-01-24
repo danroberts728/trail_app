@@ -46,7 +46,7 @@ class GuildBadge extends StatelessWidget {
                           child: Text(
                             "Dismiss",
                             style: TextStyle(
-                              color: Theme.of(context).buttonColor,
+                              color: Theme.of(context).textTheme.button.color,
                             ),
                           ),
                           onPressed: () => Navigator.of(context).pop(),
